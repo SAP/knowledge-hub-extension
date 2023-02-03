@@ -1,0 +1,55 @@
+import React from 'react';
+import '@testing-library/jest-dom';
+import { screen } from '@testing-library/react';
+import type { RenderResult } from '@testing-library/react';
+
+import type { TutorialsEntry } from '@sap/knowledge-hub-extension-types';
+
+import { initIcons } from '@sap-ux/ui-components';
+import { initLCIcons } from '../../../src/webview/Icons/icons';
+
+import { withDataNoError } from '../../__mocks__/tutorials';
+import { render } from '../../__mocks__/store.mock';
+
+import { TutorialCard } from '../../../src/webview/components/TutorialCard';
+
+describe('TutorialCard', () => {
+    // Initialize and register ui-components icons and specific icon to LC
+    initIcons();
+    initLCIcons();
+
+    const renderTutorialCard = (
+        tutorial: TutorialsEntry,
+        tag: string,
+        onSelectedTag: { (tag: string): void; (tag: string): void }
+    ): RenderResult =>
+        render(<TutorialCard tutorial={tutorial} tag={tag} loading={false} onSelectedTag={onSelectedTag} />, {
+            initialState: { tutorials: withDataNoError }
+        });
+
+    test('test if the TutorialCard render is ok', () => {
+        const tutorial = withDataNoError.result.data.result[0];
+        const tag = 'SAP Fiori tools';
+        const onSelectedTag = jest.fn();
+        renderTutorialCard(tutorial, tag, onSelectedTag);
+
+        const titleDOM = screen.getByText(/Test title/i);
+        const tagDOM = screen.getByText(/SAP Fiori tools/i);
+
+        expect(titleDOM.className).toEqual('tutorial-card-title');
+        expect(tagDOM.parentElement?.className).toEqual('tags-tutorial-tag');
+    });
+
+    test('test if the TutorialCard render with the featured tag', () => {
+        const dataTuto = withDataNoError.result.data.result[0];
+        dataTuto.featured = true;
+        const tutorial = dataTuto;
+        const tag = 'SAP Fiori tools';
+        const onSelectedTag = jest.fn();
+        renderTutorialCard(tutorial, tag, onSelectedTag);
+
+        const featuredDOM = screen.getByText(/Featured/i);
+
+        expect(featuredDOM.className).toEqual('featured-text');
+    });
+});

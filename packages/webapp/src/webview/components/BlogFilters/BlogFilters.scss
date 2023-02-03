@@ -1,0 +1,32 @@
+.blog-filters {
+    display: flex;
+    margin: 0 20px 20px;
+    justify-content: space-between;
+    box-sizing: content-box;
+    padding-bottom: 10px;
+    flex-direction: column;
+
+    &-header {
+        display: flex;
+        justify-items: center;
+
+        &-icon {
+            padding-right: 5px;
+        }
+    }
+    &-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 10px;
+
+        &-tag-entry {
+            padding-right: 5px;
+        }
+    }
+
+    &-clear {
+        padding-left: 5px;
+    }
+}

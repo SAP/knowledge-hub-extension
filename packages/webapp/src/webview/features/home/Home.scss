@@ -1,0 +1,78 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow: scroll;
+    flex-grow: 1;
+
+    &-header {
+        padding: 20px 0 0 20px;
+        margin: 0;
+
+        &-title {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        &-description {
+            width: 100%;
+            color: var(--vscode-editor-foreground);
+            font-style: normal;
+            font-weight: normal;
+            font-size: 13px;
+            line-height: 18px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding: 0;
+        }
+    }
+    &-content {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        padding-left: 20px;
+
+        &-tutorials,
+        &-youtube,
+        &-blogs {
+            &-wrapper {
+                display: flex;
+                flex-direction: column;
+            }
+            &-container {
+                display: flex;
+                flex-direction: column;
+                max-width: 1200px;
+
+                &-header {
+                    padding: 0 0 20px 0;
+                    margin: 0;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+
+                    &-title {
+                        padding: 0;
+                        margin: 0;
+                    }
+                    &-link {
+                        padding-left: 20px;
+                    }
+                }
+                &-content {
+                    flex-grow: 1;
+                    overflow: auto;
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+            }
+        }
+        &-blogs {
+            &-container {
+                &-content {
+                    flex-direction: column;
+                }
+            }
+        }
+    }
+}

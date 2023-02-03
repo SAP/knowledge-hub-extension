@@ -1,0 +1,29 @@
+html,
+body {
+    max-width: 100vw;
+    max-height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--vscode-font-family);
+    color: var(--vscode-foreground);
+}
+
+.app-knowledge-hub {
+    display: flex;
+    flex-flow: row;
+
+    &-wrapper {
+        min-width: 400px;
+        width: auto;
+        overflow: hidden;
+        transition: all 300ms ease-in-out;
+        flex-grow: 1;
+        box-sizing: border-box;
+        display: flex;
+        flex: 1 1 auto;
+        flex-flow: column;
+        height: 100vh;
+        position: relative;
+    }
+}

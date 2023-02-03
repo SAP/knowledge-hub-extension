@@ -1,0 +1,15 @@
+.navigation-bar {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 0;
+    position: initial;
+    top: initial;
+    left: initial;
+    z-index: initial;
+    padding: 0 20px;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+    box-shadow: inset 0 -1px 0 0 var(--vscode-dropdown-border);
+}

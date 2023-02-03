@@ -1,0 +1,71 @@
+{
+    "name": "sap-knowledge-hub-extension",
+    "displayName": "%knowledgeHub.displayName%",
+    "description": "%knowledgeHub.description%",
+    "publisher": "SAPOSS",
+    "license": "Apache-2.0",
+    "version": "0.9.0",
+    "icon": "media/knowledge-hub-extension.png",
+    "categories": [
+        "Education"
+    ],
+    "keywords": [
+        "SAP",
+        "Knowledge Hub",
+        "Blogs",
+        "Tutorials"
+    ],
+    "bugs": {
+        "url": "https://github.com/SAP/knowledge-hub-extension/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SAP/knowledge-hub-extension.git",
+        "directory": "packages/ide-extension"
+    },
+    "engines": {
+        "vscode": "^1.39.0"
+    },
+    "main": "./dist/extension-min.js",
+    "private": false,
+    "scripts": {
+        "build": "pnpm clean && pnpm build:extension",
+        "build:extension": "node esbuild.js",
+        "clean": "rimraf ./dist ./out ./reports *.tgz *.vsix",
+        "format": "prettier --write '**/*.{js,json,ts,yaml,yml}' --ignore-path ../../.prettierignore",
+        "lint": "eslint . --ext .ts",
+        "ide-ext:package": "vsce package",
+        "test": "jest --ci --forceExit --detectOpenHandles --colors",
+        "watch": "pnpm clean && node esbuild.js --watch",
+        "vscode:prepublish": "pnpm run build"
+    },
+    "activationEvents": [
+        "onCommand:sap.ux.knowledgeHub.openKnowledgeHub"
+    ],
+    "contributes": {
+        "commands": [
+            {
+                "command": "sap.ux.knowledgeHub.openKnowledgeHub",
+                "title": "%commands.knowledgeHub.openKnowledgeHub.title%",
+                "category": "%commands.knowledgeHub.category%"
+            }
+        ]
+    },
+    "devDependencies": {
+        "@sap/knowledge-hub-extension-core": "workspace:*",
+        "@sap/knowledge-hub-extension-types": "workspace:*",
+        "@types/vscode": "1.39.0",
+        "esbuild": "0.15.12",
+        "esbuild-plugin-copy": "1.6.0",
+        "i18next": "21.10.0",
+        "jsdom": "20.0.2",
+        "vsce": "2.13.0",
+        "vscode-uri": "3.0.6",
+        "axios": "1.1.2",
+        "qs": "6.11.0"
+    },
+    "galleryBanner": {
+        "color": "#00195A",
+        "theme": "dark"
+    }
+}
