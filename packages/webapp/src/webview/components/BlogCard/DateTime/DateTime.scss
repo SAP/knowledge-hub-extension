@@ -1,0 +1,11 @@
+.date-time {
+    font-weight: normal;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 15px;
+    color: var(--vscode-foreground);
+
+    &-description {
+        padding-right: 5px;
+    }
+}

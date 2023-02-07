@@ -1,0 +1,26 @@
+{
+    "name": "@sap/knowledge-hub-extension-types",
+    "description": "Knowledge Hub Types Definition",
+    "version": "0.9.0",
+    "license": "Apache-2.0",
+    "private": true,
+    "main": "dist/index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SAP/knowledge-hub-extension.git",
+        "directory": "packages/types"
+    },
+    "scripts": {
+        "build": "pnpm clean && tsc",
+        "clean": "rimraf dist",
+        "format": "prettier --write '**/*.{js,json,ts,yaml,yml}' --ignore-path ../../.prettierignore",
+        "lint": "eslint . --ext .ts",
+        "lint:fix": "eslint . --ext .ts --fix",
+        "test": "jest --ci --forceExit --detectOpenHandles --colors",
+        "watch": "tsc --watch"
+    },
+    "files": [
+        "dist",
+        "LICENSE"
+    ]
+}

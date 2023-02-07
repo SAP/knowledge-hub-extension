@@ -1,0 +1,91 @@
+.ui-pagination {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+
+    &-page__li,
+    &-page__break {
+        list-style: none;
+        min-width: initial;
+        height: 22px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+
+        &:not(:last-child) {
+            margin-right: 1px;
+        }
+
+        &__anchor {
+            line-height: 16px;
+            padding: 5px 13px;
+            font-size: 13px;
+            font-weight: 400;
+            font-family: var(--vscode-font-family);
+            color: var(--vscode-button-foreground);
+
+            &:focus {
+                user-select: none;
+                outline: none;
+            }
+        }
+    }
+
+    &-page__li {
+        border-radius: 0;
+        background-color: var(--vscode-button-background);
+        border-color: var(--vscode-contrastBorder, var(--vscode-button-background));
+
+        &:hover {
+            cursor: pointer;
+
+            background-color: var(--vscode-button-hoverBackground);
+            border-color: var(--vscode-contrastActiveBorder, var(--vscode-button-hoverBackground));
+
+            .ui-pagination-page__li__anchor {
+                color: var(--vscode-button-foreground);
+            }
+        }
+    }
+
+    &-page__break {
+        &__anchor {
+            color: var(--vscode-breadcrumb-activeSelectionForeground);
+        }
+    }
+
+    &-page__active {
+        border: 1px solid var(--vscode-button-background);
+        background-color: var(--vscode-editor-background);
+        box-sizing: border-box;
+
+        &__anchor {
+            color: var(--vscode-breadcrumb-activeSelectionForeground);
+        }
+    }
+
+    &-page__disabled {
+        opacity: 0.5;
+        color: var(--vscode-button-foreground);
+        background-color: var(--vscode-button-background);
+        border-color: var(--vscode-button-background);
+
+        &__anchor {
+            cursor: default;
+
+            &:hover {
+                color: var(--vscode-button-foreground);
+                user-select: none;
+                outline: none;
+                cursor: default;
+            }
+            &:focus {
+                user-select: none;
+                outline: none;
+                cursor: default;
+            }
+        }
+    }
+}

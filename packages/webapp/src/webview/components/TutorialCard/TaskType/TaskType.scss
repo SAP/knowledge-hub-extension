@@ -1,0 +1,15 @@
+.task-type {
+    display: flex;
+    padding-right: 10px;
+    align-items: center;
+
+    &-text {
+        padding-left: 5px;
+        line-height: 24px;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 13px;
+        color: var(--vscode-foreground);
+        text-transform: capitalize;
+    }
+}

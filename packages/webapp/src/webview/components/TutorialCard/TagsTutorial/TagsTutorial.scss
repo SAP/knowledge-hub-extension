@@ -1,0 +1,12 @@
+.tags-tutorial {
+    &-tag {
+        margin: 20px;
+
+        &-cut {
+            width: 220px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}

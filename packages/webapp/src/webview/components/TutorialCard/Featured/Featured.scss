@@ -1,0 +1,13 @@
+.featured {
+    display: flex;
+    padding-right: 10px;
+
+    &-text {
+        padding-left: 5px;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 13px;
+        color: var(--vscode-charts-green);
+        text-transform: capitalize;
+    }
+}

@@ -1,0 +1,78 @@
+.blog-card {
+    display: flex;
+    flex-direction: row;
+    min-width: 600px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+
+    &-loading {
+        height: 150px;
+        width: 100%;
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        justify-content: center;
+    }
+    &-container {
+        display: flex;
+    }
+    &-link {
+        text-decoration: none;
+    }
+    &-persona {
+        display: flex;
+        padding: 20px 10px 10px 10px;
+        width: 72px;
+    }
+    &-data {
+        display: flex;
+        flex-direction: column;
+        padding: 20px 20px 20px 10px;
+
+        &-header {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+
+            &-author {
+                font-weight: bold;
+                font-size: 13px;
+                font-style: normal;
+                line-height: 18px;
+                color: var(--vscode-foreground);
+                padding-right: 10px;
+            }
+        }
+        &-content {
+            display: flex;
+            flex-direction: column;
+
+            &-title {
+                padding-top: 10px;
+                font-weight: bold;
+                font-size: 13px;
+                font-style: normal;
+                line-height: 18px;
+                color: var(--vscode-textLink-foreground);
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+            &-description {
+                padding-top: 10px;
+                font-weight: normal;
+                font-size: 13px;
+                font-style: normal;
+                line-height: 18px;
+                color: var(--vscode-foreground);
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                word-break: break-word;
+            }
+        }
+    }
+}

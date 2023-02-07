@@ -1,0 +1,20 @@
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Admin
+/.github/ @SAP/knowledge-hub-extension-admin
+/.LICENSES/ @SAP/knowledge-hub-extension-admin
+/.well-known/ @SAP/knowledge-hub-extension-admin
+/.husky/ @SAP/knowledge-hub-extension-admin
+/.reuse/ @SAP/knowledge-hub-extension-admin
+/.eslintrc @SAP/knowledge-hub-extension-admin
+/.gitignore @SAP/knowledge-hub-extension-admin
+/.npmrc @SAP/knowledge-hub-extension-admin
+/.prettierignore @SAP/knowledge-hub-extension-admin
+/.prettierrc.js @SAP/knowledge-hub-extension-admin
+/LICENSE @SAP/knowledge-hub-extension-admin
+/package.json @SAP/knowledge-hub-extension-admin
+/sonar-project.properties @SAP/knowledge-hub-extension-admin
+/tsconfig.json @SAP/knowledge-hub-extension-admin
+
+# Rest
+* @SAP/knowledge-hub-extension-team

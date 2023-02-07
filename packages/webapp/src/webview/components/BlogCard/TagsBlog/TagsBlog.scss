@@ -1,0 +1,15 @@
+.tags-blog {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    &-icon {
+        padding-right: 10px;
+    }
+    &-tag {
+        &:not(:last-child) {
+            padding-right: 10px;
+        }
+    }
+}

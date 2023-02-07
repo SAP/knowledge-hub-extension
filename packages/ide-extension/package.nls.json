@@ -1,0 +1,6 @@
+{
+    "knowledgeHub.displayName": "Knowledge Hub extension by SAP",
+    "knowledgeHub.description": "Knowledge Hub extension by SAP",
+    "commands.knowledgeHub.category": "SAP",
+    "commands.knowledgeHub.openKnowledgeHub.title": "Open Knowledge Hub"
+}

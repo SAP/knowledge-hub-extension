@@ -1,0 +1,15 @@
+{
+    "exclude": ["node_modules"],
+    "compilerOptions": {
+        "declaration": true,
+        "declarationMap": true,
+        "esModuleInterop": true,
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "noEmit": false,
+        "sourceMap": true,
+        "strict": true,
+        "target": "ES2021",
+        "skipLibCheck": true
+    }
+}

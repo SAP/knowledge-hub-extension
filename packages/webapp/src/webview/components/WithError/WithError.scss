@@ -1,0 +1,12 @@
+.with-error {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    justify-content: center;
+    align-items: center;
+
+    &-sub-title {
+        margin-top: 20px;
+        color: var(--vscode-foreground);
+    }
+}

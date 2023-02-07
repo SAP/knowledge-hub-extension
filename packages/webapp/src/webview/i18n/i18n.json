@@ -1,0 +1,42 @@
+{
+    "HOME_TAB": "Home",
+    "HOME_TITLE": "Most Recent Content",
+    "HOME_DESCRIPTION": "",
+
+    "TUTORIALS_TAB": "SAP Tutorials",
+    "TUTORIALS_TITLE": "SAP Tutorials for Developers",
+    "TUTORIALS_DESCRIPTION": "All our tutorials from our community",
+    "TUTORIALS_DURATION_HOUR": "hr.",
+    "TUTORIALS_DURATION_MINUTE": "min.",
+    "TUTORIALS_FEATURED": "Featured",
+    "TUTORIALS_LOADING_CONTENT": "Loading Content",
+
+    "VIDEO_TAB": "YouTube Tutorials",
+    "VIDEOS_TITLE": "YouTube Tutorials",
+    "VIDEOS_DESCRIPTION": "All our videos from our community",
+
+    "BLOGS_TAB": "From the blogs",
+    "BLOGS_TITLE": "SAP Fiori tools community blog",
+    "BLOGS_DESCRIPTION": "All Blog Posts from our community",
+    "BLOGS_FILTERS_FILTERED_BY": "Filtered by:",
+    "BLOGS_FILTERS_CLEAR_ALL": "Clear filters",
+    "BLOGS_LOADING_CONTENT": "Loading Content",
+    "BLOGS_PAGINATION_HEADER": "Showing {{maxDisplayPage}} pages out of {{totalPage}} available. Use search to narrow the list.",
+
+    "SEARCH_TAB": "Search results",
+    "SEARCH_DESCRIPTION": "Search results",
+
+    "LNK_VIEW_ALL": "View All",
+
+    "UI_PAGINATION_CAPTION_PREVIOUS": "Previous",
+    "UI_PAGINATION_CAPTION_NEXT": "Next",
+
+    "PUBLISHED": "Published",
+    "UPDATED": "Updated",
+
+    "NO_RESULT_TITLE": "No search results found",
+    "NO_RESULT_DESCRIPTION": "Please modify the search term",
+
+    "WITH_ERROR_TITLE": "An error occured",
+    "WITH_ERROR_DESCRIPTION": "Please try to reload"
+}
