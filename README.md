@@ -10,7 +10,7 @@ This project is intended bring together both the internal and external SAP devel
 
 ## Requirements
 
-Ensure that the minimum system requirements for installing Visual Studio Code is met. For more information, see [Requirements for Visual Studio Code](https://code.visualstudio.com/docs/supporting/requirements).
+Ensure that the minimum system requirements for installing Visual Studio Code are met. For more information, see [Requirements for Visual Studio Code](https://code.visualstudio.com/docs/supporting/requirements).
 
 ## Development Setup
 
@@ -94,7 +94,7 @@ A GitHub bot [changeset-bot](https://github.com/apps/changeset-bot) has been ena
 
 ## Contributing
 
-Contribution and feedback are encouraged and always welcome. For more information about how to contribute, the project structure, as well as additional contribution information, see our [Contribution Guidelines](CONTRIBUTING.md).
+Contribution and feedback are encouraged and always welcome. For more information about how to contribute, the project structure, as well as additional contribution information; see our [Contribution Guidelines](CONTRIBUTING.md).
 
 ## Code of Conduct
 
