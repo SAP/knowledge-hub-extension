@@ -32,7 +32,7 @@
         "build": "pnpm clean && pnpm build:extension",
         "build:extension": "node esbuild.js",
         "clean": "rimraf ./dist ./out ./reports *.tgz *.vsix",
-        "format": "prettier --write '**/*.{js,json,ts,yaml,yml}' --ignore-path ../../.prettierignore",
+        "format:fix": "prettier --write '**/*.{js,json,ts,yaml,yml}' --ignore-path ../../.prettierignore",
         "lint": "eslint . --ext .ts",
         "ide-ext:package": "vsce package",
         "test": "jest --ci --forceExit --detectOpenHandles --colors",

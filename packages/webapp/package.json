@@ -16,7 +16,7 @@
         "clean": "rimraf ./dist",
         "build:index": "tsc --pretty --project ./tsconfig.json --emitDeclarationOnly",
         "build:webapp": "node esbuild.js",
-        "format": "prettier --write '**/*.{js,json,ts,tsx,yaml,yml}' --ignore-path ../../.prettierignore",
+        "format:fix": "prettier --write '**/*.{js,json,ts,tsx,yaml,yml}' --ignore-path ../../.prettierignore",
         "lint": "eslint . --ext .ts,.tsx",
         "watch": "pnpm clean && pnpm build:index && node esbuild.js --watch",
         "test": "jest --maxWorkers=2 --silent"
