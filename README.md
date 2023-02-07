@@ -4,9 +4,13 @@ Knowledge Hub is an open source Visual Studio Code extension maintained by SAP t
 <br clear="left"/>
 <br/>
 
-## About this project
+## Description
 
-This project is intended bring together both the internal and external SAP development communities to build and improve on an extension that provides streamlined access to a wide variety of development resources. Our goal is help our users understand what is possible with their SAP projects and then help them implement it. 
+This project is intended bring together both the internal and external SAP development communities to build and improve on an extension that provides streamlined access to a wide variety of development resources. Our goal is help our users understand what is possible with their SAP projects and then help them implement it.
+
+## Requirements
+
+Ensure that the minimum system requirements for installing Visual Studio Code are met. For more information, see [Requirements for Visual Studio Code](https://code.visualstudio.com/docs/supporting/requirements).
 
 ## Development Setup
 
@@ -88,9 +92,9 @@ The general recommendation is to run this changeset command after a feature or b
 
 A GitHub bot [changeset-bot](https://github.com/apps/changeset-bot) has been enabled that adds a comment to pull requests with changeset information from the branch and includes a warning when no changesets are found.
 
-## Support, Feedback, Contributing
+## Contributing
 
-This project is open to feature requests/suggestions, bug reports etc. via [GitHub issues](https://github.com/SAP/knowledge-hub-extension/issues). Contribution and feedback are encouraged and always welcome. For more information about how to contribute, the project structure, as well as additional contribution information, see our [Contribution Guidelines](CONTRIBUTING.md).
+Contribution and feedback are encouraged and always welcome. For more information about how to contribute, the project structure, as well as additional contribution information; see our [Contribution Guidelines](CONTRIBUTING.md).
 
 ## Code of Conduct
 
@@ -107,3 +111,8 @@ The Knowledge Hub extension by SAP will be available for download via the VS Cod
 ## Known Issues
 
 https://github.com/SAP/knowledge-hub-extension/issues?q=is%3Aopen+is%3Aissue+label%3Abug
+
+## How to obtain support
+
+This project is open to feature requests/suggestions, bug reports etc. via [GitHub issues](https://github.com/SAP/knowledge-hub-extension/issues). 
+
