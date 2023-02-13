@@ -1,7 +1,7 @@
 {
     "name": "@sap/knowledge-hub-extension-webapp",
     "description": "Knowledge Hub extension webview module",
-    "version": "1.0.1",
+    "version": "0.9.1",
     "author": "SAP SE",
     "main": "dist/index.js",
     "private": true,

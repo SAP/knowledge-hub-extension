@@ -1,6 +1,6 @@
 # Change Log - @sap/knowledge-hub-extension-webapp
 
-## 1.0.1
+## 0.9.1
 
 ### Patch Changes
 
