@@ -8,7 +8,12 @@ import { TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 
 import { TutorialCard } from '../../components/TutorialCard';
 
-import { tutorialsPageChanged } from '../../store/actions';
+import {
+    tutorialsPageChanged,
+    tutorialsFiltersTagsAdd,
+    tutorialsFiltersTagsDeleteAll,
+    tutorialsFiltersTagsDelete
+} from '../../store/actions';
 import { actions, useAppSelector } from '../../store';
 import { getTutorials, getTutorialsUI } from './Tutorials.slice';
 import { getTutorialsTag } from './Tutorials.utils';
@@ -18,6 +23,7 @@ import { UIPagination } from '../../components/UI/UIPagination';
 import { UILoader } from '@sap-ux/ui-components';
 import { NoResult } from '../../components/NoResult';
 import { WithError } from '../../components/WithError';
+import { TutorialFilters } from '../../components/TutorialFilters';
 
 import './Tutorials.scss';
 
@@ -39,8 +45,6 @@ export const Tutorials: FC = (): JSX.Element => {
     const [noResult, setNoResult] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
-    const onTagSelected = useCallback((tag: string): void => {}, []);
-
     const fetchData = (option: TutorialsSearchQuery) => {
         const options = Object.assign({}, activeUI, option);
         setLoading(true);
@@ -56,6 +60,47 @@ export const Tutorials: FC = (): JSX.Element => {
 
         fetchData(options);
     }, []);
+
+    const onTagSelected = useCallback((tagId: string): void => {
+        const options: TutorialsSearchQuery = {};
+        dispatch(tutorialsFiltersTagsAdd(tagId));
+        options.filters = [tagId];
+        fetchData(options);
+    }, []);
+
+    const onClearAllTagFilter = useCallback((): void => {
+        const options: TutorialsSearchQuery = {};
+        options.filters = [];
+
+        if (searchTerm !== '') {
+            options.searchField = activeSearchTerm;
+        }
+
+        dispatch(tutorialsFiltersTagsDeleteAll(null));
+
+        fetchData(options);
+    }, [activeUI]);
+
+    const onClearTagFilter = useCallback(
+        (tagId: string): void => {
+            const options: TutorialsSearchQuery = {};
+            options.filters = Object.assign([], activeUI.filters);
+
+            if (options.filters && options.filters.length > 0) {
+                const newTags = options.filters.filter((element: string) => element !== tagId);
+                options.filters = newTags;
+            }
+
+            if (searchTerm !== '') {
+                options.searchField = activeSearchTerm;
+            }
+
+            dispatch(tutorialsFiltersTagsDelete(tagId));
+
+            fetchData(options);
+        },
+        [activeUI]
+    );
 
     useEffect(() => {
         if (searchTerm !== activeSearchTerm) {
@@ -77,10 +122,9 @@ export const Tutorials: FC = (): JSX.Element => {
             setError(true);
         } else if (!activeTutorials.pending) {
             if (location.state && location.state.tagId) {
-                const tag = location.state.tagId;
-                // dispatch(blogsManagedTagsAdd(tag.guid));
-                // dispatch(blogsTagsAdd({ displayName: tag.displayName, guid: tag.guid }));
-                options.filters = [tag];
+                const tagId = location.state.tagId;
+                dispatch(tutorialsFiltersTagsAdd(tagId));
+                options.filters = [tagId];
                 fetchData(options);
                 navigate(location.pathname, { replace: true });
             }
@@ -115,6 +159,11 @@ export const Tutorials: FC = (): JSX.Element => {
                 <h2 className="tutorials-header-title">{t('TUTORIALS_TITLE')}</h2>
                 <h3 className="tutorials-header-description">{t('TUTORIALS_DESCRIPTION')}</h3>
             </div>
+
+            {activeUI.filters && activeUI.filters.length !== 0 && (
+                <TutorialFilters clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />
+            )}
+
             <div className="tutorials-content">
                 {!(loading || error) &&
                     tutorials &&

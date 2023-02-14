@@ -5,12 +5,17 @@ import type {
     Tutorials,
     TutorialsState,
     TutorialsSearchResult,
+    TutorialsSearchQuery,
     Error,
     ErrorAction,
-    PendingAction,
-    TutorialsSearchQuery
+    PendingAction
 } from '@sap/knowledge-hub-extension-types';
-import { tutorialsPageChanged } from '../../store/actions';
+import {
+    tutorialsPageChanged,
+    tutorialsFiltersTagsAdd,
+    tutorialsFiltersTagsDelete,
+    tutorialsFiltersTagsDeleteAll
+} from '../../store/actions';
 import type { RootState } from '../../store';
 
 export const initialSearchState: TutorialsState = {
@@ -86,9 +91,41 @@ const ui = createSlice({
     initialState: initialUIState,
     reducers: {},
     extraReducers: (builder) =>
-        builder.addMatcher(tutorialsPageChanged.match, (state, action: PayloadAction<number>): void => {
-            state.start = action.payload;
-        })
+        builder
+            .addMatcher(tutorialsPageChanged.match, (state, action: PayloadAction<number>): void => {
+                state.start = action.payload;
+            })
+            .addMatcher(
+                tutorialsFiltersTagsAdd.match,
+                (state: TutorialsSearchQuery, action: PayloadAction<string>): void => {
+                    const currentFilters = state.filters;
+                    const newFilter = action.payload;
+
+                    if (currentFilters && currentFilters.length > 0) {
+                        if (!currentFilters.find((element: string) => element === newFilter)) {
+                            currentFilters.push(newFilter);
+                            state.filters = currentFilters;
+                        }
+                    } else {
+                        state.filters = [newFilter];
+                    }
+                }
+            )
+            .addMatcher(
+                tutorialsFiltersTagsDelete.match,
+                (state: TutorialsSearchQuery, action: PayloadAction<string>): void => {
+                    const currentFilters = state.filters;
+                    const oldFilter = action.payload;
+
+                    if (currentFilters && currentFilters.length > 0) {
+                        const newFilters = currentFilters.filter((element: string) => element !== oldFilter);
+                        state.filters = newFilters;
+                    }
+                }
+            )
+            .addMatcher(tutorialsFiltersTagsDeleteAll.match, (state: TutorialsSearchQuery): void => {
+                state.filters = [];
+            })
 });
 
 export const initialState: Tutorials = {
