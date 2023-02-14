@@ -10,6 +10,27 @@ import asyncFetch from '../utils/asyncFetch';
 const API_HOST = 'https://developers.sap.com';
 const VERSION = 'v3';
 const SEARCH_PATH = `/bin/sapdx/${VERSION}/solr/search?json=`;
+const SOLR_TAG_ID = 'solrTagId';
+
+/**
+ * Return a stringify version of all api options.
+ *
+ * @param queryOptions  A query options object
+ * @returns - a string of url options
+ */
+export function prepareQueyOptions(queryOptions: TutorialsSearchQuery | undefined): string {
+    return JSON.stringify(queryOptions);
+}
+
+/**
+ * Return a formatted filter tagId option entry.
+ *
+ * @param {string} tagId A tag Id
+ * @returns - a string of filters tagId options
+ */
+function formatFiltersTagIdOptions(tagId: string): string {
+    return `/${tagId}/${SOLR_TAG_ID}`;
+}
 
 /**
  * Return API to programmatically access the developer tutorials.
@@ -38,18 +59,14 @@ export async function getTutorials(
     host: string,
     queryOptions: TutorialsSearchQuery | undefined
 ): Promise<FetchResponse<TutorialsSearchResult>> {
+    if (queryOptions && queryOptions.filters) {
+        queryOptions.filters.forEach((item: string, index: number, array: string[]) => {
+            array[index] = formatFiltersTagIdOptions(item.replace(':', '/'));
+        });
+    }
+
     const options = prepareQueyOptions(queryOptions);
     const url = `${host}${SEARCH_PATH}${options}`;
 
     return await asyncFetch<TutorialsSearchResult>(url);
-}
-
-/**
- * Return a stringify version of all api options.
- *
- * @param queryOptions  A query options object
- * @returns - a string of url options
- */
-export function prepareQueyOptions(queryOptions: TutorialsSearchQuery | undefined): string {
-    return JSON.stringify(queryOptions);
 }

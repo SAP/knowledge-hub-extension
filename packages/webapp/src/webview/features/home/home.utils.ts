@@ -20,7 +20,7 @@ export const fecthHomeBlogs = (): void => {
 export const fecthHomeTutorials = (): void => {
     const state = store.getState();
     const homeState: Home = state.home;
-    if (homeState.tutorials.data.numFound === 0) {
+    if (homeState.tutorials.tutorials.data.numFound === 0) {
         actions.tutorialsFetchTutorials(initialHomeTutorialsUIState, true);
     }
 };
