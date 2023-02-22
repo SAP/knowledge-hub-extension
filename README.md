@@ -102,7 +102,7 @@ We as members, contributors, and leaders pledge to make participation in our com
 
 ## Licensing
 
-Copyright (2022) SAP SE or an SAP affiliate company and `knowledge-hub-extension` contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/knowledge-hub-extension).
+Copyright 2023 SAP SE or an SAP affiliate company and `knowledge-hub-extension` contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/knowledge-hub-extension).
 
 ## Download & Installation
 
@@ -114,5 +114,4 @@ https://github.com/SAP/knowledge-hub-extension/issues?q=is%3Aopen+is%3Aissue+lab
 
 ## How to obtain support
 
-This project is open to feature requests/suggestions, bug reports etc. via [GitHub issues](https://github.com/SAP/knowledge-hub-extension/issues). 
-
+This project is open to feature requests/suggestions, bug reports etc. via [GitHub issues](https://github.com/SAP/knowledge-hub-extension/issues).
