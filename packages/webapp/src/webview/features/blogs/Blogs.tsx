@@ -100,23 +100,26 @@ export const Blogs: FC = (): JSX.Element => {
         fetchData(options);
     }, []);
 
-    const onClearTagFilter = useCallback((tagId: string): void => {
-        const options: BlogsSearchQuery = {};
-        options.managedTags = Object.assign([], activeManagedTags);
+    const onClearTagFilter = useCallback(
+        (tagId: string): void => {
+            const options: BlogsSearchQuery = {};
+            options.managedTags = Object.assign([], activeManagedTags);
 
-        if (options.managedTags && options.managedTags.length > 0) {
-            const newTags = options.managedTags.filter((element: string) => element !== tagId);
-            options.managedTags = newTags;
-        }
+            if (options.managedTags && options.managedTags.length > 0) {
+                const newTags = options.managedTags.filter((element: string) => element !== tagId);
+                options.managedTags = newTags;
+            }
 
-        if (searchTerm !== '') {
-            options.searchTerm = activeSearchTerm;
-        }
+            if (searchTerm !== '') {
+                options.searchTerm = activeSearchTerm;
+            }
 
-        dispatch(blogsManagedTagsDelete(tagId));
+            dispatch(blogsManagedTagsDelete(tagId));
 
-        fetchData(options);
-    }, []);
+            fetchData(options);
+        },
+        [activeManagedTags]
+    );
 
     useEffect(() => {
         if (searchTerm !== activeSearchTerm) {

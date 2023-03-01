@@ -58,8 +58,8 @@ export const Home: FC = (): JSX.Element => {
         navigate('/blogs', { state: { tagId: tag.guid } });
     }, []);
 
-    const onTutorialTagSelected = useCallback((tag: string): void => {
-        navigate('/tutorials', { state: { tagId: tag } });
+    const onTutorialTagSelected = useCallback((tagId: string): void => {
+        navigate('/tutorials', { state: { tagId: tagId } });
     }, []);
 
     useEffect(() => {

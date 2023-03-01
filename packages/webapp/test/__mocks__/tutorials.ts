@@ -168,6 +168,16 @@ export const uiEmptyRows = {
     filters: []
 };
 
+export const uiEmptyWithFilters = {
+    rows: 2,
+    start: 0,
+    searchField: '',
+    pagePath: '/content/developers/website/languages/en/tutorial-navigator',
+    language: 'en_us',
+    addDefaultLanguage: true,
+    filters: ['Tag 1', 'Tag 2', 'Tag 3']
+};
+
 export const initial = {
     result: {
         data: emptyData,
@@ -220,4 +230,13 @@ export const withDataNoErrorMultiplePage = {
         pending: false
     },
     ui: uiEmptyRows
+};
+
+export const withDataNoErrorWithFilters = {
+    result: {
+        data: tutorialsData,
+        error: noError,
+        pending: false
+    },
+    ui: uiEmptyWithFilters
 };

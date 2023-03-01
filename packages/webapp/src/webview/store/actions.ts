@@ -1,8 +1,8 @@
 import type {
     KnowledgeHubWebViewReady,
     TutorialsFetchTutorials,
-    BlogsFetchBlogs,
     TutorialsSearchQuery,
+    BlogsFetchBlogs,
     BlogsSearchQuery,
     BlogsManagedTag
 } from '@sap/knowledge-hub-extension-types';
@@ -41,3 +41,6 @@ export const blogsTagsAdd = createViewAction<BlogsManagedTag>('blogs/tags-add');
 
 // tutorials actions
 export const tutorialsPageChanged = createViewAction<number>('tutorials/change-page');
+export const tutorialsFiltersTagsAdd = createViewAction<string>('tutorials/filters-tags-add');
+export const tutorialsFiltersTagsDelete = createViewAction<string>('tutorials/filters-tags-delete');
+export const tutorialsFiltersTagsDeleteAll = createViewAction('tutorials/filters-tags-delete-all');

@@ -9,6 +9,8 @@
     "TUTORIALS_DURATION_HOUR": "hr.",
     "TUTORIALS_DURATION_MINUTE": "min.",
     "TUTORIALS_FEATURED": "Featured",
+    "TUTORIALS_FILTERS_FILTERED_BY": "Filtered by:",
+    "TUTORIALS_FILTERS_CLEAR_ALL": "Clear filters",
     "TUTORIALS_LOADING_CONTENT": "Loading Content",
 
     "VIDEO_TAB": "YouTube Tutorials",
