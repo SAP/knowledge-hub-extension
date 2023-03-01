@@ -1,7 +1,7 @@
 import type { App, TutorialsSearchResult, BlogsSearchResult } from './types';
 
 export const BLOGS_LIMIT_PER_PAGE = 10;
-export const TUTORIALS_LIMIT_PER_PAGE = 18;
+export const TUTORIALS_LIMIT_PER_PAGE = 12;
 
 export const VIEW_PREFIX = '[view]';
 export const CORE_PREFIX = '[core]';

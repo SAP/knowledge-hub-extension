@@ -46,7 +46,7 @@ async function asyncFetch<T>(url: string, options?: AxiosRequestConfig): Promise
 
     const fetchData = async () => {
         try {
-            const response = await axios(url, options);
+            const response = await axios.get<T>(url, options);
             state = statusMap({ type: ActionTypes.Success, payload: response.data });
         } catch (error: any) {
             state = statusMap({

@@ -2,9 +2,26 @@
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    overflow: scroll;
+    overflow: auto;
     flex-grow: 1;
+    position: relative;
 
+    &-filters {
+        padding-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-content: flex-start;
+        box-sizing: border-box;
+
+        &-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            flex-wrap: wrap;
+            max-width: 1600px;
+        }
+    }
     &-header {
         padding: 0 20px;
         margin-bottom: 20px;
@@ -36,12 +53,21 @@
     &-content {
         display: flex;
         flex-wrap: wrap;
+        justify-content: flex-start;
+        align-content: flex-start;
         box-sizing: border-box;
         height: 100%;
+        min-height: 250px;
         padding: 0 20px;
         position: relative;
         scroll-behavior: smooth;
         overflow: auto;
+
+        &-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1600px;
+        }
     }
     &-loading {
         display: flex;
@@ -60,5 +86,25 @@
         justify-content: flex-start;
         padding: 20px;
         margin-top: auto;
+    }
+}
+
+@media screen and (max-width: 1650px) {
+    .tutorials {
+        &-filters {
+            &-wrapper {
+                max-width: 1200px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1249px) {
+    .tutorials {
+        &-filters {
+            &-wrapper {
+                max-width: 800px;
+            }
+        }
     }
 }

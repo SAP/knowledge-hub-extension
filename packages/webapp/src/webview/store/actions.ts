@@ -44,3 +44,4 @@ export const tutorialsPageChanged = createViewAction<number>('tutorials/change-p
 export const tutorialsFiltersTagsAdd = createViewAction<string>('tutorials/filters-tags-add');
 export const tutorialsFiltersTagsDelete = createViewAction<string>('tutorials/filters-tags-delete');
 export const tutorialsFiltersTagsDeleteAll = createViewAction('tutorials/filters-tags-delete-all');
+export const tutorialsFiltersSelected = createViewAction<boolean>('tutorials/filters-selected');
