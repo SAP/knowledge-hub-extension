@@ -16,7 +16,6 @@ import { TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 import { TutorialCard } from '../../components/TutorialCard';
 import { TutorialResultNumber } from '../../components/TutorialResultNumber';
 import { TutorialFiltersMenu } from '../../components/TutorialFiltersMenu';
-import { ShowWithAnimation } from '../../components/ShowWithAnimation';
 
 import {
     tutorialsPageChanged,
@@ -116,11 +115,13 @@ export const Tutorials: FC = (): JSX.Element => {
     const onClearTagFilter = useCallback(
         (tagId: string): void => {
             const options: TutorialsSearchQuery = {};
-            options.filters = Object.assign([], activeQueryFilters);
+            const tagFilters = Object.assign([], activeQueryFilters);
 
-            if (options.filters && options.filters.length > 0) {
-                const newTags = options.filters.filter((element: string) => element !== tagId);
+            if (tagFilters && tagFilters.length > 0) {
+                const newTags = tagFilters.filter((element: string) => element !== tagId);
                 options.filters = newTags;
+            } else {
+                options.filters = [];
             }
 
             if (options.filters && options.filters.length === 0) {
@@ -207,9 +208,17 @@ export const Tutorials: FC = (): JSX.Element => {
                         <TutorialFilters clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />
                     )}
 
-                    <ShowWithAnimation isMounted={activeUi.isFiltersMenuOpened}>
+                    <div
+                        className={[
+                            'tutorials-filters-wrapper__menu',
+                            activeUi.isFiltersMenuOpened
+                                ? 'tutorials-filters-wrapper__menu__opened'
+                                : 'tutorials-filters-wrapper__menu__closed'
+                        ]
+                            .filter((x) => !!x)
+                            .join(' ')}>
                         <TutorialFiltersMenu facets={facets} tags={tags} onSelectedTag={onTagSelected} />
-                    </ShowWithAnimation>
+                    </div>
                 </div>
             </div>
 
