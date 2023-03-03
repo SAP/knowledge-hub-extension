@@ -142,7 +142,9 @@ export const TutorialFiltersMenuEntries: FC<TutorialFiltersMenuEntriesProps> = (
             {listEntries.length > 0 && (
                 <React.Fragment>
                     <div className="tutorial-filters-menu-entries__content">
-                        <ul className="tutorial-filters-menu-entries__content-list">
+                        <ul
+                            className="tutorial-filters-menu-entries__content-list"
+                            data-testid="tutorial-filters-menu-entries__content-list">
                             {getListEntry(listEntries, tags, title)}
                         </ul>
                     </div>
