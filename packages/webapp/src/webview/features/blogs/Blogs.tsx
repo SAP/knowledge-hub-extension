@@ -14,6 +14,7 @@ import { BlogCard } from '../../components/BlogCard';
 import { BlogFilters } from '../../components/BlogFilters';
 import { NoResult } from '../../components/NoResult';
 import { WithError } from '../../components/WithError';
+import { Loader } from '../../components/Loader';
 
 import {
     blogsPageChanged,
@@ -30,7 +31,6 @@ import { getSearchTerm } from '../search/Search.slice';
 
 import type { UIPaginationSelected } from '../../components/UI/UIPagination';
 import { UIPagination } from '../../components/UI/UIPagination';
-import { UILoader } from '@sap-ux/ui-components';
 
 import './Blogs.scss';
 
@@ -156,7 +156,9 @@ export const Blogs: FC = (): JSX.Element => {
             } else if (activeBlogs.totalCount === 0) {
                 setLoading(false);
                 setNoResult(true);
+                setTotalPage(0);
             } else if (activeBlogs.totalCount === -1) {
+                setLoading(true);
                 fetchData(options);
             }
         }
@@ -172,37 +174,48 @@ export const Blogs: FC = (): JSX.Element => {
                 <BlogFilters clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />
             )}
             <div className="blogs-result">
-                {totalEntries > 0 && !noResult && <div className="blogs-result-number">{totalEntries} results</div>}
+                {totalEntries > 0 && !noResult && (
+                    <div className="blogs-result-number">
+                        {totalEntries} {t('BLOGS_RESULT')}
+                    </div>
+                )}
             </div>
-            <div className="blogs-content">
-                {!(loading || error) &&
-                    blogs &&
-                    blogs.map((blog: BlogsSearchResultContentItem, index: number) => {
-                        return <BlogCard key={blog.id} blog={blog} onSelectedTag={onTagSelected} />;
-                    })}
-            </div>
-            {loading && (
-                <div className="blogs-loading">
-                    <UILoader label={t('BLOGS_LOADING_CONTENT')} labelPosition="bottom" className={'uiLoaderXLarge'} />
+
+            {!(loading || error || noResult) && (
+                <div className="blogs-content">
+                    <div className="blogs-content-wrapper">
+                        {!(loading || error) &&
+                            blogs &&
+                            blogs.map((blog: BlogsSearchResultContentItem, index: number) => {
+                                return <BlogCard key={blog.id} blog={blog} onSelectedTag={onTagSelected} />;
+                            })}
+                    </div>
                 </div>
             )}
+
+            {loading && <Loader label={t('BLOGS_LOADING_CONTENT')} />}
             {error && !loading && <WithError />}
             {noResult && !loading && <NoResult />}
-            <div className="blogs-pagination">
-                {totalPage > maxDisplayPage && (
-                    <div>{t('BLOGS_PAGINATION_HEADER', { maxDisplayPage: maxDisplayPage, totalPage: totalPage })}</div>
-                )}
-                {totalPage > 0 && (
-                    <UIPagination
-                        nextLabel={t('UI_PAGINATION_CAPTION_NEXT')}
-                        onPageChange={handlePageClick}
-                        pageRangeDisplayed={3}
-                        pageCount={totalPage > maxDisplayPage ? maxDisplayPage : totalPage}
-                        previousLabel={t('UI_PAGINATION_CAPTION_PREVIOUS')}
-                        forcePage={pageOffset}
-                    />
-                )}
-            </div>
+
+            {totalPage > 1 && (
+                <div className="blogs-pagination">
+                    {totalPage > maxDisplayPage && (
+                        <div>
+                            {t('BLOGS_PAGINATION_HEADER', { maxDisplayPage: maxDisplayPage, totalPage: totalPage })}
+                        </div>
+                    )}
+                    {totalPage > 0 && (
+                        <UIPagination
+                            nextLabel={t('UI_PAGINATION_CAPTION_NEXT')}
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={3}
+                            pageCount={totalPage > maxDisplayPage ? maxDisplayPage : totalPage}
+                            previousLabel={t('UI_PAGINATION_CAPTION_PREVIOUS')}
+                            forcePage={pageOffset}
+                        />
+                    )}
+                </div>
+            )}
         </div>
     );
 };

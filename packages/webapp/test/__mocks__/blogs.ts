@@ -72,8 +72,8 @@ export const blogEntry = [
         author: { displayName: 'John Doe', username: 'john.doe', active: true },
         type: 'blogpost',
         managedTags: [{ guid: '1', displayName: 'TAG Test' }],
-        updated: new Date('2022-10-03T19:36:36'),
-        created: new Date('2022-10-03T18:38:26'),
+        updated: new Date(new Date().toISOString().split('T')[0]),
+        created: new Date(new Date().toISOString().split('T')[0]),
         likeCount: 1,
         voteCount: 1,
         commentCount: 2,
@@ -92,8 +92,8 @@ export const blogEntry = [
         author: { displayName: 'Jane Doe', username: 'jane.doe', active: true },
         type: 'blogpost',
         managedTags: [{ guid: '1', displayName: 'TAG Test' }],
-        updated: new Date('2022-10-03T19:36:36'),
-        created: new Date('2022-10-03T18:38:26'),
+        updated: new Date(new Date().toISOString().split('T')[0]),
+        created: new Date(new Date().toISOString().split('T')[0]),
         likeCount: 1,
         voteCount: 1,
         commentCount: 2,
@@ -112,8 +112,8 @@ export const blogEntry = [
         author: { displayName: 'Jim Doe', username: 'jim.doe', active: true },
         type: 'blogpost',
         managedTags: [{ guid: '1', displayName: 'TAG Test' }],
-        updated: new Date('2022-10-03T19:36:36'),
-        created: new Date('2022-10-03T18:38:26'),
+        updated: new Date(new Date().toISOString().split('T')[0]),
+        created: new Date(new Date().toISOString().split('T')[0]),
         likeCount: 1,
         voteCount: 1,
         commentCount: 2,
@@ -132,8 +132,8 @@ export const blogEntry = [
         author: { displayName: 'Joe Doe', username: 'joe.doe', active: true },
         type: 'blogpost',
         managedTags: [{ guid: '1', displayName: 'TAG Test' }],
-        updated: new Date('2022-10-03T19:36:36'),
-        created: new Date('2022-10-03T18:38:26'),
+        updated: new Date(new Date().toISOString().split('T')[0]),
+        created: new Date(new Date().toISOString().split('T')[0]),
         likeCount: 1,
         voteCount: 1,
         commentCount: 2,
@@ -153,7 +153,7 @@ export const initial = {
         error: noError,
         pending: false
     },
-    ui: uiEmpty,
+    query: uiEmpty,
     tags: []
 };
 
@@ -164,7 +164,7 @@ export const initialWithPending = {
         error: noError,
         pending: true
     },
-    ui: uiEmpty,
+    query: uiEmpty,
     tags: []
 };
 
@@ -175,7 +175,7 @@ export const withNoDataNoError = {
         error: noError,
         pending: false
     },
-    ui: uiEmpty,
+    query: uiEmpty,
     tags: []
 };
 
@@ -186,7 +186,7 @@ export const withDataNoError = {
         error: noError,
         pending: false
     },
-    ui: uiEmpty,
+    query: uiEmpty,
     tags: []
 };
 
@@ -197,7 +197,7 @@ export const withNoDataWithError = {
         error: error,
         pending: false
     },
-    ui: uiEmpty,
+    query: uiEmpty,
     tags: []
 };
 
@@ -208,7 +208,7 @@ export const withDataWithFilter = {
         error: noError,
         pending: false
     },
-    ui: uiWithFilter,
+    query: uiWithFilter,
     tags: tagsWithData
 };
 
@@ -219,7 +219,7 @@ export const withDataWithTags = {
         error: noError,
         pending: false
     },
-    ui: uiEmpty,
+    query: uiEmpty,
     tags: tagsWithData
 };
 
@@ -230,7 +230,7 @@ export const withDataNoErrorMultiplePage = {
         error: noError,
         pending: false
     },
-    ui: {
+    query: {
         page: 0,
         limit: 2,
         orderBy: 'UPDATE_TIME',

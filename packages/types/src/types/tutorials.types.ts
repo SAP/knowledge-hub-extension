@@ -2,7 +2,9 @@ import type { Error, FetchResponse } from './common.types';
 
 export interface Tutorials {
     result: TutorialsState;
-    ui: TutorialsSearchQuery;
+    query: TutorialsSearchQuery;
+    ui: TutorialsUiState;
+    tags: TutorialsTagsState;
 }
 
 export interface TutorialsState {
@@ -20,13 +22,21 @@ export interface TutorialsSearchQuery {
     filters?: string[];
 }
 
+export interface TutorialsUiState {
+    isFiltersMenuOpened: boolean;
+}
+
+export interface TutorialsTagsState {
+    tags: TutorialsTags;
+}
+
 export interface TutorialsSearchResult {
     group: string;
     mission: string;
     facets: TutorialsFacets;
     iconPath: TutorialsIconPath;
     tags: TutorialsTags;
-    tutorialsNewFrom: string;
+    tutorialsNewFrom: Date;
     result: TutorialsEntry[] | [];
     numFound: number;
     countGroups: number;
@@ -35,7 +45,7 @@ export interface TutorialsSearchResult {
 }
 
 export interface TutorialsEntry {
-    creationDate: string;
+    creationDate: Date;
     description: string;
     experience: string;
     featured: boolean;

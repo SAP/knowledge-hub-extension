@@ -1,4 +1,66 @@
-search {
+.search {
     width: 300px;
     padding-right: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+
+    &-filters {
+        display: flex;
+        align-items: center;
+
+        &__icon {
+            &-active {
+                background-color: var(--vscode-button-background);
+                &:hover {
+                    background-color: var(--vscode-button-hoverBackground);
+                }
+            }
+        }
+        &__divider {
+            display: inline-block;
+            height: 20px;
+            margin: 3px 10px 3px;
+            border-right: 1px solid var(--vscode-contrastBorder, var(--vscode-editorIndentGuide-background));
+        }
+    }
+
+    &-box {
+        width: 250px;
+        min-width: 250px;
+        max-width: 250px;
+    }
+}
+
+.vscode-light {
+    .search {
+        &-filters {
+            &__icon {
+                &-active {
+                    svg > path,
+                    svg > rect,
+                    svg > g > path {
+                        fill: var(--vscode-button-foreground);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.vscode-high-contrast {
+    .search {
+        &-filters {
+            &__icon {
+                &-active {
+                    svg > path,
+                    svg > rect,
+                    svg > g > path {
+                        fill: var(--vscode-button-foreground);
+                    }
+                }
+            }
+        }
+    }
 }
