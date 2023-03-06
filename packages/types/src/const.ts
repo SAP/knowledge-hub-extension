@@ -17,6 +17,14 @@ export enum PathType {
     VIDEO = 'video'
 }
 
+export enum TUTORIALS_FILTERS_LABELS {
+    Topic = 'Topic',
+    'Software Product' = 'Software Product',
+    Experience = 'Experience',
+    Type = 'Type',
+    Options = 'Options'
+}
+
 export interface PayloadAction<T extends string, U> {
     type: T;
     payload: U;

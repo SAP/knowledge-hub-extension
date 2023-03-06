@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import type { FC } from 'react';
 
 import { UISearchBox } from '@sap-ux/ui-components';
-import { TutorialsTags } from '@sap/knowledge-hub-extension-types';
+import { TutorialsTags, TUTORIALS_FILTERS_LABELS } from '@sap/knowledge-hub-extension-types';
 
 import { store } from '../../../store';
 import { isFilteredTag } from '../../../features/tutorials/Tutorials.utils';
@@ -90,9 +90,12 @@ export const TutorialFiltersMenuEntries: FC<TutorialFiltersMenuEntriesProps> = (
         });
 
         let comparer = makeTutorialsTagCompare('abcdefghijklmnopqrstuvwxyz');
-        if (listTitle === 'Experience') {
+
+        if (listTitle === TUTORIALS_FILTERS_LABELS.Experience) {
+            // if title is 'Experience' then sort if by 'beginner', 'intermediate', 'advanced'
             comparer = makeTutorialsTagCompare('bia');
-        } else if (listTitle === 'Type') {
+        } else if (listTitle === TUTORIALS_FILTERS_LABELS.Type) {
+            // if title is 'Type' then sort if by 'Misson', 'Group', 'Tutorial'
             comparer = makeTutorialsTagCompare('mgt');
         }
         sortedList.sort(comparer);

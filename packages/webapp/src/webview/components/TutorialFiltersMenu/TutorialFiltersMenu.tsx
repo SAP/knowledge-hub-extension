@@ -3,7 +3,7 @@ import type { FC } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { TutorialsFacets, TutorialsTags } from '@sap/knowledge-hub-extension-types';
+import { TutorialsFacets, TutorialsTags, TUTORIALS_FILTERS_LABELS } from '@sap/knowledge-hub-extension-types';
 import { TutorialFiltersMenuEntries } from './TutorialFiltersMenuEntries';
 
 import './TutorialFiltersMenu.scss';
@@ -24,7 +24,7 @@ export const TutorialFiltersMenu: FC<TutorialFiltersMenuProps> = ({ facets, tags
                 {Object.keys(facets).map((title: string, index: number) => {
                     let withSearchOn = true;
                     let isSmall = false;
-                    if (title === 'Experience' || title === 'Type') {
+                    if (title === TUTORIALS_FILTERS_LABELS.Experience || title === TUTORIALS_FILTERS_LABELS.Type) {
                         withSearchOn = false;
                         isSmall = true;
                     }
