@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    overflow: scroll;
+    overflow: auto;
     flex-grow: 1;
 
     &-header {
@@ -40,22 +40,60 @@
 
     &-content {
         display: flex;
-        flex-direction: column;
         flex-wrap: wrap;
-        padding-left: 20px;
-        max-width: 1200px;
+        justify-content: flex-start;
+        align-content: flex-start;
+        box-sizing: border-box;
+        height: 100%;
+        padding: 0 20px;
+        position: relative;
+        scroll-behavior: smooth;
+        overflow: auto;
+
+        &-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1200px;
+        }
     }
 
-    &-pagination {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        padding-left: 20px;
-    }
     &-loading {
         display: flex;
         flex: 1 1 auto;
         justify-content: center;
         align-items: center;
+    }
+
+    &-pagination {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: var(--vscode-editor-background);
+        border-top: 1px solid var(--vscode-dropdown-border);
+        box-sizing: border-box;
+        justify-content: flex-start;
+        padding: 20px;
+        margin-top: auto;
+    }
+}
+
+@media screen and (max-width: 1650px) {
+    .blogs {
+        &-filters {
+            &-wrapper {
+                max-width: 1200px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1249px) {
+    .blogs {
+        &-filters {
+            &-wrapper {
+                max-width: 800px;
+            }
+        }
     }
 }

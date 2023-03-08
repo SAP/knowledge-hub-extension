@@ -110,7 +110,7 @@ importers:
       '@fluentui/react-components': 9.4.0
       '@fluentui/react-experiments': 8.14.4
       '@reduxjs/toolkit': 1.9.0
-      '@sap-ux/ui-components': 1.1.0
+      '@sap-ux/ui-components': 1.3.4
       '@sap/knowledge-hub-extension-types': workspace:*
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
@@ -154,7 +154,7 @@ importers:
       '@fluentui/react': 8.98.0_5uumaiclxbdbzaqafclbf6maf4
       '@fluentui/react-components': 9.4.0_5uumaiclxbdbzaqafclbf6maf4
       '@fluentui/react-experiments': 8.14.4_5uumaiclxbdbzaqafclbf6maf4
-      '@sap-ux/ui-components': 1.1.0_5uumaiclxbdbzaqafclbf6maf4
+      '@sap-ux/ui-components': 1.3.4_5uumaiclxbdbzaqafclbf6maf4
     devDependencies:
       '@reduxjs/toolkit': 1.9.0_k4ae6lp43ej6mezo3ztvx6pykq
       '@sap/knowledge-hub-extension-types': link:../types
@@ -2618,8 +2618,8 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
-  /@sap-ux/ui-components/1.1.0_5uumaiclxbdbzaqafclbf6maf4:
-    resolution: {integrity: sha512-5uGAhvapz4B3Xk2yxaav+m+tnm+oPD3vtQzjp+h8Qbo6HxOJjXHyd5yvWdKVYh9JYq80b/7l0UPMox81UzOVkg==}
+  /@sap-ux/ui-components/1.3.4_5uumaiclxbdbzaqafclbf6maf4:
+    resolution: {integrity: sha512-RPMd1nu4kn5q4+i0r1NbeHeLJiw80FSz7g4B1dfZJYQjdtuFAVha/jU96yboGYlM6QBjdBkHPxLdrPCwpdpjZg==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
