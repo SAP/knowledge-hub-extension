@@ -26,7 +26,7 @@ export const initialState: Home = {
                 facets: {},
                 iconPath: {},
                 tags: {},
-                tutorialsNewFrom: '',
+                tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
                 result: [],
                 numFound: 0,
                 countGroups: 0,

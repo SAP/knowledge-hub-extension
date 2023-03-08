@@ -68,7 +68,7 @@ export const tutorialsNoData = {
     numFound: 0,
     result: [],
     tags: {},
-    tutorialsNewFrom: ''
+    tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0])
 };
 
 export const tutorialsWithData = {

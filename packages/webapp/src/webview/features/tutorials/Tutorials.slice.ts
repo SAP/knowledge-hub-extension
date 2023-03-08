@@ -1,11 +1,14 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { fetchTutorials, TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
+import { fetchTutorials, fetchHomeTutorials, TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 import type {
     Tutorials,
+    TutorialsTags,
     TutorialsState,
     TutorialsSearchResult,
     TutorialsSearchQuery,
+    TutorialsUiState,
+    TutorialsTagsState,
     Error,
     ErrorAction,
     PendingAction
@@ -14,7 +17,8 @@ import {
     tutorialsPageChanged,
     tutorialsFiltersTagsAdd,
     tutorialsFiltersTagsDelete,
-    tutorialsFiltersTagsDeleteAll
+    tutorialsFiltersTagsDeleteAll,
+    tutorialsFiltersSelected
 } from '../../store/actions';
 import type { RootState } from '../../store';
 
@@ -25,7 +29,7 @@ export const initialSearchState: TutorialsState = {
         facets: {},
         iconPath: {},
         tags: {},
-        tutorialsNewFrom: '',
+        tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
         result: [],
         numFound: -1,
         countGroups: 0,
@@ -39,7 +43,7 @@ export const initialSearchState: TutorialsState = {
     pending: false
 };
 
-export const initialUIState: TutorialsSearchQuery = {
+export const initialQueryState: TutorialsSearchQuery = {
     rows: TUTORIALS_LIMIT_PER_PAGE,
     start: 0,
     searchField: '',
@@ -49,6 +53,15 @@ export const initialUIState: TutorialsSearchQuery = {
     filters: []
 };
 
+export const initialFiltersState: TutorialsUiState = {
+    isFiltersMenuOpened: false
+};
+
+export const initialTagsState: TutorialsTagsState = {
+    tags: {}
+};
+
+// Slice
 const result = createSlice({
     name: 'tutorialsResult',
     initialState: initialSearchState,
@@ -86,15 +99,18 @@ const result = createSlice({
     }
 });
 
-const ui = createSlice({
-    name: 'tutorialsUi',
-    initialState: initialUIState,
+const query = createSlice({
+    name: 'tutorialsQuery',
+    initialState: initialQueryState,
     reducers: {},
     extraReducers: (builder) =>
         builder
-            .addMatcher(tutorialsPageChanged.match, (state, action: PayloadAction<number>): void => {
-                state.start = action.payload;
-            })
+            .addMatcher(
+                tutorialsPageChanged.match,
+                (state: TutorialsSearchQuery, action: PayloadAction<number>): void => {
+                    state.start = action.payload;
+                }
+            )
             .addMatcher(
                 tutorialsFiltersTagsAdd.match,
                 (state: TutorialsSearchQuery, action: PayloadAction<string>): void => {
@@ -128,9 +144,38 @@ const ui = createSlice({
             })
 });
 
+const ui = createSlice({
+    name: 'tutorialsUI',
+    initialState: initialFiltersState,
+    reducers: {},
+    extraReducers: (builder) =>
+        builder.addMatcher(
+            tutorialsFiltersSelected.match,
+            (state: TutorialsUiState, action: PayloadAction<boolean>): void => {
+                const isOpened = action.payload;
+                state.isFiltersMenuOpened = isOpened;
+            }
+        )
+});
+
+const tags = createSlice({
+    name: 'tutorialsTags',
+    initialState: initialTagsState,
+    reducers: {},
+    extraReducers: (builder) =>
+        builder.addCase(fetchHomeTutorials.fulfilled.type, (state, action: PayloadAction<TutorialsSearchResult>) => {
+            const data: TutorialsSearchResult = action.payload;
+            const tags: TutorialsTags = data.tags;
+
+            return { ...state, tags };
+        })
+});
+
 export const initialState: Tutorials = {
     result: initialSearchState,
-    ui: initialUIState
+    query: initialQueryState,
+    ui: initialFiltersState,
+    tags: initialTagsState
 };
 
 // State selectors
@@ -138,8 +183,9 @@ export const getTutorials = (state: RootState) => state.tutorials.result;
 export const getTutorialsData = (state: RootState) => state.tutorials.result.data;
 export const getTutorialsPending = (state: RootState) => state.tutorials.result.pending;
 export const getTutorialsError = (state: RootState) => state.tutorials.result.error;
+export const getTutorialsQuery = (state: RootState) => state.tutorials.query;
+export const getTutorialsQueryFilters = (state: RootState) => state.tutorials.query.filters;
 export const getTutorialsUI = (state: RootState) => state.tutorials.ui;
+export const getTutorialsDataTags = (state: RootState) => state.tutorials.tags.tags;
 
-export const getTutorialsDataTags = (state: RootState) => state.tutorials.result.data.tags;
-
-export default combineReducers({ result: result.reducer, ui: ui.reducer });
+export default combineReducers({ result: result.reducer, query: query.reducer, ui: ui.reducer, tags: tags.reducer });

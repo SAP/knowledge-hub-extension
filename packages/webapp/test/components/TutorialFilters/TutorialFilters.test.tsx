@@ -7,7 +7,7 @@ import { act } from 'react-dom/test-utils';
 import { initIcons } from '@sap-ux/ui-components';
 import { initLCIcons } from '../../../src/webview/Icons/icons';
 
-import { withDataNoErrorWithFilters, uiEmptyWithFilters } from '../../__mocks__/tutorials';
+import { withDataNoErrorWithFilters } from '../../__mocks__/tutorials';
 import { render } from '../../__mocks__/store.mock';
 
 import { TutorialFilters } from '../../../src/webview/components/TutorialFilters/TutorialFilters';
