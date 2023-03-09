@@ -7,7 +7,7 @@ export interface BlogsManagedTag {
 
 export interface Blogs {
     result: BlogsState;
-    ui: BlogsSearchQuery;
+    query: BlogsSearchQuery;
     tags: BlogsManagedTag[];
 }
 
@@ -50,21 +50,21 @@ export interface BlogsSearchResultContentItem {
     id: string;
     url: string;
     title: string;
-    excerpt: string;
+    excerpt: string | null;
     author: BlogsAuthor;
     type: string;
     managedTags: BlogsManagedTag[];
     updated: Date;
     created: Date;
-    likeCount: number;
-    voteCount?: number;
-    commentCount: number;
-    answerCount?: number;
-    followersCount?: number;
-    followingsCount?: number;
+    likeCount: number | null;
+    voteCount?: number | null;
+    commentCount: number | null;
+    answerCount?: number | null;
+    followersCount?: number | null;
+    followingsCount?: number | null;
     description: string;
     language: string;
-    extra?: string;
+    extra?: string | null;
 }
 
 export interface BlogsAuthor {

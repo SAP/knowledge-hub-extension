@@ -26,7 +26,7 @@ describe('BlogFilters', () => {
         onClearTagFilter: { (tagId: string): void; (tagId: string): void }
     ): RenderResult =>
         render(<BlogFilters clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />, {
-            initialState: { blogs: { tags: tagsWithData, ui: { managedTags: managedTagsWithData } } }
+            initialState: { blogs: { tags: tagsWithData, query: { managedTags: managedTagsWithData } } }
         });
 
     test('test if the BlogFilters render is ok with data', () => {
