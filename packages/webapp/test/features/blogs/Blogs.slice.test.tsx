@@ -52,8 +52,8 @@ describe('blogs slice', () => {
         describe('blogs slice > reducer > blogsUi', () => {
             test('blogs page changed action', () => {
                 const state = Object.assign({}, initialState, {
-                    ui: {
-                        ...initialState.ui,
+                    query: {
+                        ...initialState.query,
                         page: 1
                     }
                 });
@@ -62,8 +62,8 @@ describe('blogs slice', () => {
 
             test('blogs add tags action - state no previous tags', () => {
                 const state = Object.assign({}, initialState, {
-                    ui: {
-                        ...initialState.ui,
+                    query: {
+                        ...initialState.query,
                         managedTags: ['testTag']
                     }
                 });
@@ -72,14 +72,14 @@ describe('blogs slice', () => {
 
             test('blogs add tags action - state with previous tags', () => {
                 const state = Object.assign({}, initialState, {
-                    ui: {
-                        ...initialState.ui,
+                    query: {
+                        ...initialState.query,
                         managedTags: ['testTag']
                     }
                 });
                 const newState = Object.assign({}, initialState, {
-                    ui: {
-                        ...initialState.ui,
+                    query: {
+                        ...initialState.query,
                         managedTags: ['testTag', 'testTag1']
                     }
                 });
@@ -88,14 +88,14 @@ describe('blogs slice', () => {
 
             test('blogs delete tags action - state with previous tags', () => {
                 const state = Object.assign({}, initialState, {
-                    ui: {
-                        ...initialState.ui,
+                    query: {
+                        ...initialState.query,
                         managedTags: ['testTag', 'testTag1']
                     }
                 });
                 const newState = Object.assign({}, initialState, {
-                    ui: {
-                        ...initialState.ui,
+                    query: {
+                        ...initialState.query,
                         managedTags: ['testTag1']
                     }
                 });
@@ -104,14 +104,14 @@ describe('blogs slice', () => {
 
             test('blogs delete all tags action - state with previous tags', () => {
                 const state = Object.assign({}, initialState, {
-                    ui: {
-                        ...initialState.ui,
+                    query: {
+                        ...initialState.query,
                         managedTags: ['testTag', 'testTag1']
                     }
                 });
                 const newState = Object.assign({}, initialState, {
-                    ui: {
-                        ...initialState.ui,
+                    query: {
+                        ...initialState.query,
                         managedTags: []
                     }
                 });

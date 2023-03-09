@@ -1,0 +1,30 @@
+@keyframes reveal {
+    0% {
+        height: 0%;
+    }
+    100% {
+        height: 100%;
+    }
+}
+
+.tutorial-filters-menu {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+
+    animation: reveal 1s;
+    animation-delay: 2s;
+    animation-fill-mode: both;
+
+    &__title {
+        padding-left: 20px;
+    }
+
+    &__entries {
+        display: flex;
+        flex-direction: row;
+        margin: 10px 0;
+        padding: 0 0 0 20px;
+        justify-content: space-between;
+    }
+}

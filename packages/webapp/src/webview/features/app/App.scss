@@ -18,11 +18,11 @@ body {
         width: auto;
         overflow: hidden;
         transition: all 300ms ease-in-out;
-        flex-grow: 1;
         box-sizing: border-box;
         display: flex;
         flex: 1 1 auto;
         flex-flow: column;
+        flex-grow: 1;
         height: 100vh;
         position: relative;
     }

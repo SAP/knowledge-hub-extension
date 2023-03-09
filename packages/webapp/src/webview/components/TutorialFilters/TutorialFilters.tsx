@@ -6,7 +6,7 @@ import { UILink, UIIcon } from '@sap-ux/ui-components';
 import type { TutorialsSearchQuery, TutorialsTags, TutorialsTag } from '@sap/knowledge-hub-extension-types';
 
 import { useAppSelector } from '../../store';
-import { getTutorialsUI, getTutorialsDataTags } from '../../features/tutorials/Tutorials.slice';
+import { getTutorialsQuery, getTutorialsDataTags } from '../../features/tutorials/Tutorials.slice';
 import { UIPill } from '../UI/UIPill/UIPill';
 
 import './TutorialFilters.scss';
@@ -19,7 +19,7 @@ export type TutorialFiltersProps = {
 export const TutorialFilters: FC<TutorialFiltersProps> = ({ clearAllTags, clearTag }): JSX.Element => {
     const { t } = useTranslation();
 
-    const activeUI: TutorialsSearchQuery = useAppSelector(getTutorialsUI);
+    const activeUI: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
     const activeTags: TutorialsTags = useAppSelector(getTutorialsDataTags);
     const [allTags, setAlltags] = useState(activeUI.filters);
 

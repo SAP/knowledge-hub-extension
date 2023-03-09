@@ -5,7 +5,7 @@ import { tutorialsPageChanged } from '../../../src/webview/store/actions';
 import {
     initial,
     tutorialsData,
-    withDataNoError,
+    withDataNoErrorNoTags,
     withNoDataWithError,
     withNoDataWithPending
 } from '../../../test/__mocks__/tutorials';
@@ -34,7 +34,7 @@ describe('tutorials slice', () => {
             });
             test('fetchTutorials fulfilled action', () => {
                 const action = fetchTutorials.fulfilled(tutorialsData);
-                expect(reducer(undefined, action)).toEqual(withDataNoError);
+                expect(reducer(undefined, action)).toEqual(withDataNoErrorNoTags);
             });
             test('fetchTutorials rejected action', () => {
                 const action = fetchTutorials.rejected('no internet');
@@ -42,11 +42,11 @@ describe('tutorials slice', () => {
             });
         });
 
-        describe('tutorials slice > reducer > tutorialsUi', () => {
+        describe('tutorials slice > reducer > tutorialsQuery', () => {
             test('tutorials page changed action', () => {
                 const state = Object.assign({}, initialState, {
-                    ui: {
-                        ...initialState.ui,
+                    query: {
+                        ...initialState.query,
                         start: 1
                     }
                 });

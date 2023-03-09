@@ -1,5 +1,11 @@
 # Change Log - @sap/knowledge-hub-extension-webapp
 
+## 0.10.0
+
+### Minor Changes
+
+-   ed0fd7c: Add filters menu for tutorials
+
 ## 0.9.3
 
 ### Patch Changes
