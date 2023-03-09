@@ -22,7 +22,7 @@ importers:
       eslint-plugin-prettier: 4.2.1
       eslint-plugin-promise: 6.1.1
       eslint-plugin-react: 7.31.10
-      eslint-plugin-sonarjs: 0.16.0
+      eslint-plugin-sonarjs: 0.18.0
       husky: 8.0.1
       jest: 29.4.3
       jest-sonar: 0.2.12
@@ -50,7 +50,7 @@ importers:
       eslint-plugin-prettier: 4.2.1_u2zha4kiojzs42thzpgwygphmy
       eslint-plugin-promise: 6.1.1_eslint@8.35.0
       eslint-plugin-react: 7.31.10_eslint@8.35.0
-      eslint-plugin-sonarjs: 0.16.0_eslint@8.35.0
+      eslint-plugin-sonarjs: 0.18.0_eslint@8.35.0
       husky: 8.0.1
       jest: 29.4.3_4f2ldd7um3b3u4eyvetyqsphze
       jest-sonar: 0.2.12
@@ -5067,8 +5067,8 @@ packages:
       string.prototype.matchall: 4.0.8
     dev: true
 
-  /eslint-plugin-sonarjs/0.16.0_eslint@8.35.0:
-    resolution: {integrity: sha512-al8ojAzcQW8Eu0tWn841ldhPpPcjrJ59TzzTfAVWR45bWvdAASCmrGl8vK0MWHyKVDdC0i17IGbtQQ1KgxLlVA==}
+  /eslint-plugin-sonarjs/0.18.0_eslint@8.35.0:
+    resolution: {integrity: sha512-DJ3osLnt6KFdT5e9ZuIDOjT5A6wUGSLeiJJT03lPgpdD+7CVWlYAw9Goe3bt7SmbFO3Xh89NOCZAuB9XA7bAUQ==}
     engines: {node: '>=14'}
     peerDependencies:
       eslint: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
