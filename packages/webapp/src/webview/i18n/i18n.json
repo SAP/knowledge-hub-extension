@@ -5,10 +5,12 @@
 
     "TUTORIALS_TAB": "SAP Tutorials",
     "TUTORIALS_TITLE": "SAP Tutorials for Developers",
+    "TUTORIALS_RESULT": "result",
     "TUTORIALS_DESCRIPTION": "All our tutorials from our community",
     "TUTORIALS_DURATION_HOUR": "hr.",
     "TUTORIALS_DURATION_MINUTE": "min.",
     "TUTORIALS_FEATURED": "Featured",
+    "TUTORIALS_FILTER_MENU_TITLE": "Filter Your Search",
     "TUTORIALS_FILTERS_FILTERED_BY": "Filtered by:",
     "TUTORIALS_FILTERS_CLEAR_ALL": "Clear filters",
     "TUTORIALS_LOADING_CONTENT": "Loading Content",
@@ -19,6 +21,7 @@
 
     "BLOGS_TAB": "From the blogs",
     "BLOGS_TITLE": "SAP Fiori tools community blog",
+    "BLOGS_RESULT": "result",
     "BLOGS_DESCRIPTION": "All Blog Posts from our community",
     "BLOGS_FILTERS_FILTERED_BY": "Filtered by:",
     "BLOGS_FILTERS_CLEAR_ALL": "Clear filters",
