@@ -34,6 +34,7 @@
         "clean": "rimraf ./dist ./out ./reports *.tgz *.vsix",
         "format:fix": "prettier --write '**/*.{js,json,ts,yaml,yml}' --ignore-path ../../.prettierignore",
         "lint": "eslint . --ext .ts",
+        "lint:fix": "eslint . --ext .ts --fix",
         "ide-ext:package": "vsce package",
         "test": "jest --ci --forceExit --detectOpenHandles --colors",
         "watch": "pnpm clean && node esbuild.js --watch",

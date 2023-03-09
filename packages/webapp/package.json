@@ -18,6 +18,7 @@
         "build:webapp": "node esbuild.js",
         "format:fix": "prettier --write '**/*.{js,json,ts,tsx,yaml,yml}' --ignore-path ../../.prettierignore",
         "lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "eslint . --ext .ts,.tsx --fix",
         "watch": "pnpm clean && pnpm build:index && node esbuild.js --watch",
         "test": "jest --maxWorkers=2 --silent"
     },
