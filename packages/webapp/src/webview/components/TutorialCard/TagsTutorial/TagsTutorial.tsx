@@ -19,14 +19,14 @@ export const TagsTutorial: FC<TagsTutorialProps> = ({
 }: TagsTutorialProps): JSX.Element => {
     const handleTagIdClick = useCallback(
         (tagId: string) =>
-            (event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
+            (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
                 callback(tagId);
             },
         []
     );
 
     const handleTagIdKeydown = useCallback(
-        (tagId: string) => (event: React.KeyboardEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement>) => {
+        (tagId: string) => (_event: React.KeyboardEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement>) => {
             callback(tagId);
         },
         []
