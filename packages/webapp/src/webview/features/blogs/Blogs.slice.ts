@@ -32,7 +32,7 @@ export const initialSearchState: BlogsState = {
     pending: false
 };
 
-export const initialUIState: BlogsSearchQuery = {
+export const initialQueryState: BlogsSearchQuery = {
     page: 0,
     limit: BLOGS_LIMIT_PER_PAGE,
     orderBy: 'UPDATE_TIME',
@@ -85,9 +85,9 @@ const result = createSlice({
     }
 });
 
-const ui = createSlice({
+const query = createSlice({
     name: 'blogsUi',
-    initialState: initialUIState,
+    initialState: initialQueryState,
     reducers: {},
     extraReducers: (builder) =>
         builder
@@ -142,15 +142,15 @@ const tags = createSlice({
 
 export const initialState: Blogs = {
     result: initialSearchState,
-    ui: initialUIState,
+    query: initialQueryState,
     tags: initialTagsState
 };
 
 // State selectors
 export const getBlogs = (state: RootState) => state.blogs.result;
 export const getBlogsError = (state: RootState) => state.blogs.result.error;
-export const getBlogsUI = (state: RootState) => state.blogs.ui;
-export const getManagedTags = (state: RootState) => state.blogs.ui.managedTags;
+export const getBlogsUI = (state: RootState) => state.blogs.query;
+export const getManagedTags = (state: RootState) => state.blogs.query.managedTags;
 export const getBlogsTags = (state: RootState) => state.blogs.tags;
 
-export default combineReducers({ result: result.reducer, ui: ui.reducer, tags: tags.reducer });
+export default combineReducers({ result: result.reducer, query: query.reducer, tags: tags.reducer });

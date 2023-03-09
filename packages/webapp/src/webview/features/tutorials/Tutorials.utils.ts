@@ -7,3 +7,7 @@ export const getTutorialsTag = (val: string, allTutorials: TutorialsSearchResult
         return '';
     }
 };
+
+export const isFilteredTag = (tagId: string, tags: string[]): boolean => {
+    return tags.includes(tagId);
+};
