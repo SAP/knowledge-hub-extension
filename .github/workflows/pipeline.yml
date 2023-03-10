@@ -47,7 +47,7 @@ jobs:
               run: pnpm run test
             - name: Run SonarCloud scan
               # SonarCloud scan disabled until repo is public
-              if: false && matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x'
+              if: matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x'
               uses: sonarsource/sonarcloud-github-action@master
               env:
                   GITHUB_TOKEN: ${{ secrets.ACCESS_PAT }}
