@@ -8,6 +8,30 @@ export const noError = {
     message: ''
 };
 
+export const tagsEmpty = {
+    tags: {}
+};
+
+export const tagsData = {
+    tags: {
+        'Tag 3': {
+            tagAlternativeTitles: [],
+            title: 'Test tag',
+            tagTitle: 'Test tag'
+        },
+        'Tag 2': {
+            tagAlternativeTitles: [],
+            title: 'Group',
+            tagTitle: 'tutorial:type/group'
+        },
+        'Tag 1': {
+            tagAlternativeTitles: [],
+            title: 'Beginner',
+            tagTitle: 'tutorial:experience/beginner'
+        }
+    }
+};
+
 export const tutorialsData = {
     group: '/group',
     mission: '/mission',
@@ -35,10 +59,10 @@ export const tutorialsData = {
             tagTitle: 'tutorial:experience/beginner'
         }
     },
-    tutorialsNewFrom: 'Fri, 3 Sep 2021 11:43 AM',
+    tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
     result: [
         {
-            creationDate: 'Nov 29, 2020 6:51:00 AM',
+            creationDate: new Date(new Date().toISOString().split('T')[0]),
             description: 'Test description 1',
             experience: 'Tag 1',
             featured: false,
@@ -57,7 +81,7 @@ export const tutorialsData = {
             title: 'Test title 1'
         },
         {
-            creationDate: 'Nov 29, 2020 6:51:00 AM',
+            creationDate: new Date(new Date().toISOString().split('T')[0]),
             description: 'Test description 2',
             experience: 'Tag 1',
             featured: false,
@@ -76,7 +100,7 @@ export const tutorialsData = {
             title: 'Test title 2'
         },
         {
-            creationDate: 'Nov 29, 2020 6:51:00 AM',
+            creationDate: new Date(new Date().toISOString().split('T')[0]),
             description: 'Test description 3',
             experience: 'Tag 1',
             featured: false,
@@ -95,7 +119,7 @@ export const tutorialsData = {
             title: 'Test title 3'
         },
         {
-            creationDate: 'Nov 29, 2020 6:51:00 AM',
+            creationDate: new Date(new Date().toISOString().split('T')[0]),
             description: 'Test description 4',
             experience: 'Tag 1',
             featured: false,
@@ -126,7 +150,7 @@ export const emptyData = {
     facets: {},
     iconPath: {},
     tags: {},
-    tutorialsNewFrom: '',
+    tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
     result: [],
     numFound: -1,
     countGroups: 0,
@@ -140,7 +164,7 @@ export const noData = {
     facets: {},
     iconPath: {},
     tags: {},
-    tutorialsNewFrom: '',
+    tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
     result: [],
     numFound: 0,
     countGroups: 0,
@@ -148,8 +172,8 @@ export const noData = {
     countTutorials: 0
 };
 
-export const uiEmpty = {
-    rows: 18,
+export const queryEmpty = {
+    rows: 12,
     start: 0,
     searchField: '',
     pagePath: '/content/developers/website/languages/en/tutorial-navigator',
@@ -158,7 +182,7 @@ export const uiEmpty = {
     filters: []
 };
 
-export const uiEmptyRows = {
+export const queryEmptyRows = {
     rows: 2,
     start: 0,
     searchField: '',
@@ -168,13 +192,29 @@ export const uiEmptyRows = {
     filters: []
 };
 
+export const queryEmptyWithFilters = {
+    rows: 2,
+    start: 0,
+    searchField: '',
+    pagePath: '/content/developers/website/languages/en/tutorial-navigator',
+    language: 'en_us',
+    addDefaultLanguage: true,
+    filters: ['Tag 1', 'Tag 2', 'Tag 3']
+};
+
+const uiInitial = {
+    isFiltersMenuOpened: false
+};
+
 export const initial = {
     result: {
         data: emptyData,
         error: noError,
         pending: false
     },
-    ui: uiEmpty
+    query: queryEmpty,
+    ui: uiInitial,
+    tags: tagsEmpty
 };
 
 export const withDataNoError = {
@@ -183,7 +223,20 @@ export const withDataNoError = {
         error: noError,
         pending: false
     },
-    ui: uiEmpty
+    query: queryEmpty,
+    ui: uiInitial,
+    tags: tagsData
+};
+
+export const withDataNoErrorNoTags = {
+    result: {
+        data: tutorialsData,
+        error: noError,
+        pending: false
+    },
+    query: queryEmpty,
+    ui: uiInitial,
+    tags: tagsEmpty
 };
 
 export const withNoDataNoError = {
@@ -192,7 +245,9 @@ export const withNoDataNoError = {
         error: noError,
         pending: false
     },
-    ui: uiEmpty
+    query: queryEmpty,
+    ui: uiInitial,
+    tags: tagsEmpty
 };
 
 export const withNoDataWithError = {
@@ -201,7 +256,9 @@ export const withNoDataWithError = {
         error: error,
         pending: false
     },
-    ui: uiEmpty
+    query: queryEmpty,
+    ui: uiInitial,
+    tags: tagsEmpty
 };
 
 export const withNoDataWithPending = {
@@ -210,7 +267,9 @@ export const withNoDataWithPending = {
         error: noError,
         pending: true
     },
-    ui: uiEmpty
+    query: queryEmpty,
+    ui: uiInitial,
+    tags: tagsEmpty
 };
 
 export const withDataNoErrorMultiplePage = {
@@ -219,5 +278,18 @@ export const withDataNoErrorMultiplePage = {
         error: noError,
         pending: false
     },
-    ui: uiEmptyRows
+    query: queryEmptyRows,
+    ui: uiInitial,
+    tags: tagsData
+};
+
+export const withDataNoErrorWithFilters = {
+    result: {
+        data: tutorialsData,
+        error: noError,
+        pending: false
+    },
+    query: queryEmptyWithFilters,
+    ui: uiInitial,
+    tags: tagsData
 };

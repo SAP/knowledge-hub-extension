@@ -68,37 +68,52 @@ export const tutorialsNoData = {
     numFound: 0,
     result: [],
     tags: {},
-    tutorialsNewFrom: ''
+    tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0])
 };
 
 export const tutorialsWithData = {
-    data: tutorialsData,
-    error: noError,
-    pending: false
+    tutorials: {
+        data: tutorialsData,
+        error: noError,
+        pending: false
+    },
+    tags: {}
 };
 
 export const tutorialsNoErrorWithPending = {
-    data: tutorialsNoData,
-    error: noError,
-    pending: true
+    tutorials: {
+        data: tutorialsNoData,
+        error: noError,
+        pending: true
+    },
+    tags: {}
 };
 
 export const tutorialsNoErrorNoPending = {
-    data: tutorialsNoData,
-    error: noError,
-    pending: false
+    tutorials: {
+        data: tutorialsNoData,
+        error: noError,
+        pending: false
+    },
+    tags: {}
 };
 
 export const tutorialsWithError = {
-    data: tutorialsNoData,
-    error: error,
-    pending: false
+    tutorials: {
+        data: tutorialsNoData,
+        error: error,
+        pending: false
+    },
+    tags: {}
 };
 
 export const tutorialsWithLoading = {
-    data: tutorialsNoData,
-    error: error,
-    pending: true
+    tutorials: {
+        data: tutorialsNoData,
+        error: error,
+        pending: true
+    },
+    tags: {}
 };
 
 export const blogsWithDataNoError = {

@@ -69,7 +69,7 @@ export const NavigationBar: FC<NavigationBarProps> = ({ tabs }: NavigationBarPro
     return (
         <React.Fragment>
             {items && (
-                <div className="navigation-bar">
+                <div className="navigation-bar" data-testid="navigation-bar">
                     <UITabs
                         linkSize="large"
                         onLinkClick={handleOnClick}
