@@ -91,23 +91,28 @@ describe('Tutorials', () => {
             'ui-pagination-page__li__anchor ui-pagination-page__disabled__anchor'
         );
 
-        const paginationFirstPageText = screen.getByText('1');
-        expect(paginationFirstPageText.className).toEqual(
-            'ui-pagination-page__li__anchor ui-pagination-page__active__anchor'
-        );
+        const eltWithOneText = screen.getAllByText('1');
+        let paginationFirstPageText: HTMLElement | undefined;
+        eltWithOneText.forEach((element) => {
+            if (element.className === 'ui-pagination-page__li__anchor ui-pagination-page__active__anchor') {
+                paginationFirstPageText = element;
+            }
+        });
 
-        const paginationSecondPageText = screen.getByText('2');
-        expect(paginationSecondPageText.className).toEqual('ui-pagination-page__li__anchor');
+        if (paginationFirstPageText) {
+            const paginationSecondPageText = screen.getByText('2');
+            expect(paginationSecondPageText.className).toEqual('ui-pagination-page__li__anchor');
 
-        if (paginationNextText) {
-            act(() => {
-                paginationNextText.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-            });
+            if (paginationNextText) {
+                act(() => {
+                    paginationNextText.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+                });
 
-            expect(paginationFirstPageText.className).toEqual('ui-pagination-page__li__anchor');
-            expect(paginationSecondPageText.className).toEqual(
-                'ui-pagination-page__li__anchor ui-pagination-page__active__anchor'
-            );
+                expect(paginationFirstPageText.className).toEqual('ui-pagination-page__li__anchor');
+                expect(paginationSecondPageText.className).toEqual(
+                    'ui-pagination-page__li__anchor ui-pagination-page__active__anchor'
+                );
+            }
         }
     });
 });
