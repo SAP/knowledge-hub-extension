@@ -46,7 +46,7 @@ describe('actionsHandler', () => {
         return webViewPanel;
     });
 
-    it('shoud test `ActionHandler` class', () => {
+    it('should test `ActionHandler` class', () => {
         const actionHandler = new ActionHandler(webViewPanel);
         expect(actionHandler).toBeDefined();
     });
