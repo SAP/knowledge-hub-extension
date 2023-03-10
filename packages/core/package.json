@@ -12,7 +12,7 @@
     },
     "scripts": {
         "build": "pnpm clean && tsc",
-        "clean": "rimraf dist",
+        "clean": "rimraf --glob dist",
         "format:fix": "prettier --write '**/*.{js,json,ts,yaml,yml}' --ignore-path ../../.prettierignore",
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint . --ext .ts --fix",
