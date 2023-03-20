@@ -36,7 +36,7 @@ describe('Page Map redux actions', () => {
             searchTerm: '',
             questionType: '',
             language: '',
-            blogCategories: '',
+            blogCategories: [],
             authorId: '',
             userTags: '',
             updatedFrom: undefined,

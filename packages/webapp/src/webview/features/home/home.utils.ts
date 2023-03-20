@@ -1,4 +1,4 @@
-import type { Home } from '@sap/knowledge-hub-extension-types';
+import type { Home, Tags } from '@sap/knowledge-hub-extension-types';
 import { store, actions } from '../../store';
 
 import { initialHomeBlogsUIState, initialHomeTutorialsUIState } from './Home.slice';
@@ -22,5 +22,13 @@ export const fecthHomeTutorials = (): void => {
     const homeState: Home = state.home;
     if (homeState.tutorials.tutorials.data.numFound === 0) {
         actions.tutorialsFetchTutorials(initialHomeTutorialsUIState, true);
+    }
+};
+
+export const fetchTags = (): void => {
+    const state = store.getState();
+    const tagsState: Tags = state.tags;
+    if (tagsState.result.data.filteredTags.length === 0) {
+        actions.tagsFetchTags();
     }
 };

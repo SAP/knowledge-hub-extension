@@ -53,7 +53,7 @@ export const initialQueryState: TutorialsSearchQuery = {
     filters: []
 };
 
-export const initialFiltersState: TutorialsUiState = {
+export const initialUiState: TutorialsUiState = {
     isFiltersMenuOpened: false
 };
 
@@ -146,7 +146,7 @@ const query = createSlice({
 
 const ui = createSlice({
     name: 'tutorialsUI',
-    initialState: initialFiltersState,
+    initialState: initialUiState,
     reducers: {},
     extraReducers: (builder) =>
         builder.addMatcher(
@@ -174,7 +174,7 @@ const tags = createSlice({
 export const initialState: Tutorials = {
     result: initialSearchState,
     query: initialQueryState,
-    ui: initialFiltersState,
+    ui: initialUiState,
     tags: initialTagsState
 };
 

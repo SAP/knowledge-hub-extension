@@ -19,9 +19,9 @@ export type TutorialFiltersProps = {
 export const TutorialFilters: FC<TutorialFiltersProps> = ({ clearAllTags, clearTag }): JSX.Element => {
     const { t } = useTranslation();
 
-    const activeUI: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
+    const activeQuery: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
     const activeTags: TutorialsTags = useAppSelector(getTutorialsDataTags);
-    const [allTags, setAlltags] = useState(activeUI.filters);
+    const [allTags, setAlltags] = useState(activeQuery.filters);
 
     /**
      * Returns the tag object based on the id.
@@ -47,15 +47,15 @@ export const TutorialFilters: FC<TutorialFiltersProps> = ({ clearAllTags, clearT
     const addTagPill = (tagId: string): JSX.Element | null => {
         const tag = getTagById(tagId);
         if (tag) {
-            return <UIPill key={tagId} pillId={tagId} pillTxt={tag.title} callback={clearTag} />;
+            return <UIPill key={tagId} pillId={tagId} pillLabel={tag.title} callback={clearTag} />;
         } else {
             return null;
         }
     };
 
     useEffect(() => {
-        setAlltags(activeUI.filters);
-    }, [activeUI]);
+        setAlltags(activeQuery.filters);
+    }, [activeQuery]);
 
     return (
         <React.Fragment>
@@ -67,10 +67,9 @@ export const TutorialFilters: FC<TutorialFiltersProps> = ({ clearAllTags, clearT
                     </div>
                     <div className="tutorial-filters-list" data-testid="tutorial-filters-list-of-pill">
                         <>
-                            {allTags &&
-                                allTags.map((tagId: string, _index: number) => {
-                                    return addTagPill(tagId);
-                                })}
+                            {allTags.map((tagId: string, _index: number) => {
+                                return addTagPill(tagId);
+                            })}
 
                             <UILink
                                 className="tutorial-filters-clear"

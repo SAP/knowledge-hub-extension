@@ -1,14 +1,12 @@
 import type { Error, FetchResponse } from './common.types';
-
-export interface BlogsManagedTag {
-    guid: string;
-    displayName: string;
-}
+import type { Tag } from './tags.types';
+import type { BlogFiltersEntryType } from '../const';
 
 export interface Blogs {
     result: BlogsState;
     query: BlogsSearchQuery;
-    tags: BlogsManagedTag[];
+    ui: BlogsUiState;
+    tags: Tag[];
 }
 
 export interface BlogsState {
@@ -33,8 +31,8 @@ export interface BlogsSearchQuery {
     managedTags?: string[];
     searchTerm?: string;
     questionType?: string;
-    language?: string;
-    blogCategories?: string;
+    language?: string | null;
+    blogCategories?: string[];
     authorId?: string;
     userTags?: string;
     updatedFrom?: Date;
@@ -46,6 +44,12 @@ export interface BlogsSearchQuery {
     additionalUserTags?: string[];
 }
 
+export interface BlogsUiState {
+    isLoading: boolean;
+    isFiltersMenuOpened: boolean;
+    filtersEntries: BlogFiltersEntry[];
+}
+
 export interface BlogsSearchResultContentItem {
     id: string;
     url: string;
@@ -53,7 +57,7 @@ export interface BlogsSearchResultContentItem {
     excerpt: string | null;
     author: BlogsAuthor;
     type: string;
-    managedTags: BlogsManagedTag[];
+    managedTags: Tag[];
     updated: Date;
     created: Date;
     likeCount: number | null;
@@ -81,4 +85,12 @@ export interface BlogsAPI {
 
 export interface BlogsAPIOptions {
     apiHost?: string;
+}
+
+// BLOGS FILTERS
+
+export interface BlogFiltersEntry {
+    id: string;
+    label: string;
+    type: BlogFiltersEntryType;
 }

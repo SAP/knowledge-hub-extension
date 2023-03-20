@@ -5,3 +5,4 @@ export * from './blogs.types';
 export * from './app.types';
 export * from './common.types';
 export * from './search.types';
+export * from './tags.types';

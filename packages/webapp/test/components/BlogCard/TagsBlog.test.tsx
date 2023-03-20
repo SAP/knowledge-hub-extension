@@ -4,7 +4,7 @@ import { screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
-import type { BlogsManagedTag } from '@sap/knowledge-hub-extension-types';
+import type { Tag } from '@sap/knowledge-hub-extension-types';
 import { initIcons } from '@sap-ux/ui-components';
 import { initLCIcons } from '../../../src/webview/Icons/icons';
 
@@ -17,10 +17,8 @@ describe('BlogCard > TagsBlog', () => {
     initIcons();
     initLCIcons();
 
-    const renderTagsBlog = (
-        tags: BlogsManagedTag[],
-        callback: { (tag: BlogsManagedTag): void; (tags: BlogsManagedTag): void }
-    ): RenderResult => render(<TagsBlog tags={tags} callback={callback} />);
+    const renderTagsBlog = (tags: Tag[], callback: { (tag: Tag): void; (tags: Tag): void }): RenderResult =>
+        render(<TagsBlog tags={tags} callback={callback} />);
 
     test('test if the TagsBlog text is rendered', () => {
         const tags = [

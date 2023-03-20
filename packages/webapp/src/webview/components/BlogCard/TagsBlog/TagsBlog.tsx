@@ -1,26 +1,25 @@
 import React, { useCallback } from 'react';
 import type { FC } from 'react';
 import { UILink, UIIcon } from '@sap-ux/ui-components';
-import type { BlogsManagedTag } from '@sap/knowledge-hub-extension-types';
+import type { Tag } from '@sap/knowledge-hub-extension-types';
 
 import './TagsBlog.scss';
 
 export type TagsBlogProps = {
-    tags: BlogsManagedTag[];
-    callback(tag: BlogsManagedTag): void;
+    tags: Tag[];
+    callback(tag: Tag): void;
 };
 
 export const TagsBlog: FC<TagsBlogProps> = ({ tags, callback }: TagsBlogProps): JSX.Element => {
     const handleTagClick = useCallback(
-        (tag: BlogsManagedTag) =>
-            (event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
-                callback(tag);
-            },
+        (tag: Tag) => (event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
+            callback(tag);
+        },
         []
     );
 
     const handleTagKeydown = useCallback(
-        (tag: BlogsManagedTag) => (event: React.KeyboardEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement>) => {
+        (tag: Tag) => (event: React.KeyboardEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement>) => {
             callback(tag);
         },
         []

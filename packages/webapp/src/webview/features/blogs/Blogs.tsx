@@ -7,30 +7,34 @@ import type {
     BlogsState,
     BlogsSearchQuery,
     BlogsSearchResultContentItem,
-    BlogsManagedTag
+    BlogFiltersEntry,
+    Tag
 } from '@sap/knowledge-hub-extension-types';
-
-import { BlogCard } from '../../components/BlogCard';
-import { BlogFilters } from '../../components/BlogFilters';
-import { NoResult } from '../../components/NoResult';
-import { WithError } from '../../components/WithError';
-import { Loader } from '../../components/Loader';
+import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
 import {
     blogsPageChanged,
     blogsManagedTagsAdd,
+    blogsManagedTagsDelete,
     blogsTagsAdd,
-    blogsManagedTagsDeleteAll,
-    blogsManagedTagsDelete
+    blogsFilterEntryAdd,
+    blogsFilterEntryDelete,
+    blogsSearchTermChanged
 } from '../../store/actions';
-import { actions, useAppSelector } from '../../store';
-import { getBlogs, getBlogsUI, getManagedTags } from './Blogs.slice';
+import { store, actions, useAppSelector } from '../../store';
+import { getBlogs, getBlogsQuery, getManagedTags, getBlogsUIIsLoading } from './Blogs.slice';
+import { getTagsData } from '../tags/Tags.slice';
 import { isManagedTag, getBlogsTagById } from './blogs.utils';
-import { getHomeBlogsTags } from '../home/Home.slice';
 import { getSearchTerm } from '../search/Search.slice';
 
 import type { UIPaginationSelected } from '../../components/UI/UIPagination';
 import { UIPagination } from '../../components/UI/UIPagination';
+import { Loader } from '../../components/Loader';
+import { NoResult } from '../../components/NoResult';
+import { WithError } from '../../components/WithError';
+import { BlogCard } from '../../components/BlogCard';
+import { BlogsFiltersMenu } from '../../components/BlogsFiltersMenu';
+import { BlogsFiltersBar } from '../../components/BlogsFiltersBar';
 
 import './Blogs.scss';
 
@@ -42,10 +46,11 @@ export const Blogs: FC = (): JSX.Element => {
     const maxDisplayPage = 500;
 
     const activeBlogs: BlogsState = useAppSelector(getBlogs);
-    const activeUI: BlogsSearchQuery = useAppSelector(getBlogsUI);
+    const activeQuery: BlogsSearchQuery = useAppSelector(getBlogsQuery);
     const activeSearchTerm: string = useAppSelector(getSearchTerm);
     const activeManagedTags: string[] = useAppSelector(getManagedTags) || [];
-    const homeBlogsTag = useAppSelector(getHomeBlogsTags);
+    const activeLoading = useAppSelector(getBlogsUIIsLoading);
+    const tags = useAppSelector(getTagsData);
 
     const [loading, setLoading] = useState(true);
     const [noResult, setNoResult] = useState(true);
@@ -53,13 +58,16 @@ export const Blogs: FC = (): JSX.Element => {
     const [blogs, setBlogs] = useState<BlogsSearchResultContentItem[]>();
     const [totalPage, setTotalPage] = useState(0);
     const [totalEntries, setTotalEntries] = useState(0);
-    const [pageOffset, setPageOffset] = useState(activeUI.page);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [pageOffset, setPageOffset] = useState(activeQuery.page);
 
+    /**
+     * Fetch blogs data.
+     *
+     * @param {BlogsSearchQuery} option - blogs search query
+     */
     const fetchData = (option: BlogsSearchQuery) => {
-        const options = Object.assign({}, activeUI, option);
         setLoading(true);
-        actions.blogsFetchBlogs(options, false);
+        actions.blogsFetchBlogs(option, false);
     };
 
     const handlePageClick = useCallback((event: UIPaginationSelected) => {
@@ -72,66 +80,42 @@ export const Blogs: FC = (): JSX.Element => {
         fetchData(options);
     }, []);
 
-    const onTagSelected = useCallback((tag: BlogsManagedTag): void => {
-        const options: BlogsSearchQuery = {};
-        options.managedTags = Object.assign([], activeManagedTags);
-        if (options.managedTags && options.managedTags.length > 0) {
-            options.managedTags.push(tag.guid);
+    const onTagSelected = (tag: Tag, checked: boolean): void => {
+        const state = store.getState();
+        const currentQuery = state.blogs.query;
+        const currentBlogManagedTags: string[] = Object.assign([], currentQuery.managedTags);
+        let blogTags: string[] = [];
+        const filterEntry: BlogFiltersEntry = {
+            id: tag.guid,
+            label: tag.displayName,
+            type: BlogFiltersEntryType.TAG
+        };
+
+        if (checked) {
+            if (currentBlogManagedTags.length > 0) {
+                if (!currentBlogManagedTags.find((element: string) => element === tag.guid)) {
+                    blogTags = currentBlogManagedTags;
+                    blogTags.push(tag.guid);
+                }
+            } else {
+                blogTags = [tag.guid];
+            }
+            dispatch(blogsFilterEntryAdd(filterEntry));
+            dispatch(blogsManagedTagsAdd(tag.guid));
         } else {
-            options.managedTags = [tag.guid];
+            blogTags = currentBlogManagedTags.filter((element: string) => element !== tag.guid);
+            dispatch(blogsFilterEntryDelete(filterEntry.id));
+            dispatch(blogsManagedTagsDelete(tag.guid));
         }
-
-        dispatch(blogsManagedTagsAdd(tag.guid));
         dispatch(blogsTagsAdd(tag));
-
+        const options: BlogsSearchQuery = Object.assign({}, currentQuery, { managedTags: blogTags });
         fetchData(options);
-    }, []);
-
-    const onClearAllTagFilter = useCallback((): void => {
-        const options: BlogsSearchQuery = {};
-        options.managedTags = [];
-
-        if (searchTerm !== '') {
-            options.searchTerm = activeSearchTerm;
-        }
-
-        dispatch(blogsManagedTagsDeleteAll(null));
-
-        fetchData(options);
-    }, []);
-
-    const onClearTagFilter = useCallback(
-        (tagId: string): void => {
-            const options: BlogsSearchQuery = {};
-            options.managedTags = Object.assign([], activeManagedTags);
-
-            if (options.managedTags && options.managedTags.length > 0) {
-                const newTags = options.managedTags.filter((element: string) => element !== tagId);
-                options.managedTags = newTags;
-            }
-
-            if (searchTerm !== '') {
-                options.searchTerm = activeSearchTerm;
-            }
-
-            dispatch(blogsManagedTagsDelete(tagId));
-
-            fetchData(options);
-        },
-        [activeManagedTags]
-    );
+    };
 
     useEffect(() => {
-        if (searchTerm !== activeSearchTerm) {
-            const options: BlogsSearchQuery = {};
-            options.searchTerm = activeSearchTerm;
-            setSearchTerm(activeSearchTerm);
-            fetchData(options);
-        }
-    }, [activeSearchTerm]);
-
-    useEffect(() => {
-        const options: BlogsSearchQuery = {};
+        const state = store.getState();
+        const currentQuery = state.blogs.query;
+        const options: BlogsSearchQuery = Object.assign({}, currentQuery);
 
         if (activeBlogs.error.isError) {
             setTotalPage(0);
@@ -140,7 +124,13 @@ export const Blogs: FC = (): JSX.Element => {
             setError(true);
         } else if (!activeBlogs.pending) {
             if (location.state && location.state.tagId && !isManagedTag(location.state.tagId, activeManagedTags)) {
-                const tag = getBlogsTagById(location.state.tagId, homeBlogsTag);
+                const tag = getBlogsTagById(location.state.tagId, tags);
+                const filterEntry: BlogFiltersEntry = {
+                    id: tag.guid,
+                    label: tag.displayName,
+                    type: BlogFiltersEntryType.TAG
+                };
+                dispatch(blogsFilterEntryAdd(filterEntry));
                 dispatch(blogsManagedTagsAdd(tag.guid));
                 dispatch(blogsTagsAdd({ displayName: tag.displayName, guid: tag.guid }));
                 options.managedTags = [tag.guid];
@@ -148,7 +138,7 @@ export const Blogs: FC = (): JSX.Element => {
                 navigate(location.pathname, { replace: true });
             } else if (activeBlogs && activeBlogs.totalCount > 0) {
                 setBlogs(activeBlogs.data);
-                setTotalPage(Math.ceil(activeBlogs.totalCount / (activeUI.limit ? activeUI.limit : 20)));
+                setTotalPage(Math.ceil(activeBlogs.totalCount / (activeQuery.limit ? activeQuery.limit : 20)));
                 setTotalEntries(activeBlogs.totalCount);
                 setLoading(false);
                 setNoResult(false);
@@ -164,15 +154,32 @@ export const Blogs: FC = (): JSX.Element => {
         }
     }, [activeBlogs]);
 
+    useEffect(() => {
+        const state = store.getState();
+        const currentQuery = state.blogs.query;
+        const options: BlogsSearchQuery = Object.assign({}, currentQuery, { searchTerm: activeSearchTerm });
+        dispatch(blogsSearchTermChanged(activeSearchTerm));
+        fetchData(options);
+    }, [activeSearchTerm]);
+
+    useEffect(() => {
+        setLoading(activeLoading);
+    }, [activeLoading]);
+
     return (
         <div className="blogs">
+            <div className="blogs-filters">
+                <div className="blogs-filters-wrapper">
+                    <BlogsFiltersBar />
+                    <BlogsFiltersMenu loading={loading} />
+                </div>
+            </div>
+
             <div className="blogs-header">
                 <h2 className="blogs-header-title">{t('BLOGS_TITLE')}</h2>
                 <h3 className="blogs-header-description">{t('BLOGS_DESCRIPTION')}</h3>
             </div>
-            {activeUI.managedTags && activeUI.managedTags.length !== 0 && (
-                <BlogFilters clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />
-            )}
+
             <div className="blogs-result">
                 {totalEntries > 0 && !noResult && (
                     <div className="blogs-result-number">

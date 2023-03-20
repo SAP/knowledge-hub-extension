@@ -1,4 +1,4 @@
-import { blogEntry, uiEmpty } from './blogs';
+import { blogEntry, queryEmpty } from './blogs';
 import { tutorialsData } from './tutorials';
 
 export const error = {
@@ -13,7 +13,7 @@ export const noError = {
 
 export const blogsNoData = {
     contentItems: [],
-    query: uiEmpty,
+    query: queryEmpty,
     totalCount: 0
 };
 

@@ -4,14 +4,16 @@ import {
     KNOWLEDGE_HUB_WEB_VIEW_READY,
     TUTORIALS_FETCH_TUTORIALS,
     BLOGS_FETCH_BLOGS,
+    TAGS_FETCH_TAGS,
     initialize,
     fetchBlogs,
     fetchHomeBlogs,
     fetchTutorials,
-    fetchHomeTutorials
+    fetchHomeTutorials,
+    fetchTags
 } from '@sap/knowledge-hub-extension-types';
-import type { AnyAction, BlogsAPI, TutorialsAPI } from '@sap/knowledge-hub-extension-types';
-import { getCommunityBlogsApi, getDeveloperTutorialsApi } from '@sap/knowledge-hub-extension-core';
+import type { AnyAction, BlogsAPI, TutorialsAPI, TagsAPI } from '@sap/knowledge-hub-extension-types';
+import { getCommunityBlogsApi, getDeveloperTutorialsApi, getCommunityTagsApi } from '@sap/knowledge-hub-extension-core';
 
 import type { ActionsHandlerFn } from './types';
 
@@ -27,6 +29,7 @@ export class ActionHandler {
 
     private communityBlogsApi: BlogsAPI;
     private developerTutorialsApi: TutorialsAPI;
+    private communityTagsApi: TagsAPI;
 
     /**
      * Initializes class properties.
@@ -38,6 +41,7 @@ export class ActionHandler {
 
         this.communityBlogsApi = getCommunityBlogsApi();
         this.developerTutorialsApi = getDeveloperTutorialsApi();
+        this.communityTagsApi = getCommunityTagsApi();
     }
 
     /**
@@ -115,6 +119,24 @@ export class ActionHandler {
         }
     };
 
+    /**
+     *
+     * @returns void
+     */
+    private fetchTags = async (): Promise<void> => {
+        this.panel.webview.postMessage(fetchTags.pending(true));
+        const response = await this.communityTagsApi.getTags();
+
+        if (response.status === 'fetched' && response.data) {
+            this.panel.webview.postMessage(fetchTags.fulfilled(response.data));
+        }
+
+        if (response.status === 'error') {
+            const errorMsg = (response.error ? response.error : 'error') as unknown as string;
+            this.panel.webview.postMessage(fetchTags.rejected(errorMsg));
+        }
+    };
+
     // Webview actions handlers
     public actionsHandlersMap: ActionsHandlersMap = {
         [KNOWLEDGE_HUB_WEB_VIEW_READY]: async (): Promise<void> => {
@@ -137,6 +159,9 @@ export class ActionHandler {
             } else {
                 this.fetchBlogs(action);
             }
+        },
+        [TAGS_FETCH_TAGS]: async (): Promise<void> => {
+            this.fetchTags();
         }
     };
 }

@@ -16,10 +16,10 @@ describe('UI > UIPill', () => {
     initLCIcons();
 
     const renderUIPill = (
-        pillTxt: string,
+        pillLabel: string,
         pillId: string,
         callback: { (pillId: string): void; (pillId: string): void }
-    ): RenderResult => render(<UIPill pillId={pillId} pillTxt={pillTxt} callback={callback} />);
+    ): RenderResult => render(<UIPill pillId={pillId} pillLabel={pillLabel} callback={callback} />);
 
     test('test if the UIPill text is rendered', () => {
         const pill = {

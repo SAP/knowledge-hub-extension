@@ -1,18 +1,18 @@
-import type { BlogsManagedTag } from '@sap/knowledge-hub-extension-types';
+import type { Tag } from '@sap/knowledge-hub-extension-types';
 
 /**
  * Return a tag object from a tag id.
  *
  * @param {string} id The tag id to look for
- * @param {BlogsManagedTag[]} tags The list of all tags
- * @returns {BlogsManagedTag} A tag object
+ * @param {Tag[]} tags The list of all tags
+ * @returns {Tag} A tag object
  */
-export const getBlogsTagById = (id: string, tags: BlogsManagedTag[] | []): BlogsManagedTag => {
+export const getBlogsTagById = (id: string, tags: Tag[] | []): Tag => {
     let res = {
         displayName: '',
         guid: id
     };
-    tags.forEach((tag: BlogsManagedTag) => {
+    tags.forEach((tag: Tag) => {
         if (tag.guid === id) {
             res = tag;
         }

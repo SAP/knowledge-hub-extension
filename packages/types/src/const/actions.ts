@@ -1,7 +1,4 @@
-import type { App, TutorialsSearchResult, BlogsSearchResult } from './types';
-
-export const BLOGS_LIMIT_PER_PAGE = 10;
-export const TUTORIALS_LIMIT_PER_PAGE = 12;
+import type { App, TutorialsSearchResult, BlogsSearchResult, TagsSearchResult } from '../types';
 
 export const VIEW_PREFIX = '[view]';
 export const CORE_PREFIX = '[core]';
@@ -9,21 +6,6 @@ export const CORE_PREFIX = '[core]';
 export const PENDING_SUFFIX = '<pending>';
 export const FULFILLED_SUFFIX = '<fulfilled>';
 export const REJECTED_SUFFIX = '<rejected>';
-
-export enum PathType {
-    HOME = 'home',
-    TUTORIALS = 'tutorials',
-    BLOGS = 'blogs',
-    VIDEO = 'video'
-}
-
-export enum TUTORIALS_FILTERS_LABELS {
-    Topic = 'Topic',
-    'Software Product' = 'Software Product',
-    Experience = 'Experience',
-    Type = 'Type',
-    Options = 'Options'
-}
 
 export interface PayloadAction<T extends string, U> {
     type: T;
@@ -155,3 +137,4 @@ export const fetchTutorials = createCoreAction<TutorialsSearchResult>('tutorials
 export const fetchBlogs = createCoreAction<BlogsSearchResult>('blogs/fetch');
 export const fetchHomeTutorials = createCoreAction<TutorialsSearchResult>('home/tutorials/fetch');
 export const fetchHomeBlogs = createCoreAction<BlogsSearchResult>('home/blogs/fetch');
+export const fetchTags = createCoreAction<TagsSearchResult>('tags/fetch');
