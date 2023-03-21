@@ -13,9 +13,9 @@ import type { TutorialsTags, TutorialsFacets } from '@sap/knowledge-hub-extensio
 import { withDataNoErrorWithFilters } from '../../../__mocks__/tutorials';
 import { render } from '../../../__mocks__/store.mock';
 
-import { TutorialFiltersMenuEntries } from '../../../../src/webview/components/TutorialFiltersMenu/TutorialFiltersMenuEntries';
+import { TutorialsFiltersMenuEntries } from '../../../../src/webview/components/TutorialsFiltersMenu/TutorialsFiltersMenuEntries';
 
-describe('TutorialFiltersMenuEntries', () => {
+describe('TutorialsFiltersMenuEntries', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
     initLCIcons();
@@ -93,7 +93,7 @@ describe('TutorialFiltersMenuEntries', () => {
         }
     };
 
-    const renderTutorialFiltersMenuEntries = (
+    const renderTutorialsFiltersMenuEntries = (
         title: string,
         entries: string[],
         tags: TutorialsTags,
@@ -102,7 +102,7 @@ describe('TutorialFiltersMenuEntries', () => {
         onSelectedTag: { (tag: string): void; (tag: string): void }
     ): RenderResult =>
         render(
-            <TutorialFiltersMenuEntries
+            <TutorialsFiltersMenuEntries
                 title={title}
                 entries={entries}
                 tags={tags}
@@ -115,23 +115,23 @@ describe('TutorialFiltersMenuEntries', () => {
             }
         );
 
-    test('test if the TutorialFiltersMenuEntries render is ok with data', () => {
+    test('test if the TutorialsFiltersMenuEntries render is ok with data', () => {
         const title = 'Topic';
         const entries = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4'];
         const withSearchOn = true;
         const isSmall = false;
         const onSelectedTag = jest.fn();
 
-        renderTutorialFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag);
 
         const filteredMenuTitleDOM = screen.getByText(/Topic/i);
-        expect(filteredMenuTitleDOM.className).toEqual('tutorial-filters-menu-entries__header-title');
+        expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
 
         const searchInput = screen.getByRole('searchbox');
         expect(searchInput).toBeInTheDocument();
     });
 
-    test('test if the TutorialFiltersMenuEntries render is ok with data - no searchbox', () => {
+    test('test if the TutorialsFiltersMenuEntries render is ok with data - no searchbox', () => {
         const title = 'Topic';
         const entries = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4'];
 
@@ -139,10 +139,10 @@ describe('TutorialFiltersMenuEntries', () => {
         const isSmall = false;
         const onSelectedTag = jest.fn();
 
-        renderTutorialFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag);
 
         const filteredMenuTitleDOM = screen.getByText(/Topic/i);
-        expect(filteredMenuTitleDOM.className).toEqual('tutorial-filters-menu-entries__header-title');
+        expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
 
         expect(() => screen.getByRole('searchbox')).toThrow();
     });
@@ -155,14 +155,14 @@ describe('TutorialFiltersMenuEntries', () => {
         const isSmall = false;
         const onSelectedTag = jest.fn();
 
-        renderTutorialFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag);
 
         const searchInput = screen.getByRole('searchbox');
         expect(searchInput).toBeInTheDocument();
 
         const listOfTags = screen
-            .getByTestId('tutorial-filters-menu-entries__content-list')
-            .querySelectorAll('.tutorial-filters-menu-entries__content-list-entry');
+            .getByTestId('tutorials-filters-menu-entries__content-list')
+            .querySelectorAll('.tutorials-filters-menu-entries__content-list-entry');
 
         expect(listOfTags.length).toEqual(4);
 
@@ -178,8 +178,8 @@ describe('TutorialFiltersMenuEntries', () => {
         }
 
         const listOfTagsAfterSearch = screen
-            .getByTestId('tutorial-filters-menu-entries__content-list')
-            .querySelectorAll('.tutorial-filters-menu-entries__content-list-entry');
+            .getByTestId('tutorials-filters-menu-entries__content-list')
+            .querySelectorAll('.tutorials-filters-menu-entries__content-list-entry');
 
         expect(listOfTagsAfterSearch.length).toEqual(1);
     });
@@ -191,14 +191,14 @@ describe('TutorialFiltersMenuEntries', () => {
         const isSmall = false;
         const onSelectedTag = jest.fn();
 
-        renderTutorialFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag);
 
         const filteredMenuTitleDOM = screen.getByText(/Topic/i);
-        expect(filteredMenuTitleDOM.className).toEqual('tutorial-filters-menu-entries__header-title');
+        expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
 
         const listOfTags = screen
-            .getByTestId('tutorial-filters-menu-entries__content-list')
-            .querySelectorAll('.tutorial-filters-menu-entries__content-list-entry');
+            .getByTestId('tutorials-filters-menu-entries__content-list')
+            .querySelectorAll('.tutorials-filters-menu-entries__content-list-entry');
 
         const tag = listOfTags[0].querySelector('.ui-medium-text');
         if (tag) {

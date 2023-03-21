@@ -11,8 +11,8 @@
     "TUTORIALS_DURATION_MINUTE": "min.",
     "TUTORIALS_FEATURED": "Featured",
     "TUTORIALS_FILTER_MENU_TITLE": "Filter Your Search",
-    "TUTORIALS_FILTERS_FILTERED_BY": "Filtered by:",
-    "TUTORIALS_FILTERS_CLEAR_ALL": "Clear filters",
+    "TUTORIALS_FILTERS_BAR_FILTERED_BY": "Filtered by:",
+    "TUTORIALS_FILTERS_BAR_CLEAR_ALL": "Clear filters",
     "TUTORIALS_LOADING_CONTENT": "Loading Content",
 
     "VIDEO_TAB": "YouTube Tutorials",
@@ -28,7 +28,7 @@
     "BLOGS_FILTERS_BAR_CLEAR_ALL": "Clear filters",
     "BLOGS_FILTERS_TAGS": "Tags",
     "BLOGS_FILTERS_LANGUAGES": "Languages",
-    "BLOGS_FILTERS_CATEGORIES": "Blogs Categories",
+    "BLOGS_FILTERS_CATEGORIES": "Blog Categories",
     "BLOGS_LOADING_CONTENT": "Loading Content",
     "BLOGS_PAGINATION_HEADER": "Showing {{maxDisplayPage}} pages out of {{totalPage}} available. Use search to narrow the list.",
 

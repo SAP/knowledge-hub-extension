@@ -10,51 +10,51 @@ import { initLCIcons } from '../../../src/webview/Icons/icons';
 import { withDataNoErrorWithFilters } from '../../__mocks__/tutorials';
 import { render } from '../../__mocks__/store.mock';
 
-import { TutorialFilters } from '../../../src/webview/components/TutorialFilters/TutorialFilters';
+import { TutorialsFiltersBar } from '../../../src/webview/components/TutorialsFiltersBar/TutorialsFiltersBar';
 
-describe('TutorialFilters', () => {
+describe('TutorialsFiltersBar', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
     initLCIcons();
 
-    const renderTutorialFilters = (
+    const renderTutorialsFiltersBar = (
         onClearAllTagFilter: {
             (): void;
             (): void;
         },
         onClearTagFilter: { (tagId: string): void; (tagId: string): void }
     ): RenderResult =>
-        render(<TutorialFilters clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />, {
+        render(<TutorialsFiltersBar clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />, {
             initialState: { tutorials: withDataNoErrorWithFilters }
         });
 
-    test('test if the TutorialFilters render is ok with data', () => {
+    test('test if the TutorialsFiltersBar render is ok with data', () => {
         const onClearAllTagFilterfn = jest.fn();
         const onClearTagFilterfn = jest.fn();
 
-        renderTutorialFilters(onClearAllTagFilterfn, onClearTagFilterfn);
+        renderTutorialsFiltersBar(onClearAllTagFilterfn, onClearTagFilterfn);
 
-        const filteredHeaderDOM = screen.getByText(/TUTORIALS_FILTERS_FILTERED_BY/i);
-        expect(filteredHeaderDOM.className).toEqual('tutorial-filters-header-title');
+        const filteredHeaderDOM = screen.getByText(/TUTORIALS_FILTERS_BAR_FILTERED_BY/i);
+        expect(filteredHeaderDOM.className).toEqual('tutorials-filters-bar-header-title');
 
-        const listOfFilterPill = screen.getByTestId('tutorial-filters-list-of-pill').querySelectorAll('.ui-pill');
+        const listOfFilterPill = screen.getByTestId('tutorials-filters-bar-list-of-pill').querySelectorAll('.ui-pill');
         expect(listOfFilterPill.length).toEqual(3);
 
-        const clearAllDOM = screen.getByText(/TUTORIALS_FILTERS_CLEAR_ALL/i);
-        expect(clearAllDOM.className).toMatch(/tutorial-filters-clear/);
+        const clearAllDOM = screen.getByText(/TUTORIALS_FILTERS_BAR_CLEAR_ALL/i);
+        expect(clearAllDOM.className).toMatch(/tutorials-filters-bar-clear/);
     });
 
-    test('test if the TutorialFilters render is ok when the clear all filters is clicked', () => {
+    test('test if the TutorialsFiltersBar render is ok when the clear all filters is clicked', () => {
         const onClearAllTagFilterfn = jest.fn();
         const onClearTagFilterfn = jest.fn();
 
-        renderTutorialFilters(onClearAllTagFilterfn, onClearTagFilterfn);
+        renderTutorialsFiltersBar(onClearAllTagFilterfn, onClearTagFilterfn);
 
-        const listOfFilterPill = screen.getByTestId('tutorial-filters-list-of-pill').querySelectorAll('.ui-pill');
+        const listOfFilterPill = screen.getByTestId('tutorials-filters-bar-list-of-pill').querySelectorAll('.ui-pill');
         expect(listOfFilterPill.length).toEqual(3);
 
-        const clearAllDOM = screen.getByText(/TUTORIALS_FILTERS_CLEAR_ALL/i);
-        expect(clearAllDOM.className).toMatch(/tutorial-filters-clear/);
+        const clearAllDOM = screen.getByText(/TUTORIALS_FILTERS_BAR_CLEAR_ALL/i);
+        expect(clearAllDOM.className).toMatch(/tutorials-filters-bar-clear/);
 
         if (clearAllDOM) {
             act(() => {
@@ -64,17 +64,17 @@ describe('TutorialFilters', () => {
         }
     });
 
-    test('test if the TutorialFilters render is ok when the clear all filters is clicked', () => {
+    test('test if the TutorialsFiltersBar render is ok when the clear all filters is clicked', () => {
         const onClearAllTagFilterfn = jest.fn();
         const onClearTagFilterfn = jest.fn();
 
-        renderTutorialFilters(onClearAllTagFilterfn, onClearTagFilterfn);
+        renderTutorialsFiltersBar(onClearAllTagFilterfn, onClearTagFilterfn);
 
-        const listOfFilterPill = screen.getByTestId('tutorial-filters-list-of-pill').querySelectorAll('.ui-pill');
+        const listOfFilterPill = screen.getByTestId('tutorials-filters-bar-list-of-pill').querySelectorAll('.ui-pill');
         expect(listOfFilterPill.length).toEqual(3);
 
-        const clearAllDOM = screen.getByText(/TUTORIALS_FILTERS_CLEAR_ALL/i);
-        expect(clearAllDOM.className).toMatch(/tutorial-filters-clear/);
+        const clearAllDOM = screen.getByText(/TUTORIALS_FILTERS_BAR_CLEAR_ALL/i);
+        expect(clearAllDOM.className).toMatch(/tutorials-filters-bar-clear/);
 
         if (clearAllDOM) {
             act(() => {
@@ -84,14 +84,14 @@ describe('TutorialFilters', () => {
         }
     });
 
-    test('test if the TutorialFilters render is ok when one of the filter clear icon is clicked', () => {
+    test('test if the TutorialsFiltersBar render is ok when one of the filter clear icon is clicked', () => {
         const onClearAllTagFilterfn = jest.fn();
         const onClearTagFilterfn = jest.fn();
 
-        renderTutorialFilters(onClearAllTagFilterfn, onClearTagFilterfn);
+        renderTutorialsFiltersBar(onClearAllTagFilterfn, onClearTagFilterfn);
 
         let listOfFilterPill = screen
-            .getByTestId('tutorial-filters-list-of-pill')
+            .getByTestId('tutorials-filters-bar-list-of-pill')
             .querySelectorAll('.ui-pill-icon-container');
         expect(listOfFilterPill.length).toEqual(3);
 

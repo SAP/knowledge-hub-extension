@@ -35,6 +35,7 @@ import { WithError } from '../../components/WithError';
 import { BlogCard } from '../../components/BlogCard';
 import { BlogsFiltersMenu } from '../../components/BlogsFiltersMenu';
 import { BlogsFiltersBar } from '../../components/BlogsFiltersBar';
+import { BlogsResultNumber } from '../../components/BlogsResultNumber';
 
 import './Blogs.scss';
 
@@ -144,6 +145,7 @@ export const Blogs: FC = (): JSX.Element => {
                 setNoResult(false);
                 setError(activeBlogs.error.isError);
             } else if (activeBlogs.totalCount === 0) {
+                setTotalEntries(activeBlogs.totalCount);
                 setLoading(false);
                 setNoResult(true);
                 setTotalPage(0);
@@ -180,13 +182,7 @@ export const Blogs: FC = (): JSX.Element => {
                 <h3 className="blogs-header-description">{t('BLOGS_DESCRIPTION')}</h3>
             </div>
 
-            <div className="blogs-result">
-                {totalEntries > 0 && !noResult && (
-                    <div className="blogs-result-number">
-                        {totalEntries} {t('BLOGS_RESULT')}
-                    </div>
-                )}
-            </div>
+            <BlogsResultNumber totalNumber={totalEntries} />
 
             {!(loading || error || noResult) && (
                 <div className="blogs-content">

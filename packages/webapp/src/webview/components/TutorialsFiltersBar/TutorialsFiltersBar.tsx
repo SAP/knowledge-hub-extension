@@ -9,14 +9,14 @@ import { useAppSelector } from '../../store';
 import { getTutorialsQuery, getTutorialsDataTags } from '../../features/tutorials/Tutorials.slice';
 import { UIPill } from '../UI/UIPill/UIPill';
 
-import './TutorialFilters.scss';
+import './TutorialsFiltersBar.scss';
 
-export type TutorialFiltersProps = {
+export type TutorialsFiltersBarProps = {
     clearAllTags(): void;
     clearTag(tagId: string): void;
 };
 
-export const TutorialFilters: FC<TutorialFiltersProps> = ({ clearAllTags, clearTag }): JSX.Element => {
+export const TutorialsFiltersBar: FC<TutorialsFiltersBarProps> = ({ clearAllTags, clearTag }): JSX.Element => {
     const { t } = useTranslation();
 
     const activeQuery: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
@@ -60,23 +60,25 @@ export const TutorialFilters: FC<TutorialFiltersProps> = ({ clearAllTags, clearT
     return (
         <React.Fragment>
             {allTags && allTags.length !== 0 && (
-                <div className="tutorial-filters" data-testid="tutorial-filters">
-                    <div className="tutorial-filters-header">
-                        <UIIcon iconName="Tags" className="tutorial-filters-header-icon" />
-                        <div className="tutorial-filters-header-title">{t('TUTORIALS_FILTERS_FILTERED_BY')}</div>
+                <div className="tutorials-filters-bar" data-testid="tutorials-filters-bar">
+                    <div className="tutorials-filters-bar-header">
+                        <UIIcon iconName="Tags" className="tutorials-filters-bar-header-icon" />
+                        <div className="tutorials-filters-bar-header-title">
+                            {t('TUTORIALS_FILTERS_BAR_FILTERED_BY')}
+                        </div>
                     </div>
-                    <div className="tutorial-filters-list" data-testid="tutorial-filters-list-of-pill">
+                    <div className="tutorials-filters-bar-list" data-testid="tutorials-filters-bar-list-of-pill">
                         <>
                             {allTags.map((tagId: string, _index: number) => {
                                 return addTagPill(tagId);
                             })}
 
                             <UILink
-                                className="tutorial-filters-clear"
-                                title={t('TUTORIALS_FILTERS_CLEAR_ALL')}
+                                className="tutorials-filters-bar-clear"
+                                title={t('TUTORIALS_FILTERS_BAR_CLEAR_ALL')}
                                 href="#"
                                 onClick={clearAllTags}>
-                                {t('TUTORIALS_FILTERS_CLEAR_ALL')}
+                                {t('TUTORIALS_FILTERS_BAR_CLEAR_ALL')}
                             </UILink>
                         </>
                     </div>

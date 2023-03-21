@@ -7,15 +7,10 @@ import type {
     TutorialsState,
     TutorialsEntry,
     TutorialsSearchQuery,
-    TutorialsUiState,
     TutorialsTags,
     TutorialsFacets
 } from '@sap/knowledge-hub-extension-types';
 import { TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
-
-import { TutorialCard } from '../../components/TutorialCard';
-import { TutorialResultNumber } from '../../components/TutorialResultNumber';
-import { TutorialFiltersMenu } from '../../components/TutorialFiltersMenu';
 
 import {
     tutorialsPageChanged,
@@ -24,15 +19,18 @@ import {
     tutorialsFiltersTagsDelete
 } from '../../store/actions';
 import { store, actions, useAppSelector } from '../../store';
-import { getTutorials, getTutorialsQuery, getTutorialsQueryFilters, getTutorialsUI } from './Tutorials.slice';
+import { getTutorials, getTutorialsQuery, getTutorialsQueryFilters } from './Tutorials.slice';
 import { getTutorialsTag, isFilteredTag } from './Tutorials.utils';
 import { getSearchTerm } from '../search/Search.slice';
 
+import { TutorialCard } from '../../components/TutorialCard';
+import { TutorialsResultNumber } from '../../components/TutorialsResultNumber';
+import { TutorialsFiltersMenu } from '../../components/TutorialsFiltersMenu';
+import { TutorialsFiltersBar } from '../../components/TutorialsFiltersBar';
 import { UIPagination } from '../../components/UI/UIPagination';
 import { Loader } from '../../components/Loader';
 import { NoResult } from '../../components/NoResult';
 import { WithError } from '../../components/WithError';
-import { TutorialFilters } from '../../components/TutorialFilters';
 
 import './Tutorials.scss';
 
@@ -46,7 +44,6 @@ export const Tutorials: FC = (): JSX.Element => {
     const activeQuery: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
     const activeQueryFilters: string[] | undefined = useAppSelector(getTutorialsQueryFilters);
     const activeSearchTerm: string = useAppSelector(getSearchTerm);
-    const activeUi: TutorialsUiState = useAppSelector(getTutorialsUI);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -204,21 +201,8 @@ export const Tutorials: FC = (): JSX.Element => {
         <div className="tutorials">
             <div className="tutorials-filters">
                 <div className="tutorials-filters-wrapper">
-                    {activeQuery.filters && activeQuery.filters.length !== 0 && (
-                        <TutorialFilters clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />
-                    )}
-
-                    <div
-                        className={[
-                            'tutorials-filters-wrapper__menu',
-                            activeUi.isFiltersMenuOpened
-                                ? 'tutorials-filters-wrapper__menu__opened'
-                                : 'tutorials-filters-wrapper__menu__closed'
-                        ]
-                            .filter((x) => !!x)
-                            .join(' ')}>
-                        <TutorialFiltersMenu facets={facets} tags={tags} onSelectedTag={onTagSelected} />
-                    </div>
+                    <TutorialsFiltersBar clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />
+                    <TutorialsFiltersMenu facets={facets} tags={tags} onSelectedTag={onTagSelected} />
                 </div>
             </div>
 
@@ -227,7 +211,7 @@ export const Tutorials: FC = (): JSX.Element => {
                 <h3 className="tutorials-header-description">{t('TUTORIALS_DESCRIPTION')}</h3>
             </div>
 
-            <TutorialResultNumber
+            <TutorialsResultNumber
                 totalNumber={totalNumber}
                 countGroups={countGroups}
                 countMissions={countMissions}

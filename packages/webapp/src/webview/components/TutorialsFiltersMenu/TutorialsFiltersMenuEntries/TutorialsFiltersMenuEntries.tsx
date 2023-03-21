@@ -6,14 +6,14 @@ import { TutorialsTags, TUTORIALS_FILTERS_LABELS } from '@sap/knowledge-hub-exte
 
 import { store } from '../../../store';
 import { isFilteredTag } from '../../../features/tutorials/Tutorials.utils';
-import { getAlternativeTitles, getTutorialsTag, makeTutorialsTagCompare } from './TutorialFiltersMenuEntries.utils';
-import type { SortedTagListEntry } from './TutorialFiltersMenuEntries.utils';
+import { getAlternativeTitles, getTutorialsTag, makeTutorialsTagCompare } from './TutorialsFiltersMenuEntries.utils';
+import type { SortedTagListEntry } from './TutorialsFiltersMenuEntries.utils';
 
-import { Loader } from '../../../components/Loader';
+import { Loader } from '../../Loader';
 
-import './TutorialFiltersMenuEntries.scss';
+import './TutorialsFiltersMenuEntries.scss';
 
-export type TutorialFiltersMenuEntriesProps = {
+export type TutorialsFiltersMenuEntriesProps = {
     title: string;
     entries: string[];
     tags: TutorialsTags;
@@ -22,7 +22,7 @@ export type TutorialFiltersMenuEntriesProps = {
     onSelectedTag(tag: string): void;
 };
 
-export const TutorialFiltersMenuEntries: FC<TutorialFiltersMenuEntriesProps> = ({
+export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> = ({
     title,
     entries,
     tags,
@@ -104,7 +104,7 @@ export const TutorialFiltersMenuEntries: FC<TutorialFiltersMenuEntriesProps> = (
             <React.Fragment>
                 {sortedList.map((entry: SortedTagListEntry) => {
                     return (
-                        <li className="tutorial-filters-menu-entries__content-list-entry" key={entry.tagId}>
+                        <li className="tutorials-filters-menu-entries__content-list-entry" key={entry.tagId}>
                             <div className="ui-medium-text" onClick={handleTagIdClick(entry.tagId)}>
                                 {entry.title}
                             </div>
@@ -122,32 +122,32 @@ export const TutorialFiltersMenuEntries: FC<TutorialFiltersMenuEntriesProps> = (
     return (
         <div
             className={[
-                'tutorial-filters-menu-entries',
-                isSmall ? 'tutorial-filters-menu-entries__small' : 'tutorial-filters-menu-entries__normal'
+                'tutorials-filters-menu-entries',
+                isSmall ? 'tutorials-filters-menu-entries__small' : 'tutorials-filters-menu-entries__normal'
             ]
                 .filter((x) => !!x)
                 .join(' ')}>
             {loading && <Loader blockDOM={true} delayed={true} />}
 
-            <div className="tutorial-filters-menu-entries__header">
-                <span className="tutorial-filters-menu-entries__header-title">{title}</span>
+            <div className="tutorials-filters-menu-entries__header">
+                <span className="tutorials-filters-menu-entries__header-title">{title}</span>
             </div>
             {withSearchOn && (
-                <div className="tutorial-filters-menu-entries__search">
+                <div className="tutorials-filters-menu-entries__search">
                     <UISearchBox
                         onChange={onChange}
                         onSearch={onSearch}
                         onClear={onClear}
-                        className="tutorial-filters-menu-entries__search__box"
+                        className="tutorials-filters-menu-entries__search__box"
                     />
                 </div>
             )}
             {listEntries.length > 0 && (
                 <React.Fragment>
-                    <div className="tutorial-filters-menu-entries__content">
+                    <div className="tutorials-filters-menu-entries__content">
                         <ul
-                            className="tutorial-filters-menu-entries__content-list"
-                            data-testid="tutorial-filters-menu-entries__content-list">
+                            className="tutorials-filters-menu-entries__content-list"
+                            data-testid="tutorials-filters-menu-entries__content-list">
                             {getListEntry(listEntries, tags, title)}
                         </ul>
                     </div>

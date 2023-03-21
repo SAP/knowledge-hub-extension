@@ -12,23 +12,23 @@ import type { TutorialsTags, TutorialsFacets } from '@sap/knowledge-hub-extensio
 import { withDataNoErrorWithFilters } from '../../__mocks__/tutorials';
 import { render } from '../../__mocks__/store.mock';
 
-import { TutorialFiltersMenu } from '../../../src/webview/components/TutorialFiltersMenu';
+import { TutorialsFiltersMenu } from '../../../src/webview/components/TutorialsFiltersMenu';
 
-describe('TutorialFiltersMenu', () => {
+describe('TutorialsFiltersMenu', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
     initLCIcons();
 
-    const renderTutorialFiltersMenu = (
+    const renderTutorialsFiltersMenu = (
         facets: TutorialsFacets,
         tags: TutorialsTags,
         onTagSelected: { (tagId: string): void; (tagId: string): void }
     ): RenderResult =>
-        render(<TutorialFiltersMenu facets={facets} tags={tags} onSelectedTag={onTagSelected} />, {
+        render(<TutorialsFiltersMenu facets={facets} tags={tags} onSelectedTag={onTagSelected} />, {
             initialState: { tutorials: withDataNoErrorWithFilters }
         });
 
-    test('test if the TutorialFiltersMenu render is ok with data', () => {
+    test('test if the TutorialsFiltersMenu render is ok with data', () => {
         const facets = {
             Topic: ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4'],
             Experience: ['Tag 5', 'Tag 6', 'Tag 7'],
@@ -109,9 +109,9 @@ describe('TutorialFiltersMenu', () => {
         };
         const onTagSelected = jest.fn();
 
-        renderTutorialFiltersMenu(facets, tags, onTagSelected);
+        renderTutorialsFiltersMenu(facets, tags, onTagSelected);
 
         const filteredMenuTitleDOM = screen.getByText(/TUTORIALS_FILTER_MENU_TITLE/i);
-        expect(filteredMenuTitleDOM.className).toEqual('tutorial-filters-menu__title ui-medium-header');
+        expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu__content__title ui-medium-header');
     });
 });
