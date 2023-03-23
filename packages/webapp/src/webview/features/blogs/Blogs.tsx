@@ -67,8 +67,9 @@ export const Blogs: FC = (): JSX.Element => {
      * @param {BlogsSearchQuery} option - blogs search query
      */
     const fetchData = (option: BlogsSearchQuery) => {
+        const options = Object.assign({}, activeQuery, option);
         setLoading(true);
-        actions.blogsFetchBlogs(option, false);
+        actions.blogsFetchBlogs(options, false);
     };
 
     const handlePageClick = useCallback((event: UIPaginationSelected) => {
@@ -151,6 +152,7 @@ export const Blogs: FC = (): JSX.Element => {
                 setTotalPage(0);
             } else if (activeBlogs.totalCount === -1) {
                 setLoading(true);
+                setNoResult(false);
                 fetchData(options);
             }
         }
@@ -207,16 +209,14 @@ export const Blogs: FC = (): JSX.Element => {
                             {t('BLOGS_PAGINATION_HEADER', { maxDisplayPage: maxDisplayPage, totalPage: totalPage })}
                         </div>
                     )}
-                    {totalPage > 0 && (
-                        <UIPagination
-                            nextLabel={t('UI_PAGINATION_CAPTION_NEXT')}
-                            onPageChange={handlePageClick}
-                            pageRangeDisplayed={3}
-                            pageCount={totalPage > maxDisplayPage ? maxDisplayPage : totalPage}
-                            previousLabel={t('UI_PAGINATION_CAPTION_PREVIOUS')}
-                            forcePage={pageOffset}
-                        />
-                    )}
+                    <UIPagination
+                        nextLabel={t('UI_PAGINATION_CAPTION_NEXT')}
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={3}
+                        pageCount={totalPage > maxDisplayPage ? maxDisplayPage : totalPage}
+                        previousLabel={t('UI_PAGINATION_CAPTION_PREVIOUS')}
+                        forcePage={pageOffset}
+                    />
                 </div>
             )}
         </div>

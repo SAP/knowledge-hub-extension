@@ -19,7 +19,7 @@ import {
     tutorialsFiltersTagsDelete
 } from '../../store/actions';
 import { store, actions, useAppSelector } from '../../store';
-import { getTutorials, getTutorialsQuery } from './Tutorials.slice';
+import { getTutorials, getTutorialsQuery, getTutorialsUIIsLoading } from './Tutorials.slice';
 import { getTutorialsTag, isFilteredTag } from './Tutorials.utils';
 import { getSearchTerm } from '../search/Search.slice';
 
@@ -43,6 +43,7 @@ export const Tutorials: FC = (): JSX.Element => {
     const activeTutorials: TutorialsState = useAppSelector(getTutorials);
     const activeQuery: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
     const activeSearchTerm: string = useAppSelector(getSearchTerm);
+    const activeLoading = useAppSelector(getTutorialsUIIsLoading);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -138,19 +139,6 @@ export const Tutorials: FC = (): JSX.Element => {
     };
 
     useEffect(() => {
-        if (searchTerm !== activeSearchTerm) {
-            const options: TutorialsSearchQuery = {};
-            const state = store.getState();
-            const tagFilters = Object.assign([], state.tutorials.query.filters);
-
-            options.filters = tagFilters;
-            options.searchField = activeSearchTerm;
-            setSearchTerm(activeSearchTerm);
-            fetchData(options);
-        }
-    }, [activeSearchTerm]);
-
-    useEffect(() => {
         const options: TutorialsSearchQuery = {};
         let limit;
 
@@ -193,10 +181,28 @@ export const Tutorials: FC = (): JSX.Element => {
                 setNoResult(true);
             } else if (activeTutorials.data.numFound === -1) {
                 setLoading(true);
+                setNoResult(false);
                 fetchData(options);
             }
         }
     }, [activeTutorials]);
+
+    useEffect(() => {
+        if (searchTerm !== activeSearchTerm) {
+            const options: TutorialsSearchQuery = {};
+            const state = store.getState();
+            const tagFilters = Object.assign([], state.tutorials.query.filters);
+
+            options.filters = tagFilters;
+            options.searchField = activeSearchTerm;
+            setSearchTerm(activeSearchTerm);
+            fetchData(options);
+        }
+    }, [activeSearchTerm]);
+
+    useEffect(() => {
+        setLoading(activeLoading);
+    }, [activeLoading]);
 
     return (
         <div className="tutorials">
@@ -244,9 +250,9 @@ export const Tutorials: FC = (): JSX.Element => {
                 </div>
             )}
 
-            {loading && <Loader label={t('TUTORIALS_LOADING_CONTENT')} />}
-            {error && <WithError />}
-            {noResult && <NoResult />}
+            {loading && <Loader delayed={false} label={t('TUTORIALS_LOADING_CONTENT')} />}
+            {error && !loading && <WithError />}
+            {noResult && !loading && <NoResult />}
             {totalPageCount > 1 && (
                 <div className="tutorials-pagination">
                     <UIPagination

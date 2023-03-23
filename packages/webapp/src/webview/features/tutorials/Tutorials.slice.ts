@@ -194,5 +194,6 @@ export const getTutorialsQuery = (state: RootState) => state.tutorials.query;
 export const getTutorialsQueryFilters = (state: RootState) => state.tutorials.query.filters;
 export const getTutorialsUI = (state: RootState) => state.tutorials.ui;
 export const getTutorialsDataTags = (state: RootState) => state.tutorials.tags.tags;
+export const getTutorialsUIIsLoading = (state: RootState) => state.tutorials.ui.isLoading;
 
 export default combineReducers({ result: result.reducer, query: query.reducer, ui: ui.reducer, tags: tags.reducer });
