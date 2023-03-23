@@ -94,7 +94,7 @@ describe('Blogs', () => {
         expect(listOfFilterPill.length).toEqual(4);
 
         const clearAllDOM = screen.getByText(/BLOGS_FILTERS_BAR_CLEAR_ALL/i);
-        expect(clearAllDOM.className).toMatch(/blogs-filters-bar-clear/);
+        expect(clearAllDOM.className).toContain('ms-Button-label');
     });
 
     test('render a Blogs component, pagination event handler', () => {
@@ -159,7 +159,7 @@ describe('Blogs', () => {
             expect(listOfFilterPill.length).toEqual(3);
 
             const clearAllDOM = screen.getByText(/BLOGS_FILTERS_BAR_CLEAR_ALL/i);
-            expect(clearAllDOM.className).toMatch(/blogs-filters-bar-clear/);
+            expect(clearAllDOM.className).toContain('ms-Button-label');
         }
     });
 });

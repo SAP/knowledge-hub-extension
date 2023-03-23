@@ -22,11 +22,20 @@ describe('TutorialsFiltersMenu', () => {
     const renderTutorialsFiltersMenu = (
         facets: TutorialsFacets,
         tags: TutorialsTags,
-        onTagSelected: { (tagId: string): void; (tagId: string): void }
+        onTagSelected: { (tagId: string): void; (tagId: string): void },
+        onClearedTag: { (tagId: string): void; (tagId: string): void }
     ): RenderResult =>
-        render(<TutorialsFiltersMenu facets={facets} tags={tags} onSelectedTag={onTagSelected} />, {
-            initialState: { tutorials: withDataNoErrorWithFilters }
-        });
+        render(
+            <TutorialsFiltersMenu
+                facets={facets}
+                tags={tags}
+                onSelectedTag={onTagSelected}
+                onClearedTag={onClearedTag}
+            />,
+            {
+                initialState: { tutorials: withDataNoErrorWithFilters }
+            }
+        );
 
     test('test if the TutorialsFiltersMenu render is ok with data', () => {
         const facets = {
@@ -108,10 +117,11 @@ describe('TutorialsFiltersMenu', () => {
             }
         };
         const onTagSelected = jest.fn();
+        const onClearedTag = jest.fn();
 
-        renderTutorialsFiltersMenu(facets, tags, onTagSelected);
+        renderTutorialsFiltersMenu(facets, tags, onTagSelected, onClearedTag);
 
-        const filteredMenuTitleDOM = screen.getByText(/TUTORIALS_FILTER_MENU_TITLE/i);
-        expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu__content__title ui-medium-header');
+        const filteredMenuTitleDOM = screen.getByText('Topic');
+        expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
     });
 });

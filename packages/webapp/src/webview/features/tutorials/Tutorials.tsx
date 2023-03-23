@@ -19,7 +19,7 @@ import {
     tutorialsFiltersTagsDelete
 } from '../../store/actions';
 import { store, actions, useAppSelector } from '../../store';
-import { getTutorials, getTutorialsQuery, getTutorialsQueryFilters } from './Tutorials.slice';
+import { getTutorials, getTutorialsQuery } from './Tutorials.slice';
 import { getTutorialsTag, isFilteredTag } from './Tutorials.utils';
 import { getSearchTerm } from '../search/Search.slice';
 
@@ -42,7 +42,6 @@ export const Tutorials: FC = (): JSX.Element => {
 
     const activeTutorials: TutorialsState = useAppSelector(getTutorials);
     const activeQuery: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
-    const activeQueryFilters: string[] | undefined = useAppSelector(getTutorialsQueryFilters);
     const activeSearchTerm: string = useAppSelector(getSearchTerm);
 
     const [loading, setLoading] = useState(true);
@@ -86,6 +85,10 @@ export const Tutorials: FC = (): JSX.Element => {
             const state = store.getState();
             const tagFilters = Object.assign([], state.tutorials.query.filters);
 
+            if (state.search.term !== '') {
+                options.searchField = state.search.term;
+            }
+
             tagFilters.push(tagId);
 
             dispatch(tutorialsFiltersTagsAdd(tagId));
@@ -109,32 +112,30 @@ export const Tutorials: FC = (): JSX.Element => {
         fetchData(options);
     }, []);
 
-    const onClearTagFilter = useCallback(
-        (tagId: string): void => {
-            const options: TutorialsSearchQuery = {};
-            const tagFilters = Object.assign([], activeQueryFilters);
+    const onClearTagFilter = (tagId: string): void => {
+        const state = store.getState();
+        const tagFilters = Object.assign([], state.tutorials.query.filters);
+        const options: TutorialsSearchQuery = {};
 
-            if (tagFilters && tagFilters.length > 0) {
-                const newTags = tagFilters.filter((element: string) => element !== tagId);
-                options.filters = newTags;
-            } else {
-                options.filters = [];
-            }
+        if (tagFilters && tagFilters.length > 0) {
+            const newTags = tagFilters.filter((element: string) => element !== tagId);
+            options.filters = newTags;
+        } else {
+            options.filters = [];
+        }
 
-            if (options.filters && options.filters.length === 0) {
-                options.start = 1;
-            }
+        if (options.filters && options.filters.length === 0) {
+            options.start = 1;
+        }
 
-            if (searchTerm !== '') {
-                options.searchField = activeSearchTerm;
-            }
+        if (state.search.term !== '') {
+            options.searchField = state.search.term;
+        }
 
-            dispatch(tutorialsFiltersTagsDelete(tagId));
+        dispatch(tutorialsFiltersTagsDelete(tagId));
 
-            fetchData(options);
-        },
-        [activeQueryFilters]
-    );
+        fetchData(options);
+    };
 
     useEffect(() => {
         if (searchTerm !== activeSearchTerm) {
@@ -201,8 +202,13 @@ export const Tutorials: FC = (): JSX.Element => {
         <div className="tutorials">
             <div className="tutorials-filters">
                 <div className="tutorials-filters-wrapper">
+                    <TutorialsFiltersMenu
+                        facets={facets}
+                        tags={tags}
+                        onSelectedTag={onTagSelected}
+                        onClearedTag={onClearTagFilter}
+                    />
                     <TutorialsFiltersBar clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />
-                    <TutorialsFiltersMenu facets={facets} tags={tags} onSelectedTag={onTagSelected} />
                 </div>
             </div>
 

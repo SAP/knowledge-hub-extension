@@ -41,7 +41,7 @@ describe('TutorialsFiltersBar', () => {
         expect(listOfFilterPill.length).toEqual(3);
 
         const clearAllDOM = screen.getByText(/TUTORIALS_FILTERS_BAR_CLEAR_ALL/i);
-        expect(clearAllDOM.className).toMatch(/tutorials-filters-bar-clear/);
+        expect(clearAllDOM.className).toContain('ms-Button-label');
     });
 
     test('test if the TutorialsFiltersBar render is ok when the clear all filters is clicked', () => {
@@ -54,7 +54,7 @@ describe('TutorialsFiltersBar', () => {
         expect(listOfFilterPill.length).toEqual(3);
 
         const clearAllDOM = screen.getByText(/TUTORIALS_FILTERS_BAR_CLEAR_ALL/i);
-        expect(clearAllDOM.className).toMatch(/tutorials-filters-bar-clear/);
+        expect(clearAllDOM.className).toContain('ms-Button-label');
 
         if (clearAllDOM) {
             act(() => {
@@ -74,7 +74,7 @@ describe('TutorialsFiltersBar', () => {
         expect(listOfFilterPill.length).toEqual(3);
 
         const clearAllDOM = screen.getByText(/TUTORIALS_FILTERS_BAR_CLEAR_ALL/i);
-        expect(clearAllDOM.className).toMatch(/tutorials-filters-bar-clear/);
+        expect(clearAllDOM.className).toContain('ms-Button-label');
 
         if (clearAllDOM) {
             act(() => {

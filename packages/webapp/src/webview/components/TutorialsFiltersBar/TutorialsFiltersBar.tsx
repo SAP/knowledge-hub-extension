@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import type { FC } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { UILink, UIIcon } from '@sap-ux/ui-components';
+import { UIIcon } from '@sap-ux/ui-components';
 import type { TutorialsSearchQuery, TutorialsTags, TutorialsTag } from '@sap/knowledge-hub-extension-types';
 
 import { useAppSelector } from '../../store';
 import { getTutorialsQuery, getTutorialsDataTags } from '../../features/tutorials/Tutorials.slice';
 import { UIPill } from '../UI/UIPill/UIPill';
+import { UISmallButton } from '../UI/UISmallButton';
 
 import './TutorialsFiltersBar.scss';
 
@@ -73,13 +74,9 @@ export const TutorialsFiltersBar: FC<TutorialsFiltersBarProps> = ({ clearAllTags
                                 return addTagPill(tagId);
                             })}
 
-                            <UILink
-                                className="tutorials-filters-bar-clear"
-                                title={t('TUTORIALS_FILTERS_BAR_CLEAR_ALL')}
-                                href="#"
-                                onClick={clearAllTags}>
+                            <UISmallButton primary onClick={clearAllTags}>
                                 {t('TUTORIALS_FILTERS_BAR_CLEAR_ALL')}
-                            </UILink>
+                            </UISmallButton>
                         </>
                     </div>
                 </div>

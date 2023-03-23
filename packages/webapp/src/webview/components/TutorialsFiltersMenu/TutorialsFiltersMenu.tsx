@@ -1,7 +1,6 @@
 import React from 'react';
 import type { FC } from 'react';
 
-import { useTranslation } from 'react-i18next';
 import { TutorialsUiState } from '@sap/knowledge-hub-extension-types';
 
 import { useAppSelector } from '../../store';
@@ -16,10 +15,15 @@ export type TutorialsFiltersMenuProps = {
     facets: TutorialsFacets;
     tags: TutorialsTags;
     onSelectedTag(tag: string): void;
+    onClearedTag(tag: string): void;
 };
 
-export const TutorialsFiltersMenu: FC<TutorialsFiltersMenuProps> = ({ facets, tags, onSelectedTag }): JSX.Element => {
-    const { t } = useTranslation();
+export const TutorialsFiltersMenu: FC<TutorialsFiltersMenuProps> = ({
+    facets,
+    tags,
+    onSelectedTag,
+    onClearedTag
+}): JSX.Element => {
     const activeUi: TutorialsUiState = useAppSelector(getTutorialsUI);
 
     return (
@@ -31,9 +35,6 @@ export const TutorialsFiltersMenu: FC<TutorialsFiltersMenuProps> = ({ facets, ta
                 .filter((x) => !!x)
                 .join(' ')}>
             <div data-testid="tutorials-filters-menu__content" className="tutorials-filters-menu__content">
-                <div className="tutorials-filters-menu__content__title ui-medium-header">
-                    {t('TUTORIALS_FILTER_MENU_TITLE')}
-                </div>
                 <div className="tutorials-filters-menu__content__entries">
                     {Object.keys(facets).map((title: string, index: number) => {
                         let withSearchOn = true;
@@ -51,6 +52,7 @@ export const TutorialsFiltersMenu: FC<TutorialsFiltersMenuProps> = ({ facets, ta
                                 withSearchOn={withSearchOn}
                                 isSmall={isSmall}
                                 onSelectedTag={onSelectedTag}
+                                onClearedTag={onClearedTag}
                             />
                         );
                     })}

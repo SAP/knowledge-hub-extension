@@ -23,6 +23,7 @@ export interface TutorialsSearchQuery {
 }
 
 export interface TutorialsUiState {
+    isLoading: boolean;
     isFiltersMenuOpened: boolean;
 }
 

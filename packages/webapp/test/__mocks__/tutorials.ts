@@ -203,6 +203,7 @@ export const queryEmptyWithFilters = {
 };
 
 const uiInitial = {
+    isLoading: false,
     isFiltersMenuOpened: false
 };
 

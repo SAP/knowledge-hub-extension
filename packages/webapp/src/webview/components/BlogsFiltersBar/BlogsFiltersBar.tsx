@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { UILink, UIIcon } from '@sap-ux/ui-components';
+import { UIIcon } from '@sap-ux/ui-components';
 
 import { BlogFiltersEntry, BlogFiltersEntryType, BlogsSearchQuery } from '@sap/knowledge-hub-extension-types';
 
@@ -21,6 +21,7 @@ import {
 } from '../../store/actions';
 
 import { UIPill } from '../UI/UIPill/UIPill';
+import { UISmallButton } from '../UI/UISmallButton';
 
 import './BlogsFiltersBar.scss';
 
@@ -105,13 +106,9 @@ export const BlogsFiltersBar: FC = (): JSX.Element => {
                             );
                         })}
 
-                        <UILink
-                            className="blogs-filters-bar-clear"
-                            title={t('BLOGS_FILTERS_BAR_CLEAR_ALL')}
-                            href="#"
-                            onClick={onClearAllFilterEntries}>
+                        <UISmallButton primary onClick={onClearAllFilterEntries}>
                             {t('BLOGS_FILTERS_BAR_CLEAR_ALL')}
-                        </UILink>
+                        </UISmallButton>
                     </div>
                 </div>
             )}

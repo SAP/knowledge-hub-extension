@@ -63,3 +63,4 @@ export const tutorialsFiltersTagsAdd = createViewAction<string>('tutorials/filte
 export const tutorialsFiltersTagsDelete = createViewAction<string>('tutorials/filters-tags-delete');
 export const tutorialsFiltersTagsDeleteAll = createViewAction('tutorials/filters-tags-delete-all');
 export const tutorialsFiltersSelected = createViewAction<boolean>('tutorials/filters-selected');
+export const tutorialsLoading = createViewAction<boolean>('tutorials/loading');

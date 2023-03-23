@@ -18,7 +18,8 @@ import {
     tutorialsFiltersTagsAdd,
     tutorialsFiltersTagsDelete,
     tutorialsFiltersTagsDeleteAll,
-    tutorialsFiltersSelected
+    tutorialsFiltersSelected,
+    tutorialsLoading
 } from '../../store/actions';
 import type { RootState } from '../../store';
 
@@ -54,6 +55,7 @@ export const initialQueryState: TutorialsSearchQuery = {
 };
 
 export const initialUiState: TutorialsUiState = {
+    isLoading: false,
     isFiltersMenuOpened: false
 };
 
@@ -149,13 +151,18 @@ const ui = createSlice({
     initialState: initialUiState,
     reducers: {},
     extraReducers: (builder) =>
-        builder.addMatcher(
-            tutorialsFiltersSelected.match,
-            (state: TutorialsUiState, action: PayloadAction<boolean>): void => {
-                const isOpened = action.payload;
-                state.isFiltersMenuOpened = isOpened;
-            }
-        )
+        builder
+            .addMatcher(tutorialsLoading.match, (state: TutorialsUiState, action: PayloadAction<boolean>): void => {
+                const isLoading = action.payload;
+                state.isLoading = isLoading;
+            })
+            .addMatcher(
+                tutorialsFiltersSelected.match,
+                (state: TutorialsUiState, action: PayloadAction<boolean>): void => {
+                    const isOpened = action.payload;
+                    state.isFiltersMenuOpened = isOpened;
+                }
+            )
 });
 
 const tags = createSlice({

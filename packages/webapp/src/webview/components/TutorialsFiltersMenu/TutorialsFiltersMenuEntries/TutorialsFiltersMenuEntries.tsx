@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import type { FC } from 'react';
 
-import { UISearchBox } from '@sap-ux/ui-components';
+import { UICheckbox, UISearchBox } from '@sap-ux/ui-components';
+
 import { TutorialsTags, TUTORIALS_FILTERS_LABELS } from '@sap/knowledge-hub-extension-types';
 
 import { store } from '../../../store';
@@ -20,6 +21,7 @@ export type TutorialsFiltersMenuEntriesProps = {
     withSearchOn: boolean;
     isSmall: boolean;
     onSelectedTag(tag: string): void;
+    onClearedTag(tag: string): void;
 };
 
 export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> = ({
@@ -28,23 +30,42 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
     tags,
     withSearchOn,
     isSmall,
-    onSelectedTag
+    onSelectedTag,
+    onClearedTag
 }): JSX.Element => {
     const [listEntries, setListEntries] = useState(entries);
     const [loading, setLoading] = useState(false);
 
-    const handleTagIdClick = useCallback(
-        (tagId: string) =>
-            (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
-                const state = store.getState();
-                const tagFilters = Object.assign([], state.tutorials.query.filters);
-                if (!isFilteredTag(tagId, tagFilters)) {
-                    setLoading(true);
-                    onSelectedTag(tagId);
-                }
-            },
+    const handleTagIdSelect = useCallback(
+        (tagId: string) => (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, isChecked?: boolean) => {
+            if (isChecked) {
+                onTagSelected(tagId, isChecked);
+            } else {
+                onTagSelected(tagId, false);
+            }
+        },
         []
     );
+
+    const isTagChecked = useCallback((tagId: string): boolean => {
+        const state = store.getState();
+        const tagFilters = Object.assign([], state.tutorials.query.filters);
+        return tagFilters.includes(tagId);
+    }, []);
+
+    const onTagSelected = (tagId: string, checked: boolean): void => {
+        const state = store.getState();
+        const tagFilters = Object.assign([], state.tutorials.query.filters);
+        if (checked) {
+            if (!isFilteredTag(tagId, tagFilters)) {
+                setLoading(true);
+                onSelectedTag(tagId);
+            }
+        } else if (isFilteredTag(tagId, tagFilters)) {
+            setLoading(true);
+            onClearedTag(tagId);
+        }
+    };
 
     const onSearch = useCallback((searchItem: string): void => {
         const filteredEntries = entries.filter((entry) => {
@@ -105,9 +126,15 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
                 {sortedList.map((entry: SortedTagListEntry) => {
                     return (
                         <li className="tutorials-filters-menu-entries__content-list-entry" key={entry.tagId}>
-                            <div className="ui-medium-text" onClick={handleTagIdClick(entry.tagId)}>
+                            {/* <div className="ui-medium-text" onClick={handleTagIdClick(entry.tagId)}>
                                 {entry.title}
-                            </div>
+                            </div> */}
+
+                            <UICheckbox
+                                label={entry.title}
+                                checked={isTagChecked(entry.tagId)}
+                                onChange={handleTagIdSelect(entry.tagId)}
+                            />
                         </li>
                     );
                 })}

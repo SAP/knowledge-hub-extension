@@ -1,7 +1,6 @@
 import React from 'react';
 import type { FC } from 'react';
 
-import { useTranslation } from 'react-i18next';
 import { BlogsUiState } from '@sap/knowledge-hub-extension-types';
 
 import { useAppSelector } from '../../store';
@@ -18,7 +17,6 @@ export type BlogsFiltersMenuProps = {
 };
 
 export const BlogsFiltersMenu: FC<BlogsFiltersMenuProps> = ({ loading }): JSX.Element => {
-    const { t } = useTranslation();
     const activeUi: BlogsUiState = useAppSelector(getBlogsUI);
     const withSearchOn = true;
     const isSmall = false;
@@ -32,9 +30,6 @@ export const BlogsFiltersMenu: FC<BlogsFiltersMenuProps> = ({ loading }): JSX.El
                 .filter((x) => !!x)
                 .join(' ')}>
             <div data-testid="blogs-filters-menu__content" className="blogs-filters-menu__content">
-                <div className="blogs-filters-menu__content__title ui-medium-header">
-                    {t('BLOGS_FILTER_MENU_TITLE')}
-                </div>
                 <div className="blogs-filters-menu__content__entries">
                     <BlogsFiltersMenuCategories isSmall={isSmall} loading={loading} />
                     <BlogsFiltersMenuTags withSearchOn={withSearchOn} isSmall={isSmall} loading={loading} />

@@ -172,8 +172,8 @@ export const Blogs: FC = (): JSX.Element => {
         <div className="blogs">
             <div className="blogs-filters">
                 <div className="blogs-filters-wrapper">
-                    <BlogsFiltersBar />
                     <BlogsFiltersMenu loading={loading} />
+                    <BlogsFiltersBar />
                 </div>
             </div>
 
