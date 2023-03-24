@@ -39,7 +39,7 @@
         },
         {
             matchPackagePrefixes: ['redux', '@reduxjs/toolkit', '@types/redux', '@types/remote-redux-devtools'],
-            groupName: 'dependencies [react]'
+            groupName: 'dependencies [redux]'
         },
         {
             matchPackagePrefixes: ['@fluentui/'],
