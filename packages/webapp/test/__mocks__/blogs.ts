@@ -154,6 +154,12 @@ export const blogEntry = [
 ];
 
 export const uiEmpty = {
+    isLoading: true,
+    isFiltersMenuOpened: false,
+    filtersEntries: []
+};
+
+export const uiNoFiltersNoLoading = {
     isLoading: false,
     isFiltersMenuOpened: false,
     filtersEntries: []
@@ -173,6 +179,18 @@ export const initial = {
         pending: false
     },
     query: queryEmpty,
+    ui: uiNoFiltersNoLoading,
+    tags: []
+};
+
+export const initialWithLoading = {
+    result: {
+        data: [],
+        totalCount: -1,
+        error: noError,
+        pending: false
+    },
+    query: queryEmpty,
     ui: uiEmpty,
     tags: []
 };
@@ -185,7 +203,7 @@ export const initialWithPending = {
         pending: true
     },
     query: queryEmpty,
-    ui: uiEmpty,
+    ui: uiNoFiltersNoLoading,
     tags: []
 };
 
@@ -197,7 +215,7 @@ export const withNoDataNoError = {
         pending: false
     },
     query: queryEmpty,
-    ui: uiEmpty,
+    ui: uiNoFiltersNoLoading,
     tags: []
 };
 
@@ -209,7 +227,7 @@ export const withDataNoError = {
         pending: false
     },
     query: queryEmpty,
-    ui: uiEmpty,
+    ui: uiNoFiltersNoLoading,
     tags: []
 };
 
@@ -221,7 +239,7 @@ export const withNoDataWithError = {
         pending: false
     },
     query: queryEmpty,
-    ui: uiEmpty,
+    ui: uiNoFiltersNoLoading,
     tags: []
 };
 

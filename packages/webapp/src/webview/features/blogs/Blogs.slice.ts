@@ -34,6 +34,7 @@ import {
     blogsSearchTermChanged
 } from '../../store/actions';
 import type { RootState } from '../../store';
+import { truncate } from 'fs/promises';
 
 export const initialSearchState: BlogsState = {
     data: [],

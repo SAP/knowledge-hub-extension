@@ -233,8 +233,7 @@ export const Tutorials: FC = (): JSX.Element => {
             {!(loading || error || noResult) && (
                 <div className="tutorials-content">
                     <div className="tutorials-content-wrapper">
-                        {!(loading || error) &&
-                            tutorials &&
+                        {tutorials &&
                             tutorials.map((tutorial, index) => {
                                 return (
                                     <TutorialCard
@@ -250,7 +249,7 @@ export const Tutorials: FC = (): JSX.Element => {
                 </div>
             )}
 
-            {loading && <Loader delayed={false} label={t('TUTORIALS_LOADING_CONTENT')} />}
+            {loading && <Loader label={t('TUTORIALS_LOADING_CONTENT')} />}
             {error && !loading && <WithError />}
             {noResult && !loading && <NoResult />}
             {totalPageCount > 1 && (

@@ -189,8 +189,7 @@ export const Blogs: FC = (): JSX.Element => {
             {!(loading || error || noResult) && (
                 <div className="blogs-content">
                     <div className="blogs-content-wrapper">
-                        {!(loading || error) &&
-                            blogs &&
+                        {blogs &&
                             blogs.map((blog: BlogsSearchResultContentItem, index: number) => {
                                 return <BlogCard key={blog.id} blog={blog} onSelectedTag={onTagSelected} />;
                             })}

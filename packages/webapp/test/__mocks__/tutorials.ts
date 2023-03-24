@@ -207,6 +207,11 @@ const uiInitial = {
     isFiltersMenuOpened: false
 };
 
+const uiInitialWithLoading = {
+    isLoading: true,
+    isFiltersMenuOpened: false
+};
+
 export const initial = {
     result: {
         data: emptyData,
@@ -215,6 +220,17 @@ export const initial = {
     },
     query: queryEmpty,
     ui: uiInitial,
+    tags: tagsEmpty
+};
+
+export const initialWithLoading = {
+    result: {
+        data: emptyData,
+        error: noError,
+        pending: false
+    },
+    query: queryEmpty,
+    ui: uiInitialWithLoading,
     tags: tagsEmpty
 };
 

@@ -8,7 +8,7 @@ import { initIcons } from '@sap-ux/ui-components';
 import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import {
-    initial,
+    initialWithLoading,
     withNoDataNoError,
     withNoDataWithError,
     withDataNoError,
@@ -27,19 +27,17 @@ describe('Blogs', () => {
 
     test('render a Blogs component initial, do the fetch call', () => {
         const renderBlogsInitial = (): RenderResult =>
-            renderWithRouter(<Blogs />, { initialState: { blogs: initial } });
+            renderWithRouter(<Blogs />, { initialState: { blogs: initialWithLoading } });
 
         act(() => {
             renderBlogsInitial();
         });
 
-        screen.debug();
-
         const headerText = screen.getByText('BLOGS_TITLE');
         expect(headerText.className).toEqual('blogs-header-title');
 
-        const noResultTitleDOM = screen.getByText(/NO_RESULT_DESCRIPTION/i);
-        expect(noResultTitleDOM.className).toMatch(/no-result-sub-title ui-medium-text/i);
+        const loadingTitleDOM = screen.getByText(/BLOGS_LOADING_CONTENT/i);
+        expect(loadingTitleDOM.className).toContain('ms-Spinner-label');
     });
 
     test('render a Blogs component with data', () => {
