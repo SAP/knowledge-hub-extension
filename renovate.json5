@@ -34,29 +34,40 @@
 
     packageRules: [
         {
+            matchPackagePrefixes: ['react', '@types/react'],
+            groupName: 'dependencies [react]'
+        },
+        {
+            matchPackagePrefixes: ['redux', '@reduxjs/toolkit', '@types/redux', '@types/remote-redux-devtools'],
+            groupName: 'dependencies [react]'
+        },
+        {
+            matchPackagePrefixes: ['@fluentui/'],
+            groupName: 'dependencies [fluentui]'
+        },
+        {
+            matchPackagePrefixes: ['@testing-library/', '@types/testing-library'],
+            groupName: 'dependencies [testing-library]'
+        },
+        {
             matchPackagePrefixes: ['eslint', '@typescript-eslint/', 'lint-staged'],
-            matchDepTypes: ['devDependencies'],
-            groupName: 'dev dependencies [eslint]'
+            groupName: 'dependencies [eslint]'
         },
         {
             matchPackageNames: ['prettier', 'pretty-quick'],
-            matchDepTypes: ['devDependencies'],
-            groupName: 'dev dependencies [prettier]'
+            groupName: 'dependencies [prettier]'
         },
         {
             matchPackagePrefixes: ['jest', '@types/jest'],
-            matchDepTypes: ['devDependencies'],
-            groupName: 'dev dependencies [jest]'
+            groupName: 'dependencies [jest]'
         },
         {
             matchPackagePrefixes: ['esbuild'],
-            matchDepTypes: ['devDependencies'],
-            groupName: 'dev dependencies [esbuild]'
+            groupName: 'dependencies [esbuild]'
         },
         {
             matchPackagePrefixes: ['@commitlint/'],
-            matchDepTypes: ['devDependencies'],
-            groupName: 'dev dependencies [commitlint]'
+            groupName: 'dependencies [commitlint]'
         }
     ]
 }
