@@ -1,6 +1,6 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { fetchBlogs, BLOGS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
+import { BlogFiltersEntryType, fetchBlogs, BLOGS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 import type {
     Blogs,
     BlogsState,
@@ -14,7 +14,6 @@ import type {
     ErrorAction,
     PendingAction
 } from '@sap/knowledge-hub-extension-types';
-import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
 import {
     blogsPageChanged,

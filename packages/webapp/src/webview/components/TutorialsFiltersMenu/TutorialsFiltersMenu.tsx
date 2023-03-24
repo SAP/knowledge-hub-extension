@@ -1,12 +1,16 @@
 import React from 'react';
 import type { FC } from 'react';
 
-import { TutorialsUiState } from '@sap/knowledge-hub-extension-types';
+import {
+    TutorialsUiState,
+    TutorialsFacets,
+    TutorialsTags,
+    TUTORIALS_FILTERS_LABELS
+} from '@sap/knowledge-hub-extension-types';
 
 import { useAppSelector } from '../../store';
 import { getTutorialsUI } from '../../features/tutorials/Tutorials.slice';
 
-import { TutorialsFacets, TutorialsTags, TUTORIALS_FILTERS_LABELS } from '@sap/knowledge-hub-extension-types';
 import { TutorialsFiltersMenuEntries } from './TutorialsFiltersMenuEntries';
 
 import './TutorialsFiltersMenu.scss';
