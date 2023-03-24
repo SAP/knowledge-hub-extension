@@ -14,7 +14,6 @@
         ':rebaseStalePrs',
         ':semanticCommits',
         ':semanticPrefixChore',
-        ':separateMultipleMajorReleases',
         ':timezone(America/Los_Angeles)',
         ':updateNotScheduled',
         'workarounds:typesNodeVersioning'
