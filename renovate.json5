@@ -34,27 +34,27 @@
 
     packageRules: [
         {
-            matchPackagePatterns: ['^eslint', '^@typescript/eslint', 'lint-staged'],
+            matchPackagePrefixes: ['eslint', '@typescript-eslint/', 'lint-staged'],
             matchDepTypes: ['devDependencies'],
             groupName: 'dev dependencies [eslint]'
         },
         {
-            matchPackagePatterns: ['prettier', 'pretty-quick'],
+            matchPackageNames: ['prettier', 'pretty-quick'],
             matchDepTypes: ['devDependencies'],
             groupName: 'dev dependencies [prettier]'
         },
         {
-            matchPackagePatterns: ['jest', '@types/jest'],
+            matchPackagePrefixes: ['jest', '@types/jest'],
             matchDepTypes: ['devDependencies'],
             groupName: 'dev dependencies [jest]'
         },
         {
-            matchPackagePatterns: ['^esbuild'],
+            matchPackagePrefixes: ['esbuild'],
             matchDepTypes: ['devDependencies'],
             groupName: 'dev dependencies [esbuild]'
         },
         {
-            matchPackagePatterns: ['^@commitlint'],
+            matchPackagePrefixes: ['@commitlint/'],
             matchDepTypes: ['devDependencies'],
             groupName: 'dev dependencies [commitlint]'
         }
