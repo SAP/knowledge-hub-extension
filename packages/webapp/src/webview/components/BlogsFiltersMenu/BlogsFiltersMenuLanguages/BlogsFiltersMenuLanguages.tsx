@@ -1,21 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+
 import { UIChoiceGroup, ChoiceGroupOption } from '@sap-ux/ui-components';
 
-import type { BlogFiltersEntry } from '@sap/knowledge-hub-extension-types';
-import {
-    supportedLanguages,
-    allLanguages,
-    LanguageId,
-    BlogFiltersEntryType,
-    BlogsSearchQuery
-} from '@sap/knowledge-hub-extension-types';
+import { supportedLanguages } from '@sap/knowledge-hub-extension-types';
 
-import { store, actions, useAppSelector } from '../../../store';
+import { useAppSelector } from '../../../store';
 import { getBlogsLanguage } from '../../../features/blogs/Blogs.slice';
-import { blogsLanguageUpdate, blogsFilterEntryAdd, blogsLoading } from '../../../store/actions';
+import { onLanguageSelected } from '../../../features/blogs/Blogs.utils';
 
 import { Loader } from '../../Loader';
 
@@ -28,35 +21,8 @@ export type BlogsFiltersMenuLanguagesProps = {
 
 export const BlogsFiltersMenuLanguages: FC<BlogsFiltersMenuLanguagesProps> = ({ isSmall, loading }) => {
     const { t } = useTranslation();
-    const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(loading);
     const activeLanguage: string | null = useAppSelector(getBlogsLanguage);
-
-    /**
-     * Fetch blogs data.
-     *
-     * @param {BlogsSearchQuery} option - blogs search query
-     */
-    const fetchData = (option: BlogsSearchQuery) => {
-        dispatch(blogsLoading(true));
-        actions.blogsFetchBlogs(option, false);
-    };
-
-    const onLanguageSelected = (language: string): void => {
-        const state = store.getState();
-        const currentQuery = state.blogs.query;
-        const filterEntry: BlogFiltersEntry = {
-            id: language,
-            label: allLanguages[language as LanguageId].text,
-            type: BlogFiltersEntryType.LANGUAGE
-        };
-
-        dispatch(blogsFilterEntryAdd(filterEntry));
-        dispatch(blogsLanguageUpdate(language));
-
-        const options: BlogsSearchQuery = Object.assign({}, currentQuery, { language: language });
-        fetchData(options);
-    };
 
     const handleLanguageClick = useCallback(
         (_evt?: React.FormEvent<HTMLInputElement | HTMLElement>, option?: ChoiceGroupOption | undefined) => {

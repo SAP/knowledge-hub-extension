@@ -7,24 +7,21 @@ import type {
     BlogsState,
     BlogsSearchQuery,
     BlogsSearchResultContentItem,
-    BlogFiltersEntry,
-    Tag
+    BlogFiltersEntry
 } from '@sap/knowledge-hub-extension-types';
 import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
 import {
     blogsPageChanged,
     blogsManagedTagsAdd,
-    blogsManagedTagsDelete,
     blogsTagsAdd,
     blogsFilterEntryAdd,
-    blogsFilterEntryDelete,
     blogsSearchTermChanged
 } from '../../store/actions';
-import { store, actions, useAppSelector } from '../../store';
+import { store, useAppSelector } from '../../store';
 import { getBlogs, getBlogsQuery, getManagedTags, getBlogsUIIsLoading } from './Blogs.slice';
 import { getTagsData } from '../tags/Tags.slice';
-import { isManagedTag, getBlogsTagById } from './blogs.utils';
+import { fetchData, isManagedTag, getBlogsTagById, onTagSelected } from './Blogs.utils';
 import { getSearchTerm } from '../search/Search.slice';
 
 import type { UIPaginationSelected } from '../../components/UI/UIPagination';
@@ -61,17 +58,6 @@ export const Blogs: FC = (): JSX.Element => {
     const [totalEntries, setTotalEntries] = useState(0);
     const [pageOffset, setPageOffset] = useState(activeQuery.page);
 
-    /**
-     * Fetch blogs data.
-     *
-     * @param {BlogsSearchQuery} option - blogs search query
-     */
-    const fetchData = (option: BlogsSearchQuery) => {
-        const options = Object.assign({}, activeQuery, option);
-        setLoading(true);
-        actions.blogsFetchBlogs(options, false);
-    };
-
     const handlePageClick = useCallback((event: UIPaginationSelected) => {
         const options: BlogsSearchQuery = {};
         options.page = event.selected;
@@ -81,38 +67,6 @@ export const Blogs: FC = (): JSX.Element => {
 
         fetchData(options);
     }, []);
-
-    const onTagSelected = (tag: Tag, checked: boolean): void => {
-        const state = store.getState();
-        const currentQuery = state.blogs.query;
-        const currentBlogManagedTags: string[] = Object.assign([], currentQuery.managedTags);
-        let blogTags: string[] = [];
-        const filterEntry: BlogFiltersEntry = {
-            id: tag.guid,
-            label: tag.displayName,
-            type: BlogFiltersEntryType.TAG
-        };
-
-        if (checked) {
-            if (currentBlogManagedTags.length > 0) {
-                if (!currentBlogManagedTags.find((element: string) => element === tag.guid)) {
-                    blogTags = currentBlogManagedTags;
-                    blogTags.push(tag.guid);
-                }
-            } else {
-                blogTags = [tag.guid];
-            }
-            dispatch(blogsFilterEntryAdd(filterEntry));
-            dispatch(blogsManagedTagsAdd(tag.guid));
-        } else {
-            blogTags = currentBlogManagedTags.filter((element: string) => element !== tag.guid);
-            dispatch(blogsFilterEntryDelete(filterEntry.id));
-            dispatch(blogsManagedTagsDelete(tag.guid));
-        }
-        dispatch(blogsTagsAdd(tag));
-        const options: BlogsSearchQuery = Object.assign({}, currentQuery, { managedTags: blogTags });
-        fetchData(options);
-    };
 
     useEffect(() => {
         const state = store.getState();

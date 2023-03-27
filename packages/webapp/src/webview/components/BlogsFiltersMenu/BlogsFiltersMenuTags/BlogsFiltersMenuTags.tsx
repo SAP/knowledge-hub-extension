@@ -1,24 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 
 import { UICheckbox, UISearchBox } from '@sap-ux/ui-components';
 
-import type { BlogFiltersEntry } from '@sap/knowledge-hub-extension-types';
-import { Tag, BlogFiltersEntryType, BlogsSearchQuery } from '@sap/knowledge-hub-extension-types';
+import { Tag } from '@sap/knowledge-hub-extension-types';
 
-import { store, actions, useAppSelector } from '../../../store';
+import { useAppSelector } from '../../../store';
 import { getManagedTags } from '../../../features/blogs/Blogs.slice';
+import { onTagSelected } from '../../../features/blogs/Blogs.utils';
 import { getTagsData } from '../../../features/tags/Tags.slice';
-import {
-    blogsManagedTagsAdd,
-    blogsManagedTagsDelete,
-    blogsFilterEntryAdd,
-    blogsFilterEntryDelete,
-    blogsTagsAdd,
-    blogsLoading
-} from '../../../store/actions';
 
 import { Loader } from '../../Loader';
 
@@ -36,22 +27,12 @@ export const BlogsFiltersMenuTags: FC<BlogsFiltersMenuTagsProps> = ({
     loading
 }): JSX.Element => {
     const { t } = useTranslation();
-    const dispatch = useDispatch();
+
     const activeTags: string[] | undefined = useAppSelector(getManagedTags);
     const tags = useAppSelector(getTagsData);
 
     const [listTags, setListTags] = useState(tags);
     const [isLoading, setIsLoading] = useState(loading);
-
-    /**
-     * Fetch blogs data.
-     *
-     * @param {BlogsSearchQuery} option - blogs search query
-     */
-    const fetchData = (option: BlogsSearchQuery) => {
-        dispatch(blogsLoading(true));
-        actions.blogsFetchBlogs(option, false);
-    };
 
     const handleTagIdClick = useCallback(
         (tag: Tag) => (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, isChecked?: boolean) => {
@@ -94,38 +75,6 @@ export const BlogsFiltersMenuTags: FC<BlogsFiltersMenuTagsProps> = ({
         },
         [activeTags]
     );
-
-    const onTagSelected = (tag: Tag, checked: boolean): void => {
-        const state = store.getState();
-        const currentQuery = state.blogs.query;
-        const currentBlogManagedTags: string[] = Object.assign([], currentQuery.managedTags);
-        let blogTags: string[] = [];
-        const filterEntry: BlogFiltersEntry = {
-            id: tag.guid,
-            label: tag.displayName,
-            type: BlogFiltersEntryType.TAG
-        };
-
-        if (checked) {
-            if (currentBlogManagedTags.length > 0) {
-                if (!currentBlogManagedTags.find((element: string) => element === tag.guid)) {
-                    blogTags = currentBlogManagedTags;
-                    blogTags.push(tag.guid);
-                }
-            } else {
-                blogTags = [tag.guid];
-            }
-            dispatch(blogsFilterEntryAdd(filterEntry));
-            dispatch(blogsManagedTagsAdd(tag.guid));
-        } else {
-            blogTags = currentBlogManagedTags.filter((element: string) => element !== tag.guid);
-            dispatch(blogsFilterEntryDelete(filterEntry.id));
-            dispatch(blogsManagedTagsDelete(tag.guid));
-        }
-        dispatch(blogsTagsAdd(tag));
-        const options: BlogsSearchQuery = Object.assign({}, currentQuery, { managedTags: blogTags });
-        fetchData(options);
-    };
 
     useEffect(() => {
         setIsLoading(loading);
