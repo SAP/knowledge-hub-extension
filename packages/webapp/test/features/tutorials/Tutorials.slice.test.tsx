@@ -3,7 +3,7 @@ import type { Tutorials } from '@sap/knowledge-hub-extension-types';
 import reducer from '../../../src/webview/features/tutorials/Tutorials.slice';
 import { tutorialsPageChanged } from '../../../src/webview/store/actions';
 import {
-    initial,
+    tutorialsInitialState,
     tutorialsData,
     withDataNoErrorNoTags,
     withNoDataWithError,
@@ -11,7 +11,7 @@ import {
 } from '../../../test/__mocks__/tutorials';
 
 describe('tutorials slice', () => {
-    const initialState: Tutorials = initial;
+    const initialState: Tutorials = tutorialsInitialState;
 
     describe('tutorials slice > actions', () => {
         test('fetchTutorials', () => {

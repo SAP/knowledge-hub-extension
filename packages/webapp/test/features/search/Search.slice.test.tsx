@@ -1,6 +1,7 @@
-import type { Search } from '@sap/knowledge-hub-extension-types';
 import reducer from '../../../src/webview/features/search/Search.slice';
 import { searchTermChanged } from '../../../src/webview/store/actions';
+
+import { searchInitialState } from '../../__mocks__/search';
 
 describe('Search slice', () => {
     describe('Search slice > actions', () => {
@@ -14,13 +15,9 @@ describe('Search slice', () => {
     });
 
     describe('Search slice > reducer', () => {
-        const initialState: Search = {
-            term: ''
-        };
-
         describe('Search slice > reducer > SearchResult', () => {
             const state = { term: 'test' };
-            expect(reducer(initialState, searchTermChanged('test'))).toEqual(state);
+            expect(reducer(searchInitialState, searchTermChanged('test'))).toEqual(state);
         });
     });
 });

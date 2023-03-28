@@ -156,7 +156,7 @@ export const blogsNoDataNoError = {
 
 // Home state
 
-export const stateInitial = {
+export const homeInitialState = {
     blogs: blogsInitialsWithPending,
     tutorials: tutorialsNoErrorWithPending
 };

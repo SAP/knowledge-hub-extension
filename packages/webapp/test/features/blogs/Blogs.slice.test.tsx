@@ -10,7 +10,7 @@ import {
 } from '../../../src/webview/store/actions';
 
 import {
-    initial,
+    blogsInitialState,
     blogsData,
     withDataNoError,
     withNoDataWithError,
@@ -18,7 +18,7 @@ import {
 } from '../../../test/__mocks__/blogs';
 
 describe('blogs slice', () => {
-    const initialState: Blogs = initial;
+    const initialState: Blogs = blogsInitialState;
 
     describe('blogs slice > actions', () => {
         test('fetchblogs', () => {

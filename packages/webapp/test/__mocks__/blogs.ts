@@ -174,7 +174,7 @@ export const uiWithFilters = {
     filtersEntries: filtersWithData
 };
 
-export const initial = {
+export const blogsInitialState = {
     result: {
         data: [],
         totalCount: -1,

@@ -9,7 +9,7 @@ import { initIcons } from '@sap-ux/ui-components';
 import { initLCIcons } from '../../../../src/webview/Icons/icons';
 
 import { withDataWithTags } from '../../../__mocks__/blogs';
-import { tagsInitial } from '../../../__mocks__/tags';
+import { tagsWithTags } from '../../../__mocks__/tags';
 import { render } from '../../../__mocks__/store.mock';
 
 import { BlogsFiltersMenuTags } from '../../../../src/webview/components/BlogsFiltersMenu/BlogsFiltersMenuTags';
@@ -22,7 +22,7 @@ describe('BlogsFiltersMenuTags', () => {
 
     const renderBlogsFiltersMenuTags = (withSearchOn: boolean, loading: boolean, isSmall: boolean): RenderResult =>
         render(<BlogsFiltersMenuTags withSearchOn={withSearchOn} loading={loading} isSmall={isSmall} />, {
-            initialState: { blogs: withDataWithTags, tags: tagsInitial }
+            initialState: { blogs: withDataWithTags, tags: tagsWithTags }
         });
 
     test('test if the BlogsFiltersMenuTags render is ok with data - small size', () => {

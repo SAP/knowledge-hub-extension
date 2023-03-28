@@ -212,7 +212,7 @@ const uiInitialWithLoading = {
     isFiltersMenuOpened: false
 };
 
-export const initial = {
+export const tutorialsInitialState = {
     result: {
         data: emptyData,
         error: noError,
