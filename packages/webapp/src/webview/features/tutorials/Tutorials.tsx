@@ -67,15 +67,17 @@ export const Tutorials: FC = (): JSX.Element => {
         actions.tutorialsFetchTutorials(options, false);
     };
 
-    const handlePageClick = useCallback((event: any) => {
-        const options: TutorialsSearchQuery = {};
-        options.start = event.selected;
+    const handlePageClick = useCallback(
+        (event: any) => {
+            const options: TutorialsSearchQuery = Object.assign({}, activeQuery, { start: event.selected });
 
-        dispatch(tutorialsPageChanged(event.selected));
-        setPageOffset(event.selected);
+            dispatch(tutorialsPageChanged(event.selected));
+            setPageOffset(event.selected);
 
-        fetchData(options);
-    }, []);
+            fetchData(options);
+        },
+        [activeQuery]
+    );
 
     const onTagSelected = (tagId: string): void => {
         const state = store.getState();

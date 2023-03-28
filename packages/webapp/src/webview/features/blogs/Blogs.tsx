@@ -58,15 +58,17 @@ export const Blogs: FC = (): JSX.Element => {
     const [totalEntries, setTotalEntries] = useState(0);
     const [pageOffset, setPageOffset] = useState(activeQuery.page);
 
-    const handlePageClick = useCallback((event: UIPaginationSelected) => {
-        const options: BlogsSearchQuery = {};
-        options.page = event.selected;
+    const handlePageClick = useCallback(
+        (event: UIPaginationSelected) => {
+            const options: BlogsSearchQuery = Object.assign({}, activeQuery, { page: event.selected });
 
-        dispatch(blogsPageChanged(event.selected));
-        setPageOffset(event.selected);
+            dispatch(blogsPageChanged(event.selected));
+            setPageOffset(event.selected);
 
-        fetchData(options);
-    }, []);
+            fetchData(options);
+        },
+        [activeQuery]
+    );
 
     useEffect(() => {
         const state = store.getState();
