@@ -1,12 +1,35 @@
-import { fetchBlogs } from '@sap/knowledge-hub-extension-types';
+import { fetchBlogs, BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 import type { Blogs } from '@sap/knowledge-hub-extension-types';
 import reducer from '../../../src/webview/features/blogs/Blogs.slice';
+import {
+    getBlogs,
+    getBlogsError,
+    getBlogsQuery,
+    getBlogsUI,
+    getBlogsUIIsLoading,
+    getBlogsUIFiltersEntries,
+    getManagedTags,
+    getBlogsLanguage,
+    getBlogsCategories,
+    getBlogsTags,
+    getBlogsSearchTerm
+} from '../../../src/webview/features/blogs/Blogs.slice';
+
 import {
     blogsPageChanged,
     blogsManagedTagsAdd,
     blogsManagedTagsDelete,
     blogsManagedTagsDeleteAll,
-    blogsTagsAdd
+    blogsLanguageUpdate,
+    blogsCategoryAdd,
+    blogsCategoryDelete,
+    blogsCategoryDeleteAll,
+    blogsTagsAdd,
+    blogsFiltersSelected,
+    blogsLoading,
+    blogsFilterEntryAdd,
+    blogsFilterEntryDelete,
+    blogsFilterEntryDeleteAll
 } from '../../../src/webview/store/actions';
 
 import {
@@ -16,6 +39,7 @@ import {
     withNoDataWithError,
     initialWithPending
 } from '../../../test/__mocks__/blogs';
+import { rootState } from '../../../test/__mocks__/store.mock';
 
 describe('blogs slice', () => {
     const initialState: Blogs = blogsInitialState;
@@ -49,7 +73,7 @@ describe('blogs slice', () => {
             });
         });
 
-        describe('blogs slice > reducer > blogsUi', () => {
+        describe('blogs slice > reducer > blogsQuery', () => {
             test('blogs page changed action', () => {
                 const state = Object.assign({}, initialState, {
                     query: {
@@ -60,7 +84,7 @@ describe('blogs slice', () => {
                 expect(reducer(initialState, blogsPageChanged(1))).toEqual(state);
             });
 
-            test('blogs add tags action - state no previous tags', () => {
+            test('blogs add tags action - blogsManagedTagsAdd - state no previous tags', () => {
                 const state = Object.assign({}, initialState, {
                     query: {
                         ...initialState.query,
@@ -70,7 +94,7 @@ describe('blogs slice', () => {
                 expect(reducer(initialState, blogsManagedTagsAdd('testTag'))).toEqual(state);
             });
 
-            test('blogs add tags action - state with previous tags', () => {
+            test('blogs add tags action - blogsManagedTagsAdd - state with previous tags', () => {
                 const state = Object.assign({}, initialState, {
                     query: {
                         ...initialState.query,
@@ -86,7 +110,7 @@ describe('blogs slice', () => {
                 expect(reducer(state, blogsManagedTagsAdd('testTag1'))).toEqual(newState);
             });
 
-            test('blogs delete tags action - state with previous tags', () => {
+            test('blogs delete tags action - blogsManagedTagsDelete - state with previous tags', () => {
                 const state = Object.assign({}, initialState, {
                     query: {
                         ...initialState.query,
@@ -102,7 +126,7 @@ describe('blogs slice', () => {
                 expect(reducer(state, blogsManagedTagsDelete('testTag'))).toEqual(newState);
             });
 
-            test('blogs delete all tags action - state with previous tags', () => {
+            test('blogs delete all tags action - blogsManagedTagsDeleteAll -state with previous tags', () => {
                 const state = Object.assign({}, initialState, {
                     query: {
                         ...initialState.query,
@@ -117,6 +141,69 @@ describe('blogs slice', () => {
                 });
                 expect(reducer(state, blogsManagedTagsDeleteAll(null))).toEqual(newState);
             });
+
+            test('blogs update language action - blogsLanguageUpdate', () => {
+                const uiInitialState = Object.assign({}, initialState);
+                const state = Object.assign({}, initialState, {
+                    query: {
+                        ...initialState.query,
+                        language: 'en'
+                    }
+                });
+                expect(reducer(uiInitialState, blogsLanguageUpdate('en'))).toEqual(state);
+            });
+
+            test('blogs add category action - blogsCategoryAdd - state no previous category', () => {
+                const uiInitialState = Object.assign({}, initialState);
+                const state = Object.assign({}, initialState, {
+                    query: {
+                        ...initialState.query,
+                        blogCategories: ['tag1']
+                    }
+                });
+                expect(reducer(uiInitialState, blogsCategoryAdd('tag1'))).toEqual(state);
+            });
+
+            test('blogs add category action - blogsCategoryAdd - state with previous category', () => {
+                const uiInitialState = Object.assign({}, initialState, {
+                    query: { ...initialState.query, blogCategories: ['tag1'] }
+                });
+                const state = Object.assign({}, initialState, {
+                    query: {
+                        ...initialState.query,
+                        blogCategories: ['tag1', 'tag2']
+                    }
+                });
+                expect(reducer(uiInitialState, blogsCategoryAdd('tag2'))).toEqual(state);
+            });
+
+            test('blogs delete category action - blogsCategoryDelete', () => {
+                const uiInitialState = Object.assign({}, initialState, {
+                    query: { ...initialState.query, blogCategories: ['tag1', 'tag2', 'tag3'] }
+                });
+                const state = Object.assign({}, initialState, {
+                    query: {
+                        ...initialState.query,
+                        blogCategories: ['tag1', 'tag3']
+                    }
+                });
+                expect(reducer(uiInitialState, blogsCategoryDelete('tag2'))).toEqual(state);
+            });
+
+            test('blogs delete all category action - blogsCategoryDeleteAll', () => {
+                const uiInitialState = Object.assign({}, initialState, {
+                    query: { ...initialState.query, blogCategories: ['tag1', 'tag2', 'tag3'] }
+                });
+                const state = Object.assign({}, initialState, {
+                    query: {
+                        ...initialState.query,
+                        blogCategories: []
+                    }
+                });
+                expect(reducer(uiInitialState, blogsCategoryDeleteAll(''))).toEqual(state);
+            });
+
+            test('blogs update search term action - blogsSearchTermChanged', () => {});
         });
 
         describe('blogs slice > reducer > blogsTags', () => {
@@ -162,6 +249,325 @@ describe('blogs slice', () => {
                 });
                 expect(reducer(state, blogsTagsAdd(tags[0]))).toEqual(newState);
             });
+        });
+
+        describe('blogs slice > reducer > blogsUI', () => {
+            test('blogs is filter menu opened - blogsFiltersSelected', () => {
+                const state = Object.assign({}, initialState, {
+                    ui: { isLoading: false, isFiltersMenuOpened: true, filtersEntries: [] }
+                });
+                expect(reducer(initialState, blogsFiltersSelected(true))).toEqual(state);
+            });
+
+            test('blogs is filter loading - blogsLoading', () => {
+                const state = Object.assign({}, initialState, {
+                    ui: { isLoading: true, isFiltersMenuOpened: false, filtersEntries: [] }
+                });
+                expect(reducer(initialState, blogsLoading(true))).toEqual(state);
+            });
+
+            describe('blogs add entry to filter - blogsFilterEntryAdd', () => {
+                test('blogs add entry to filter - blogsFilterEntryAdd - filter not empty add a tag', () => {
+                    const uiInitialState = Object.assign({}, initialState, {
+                        ui: {
+                            isLoading: false,
+                            isFiltersMenuOpened: false,
+                            filtersEntries: [
+                                {
+                                    id: 'tag1',
+                                    label: 'Tag 1',
+                                    type: BlogFiltersEntryType.TAG
+                                },
+
+                                {
+                                    id: 'tag3',
+                                    label: 'Tag 3',
+                                    type: BlogFiltersEntryType.TAG
+                                }
+                            ]
+                        }
+                    });
+                    const state = Object.assign({}, initialState, {
+                        ui: {
+                            isLoading: false,
+                            isFiltersMenuOpened: false,
+                            filtersEntries: [
+                                {
+                                    id: 'tag1',
+                                    label: 'Tag 1',
+                                    type: BlogFiltersEntryType.TAG
+                                },
+                                {
+                                    id: 'tag3',
+                                    label: 'Tag 3',
+                                    type: BlogFiltersEntryType.TAG
+                                },
+                                {
+                                    id: 'tag2',
+                                    label: 'Tag 2',
+                                    type: BlogFiltersEntryType.TAG
+                                }
+                            ]
+                        }
+                    });
+                    expect(
+                        reducer(
+                            uiInitialState,
+                            blogsFilterEntryAdd({
+                                id: 'tag2',
+                                label: 'Tag 2',
+                                type: BlogFiltersEntryType.TAG
+                            })
+                        )
+                    ).toEqual(state);
+                });
+
+                test('blogs add entry to filter - blogsFilterEntryAdd - filter empty add a tag', () => {
+                    const uiInitialState = Object.assign({}, initialState, {
+                        ui: {
+                            isLoading: false,
+                            isFiltersMenuOpened: false,
+                            filtersEntries: []
+                        }
+                    });
+                    const state = Object.assign({}, initialState, {
+                        ui: {
+                            isLoading: false,
+                            isFiltersMenuOpened: false,
+                            filtersEntries: [
+                                {
+                                    id: 'tag2',
+                                    label: 'Tag 2',
+                                    type: BlogFiltersEntryType.TAG
+                                }
+                            ]
+                        }
+                    });
+                    expect(
+                        reducer(
+                            uiInitialState,
+                            blogsFilterEntryAdd({
+                                id: 'tag2',
+                                label: 'Tag 2',
+                                type: BlogFiltersEntryType.TAG
+                            })
+                        )
+                    ).toEqual(state);
+                });
+
+                test('blogs add entry to filter - blogsFilterEntryAdd - filter not empty add a language', () => {
+                    const uiInitialState = Object.assign({}, initialState, {
+                        ui: {
+                            isLoading: false,
+                            isFiltersMenuOpened: false,
+                            filtersEntries: [
+                                {
+                                    id: 'tag1',
+                                    label: 'Tag 1',
+                                    type: BlogFiltersEntryType.TAG
+                                },
+                                {
+                                    id: 'tag2',
+                                    label: 'Tag 2',
+                                    type: BlogFiltersEntryType.LANGUAGE
+                                },
+                                {
+                                    id: 'tag3',
+                                    label: 'Tag 3',
+                                    type: BlogFiltersEntryType.TAG
+                                }
+                            ]
+                        }
+                    });
+                    const state = Object.assign({}, initialState, {
+                        ui: {
+                            isLoading: false,
+                            isFiltersMenuOpened: false,
+                            filtersEntries: [
+                                {
+                                    id: 'tag1',
+                                    label: 'Tag 1',
+                                    type: BlogFiltersEntryType.TAG
+                                },
+                                {
+                                    id: 'tag4',
+                                    label: 'Tag 4',
+                                    type: BlogFiltersEntryType.LANGUAGE
+                                },
+                                {
+                                    id: 'tag3',
+                                    label: 'Tag 3',
+                                    type: BlogFiltersEntryType.TAG
+                                }
+                            ]
+                        }
+                    });
+                    expect(
+                        reducer(
+                            uiInitialState,
+                            blogsFilterEntryAdd({
+                                id: 'tag4',
+                                label: 'Tag 4',
+                                type: BlogFiltersEntryType.LANGUAGE
+                            })
+                        )
+                    ).toEqual(state);
+                });
+
+                test('blogs add entry to filter - blogsFilterEntryAdd - filter empty add a language', () => {
+                    const uiInitialState = Object.assign({}, initialState, {
+                        ui: {
+                            isLoading: false,
+                            isFiltersMenuOpened: false,
+                            filtersEntries: [
+                                {
+                                    id: 'tag1',
+                                    label: 'Tag 1',
+                                    type: BlogFiltersEntryType.TAG
+                                }
+                            ]
+                        }
+                    });
+                    const state = Object.assign({}, initialState, {
+                        ui: {
+                            isLoading: false,
+                            isFiltersMenuOpened: false,
+                            filtersEntries: [
+                                {
+                                    id: 'tag1',
+                                    label: 'Tag 1',
+                                    type: BlogFiltersEntryType.TAG
+                                },
+                                {
+                                    id: 'tag2',
+                                    label: 'Tag 2',
+                                    type: BlogFiltersEntryType.LANGUAGE
+                                }
+                            ]
+                        }
+                    });
+                    expect(
+                        reducer(
+                            uiInitialState,
+                            blogsFilterEntryAdd({
+                                id: 'tag2',
+                                label: 'Tag 2',
+                                type: BlogFiltersEntryType.LANGUAGE
+                            })
+                        )
+                    ).toEqual(state);
+                });
+            });
+            test('blogs delete entry to filter - blogsFilterEntryDelete', () => {
+                const uiInitialState = Object.assign({}, initialState, {
+                    ui: {
+                        isLoading: false,
+                        isFiltersMenuOpened: false,
+                        filtersEntries: [
+                            {
+                                id: 'tag1',
+                                label: 'Tag 1',
+                                type: BlogFiltersEntryType.TAG
+                            },
+                            {
+                                id: 'tag2',
+                                label: 'Tag 2',
+                                type: BlogFiltersEntryType.TAG
+                            },
+                            {
+                                id: 'tag3',
+                                label: 'Tag 3',
+                                type: BlogFiltersEntryType.TAG
+                            }
+                        ]
+                    }
+                });
+                const state = Object.assign({}, initialState, {
+                    ui: {
+                        isLoading: false,
+                        isFiltersMenuOpened: false,
+                        filtersEntries: [
+                            {
+                                id: 'tag1',
+                                label: 'Tag 1',
+                                type: BlogFiltersEntryType.TAG
+                            },
+                            {
+                                id: 'tag3',
+                                label: 'Tag 3',
+                                type: BlogFiltersEntryType.TAG
+                            }
+                        ]
+                    }
+                });
+                expect(reducer(uiInitialState, blogsFilterEntryDelete('tag2'))).toEqual(state);
+            });
+
+            test('blogs delete all entries in filter- blogsFilterEntryDeleteAll', () => {
+                const uiInitialState = Object.assign({}, initialState, {
+                    ui: {
+                        isLoading: false,
+                        isFiltersMenuOpened: false,
+                        filtersEntries: [
+                            {
+                                id: 'tag1',
+                                label: 'Tag 1',
+                                type: BlogFiltersEntryType.TAG
+                            },
+                            {
+                                id: 'tag2',
+                                label: 'Tag 2',
+                                type: BlogFiltersEntryType.TAG
+                            },
+                            {
+                                id: 'tag3',
+                                label: 'Tag 3',
+                                type: BlogFiltersEntryType.TAG
+                            }
+                        ]
+                    }
+                });
+                const state = Object.assign({}, initialState, {
+                    ui: { isLoading: false, isFiltersMenuOpened: false, filtersEntries: [] }
+                });
+                expect(reducer(uiInitialState, blogsFilterEntryDeleteAll(''))).toEqual(state);
+            });
+        });
+    });
+
+    describe('blogs slice > selectors', () => {
+        test('getBlogs', () => {
+            expect(getBlogs(rootState)).toEqual(blogsInitialState.result);
+        });
+        test('getBlogsError', () => {
+            expect(getBlogsError(rootState)).toEqual(blogsInitialState.result.error);
+        });
+        test('getBlogsQuery', () => {
+            expect(getBlogsQuery(rootState)).toEqual(blogsInitialState.query);
+        });
+        test('getBlogsUI', () => {
+            expect(getBlogsUI(rootState)).toEqual(blogsInitialState.ui);
+        });
+        test('getBlogsUIIsLoading', () => {
+            expect(getBlogsUIIsLoading(rootState)).toEqual(blogsInitialState.ui.isLoading);
+        });
+        test('getBlogsUIFiltersEntries', () => {
+            expect(getBlogsUIFiltersEntries(rootState)).toEqual(blogsInitialState.ui.filtersEntries);
+        });
+        test('getManagedTags', () => {
+            expect(getManagedTags(rootState)).toEqual(blogsInitialState.query.managedTags);
+        });
+        test('getBlogsLanguage', () => {
+            expect(getBlogsLanguage(rootState)).toEqual(blogsInitialState.query.language || '');
+        });
+        test('getBlogsCategories', () => {
+            expect(getBlogsCategories(rootState)).toEqual(blogsInitialState.query.blogCategories);
+        });
+        test('getBlogsTags', () => {
+            expect(getBlogsTags(rootState)).toEqual(blogsInitialState.tags);
+        });
+        test('getBlogsSearchTerm', () => {
+            expect(getBlogsSearchTerm(rootState)).toEqual(blogsInitialState.query.searchTerm);
         });
     });
 });
