@@ -126,7 +126,7 @@ describe('blogs slice', () => {
                 expect(reducer(state, blogsManagedTagsDelete('testTag'))).toEqual(newState);
             });
 
-            test('blogs delete all tags action - blogsManagedTagsDeleteAll -state with previous tags', () => {
+            test('blogs delete all tags action - blogsManagedTagsDeleteAll - state with previous tags', () => {
                 const state = Object.assign({}, initialState, {
                     query: {
                         ...initialState.query,
