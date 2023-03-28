@@ -1,4 +1,4 @@
-import { getBlogsTagById, isManagedTag } from '../../../src/webview/features/blogs/blogs.utils';
+import { getBlogsTagById, isManagedTag } from '../../../src/webview/features/blogs/Blogs.utils';
 
 describe('Blogs.utils', () => {
     it('should test `getBlogsTagById`', () => {
