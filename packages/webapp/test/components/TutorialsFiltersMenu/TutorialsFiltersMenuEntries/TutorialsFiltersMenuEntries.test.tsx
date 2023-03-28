@@ -99,7 +99,8 @@ describe('TutorialsFiltersMenuEntries', () => {
         tags: TutorialsTags,
         withSearchOn: boolean,
         isSmall: boolean,
-        onSelectedTag: { (tag: string): void; (tag: string): void }
+        onSelectedTag: { (tag: string): void; (tag: string): void },
+        onClearedTag: { (tag: string): void; (tag: string): void }
     ): RenderResult =>
         render(
             <TutorialsFiltersMenuEntries
@@ -109,6 +110,7 @@ describe('TutorialsFiltersMenuEntries', () => {
                 withSearchOn={withSearchOn}
                 isSmall={isSmall}
                 onSelectedTag={onSelectedTag}
+                onClearedTag={onClearedTag}
             />,
             {
                 initialState: { tutorials: withDataNoErrorWithFilters }
@@ -121,8 +123,9 @@ describe('TutorialsFiltersMenuEntries', () => {
         const withSearchOn = true;
         const isSmall = false;
         const onSelectedTag = jest.fn();
+        const onClearedTag = jest.fn();
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag, onClearedTag);
 
         const filteredMenuTitleDOM = screen.getByText(/Topic/i);
         expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
@@ -138,8 +141,9 @@ describe('TutorialsFiltersMenuEntries', () => {
         const withSearchOn = false;
         const isSmall = false;
         const onSelectedTag = jest.fn();
+        const onClearedTag = jest.fn();
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag, onClearedTag);
 
         const filteredMenuTitleDOM = screen.getByText(/Topic/i);
         expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
@@ -154,8 +158,9 @@ describe('TutorialsFiltersMenuEntries', () => {
         const withSearchOn = true;
         const isSmall = false;
         const onSelectedTag = jest.fn();
+        const onClearedTag = jest.fn();
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag, onClearedTag);
 
         const searchInput = screen.getByRole('searchbox');
         expect(searchInput).toBeInTheDocument();
@@ -190,8 +195,9 @@ describe('TutorialsFiltersMenuEntries', () => {
         const withSearchOn = true;
         const isSmall = false;
         const onSelectedTag = jest.fn();
+        const onClearedTag = jest.fn();
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag, onClearedTag);
 
         const filteredMenuTitleDOM = screen.getByText(/Topic/i);
         expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');

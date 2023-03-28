@@ -24,21 +24,13 @@ export const BlogsFiltersMenuLanguages: FC<BlogsFiltersMenuLanguagesProps> = ({ 
     const [isLoading, setIsLoading] = useState(loading);
     const activeLanguage: string | null = useAppSelector(getBlogsLanguage);
 
-    const handleLanguageClick = useCallback(
-        (_evt?: React.FormEvent<HTMLInputElement | HTMLElement>, option?: ChoiceGroupOption | undefined) => {
-            if (option) {
-                onLanguageSelected(option.key);
-            }
-        },
-        []
-    );
-
     useEffect(() => {
         setIsLoading(loading);
     }, [loading]);
 
     return (
         <div
+            data-testid="blogs-filters-menu-languages"
             className={[
                 'blogs-filters-menu-languages',
                 isSmall ? 'blogs-filters-menu-languages__small' : 'blogs-filters-menu-languages__normal'
@@ -60,7 +52,11 @@ export const BlogsFiltersMenuLanguages: FC<BlogsFiltersMenuLanguagesProps> = ({ 
                             <UIChoiceGroup
                                 selectedKey={activeLanguage}
                                 options={supportedLanguages}
-                                onChange={handleLanguageClick}
+                                onChange={(_event, option?: ChoiceGroupOption | undefined) => {
+                                    if (option) {
+                                        onLanguageSelected(option.key);
+                                    }
+                                }}
                                 required={false}
                             />
                         </div>

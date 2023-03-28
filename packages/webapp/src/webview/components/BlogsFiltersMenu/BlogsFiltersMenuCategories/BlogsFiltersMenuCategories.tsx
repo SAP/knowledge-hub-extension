@@ -25,27 +25,9 @@ export const BlogsFiltersMenuCategories: FC<BlogsFiltersMenuCategoriesProps> = (
     const [isLoading, setIsLoading] = useState(loading);
     const activeCategories: string[] | undefined = useAppSelector(getBlogsCategories);
 
-    const handleCategoryClick = useCallback(
-        (category: BlogsCategory) => (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, isChecked?: boolean) => {
-            if (isChecked) {
-                onCategorySelected(category.id, isChecked);
-            } else {
-                onCategorySelected(category.id, false);
-            }
-        },
-        []
-    );
-
-    const isCategoryChecked = useCallback(
-        (categoryId: string): boolean => {
-            if (activeCategories) {
-                return activeCategories.includes(categoryId);
-            } else {
-                return false;
-            }
-        },
-        [activeCategories]
-    );
+    const isCategoryChecked = (categoryId: string): boolean => {
+        return !!activeCategories?.includes(categoryId);
+    };
 
     useEffect(() => {
         setIsLoading(loading);
@@ -53,6 +35,7 @@ export const BlogsFiltersMenuCategories: FC<BlogsFiltersMenuCategoriesProps> = (
 
     return (
         <div
+            data-testid="blogs-filters-menu-categories"
             className={[
                 'blogs-filters-menu-categories',
                 isSmall ? 'blogs-filters-menu-categories__small' : 'blogs-filters-menu-categories__normal'
@@ -74,7 +57,9 @@ export const BlogsFiltersMenuCategories: FC<BlogsFiltersMenuCategoriesProps> = (
                             <UICheckbox
                                 label={category.label}
                                 checked={isCategoryChecked(category.id)}
-                                onChange={handleCategoryClick(category)}
+                                onChange={(_event, checked?: boolean) => {
+                                    onCategorySelected(category.id, !!checked);
+                                }}
                             />
                         </li>
                     ))}

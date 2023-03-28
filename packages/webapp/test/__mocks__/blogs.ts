@@ -13,7 +13,10 @@ export const noError = {
 export const tagsWithNoData = [];
 export const tagsWithData = [
     { displayName: 'tag 1', guid: '1' },
-    { displayName: 'tag 2', guid: '2' }
+    { displayName: 'tag 2', guid: '2' },
+    { displayName: 'tag 3', guid: '3' },
+    { displayName: 'tag 4', guid: '4' },
+    { displayName: 'tag 5', guid: '5' }
 ];
 
 export const managedTagsWithNoData = [];
@@ -22,8 +25,8 @@ export const managedTagsWithData = ['1', '2'];
 export const filtersWithData = [
     { id: '1', label: 'tag 1', type: BlogFiltersEntryType.TAG },
     { id: '2', label: 'tag 2', type: BlogFiltersEntryType.TAG },
-    { id: '3', label: 'category 1', type: BlogFiltersEntryType.CATEGORY },
-    { id: '4', label: 'language 1', type: BlogFiltersEntryType.LANGUAGE }
+    { id: 'b6e6296c-7cf2-4fe6-aa91-d77078aad028', label: 'category 1', type: BlogFiltersEntryType.CATEGORY },
+    { id: '99', label: 'language 1', type: BlogFiltersEntryType.LANGUAGE }
 ];
 
 export const queryEmpty = {
@@ -54,11 +57,11 @@ export const queryWithFilter = {
     orderBy: 'UPDATE_TIME',
     order: 'DESC',
     contentTypes: ['blogpost'],
-    managedTags: ['1', '2'],
+    managedTags: ['2'],
     searchTerm: '',
     questionType: '',
     language: '4',
-    blogCategories: ['3'],
+    blogCategories: ['b6e6296c-7cf2-4fe6-aa91-d77078aad028'],
     authorId: '',
     userTags: '',
     updatedFrom: undefined,
@@ -262,7 +265,7 @@ export const withDataWithTags = {
         error: noError,
         pending: false
     },
-    query: queryEmpty,
+    query: queryWithFilter,
     ui: uiWithFilters,
     tags: tagsWithData
 };

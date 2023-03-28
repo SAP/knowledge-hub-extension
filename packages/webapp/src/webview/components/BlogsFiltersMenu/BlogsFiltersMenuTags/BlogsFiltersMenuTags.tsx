@@ -29,23 +29,10 @@ export const BlogsFiltersMenuTags: FC<BlogsFiltersMenuTagsProps> = ({
     const { t } = useTranslation();
 
     const activeTags: string[] | undefined = useAppSelector(getManagedTags);
-    const tags = useAppSelector(getTagsData);
+    const tags: Tag[] = useAppSelector(getTagsData);
 
-    const [listTags, setListTags] = useState(tags);
+    const [listTags, setListTags] = useState<Tag[]>(tags);
     const [isLoading, setIsLoading] = useState(loading);
-
-    const handleTagIdClick = useCallback(
-        (tag: Tag) => (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, isChecked?: boolean) => {
-            if (isChecked) {
-                onTagSelected(tag, isChecked);
-            } else {
-                onTagSelected(tag, false);
-            }
-        },
-        []
-    );
-
-    const onSearch = useCallback((searchItem: string): void => {}, []);
 
     const onChange = useCallback(
         (_event: React.ChangeEvent<HTMLInputElement> | undefined, searchItem: string | undefined) => {
@@ -65,23 +52,21 @@ export const BlogsFiltersMenuTags: FC<BlogsFiltersMenuTagsProps> = ({
         setListTags(tags);
     }, []);
 
-    const isTagChecked = useCallback(
-        (tagId: string): boolean => {
-            if (activeTags) {
-                return activeTags.includes(tagId);
-            } else {
-                return false;
-            }
-        },
-        [activeTags]
-    );
+    const isTagChecked = (tagId: string): boolean => {
+        return !!activeTags?.includes(tagId);
+    };
 
     useEffect(() => {
         setIsLoading(loading);
     }, [loading]);
 
+    useEffect(() => {
+        setListTags(tags);
+    }, [tags]);
+
     return (
         <div
+            data-testid="blogs-filters-menu-tags"
             className={[
                 'blogs-filters-menu-tags',
                 isSmall ? 'blogs-filters-menu-tags__small' : 'blogs-filters-menu-tags__normal'
@@ -97,7 +82,6 @@ export const BlogsFiltersMenuTags: FC<BlogsFiltersMenuTagsProps> = ({
                 <div className="blogs-filters-menu-tags__search">
                     <UISearchBox
                         onChange={onChange}
-                        onSearch={onSearch}
                         onClear={onClear}
                         className="blogs-filters-menu-tags__search__box"
                     />
@@ -114,7 +98,9 @@ export const BlogsFiltersMenuTags: FC<BlogsFiltersMenuTagsProps> = ({
                                     <UICheckbox
                                         label={tag.displayName}
                                         checked={isTagChecked(tag.guid)}
-                                        onChange={handleTagIdClick(tag)}
+                                        onChange={(_event, checked?: boolean) => {
+                                            onTagSelected(tag, !!checked);
+                                        }}
                                     />
                                 </li>
                             ))}
