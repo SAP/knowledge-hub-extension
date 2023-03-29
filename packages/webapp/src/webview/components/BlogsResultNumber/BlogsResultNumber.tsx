@@ -19,7 +19,9 @@ export const BlogsResultNumber: FC<BlogsResultNumberProps> = ({ totalNumber }): 
             {totalNumber > 0 && (
                 <div className="blogs-result-number__wrapper">
                     <UIBadge text={totalNumber} />{' '}
-                    <span className="blogs-result-number__wrapper__text">{t('BLOGS_RESULT')}</span>
+                    <span className="blogs-result-number__wrapper__text">
+                        {t('BLOGS_RESULT', { count: totalNumber })}
+                    </span>
                 </div>
             )}
         </div>
