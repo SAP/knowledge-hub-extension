@@ -10,7 +10,7 @@ import { initLCIcons } from '../../../../src/webview/Icons/icons';
 
 import type { TutorialsTags, TutorialsFacets } from '@sap/knowledge-hub-extension-types';
 
-import { withDataNoErrorWithFilters } from '../../../__mocks__/tutorials';
+import { withDataNoErrorWithFilters, withDataNoErrorWithFiltersSelected } from '../../../__mocks__/tutorials';
 import { render } from '../../../__mocks__/store.mock';
 
 import { TutorialsFiltersMenuEntries } from '../../../../src/webview/components/TutorialsFiltersMenu/TutorialsFiltersMenuEntries';
@@ -206,12 +206,57 @@ describe('TutorialsFiltersMenuEntries', () => {
             .getByTestId('tutorials-filters-menu-entries__content-list')
             .querySelectorAll('.tutorials-filters-menu-entries__content-list-entry');
 
-        const tag = listOfTags[0].querySelector('.ui-medium-text');
-        if (tag) {
+        if (listOfTags) {
+            const checkbox = screen.getAllByRole('checkbox')?.[0];
+
+            if (checkbox) {
+                // Confirm checkbox is not selected
+                expect(checkbox).not.toBeChecked();
+
+                // Simulate click
+                fireEvent.click(screen.getAllByRole('checkbox')?.[0]);
+
+                expect(onSelectedTag).toHaveBeenCalledWith('Tag 1');
+            }
+        }
+    });
+
+    test('test if callback is called when searchbox is used', async () => {
+        const user = userEvent.setup();
+        const title = 'Topic';
+        const entries = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4', 'Tag 5'];
+        const withSearchOn = true;
+        const isSmall = false;
+        const onSelectedTag = jest.fn();
+        const onClearedTag = jest.fn();
+
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag, onClearedTag);
+
+        const searchInput = screen.getByRole('searchbox');
+        if (searchInput) {
             act(() => {
-                tag.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+                searchInput.focus();
             });
-            expect(onSelectedTag).toHaveBeenCalled();
+            await user.type(searchInput, 'T');
+            await user.type(searchInput, 'a');
+            await user.type(searchInput, 'g');
+            await user.type(searchInput, ' ');
+            await user.type(searchInput, '1');
+
+            let listOfTags = screen
+                .getByTestId('tutorials-filters-menu-entries__content-list')
+                .querySelectorAll('.tutorials-filters-menu-entries__content-list-entry');
+            expect(listOfTags.length).toEqual(1);
+
+            const clearBtn = screen.getByLabelText('Clear text');
+            if (clearBtn) {
+                await user.click(clearBtn);
+            }
+
+            let listOfTagsAfter = screen
+                .getByTestId('tutorials-filters-menu-entries__content-list')
+                .querySelectorAll('.tutorials-filters-menu-entries__content-list-entry');
+            expect(listOfTagsAfter.length).toEqual(5);
         }
     });
 });

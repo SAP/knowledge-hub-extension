@@ -16,7 +16,8 @@ import {
     tutorialsPageChanged,
     tutorialsFiltersTagsAdd,
     tutorialsFiltersTagsDeleteAll,
-    tutorialsFiltersTagsDelete
+    tutorialsFiltersTagsDelete,
+    tutorialsFiltersTagsResetWith
 } from '../../store/actions';
 import { store, actions, useAppSelector } from '../../store';
 import { getTutorials, getTutorialsQuery, getTutorialsUIIsLoading } from './Tutorials.slice';
@@ -152,7 +153,8 @@ export const Tutorials: FC = (): JSX.Element => {
         } else if (!activeTutorials.pending) {
             if (location.state && location.state.tagId) {
                 const tagId = location.state.tagId;
-                dispatch(tutorialsFiltersTagsAdd(tagId));
+                dispatch(tutorialsFiltersTagsResetWith(tagId));
+
                 options.filters = [tagId];
                 fetchData(options);
                 navigate(location.pathname, { replace: true });

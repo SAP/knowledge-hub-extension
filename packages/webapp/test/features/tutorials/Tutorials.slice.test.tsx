@@ -6,6 +6,7 @@ import {
     tutorialsFiltersTagsAdd,
     tutorialsFiltersTagsDelete,
     tutorialsFiltersTagsDeleteAll,
+    tutorialsFiltersTagsResetWith,
     tutorialsLoading,
     tutorialsFiltersSelected
 } from '../../../src/webview/store/actions';
@@ -114,6 +115,22 @@ describe('tutorials slice', () => {
                     }
                 });
                 expect(reducer(state, tutorialsFiltersTagsDelete('testTag'))).toEqual(newState);
+            });
+
+            test('tutorials delete tags action - tutorialsFiltersTagsResetWith - state with previous tags', () => {
+                const state = Object.assign({}, initialState, {
+                    query: {
+                        ...initialState.query,
+                        filters: ['testTag', 'testTag1', 'testTag2', 'testTag3', 'testTag4', 'testTag5']
+                    }
+                });
+                const newState = Object.assign({}, initialState, {
+                    query: {
+                        ...initialState.query,
+                        filters: ['testTag6']
+                    }
+                });
+                expect(reducer(state, tutorialsFiltersTagsResetWith('testTag6'))).toEqual(newState);
             });
 
             test('tutorials delete all tags action - tutorialsFiltersTagsDeleteAll - state with previous tags', () => {

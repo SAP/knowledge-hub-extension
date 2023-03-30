@@ -18,6 +18,7 @@ import {
     tutorialsFiltersTagsAdd,
     tutorialsFiltersTagsDelete,
     tutorialsFiltersTagsDeleteAll,
+    tutorialsFiltersTagsResetWith,
     tutorialsFiltersSelected,
     tutorialsLoading
 } from '../../store/actions';
@@ -127,6 +128,13 @@ const query = createSlice({
                     } else {
                         state.filters = [newFilter];
                     }
+                }
+            )
+            .addMatcher(
+                tutorialsFiltersTagsResetWith.match,
+                (state: TutorialsSearchQuery, action: PayloadAction<string>): void => {
+                    const newFilter = action.payload;
+                    state.filters = [newFilter];
                 }
             )
             .addMatcher(

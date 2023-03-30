@@ -36,17 +36,6 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
     const [listEntries, setListEntries] = useState(entries);
     const [loading, setLoading] = useState(false);
 
-    const handleTagIdSelect = useCallback(
-        (tagId: string) => (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, isChecked?: boolean) => {
-            if (isChecked) {
-                onTagSelected(tagId, isChecked);
-            } else {
-                onTagSelected(tagId, false);
-            }
-        },
-        []
-    );
-
     const isTagChecked = useCallback((tagId: string): boolean => {
         const state = store.getState();
         const tagFilters = Object.assign([], state.tutorials.query.filters);
@@ -66,14 +55,6 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
             onClearedTag(tagId);
         }
     };
-
-    const onSearch = useCallback((searchItem: string): void => {
-        const filteredEntries = entries.filter((entry) => {
-            const entryTitle = getTutorialsTag(entry, tags);
-            return entryTitle.toUpperCase().includes(searchItem.toUpperCase());
-        });
-        setListEntries(filteredEntries);
-    }, []);
 
     const onChange = useCallback(
         (_event: React.ChangeEvent<HTMLInputElement> | undefined, searchItem: string | undefined) => {
@@ -126,14 +107,12 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
                 {sortedList.map((entry: SortedTagListEntry) => {
                     return (
                         <li className="tutorials-filters-menu-entries__content-list-entry" key={entry.tagId}>
-                            {/* <div className="ui-medium-text" onClick={handleTagIdClick(entry.tagId)}>
-                                {entry.title}
-                            </div> */}
-
                             <UICheckbox
                                 label={entry.title}
                                 checked={isTagChecked(entry.tagId)}
-                                onChange={handleTagIdSelect(entry.tagId)}
+                                onChange={(_event, checked?: boolean) => {
+                                    onTagSelected(entry.tagId, !!checked);
+                                }}
                             />
                         </li>
                     );
@@ -144,6 +123,7 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
 
     useEffect(() => {
         setLoading(false);
+        setListEntries(entries);
     }, [entries]);
 
     return (
@@ -163,7 +143,6 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
                 <div className="tutorials-filters-menu-entries__search">
                     <UISearchBox
                         onChange={onChange}
-                        onSearch={onSearch}
                         onClear={onClear}
                         className="tutorials-filters-menu-entries__search__box"
                     />
