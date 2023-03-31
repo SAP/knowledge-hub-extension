@@ -22,7 +22,7 @@ interface ActionsHandlersMap {
 }
 
 /**
- *
+ * Class that handles all the actions dispatched from the webview.
  */
 export class ActionHandler {
     private panel: WebviewPanel;
