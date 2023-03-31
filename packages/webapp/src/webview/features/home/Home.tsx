@@ -9,7 +9,7 @@ import type {
     TutorialsEntry,
     BlogsState,
     BlogsSearchResultContentItem,
-    BlogsManagedTag,
+    Tag,
     Error
 } from '@sap/knowledge-hub-extension-types';
 
@@ -54,7 +54,7 @@ export const Home: FC = (): JSX.Element => {
         []
     );
 
-    const onBlogTagSelected = useCallback((tag: BlogsManagedTag): void => {
+    const onBlogTagSelected = useCallback((tag: Tag): void => {
         navigate('/blogs', { state: { tagId: tag.guid } });
     }, []);
 

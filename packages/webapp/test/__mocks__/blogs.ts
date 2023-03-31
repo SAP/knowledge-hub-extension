@@ -1,4 +1,4 @@
-import { BLOGS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
+import { BLOGS_LIMIT_PER_PAGE, BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
 export const error = {
     isError: true,
@@ -12,14 +12,24 @@ export const noError = {
 
 export const tagsWithNoData = [];
 export const tagsWithData = [
-    { displayName: 'TAG Test', guid: '1' },
-    { displayName: 'TAG Test 2', guid: '2' }
+    { displayName: 'tag 1', guid: '1' },
+    { displayName: 'tag 2', guid: '2' },
+    { displayName: 'tag 3', guid: '3' },
+    { displayName: 'tag 4', guid: '4' },
+    { displayName: 'tag 5', guid: '5' }
 ];
 
 export const managedTagsWithNoData = [];
 export const managedTagsWithData = ['1', '2'];
 
-export const uiEmpty = {
+export const filtersWithData = [
+    { id: '1', label: 'tag 1', type: BlogFiltersEntryType.TAG },
+    { id: '2', label: 'tag 2', type: BlogFiltersEntryType.TAG },
+    { id: 'b6e6296c-7cf2-4fe6-aa91-d77078aad028', label: 'category 1', type: BlogFiltersEntryType.CATEGORY },
+    { id: '99', label: 'language 1', type: BlogFiltersEntryType.LANGUAGE }
+];
+
+export const queryEmpty = {
     page: 0,
     limit: BLOGS_LIMIT_PER_PAGE,
     orderBy: 'UPDATE_TIME',
@@ -29,7 +39,7 @@ export const uiEmpty = {
     searchTerm: '',
     questionType: '',
     language: '',
-    blogCategories: '',
+    blogCategories: [] as string[],
     authorId: '',
     userTags: '',
     updatedFrom: undefined,
@@ -41,17 +51,17 @@ export const uiEmpty = {
     additionalUserTags: [] as string[]
 };
 
-export const uiWithFilter = {
+export const queryWithFilter = {
     page: 0,
     limit: 20,
     orderBy: 'UPDATE_TIME',
     order: 'DESC',
     contentTypes: ['blogpost'],
-    managedTags: managedTagsWithData,
+    managedTags: ['2'],
     searchTerm: '',
     questionType: '',
-    language: '',
-    blogCategories: '',
+    language: '4',
+    blogCategories: ['b6e6296c-7cf2-4fe6-aa91-d77078aad028'],
     authorId: '',
     userTags: '',
     updatedFrom: undefined,
@@ -146,14 +156,45 @@ export const blogEntry = [
     }
 ];
 
-export const initial = {
+export const uiEmpty = {
+    isLoading: true,
+    isFiltersMenuOpened: false,
+    filtersEntries: []
+};
+
+export const uiNoFiltersNoLoading = {
+    isLoading: false,
+    isFiltersMenuOpened: false,
+    filtersEntries: []
+};
+
+export const uiWithFilters = {
+    isLoading: false,
+    isFiltersMenuOpened: true,
+    filtersEntries: filtersWithData
+};
+
+export const blogsInitialState = {
     result: {
         data: [],
         totalCount: -1,
         error: noError,
         pending: false
     },
-    query: uiEmpty,
+    query: queryEmpty,
+    ui: uiNoFiltersNoLoading,
+    tags: []
+};
+
+export const initialWithLoading = {
+    result: {
+        data: [],
+        totalCount: -1,
+        error: noError,
+        pending: false
+    },
+    query: queryEmpty,
+    ui: uiEmpty,
     tags: []
 };
 
@@ -164,7 +205,8 @@ export const initialWithPending = {
         error: noError,
         pending: true
     },
-    query: uiEmpty,
+    query: queryEmpty,
+    ui: uiNoFiltersNoLoading,
     tags: []
 };
 
@@ -175,7 +217,8 @@ export const withNoDataNoError = {
         error: noError,
         pending: false
     },
-    query: uiEmpty,
+    query: queryEmpty,
+    ui: uiNoFiltersNoLoading,
     tags: []
 };
 
@@ -186,7 +229,8 @@ export const withDataNoError = {
         error: noError,
         pending: false
     },
-    query: uiEmpty,
+    query: queryEmpty,
+    ui: uiNoFiltersNoLoading,
     tags: []
 };
 
@@ -197,7 +241,8 @@ export const withNoDataWithError = {
         error: error,
         pending: false
     },
-    query: uiEmpty,
+    query: queryEmpty,
+    ui: uiNoFiltersNoLoading,
     tags: []
 };
 
@@ -208,7 +253,8 @@ export const withDataWithFilter = {
         error: noError,
         pending: false
     },
-    query: uiWithFilter,
+    query: queryWithFilter,
+    ui: uiWithFilters,
     tags: tagsWithData
 };
 
@@ -219,7 +265,8 @@ export const withDataWithTags = {
         error: noError,
         pending: false
     },
-    query: uiEmpty,
+    query: queryWithFilter,
+    ui: uiWithFilters,
     tags: tagsWithData
 };
 
@@ -240,7 +287,7 @@ export const withDataNoErrorMultiplePage = {
         searchTerm: '',
         questionType: '',
         language: '',
-        blogCategories: '',
+        blogCategories: [],
         authorId: '',
         userTags: '',
         updatedFrom: undefined,
@@ -251,11 +298,12 @@ export const withDataNoErrorMultiplePage = {
         additionalManagedTags: [] as string[],
         additionalUserTags: [] as string[]
     },
+    ui: uiEmpty,
     tags: []
 };
 
 export const blogsData = {
     contentItems: blogEntry,
-    query: uiEmpty,
+    query: queryEmpty,
     totalCount: 4
 };

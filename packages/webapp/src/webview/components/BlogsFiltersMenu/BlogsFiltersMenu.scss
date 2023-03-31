@@ -1,0 +1,40 @@
+@keyframes reveal {
+    0% {
+        height: 0%;
+    }
+    100% {
+        height: 100%;
+    }
+}
+
+.blogs-filters-menu {
+    flex-grow: 1;
+    transition: max-height 0.47s ease-out, opacity 0.4s ease;
+
+    &__closed {
+        max-height: 0;
+        opacity: 0;
+    }
+    &__opened {
+        max-height: 600px;
+        opacity: 1;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        flex: auto;
+
+        animation: reveal 1s;
+        animation-delay: 2s;
+        animation-fill-mode: both;
+
+        &__entries {
+            display: flex;
+            flex-direction: row;
+            margin: 10px 0;
+            padding: 0 0 0 20px;
+            justify-content: space-between;
+        }
+    }
+}

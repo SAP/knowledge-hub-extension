@@ -1,9 +1,10 @@
 import type { TutorialsState, TutorialsTags } from './tutorials.types';
-import type { BlogsState, BlogsManagedTag } from './blogs.types';
+import type { BlogsState } from './blogs.types';
+import type { Tag } from './tags.types';
 
 export interface HomeBlogs {
     blogs: BlogsState;
-    tags: BlogsManagedTag[];
+    tags: Tag[];
 }
 
 export interface HomeTutorials {

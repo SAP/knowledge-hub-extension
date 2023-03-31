@@ -1,4 +1,4 @@
-import { blogEntry, uiEmpty } from './blogs';
+import { blogEntry, queryEmpty } from './blogs';
 import { tutorialsData } from './tutorials';
 
 export const error = {
@@ -13,7 +13,7 @@ export const noError = {
 
 export const blogsNoData = {
     contentItems: [],
-    query: uiEmpty,
+    query: queryEmpty,
     totalCount: 0
 };
 
@@ -156,7 +156,7 @@ export const blogsNoDataNoError = {
 
 // Home state
 
-export const stateInitial = {
+export const homeInitialState = {
     blogs: blogsInitialsWithPending,
     tutorials: tutorialsNoErrorWithPending
 };

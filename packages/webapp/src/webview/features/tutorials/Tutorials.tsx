@@ -7,32 +7,31 @@ import type {
     TutorialsState,
     TutorialsEntry,
     TutorialsSearchQuery,
-    TutorialsUiState,
     TutorialsTags,
     TutorialsFacets
 } from '@sap/knowledge-hub-extension-types';
 import { TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 
-import { TutorialCard } from '../../components/TutorialCard';
-import { TutorialResultNumber } from '../../components/TutorialResultNumber';
-import { TutorialFiltersMenu } from '../../components/TutorialFiltersMenu';
-
 import {
     tutorialsPageChanged,
     tutorialsFiltersTagsAdd,
     tutorialsFiltersTagsDeleteAll,
-    tutorialsFiltersTagsDelete
+    tutorialsFiltersTagsDelete,
+    tutorialsFiltersTagsResetWith
 } from '../../store/actions';
 import { store, actions, useAppSelector } from '../../store';
-import { getTutorials, getTutorialsQuery, getTutorialsQueryFilters, getTutorialsUI } from './Tutorials.slice';
+import { getTutorials, getTutorialsQuery, getTutorialsUIIsLoading } from './Tutorials.slice';
 import { getTutorialsTag, isFilteredTag } from './Tutorials.utils';
 import { getSearchTerm } from '../search/Search.slice';
 
+import { TutorialCard } from '../../components/TutorialCard';
+import { TutorialsResultNumber } from '../../components/TutorialsResultNumber';
+import { TutorialsFiltersMenu } from '../../components/TutorialsFiltersMenu';
+import { TutorialsFiltersBar } from '../../components/TutorialsFiltersBar';
 import { UIPagination } from '../../components/UI/UIPagination';
 import { Loader } from '../../components/Loader';
 import { NoResult } from '../../components/NoResult';
 import { WithError } from '../../components/WithError';
-import { TutorialFilters } from '../../components/TutorialFilters';
 
 import './Tutorials.scss';
 
@@ -44,9 +43,8 @@ export const Tutorials: FC = (): JSX.Element => {
 
     const activeTutorials: TutorialsState = useAppSelector(getTutorials);
     const activeQuery: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
-    const activeQueryFilters: string[] | undefined = useAppSelector(getTutorialsQueryFilters);
     const activeSearchTerm: string = useAppSelector(getSearchTerm);
-    const activeUi: TutorialsUiState = useAppSelector(getTutorialsUI);
+    const activeLoading = useAppSelector(getTutorialsUIIsLoading);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -70,15 +68,17 @@ export const Tutorials: FC = (): JSX.Element => {
         actions.tutorialsFetchTutorials(options, false);
     };
 
-    const handlePageClick = useCallback((event: any) => {
-        const options: TutorialsSearchQuery = {};
-        options.start = event.selected;
+    const handlePageClick = useCallback(
+        (event: any) => {
+            const options: TutorialsSearchQuery = Object.assign({}, activeQuery, { start: event.selected });
 
-        dispatch(tutorialsPageChanged(event.selected));
-        setPageOffset(event.selected);
+            dispatch(tutorialsPageChanged(event.selected));
+            setPageOffset(event.selected);
 
-        fetchData(options);
-    }, []);
+            fetchData(options);
+        },
+        [activeQuery]
+    );
 
     const onTagSelected = (tagId: string): void => {
         const state = store.getState();
@@ -88,6 +88,10 @@ export const Tutorials: FC = (): JSX.Element => {
             const options: TutorialsSearchQuery = {};
             const state = store.getState();
             const tagFilters = Object.assign([], state.tutorials.query.filters);
+
+            if (state.search.term !== '') {
+                options.searchField = state.search.term;
+            }
 
             tagFilters.push(tagId);
 
@@ -112,45 +116,30 @@ export const Tutorials: FC = (): JSX.Element => {
         fetchData(options);
     }, []);
 
-    const onClearTagFilter = useCallback(
-        (tagId: string): void => {
-            const options: TutorialsSearchQuery = {};
-            const tagFilters = Object.assign([], activeQueryFilters);
+    const onClearTagFilter = (tagId: string): void => {
+        const state = store.getState();
+        const tagFilters = Object.assign([], state.tutorials.query.filters);
+        const options: TutorialsSearchQuery = {};
 
-            if (tagFilters && tagFilters.length > 0) {
-                const newTags = tagFilters.filter((element: string) => element !== tagId);
-                options.filters = newTags;
-            } else {
-                options.filters = [];
-            }
-
-            if (options.filters && options.filters.length === 0) {
-                options.start = 1;
-            }
-
-            if (searchTerm !== '') {
-                options.searchField = activeSearchTerm;
-            }
-
-            dispatch(tutorialsFiltersTagsDelete(tagId));
-
-            fetchData(options);
-        },
-        [activeQueryFilters]
-    );
-
-    useEffect(() => {
-        if (searchTerm !== activeSearchTerm) {
-            const options: TutorialsSearchQuery = {};
-            const state = store.getState();
-            const tagFilters = Object.assign([], state.tutorials.query.filters);
-
-            options.filters = tagFilters;
-            options.searchField = activeSearchTerm;
-            setSearchTerm(activeSearchTerm);
-            fetchData(options);
+        if (tagFilters && tagFilters.length > 0) {
+            const newTags = tagFilters.filter((element: string) => element !== tagId);
+            options.filters = newTags;
+        } else {
+            options.filters = [];
         }
-    }, [activeSearchTerm]);
+
+        if (options.filters && options.filters.length === 0) {
+            options.start = 1;
+        }
+
+        if (state.search.term !== '') {
+            options.searchField = state.search.term;
+        }
+
+        dispatch(tutorialsFiltersTagsDelete(tagId));
+
+        fetchData(options);
+    };
 
     useEffect(() => {
         const options: TutorialsSearchQuery = {};
@@ -164,7 +153,8 @@ export const Tutorials: FC = (): JSX.Element => {
         } else if (!activeTutorials.pending) {
             if (location.state && location.state.tagId) {
                 const tagId = location.state.tagId;
-                dispatch(tutorialsFiltersTagsAdd(tagId));
+                dispatch(tutorialsFiltersTagsResetWith(tagId));
+
                 options.filters = [tagId];
                 fetchData(options);
                 navigate(location.pathname, { replace: true });
@@ -195,30 +185,40 @@ export const Tutorials: FC = (): JSX.Element => {
                 setNoResult(true);
             } else if (activeTutorials.data.numFound === -1) {
                 setLoading(true);
+                setNoResult(false);
                 fetchData(options);
             }
         }
     }, [activeTutorials]);
 
+    useEffect(() => {
+        if (searchTerm !== activeSearchTerm) {
+            const options: TutorialsSearchQuery = {};
+            const state = store.getState();
+            const tagFilters = Object.assign([], state.tutorials.query.filters);
+
+            options.filters = tagFilters;
+            options.searchField = activeSearchTerm;
+            setSearchTerm(activeSearchTerm);
+            fetchData(options);
+        }
+    }, [activeSearchTerm]);
+
+    useEffect(() => {
+        setLoading(activeLoading);
+    }, [activeLoading]);
+
     return (
         <div className="tutorials">
             <div className="tutorials-filters">
                 <div className="tutorials-filters-wrapper">
-                    {activeQuery.filters && activeQuery.filters.length !== 0 && (
-                        <TutorialFilters clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />
-                    )}
-
-                    <div
-                        className={[
-                            'tutorials-filters-wrapper__menu',
-                            activeUi.isFiltersMenuOpened
-                                ? 'tutorials-filters-wrapper__menu__opened'
-                                : 'tutorials-filters-wrapper__menu__closed'
-                        ]
-                            .filter((x) => !!x)
-                            .join(' ')}>
-                        <TutorialFiltersMenu facets={facets} tags={tags} onSelectedTag={onTagSelected} />
-                    </div>
+                    <TutorialsFiltersMenu
+                        facets={facets}
+                        tags={tags}
+                        onSelectedTag={onTagSelected}
+                        onClearedTag={onClearTagFilter}
+                    />
+                    <TutorialsFiltersBar clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />
                 </div>
             </div>
 
@@ -227,7 +227,7 @@ export const Tutorials: FC = (): JSX.Element => {
                 <h3 className="tutorials-header-description">{t('TUTORIALS_DESCRIPTION')}</h3>
             </div>
 
-            <TutorialResultNumber
+            <TutorialsResultNumber
                 totalNumber={totalNumber}
                 countGroups={countGroups}
                 countMissions={countMissions}
@@ -237,8 +237,7 @@ export const Tutorials: FC = (): JSX.Element => {
             {!(loading || error || noResult) && (
                 <div className="tutorials-content">
                     <div className="tutorials-content-wrapper">
-                        {!(loading || error) &&
-                            tutorials &&
+                        {tutorials &&
                             tutorials.map((tutorial, index) => {
                                 return (
                                     <TutorialCard
@@ -255,8 +254,8 @@ export const Tutorials: FC = (): JSX.Element => {
             )}
 
             {loading && <Loader label={t('TUTORIALS_LOADING_CONTENT')} />}
-            {error && <WithError />}
-            {noResult && <NoResult />}
+            {error && !loading && <WithError />}
+            {noResult && !loading && <NoResult />}
             {totalPageCount > 1 && (
                 <div className="tutorials-pagination">
                     <UIPagination

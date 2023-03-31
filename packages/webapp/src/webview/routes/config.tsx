@@ -9,7 +9,7 @@ import { Home } from '../features/home';
 import { Tutorials } from '../features/tutorials';
 import { Videos } from '../features/videos';
 import { Blogs } from '../features/blogs';
-import { fecthHomeBlogs, fecthHomeTutorials } from '../features/home/home.utils';
+import { fecthHomeBlogs, fecthHomeTutorials, fetchTags } from '../features/home/home.utils';
 
 export type TabsConfig = {
     key: string;
@@ -46,6 +46,7 @@ export const myRoutes: RouteObject[] = [
                 loader: () => {
                     fecthHomeBlogs();
                     fecthHomeTutorials();
+                    fetchTags();
                 },
                 shouldRevalidate: () => {
                     return false;

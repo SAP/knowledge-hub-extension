@@ -40,7 +40,7 @@ export function prepareQueryOptions(queryOptions: BlogsSearchQuery | undefined):
         if (queryOptions.searchTerm !== '') {
             queryOptions.orderBy = 'RELEVANCE';
         } else {
-            queryOptions.orderBy = 'CREATE_TIME';
+            queryOptions.orderBy = 'UPDATE_TIME';
         }
 
         queryOptions = Object.fromEntries(

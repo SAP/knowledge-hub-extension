@@ -1,13 +1,15 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { fetchBlogs, BLOGS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
+import { BlogFiltersEntryType, fetchBlogs, BLOGS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 import type {
     Blogs,
     BlogsState,
     BlogsSearchQuery,
     BlogsSearchResult,
     BlogsSearchResultContentItem,
-    BlogsManagedTag,
+    BlogsUiState,
+    BlogFiltersEntry,
+    Tag,
     Error,
     ErrorAction,
     PendingAction
@@ -18,7 +20,17 @@ import {
     blogsManagedTagsAdd,
     blogsManagedTagsDelete,
     blogsManagedTagsDeleteAll,
-    blogsTagsAdd
+    blogsTagsAdd,
+    blogsLanguageUpdate,
+    blogsCategoryAdd,
+    blogsCategoryDelete,
+    blogsCategoryDeleteAll,
+    blogsFiltersSelected,
+    blogsLoading,
+    blogsFilterEntryAdd,
+    blogsFilterEntryDelete,
+    blogsFilterEntryDeleteAll,
+    blogsSearchTermChanged
 } from '../../store/actions';
 import type { RootState } from '../../store';
 
@@ -38,11 +50,11 @@ export const initialQueryState: BlogsSearchQuery = {
     orderBy: 'UPDATE_TIME',
     order: 'DESC',
     contentTypes: ['blogpost'],
-    managedTags: [],
+    managedTags: [] as string[],
     searchTerm: '',
     questionType: '',
     language: '',
-    blogCategories: '',
+    blogCategories: [] as string[],
     authorId: '',
     userTags: '',
     updatedFrom: undefined,
@@ -50,11 +62,19 @@ export const initialQueryState: BlogsSearchQuery = {
     createdFrom: undefined,
     createdTo: undefined,
     boostingStrategy: '',
-    additionalManagedTags: [],
-    additionalUserTags: []
+    additionalManagedTags: [] as string[],
+    additionalUserTags: [] as string[]
 };
 
-export const initialTagsState: BlogsManagedTag[] = [];
+export const initialUiState: BlogsUiState = {
+    isLoading: false,
+    isFiltersMenuOpened: false,
+    filtersEntries: []
+};
+
+export const initialTagsState: Tag[] = [];
+
+// Slices
 
 const result = createSlice({
     name: 'blogsResult',
@@ -86,7 +106,7 @@ const result = createSlice({
 });
 
 const query = createSlice({
-    name: 'blogsUi',
+    name: 'blogsQuery',
     initialState: initialQueryState,
     reducers: {},
     extraReducers: (builder) =>
@@ -95,17 +115,17 @@ const query = createSlice({
                 state.page = action.payload;
             })
             .addMatcher(blogsManagedTagsAdd.match, (state: BlogsSearchQuery, action: PayloadAction<string>): void => {
-                const currentTags = state.managedTags;
+                const currentTags: string[] = Object.assign([], state.managedTags);
                 const newTag = action.payload;
 
-                if (currentTags && currentTags.length > 0) {
+                if (currentTags.length > 0) {
                     if (!currentTags.find((element: string) => element === newTag)) {
                         currentTags.push(newTag);
-                        state.managedTags = currentTags;
                     }
                 } else {
-                    state.managedTags = [newTag];
+                    currentTags.push(newTag);
                 }
+                state.managedTags = currentTags;
             })
             .addMatcher(
                 blogsManagedTagsDelete.match,
@@ -122,6 +142,101 @@ const query = createSlice({
             .addMatcher(blogsManagedTagsDeleteAll.match, (state: BlogsSearchQuery): void => {
                 state.managedTags = [];
             })
+            .addMatcher(
+                blogsLanguageUpdate.match,
+                (state: BlogsSearchQuery, action: PayloadAction<string | null>): void => {
+                    state.language = action.payload;
+                }
+            )
+            .addMatcher(blogsCategoryAdd.match, (state: BlogsSearchQuery, action: PayloadAction<string>): void => {
+                const currentBlogsCaterories: string[] = Object.assign([], state.blogCategories);
+                const newCategory = action.payload;
+
+                if (currentBlogsCaterories.length > 0) {
+                    if (!currentBlogsCaterories.find((element: string) => element === newCategory)) {
+                        currentBlogsCaterories.push(newCategory);
+                    }
+                } else {
+                    currentBlogsCaterories.push(newCategory);
+                }
+
+                state.blogCategories = currentBlogsCaterories;
+            })
+            .addMatcher(blogsCategoryDelete.match, (state: BlogsSearchQuery, action: PayloadAction<string>): void => {
+                const currentBlogsCaterories: string[] = Object.assign([], state.blogCategories);
+                const oldCategory = action.payload;
+
+                if (currentBlogsCaterories.length > 0) {
+                    const newCategories = currentBlogsCaterories.filter((element: string) => element !== oldCategory);
+                    state.blogCategories = newCategories;
+                }
+            })
+            .addMatcher(blogsCategoryDeleteAll.match, (state: BlogsSearchQuery): void => {
+                state.blogCategories = [];
+            })
+            .addMatcher(
+                blogsSearchTermChanged.match,
+                (state: BlogsSearchQuery, action: PayloadAction<string>): void => {
+                    state.searchTerm = action.payload;
+                }
+            )
+});
+
+const ui = createSlice({
+    name: 'blogsUI',
+    initialState: initialUiState,
+    reducers: {},
+    extraReducers: (builder) =>
+        builder
+            .addMatcher(blogsFiltersSelected.match, (state: BlogsUiState, action: PayloadAction<boolean>): void => {
+                const isOpened = action.payload;
+                state.isFiltersMenuOpened = isOpened;
+            })
+            .addMatcher(blogsLoading.match, (state: BlogsUiState, action: PayloadAction<boolean>): void => {
+                const isLoading = action.payload;
+                state.isLoading = isLoading;
+            })
+            .addMatcher(
+                blogsFilterEntryAdd.match,
+                (state: BlogsUiState, action: PayloadAction<BlogFiltersEntry>): void => {
+                    const currentFilters = state.filtersEntries;
+                    const newFilter = action.payload;
+
+                    if (currentFilters.length > 0) {
+                        if (newFilter.type === BlogFiltersEntryType.LANGUAGE) {
+                            const index = currentFilters.findIndex(
+                                (element: BlogFiltersEntry) => element.type === BlogFiltersEntryType.LANGUAGE
+                            );
+                            if (index !== -1) {
+                                currentFilters[index].id = newFilter.id;
+                                currentFilters[index].label = newFilter.label;
+                                state.filtersEntries = currentFilters;
+                            } else {
+                                currentFilters.push(newFilter);
+                                state.filtersEntries = currentFilters;
+                            }
+                        } else if (!currentFilters.find((element: BlogFiltersEntry) => element.id === newFilter.id)) {
+                            currentFilters.push(newFilter);
+                            state.filtersEntries = currentFilters;
+                        }
+                    } else {
+                        state.filtersEntries = [newFilter];
+                    }
+                }
+            )
+            .addMatcher(blogsFilterEntryDelete.match, (state: BlogsUiState, action: PayloadAction<string>): void => {
+                const currentFilters = state.filtersEntries;
+
+                if (currentFilters.length > 0) {
+                    const newFilter = currentFilters.filter(
+                        (element: BlogFiltersEntry) => element.id !== action.payload
+                    );
+                    state.filtersEntries = newFilter;
+                }
+            })
+            .addMatcher(blogsFilterEntryDeleteAll.match, (state: BlogsUiState): void => {
+                state.filtersEntries = [];
+            })
 });
 
 const tags = createSlice({
@@ -129,28 +244,32 @@ const tags = createSlice({
     initialState: initialTagsState,
     reducers: {},
     extraReducers: (builder) =>
-        builder.addMatcher(
-            blogsTagsAdd.match,
-            (state: BlogsManagedTag[], action: PayloadAction<BlogsManagedTag>): void => {
-                const found = state.find((element: BlogsManagedTag) => element.guid === action.payload.guid);
-                if (!found) {
-                    state.push(action.payload);
-                }
+        builder.addMatcher(blogsTagsAdd.match, (state: Tag[], action: PayloadAction<Tag>): void => {
+            const found = state.find((element: Tag) => element.guid === action.payload.guid);
+            if (!found) {
+                state.push(action.payload);
             }
-        )
+        })
 });
 
 export const initialState: Blogs = {
     result: initialSearchState,
     query: initialQueryState,
+    ui: initialUiState,
     tags: initialTagsState
 };
 
 // State selectors
 export const getBlogs = (state: RootState) => state.blogs.result;
 export const getBlogsError = (state: RootState) => state.blogs.result.error;
-export const getBlogsUI = (state: RootState) => state.blogs.query;
+export const getBlogsQuery = (state: RootState) => state.blogs.query;
+export const getBlogsUI = (state: RootState) => state.blogs.ui;
+export const getBlogsUIIsLoading = (state: RootState) => state.blogs.ui.isLoading;
+export const getBlogsUIFiltersEntries = (state: RootState) => state.blogs.ui.filtersEntries;
 export const getManagedTags = (state: RootState) => state.blogs.query.managedTags;
+export const getBlogsLanguage = (state: RootState) => state.blogs.query.language || '';
+export const getBlogsCategories = (state: RootState) => state.blogs.query.blogCategories;
 export const getBlogsTags = (state: RootState) => state.blogs.tags;
+export const getBlogsSearchTerm = (state: RootState) => state.blogs.query.searchTerm;
 
-export default combineReducers({ result: result.reducer, query: query.reducer, tags: tags.reducer });
+export default combineReducers({ result: result.reducer, query: query.reducer, ui: ui.reducer, tags: tags.reducer });

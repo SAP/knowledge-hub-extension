@@ -8,7 +8,7 @@ import { initIcons } from '@sap-ux/ui-components';
 import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import {
-    initial,
+    initialWithLoading,
     withDataNoError,
     withNoDataNoError,
     withNoDataWithError,
@@ -26,7 +26,7 @@ describe('Tutorials', () => {
 
     test('render a Tutorials component', () => {
         const renderTutorials = (): RenderResult =>
-            renderWithRouter(<Tutorials />, { initialState: { tutorials: initial } });
+            renderWithRouter(<Tutorials />, { initialState: { tutorials: initialWithLoading } });
 
         renderTutorials();
         const headerText = screen.getByText('TUTORIALS_TITLE');

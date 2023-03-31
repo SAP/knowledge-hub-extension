@@ -20,20 +20,6 @@
             flex-grow: 1;
             flex-wrap: wrap;
             max-width: 1600px;
-
-            &__menu {
-                flex-grow: 1;
-                transition: max-height 0.47s ease-out, opacity 0.4s ease;
-
-                &__closed {
-                    max-height: 0;
-                    opacity: 0;
-                }
-                &__opened {
-                    max-height: 600px;
-                    opacity: 1;
-                }
-            }
         }
     }
     &-header {

@@ -7,30 +7,32 @@ import type {
     BlogsState,
     BlogsSearchQuery,
     BlogsSearchResultContentItem,
-    BlogsManagedTag
+    BlogFiltersEntry
 } from '@sap/knowledge-hub-extension-types';
-
-import { BlogCard } from '../../components/BlogCard';
-import { BlogFilters } from '../../components/BlogFilters';
-import { NoResult } from '../../components/NoResult';
-import { WithError } from '../../components/WithError';
-import { Loader } from '../../components/Loader';
+import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
 import {
     blogsPageChanged,
     blogsManagedTagsAdd,
     blogsTagsAdd,
-    blogsManagedTagsDeleteAll,
-    blogsManagedTagsDelete
+    blogsFilterEntryAdd,
+    blogsSearchTermChanged
 } from '../../store/actions';
-import { actions, useAppSelector } from '../../store';
-import { getBlogs, getBlogsUI, getManagedTags } from './Blogs.slice';
-import { isManagedTag, getBlogsTagById } from './blogs.utils';
-import { getHomeBlogsTags } from '../home/Home.slice';
+import { store, useAppSelector } from '../../store';
+import { getBlogs, getBlogsQuery, getManagedTags, getBlogsUIIsLoading } from './Blogs.slice';
+import { getTagsData } from '../tags/Tags.slice';
+import { fetchData, isManagedTag, getBlogsTagById, onTagSelected } from './Blogs.utils';
 import { getSearchTerm } from '../search/Search.slice';
 
 import type { UIPaginationSelected } from '../../components/UI/UIPagination';
 import { UIPagination } from '../../components/UI/UIPagination';
+import { Loader } from '../../components/Loader';
+import { NoResult } from '../../components/NoResult';
+import { WithError } from '../../components/WithError';
+import { BlogCard } from '../../components/BlogCard';
+import { BlogsFiltersMenu } from '../../components/BlogsFiltersMenu';
+import { BlogsFiltersBar } from '../../components/BlogsFiltersBar';
+import { BlogsResultNumber } from '../../components/BlogsResultNumber';
 
 import './Blogs.scss';
 
@@ -42,10 +44,11 @@ export const Blogs: FC = (): JSX.Element => {
     const maxDisplayPage = 500;
 
     const activeBlogs: BlogsState = useAppSelector(getBlogs);
-    const activeUI: BlogsSearchQuery = useAppSelector(getBlogsUI);
+    const activeQuery: BlogsSearchQuery = useAppSelector(getBlogsQuery);
     const activeSearchTerm: string = useAppSelector(getSearchTerm);
     const activeManagedTags: string[] = useAppSelector(getManagedTags) || [];
-    const homeBlogsTag = useAppSelector(getHomeBlogsTags);
+    const activeLoading = useAppSelector(getBlogsUIIsLoading);
+    const tags = useAppSelector(getTagsData);
 
     const [loading, setLoading] = useState(true);
     const [noResult, setNoResult] = useState(true);
@@ -53,85 +56,24 @@ export const Blogs: FC = (): JSX.Element => {
     const [blogs, setBlogs] = useState<BlogsSearchResultContentItem[]>();
     const [totalPage, setTotalPage] = useState(0);
     const [totalEntries, setTotalEntries] = useState(0);
-    const [pageOffset, setPageOffset] = useState(activeUI.page);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [pageOffset, setPageOffset] = useState(activeQuery.page);
 
-    const fetchData = (option: BlogsSearchQuery) => {
-        const options = Object.assign({}, activeUI, option);
-        setLoading(true);
-        actions.blogsFetchBlogs(options, false);
-    };
+    const handlePageClick = useCallback(
+        (event: UIPaginationSelected) => {
+            const options: BlogsSearchQuery = Object.assign({}, activeQuery, { page: event.selected });
 
-    const handlePageClick = useCallback((event: UIPaginationSelected) => {
-        const options: BlogsSearchQuery = {};
-        options.page = event.selected;
-
-        dispatch(blogsPageChanged(event.selected));
-        setPageOffset(event.selected);
-
-        fetchData(options);
-    }, []);
-
-    const onTagSelected = useCallback((tag: BlogsManagedTag): void => {
-        const options: BlogsSearchQuery = {};
-        options.managedTags = Object.assign([], activeManagedTags);
-        if (options.managedTags && options.managedTags.length > 0) {
-            options.managedTags.push(tag.guid);
-        } else {
-            options.managedTags = [tag.guid];
-        }
-
-        dispatch(blogsManagedTagsAdd(tag.guid));
-        dispatch(blogsTagsAdd(tag));
-
-        fetchData(options);
-    }, []);
-
-    const onClearAllTagFilter = useCallback((): void => {
-        const options: BlogsSearchQuery = {};
-        options.managedTags = [];
-
-        if (searchTerm !== '') {
-            options.searchTerm = activeSearchTerm;
-        }
-
-        dispatch(blogsManagedTagsDeleteAll(null));
-
-        fetchData(options);
-    }, []);
-
-    const onClearTagFilter = useCallback(
-        (tagId: string): void => {
-            const options: BlogsSearchQuery = {};
-            options.managedTags = Object.assign([], activeManagedTags);
-
-            if (options.managedTags && options.managedTags.length > 0) {
-                const newTags = options.managedTags.filter((element: string) => element !== tagId);
-                options.managedTags = newTags;
-            }
-
-            if (searchTerm !== '') {
-                options.searchTerm = activeSearchTerm;
-            }
-
-            dispatch(blogsManagedTagsDelete(tagId));
+            dispatch(blogsPageChanged(event.selected));
+            setPageOffset(event.selected);
 
             fetchData(options);
         },
-        [activeManagedTags]
+        [activeQuery]
     );
 
     useEffect(() => {
-        if (searchTerm !== activeSearchTerm) {
-            const options: BlogsSearchQuery = {};
-            options.searchTerm = activeSearchTerm;
-            setSearchTerm(activeSearchTerm);
-            fetchData(options);
-        }
-    }, [activeSearchTerm]);
-
-    useEffect(() => {
-        const options: BlogsSearchQuery = {};
+        const state = store.getState();
+        const currentQuery = state.blogs.query;
+        const options: BlogsSearchQuery = Object.assign({}, currentQuery);
 
         if (activeBlogs.error.isError) {
             setTotalPage(0);
@@ -140,7 +82,13 @@ export const Blogs: FC = (): JSX.Element => {
             setError(true);
         } else if (!activeBlogs.pending) {
             if (location.state && location.state.tagId && !isManagedTag(location.state.tagId, activeManagedTags)) {
-                const tag = getBlogsTagById(location.state.tagId, homeBlogsTag);
+                const tag = getBlogsTagById(location.state.tagId, tags);
+                const filterEntry: BlogFiltersEntry = {
+                    id: tag.guid,
+                    label: tag.displayName,
+                    type: BlogFiltersEntryType.TAG
+                };
+                dispatch(blogsFilterEntryAdd(filterEntry));
                 dispatch(blogsManagedTagsAdd(tag.guid));
                 dispatch(blogsTagsAdd({ displayName: tag.displayName, guid: tag.guid }));
                 options.managedTags = [tag.guid];
@@ -148,44 +96,56 @@ export const Blogs: FC = (): JSX.Element => {
                 navigate(location.pathname, { replace: true });
             } else if (activeBlogs && activeBlogs.totalCount > 0) {
                 setBlogs(activeBlogs.data);
-                setTotalPage(Math.ceil(activeBlogs.totalCount / (activeUI.limit ? activeUI.limit : 20)));
+                setTotalPage(Math.ceil(activeBlogs.totalCount / (activeQuery.limit ? activeQuery.limit : 20)));
                 setTotalEntries(activeBlogs.totalCount);
                 setLoading(false);
                 setNoResult(false);
                 setError(activeBlogs.error.isError);
             } else if (activeBlogs.totalCount === 0) {
+                setTotalEntries(activeBlogs.totalCount);
                 setLoading(false);
                 setNoResult(true);
                 setTotalPage(0);
             } else if (activeBlogs.totalCount === -1) {
                 setLoading(true);
+                setNoResult(false);
                 fetchData(options);
             }
         }
     }, [activeBlogs]);
 
+    useEffect(() => {
+        const state = store.getState();
+        const currentQuery = state.blogs.query;
+        const options: BlogsSearchQuery = Object.assign({}, currentQuery, { searchTerm: activeSearchTerm });
+        dispatch(blogsSearchTermChanged(activeSearchTerm));
+        fetchData(options);
+    }, [activeSearchTerm]);
+
+    useEffect(() => {
+        setLoading(activeLoading);
+    }, [activeLoading]);
+
     return (
         <div className="blogs">
+            <div className="blogs-filters">
+                <div className="blogs-filters-wrapper">
+                    <BlogsFiltersMenu loading={loading} />
+                    <BlogsFiltersBar />
+                </div>
+            </div>
+
             <div className="blogs-header">
                 <h2 className="blogs-header-title">{t('BLOGS_TITLE')}</h2>
                 <h3 className="blogs-header-description">{t('BLOGS_DESCRIPTION')}</h3>
             </div>
-            {activeUI.managedTags && activeUI.managedTags.length !== 0 && (
-                <BlogFilters clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />
-            )}
-            <div className="blogs-result">
-                {totalEntries > 0 && !noResult && (
-                    <div className="blogs-result-number">
-                        {totalEntries} {t('BLOGS_RESULT')}
-                    </div>
-                )}
-            </div>
+
+            <BlogsResultNumber totalNumber={totalEntries} />
 
             {!(loading || error || noResult) && (
                 <div className="blogs-content">
                     <div className="blogs-content-wrapper">
-                        {!(loading || error) &&
-                            blogs &&
+                        {blogs &&
                             blogs.map((blog: BlogsSearchResultContentItem, index: number) => {
                                 return <BlogCard key={blog.id} blog={blog} onSelectedTag={onTagSelected} />;
                             })}
@@ -204,16 +164,14 @@ export const Blogs: FC = (): JSX.Element => {
                             {t('BLOGS_PAGINATION_HEADER', { maxDisplayPage: maxDisplayPage, totalPage: totalPage })}
                         </div>
                     )}
-                    {totalPage > 0 && (
-                        <UIPagination
-                            nextLabel={t('UI_PAGINATION_CAPTION_NEXT')}
-                            onPageChange={handlePageClick}
-                            pageRangeDisplayed={3}
-                            pageCount={totalPage > maxDisplayPage ? maxDisplayPage : totalPage}
-                            previousLabel={t('UI_PAGINATION_CAPTION_PREVIOUS')}
-                            forcePage={pageOffset}
-                        />
-                    )}
+                    <UIPagination
+                        nextLabel={t('UI_PAGINATION_CAPTION_NEXT')}
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={3}
+                        pageCount={totalPage > maxDisplayPage ? maxDisplayPage : totalPage}
+                        previousLabel={t('UI_PAGINATION_CAPTION_PREVIOUS')}
+                        forcePage={pageOffset}
+                    />
                 </div>
             )}
         </div>

@@ -3,7 +3,7 @@ import { fetchHomeTutorials, fetchHomeBlogs } from '@sap/knowledge-hub-extension
 import reducer from '../../../src/webview/features/home//Home.slice';
 
 import {
-    stateInitial,
+    homeInitialState,
     tutorialsNoData,
     stateTutorialsWithDataNoError,
     stateTutorialsWithNoDataWithError,
@@ -17,7 +17,7 @@ import {
 describe('home slice', () => {
     describe('home slice > reducer', () => {
         test('initial state', () => {
-            expect(reducer(undefined, { type: 'action' })).toEqual(stateInitial);
+            expect(reducer(undefined, { type: 'action' })).toEqual(homeInitialState);
         });
 
         describe('home slice > reducer > tutorials', () => {

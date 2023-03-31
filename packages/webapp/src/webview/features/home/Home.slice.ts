@@ -9,7 +9,7 @@ import type {
     BlogsSearchResult,
     BlogsSearchQuery,
     BlogsSearchResultContentItem,
-    BlogsManagedTag,
+    Tag,
     Error,
     ErrorAction,
     PendingAction
@@ -75,7 +75,7 @@ export const initialHomeBlogsUIState: BlogsSearchQuery = {
     searchTerm: '',
     questionType: '',
     language: '',
-    blogCategories: '',
+    blogCategories: [],
     authorId: '',
     userTags: '',
     updatedFrom: undefined,
@@ -132,10 +132,10 @@ const blogs = createSlice({
             const pending = false;
             const error: Error = { isError: false, message: '' };
 
-            const tags: BlogsManagedTag[] = [];
+            const tags: Tag[] = [];
             data.forEach((entry: BlogsSearchResultContentItem) => {
-                entry.managedTags.forEach((tag: BlogsManagedTag) => {
-                    const findTagByGuide = (element: BlogsManagedTag) => element.guid === tag.guid;
+                entry.managedTags.forEach((tag: Tag) => {
+                    const findTagByGuide = (element: Tag) => element.guid === tag.guid;
                     if (tags.length > 0) {
                         if (!tags.find(findTagByGuide)) {
                             tags.push(tag);

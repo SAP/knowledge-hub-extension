@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { UILoader, UIPersona, UIPersonaSize } from '@sap-ux/ui-components';
-import type { BlogsSearchResultContentItem, BlogsManagedTag } from '@sap/knowledge-hub-extension-types';
+import type { BlogsSearchResultContentItem, Tag } from '@sap/knowledge-hub-extension-types';
 
 import { DateTime } from './DateTime';
 import { TagsBlog } from './TagsBlog';
@@ -13,11 +13,15 @@ import './BlogCard.scss';
 type BlogCardProps = {
     blog?: BlogsSearchResultContentItem;
     loading?: boolean;
-    onSelectedTag(tag: BlogsManagedTag): void;
+    onSelectedTag(tag: Tag, isChecked: boolean): void;
 };
 
 export const BlogCard: FC<BlogCardProps> = ({ blog, loading, onSelectedTag }: BlogCardProps): JSX.Element => {
     const { t } = useTranslation();
+
+    const onClickedTag = useCallback((tag: Tag) => {
+        onSelectedTag(tag, true);
+    }, []);
 
     return (
         <div className="blog-card">
@@ -50,7 +54,7 @@ export const BlogCard: FC<BlogCardProps> = ({ blog, loading, onSelectedTag }: Bl
                             </span>
                             <span className="blog-card-data-content-description">{blog.description}</span>
                             <div className="blog-card-data-content-tags">
-                                <TagsBlog tags={blog.managedTags} callback={onSelectedTag} />
+                                <TagsBlog tags={blog.managedTags} callback={onClickedTag} />
                             </div>
                         </div>
                     </div>

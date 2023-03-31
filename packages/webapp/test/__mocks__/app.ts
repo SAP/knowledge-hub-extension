@@ -1,3 +1,3 @@
-export const initial = {
+export const appInitialState = {
     appId: ''
 };

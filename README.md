@@ -1,3 +1,11 @@
+[![Build status](https://github.com/SAP/knowledge-hub-extension/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/SAP/knowledge-hub-extension/actions/workflows/pipeline.yml?query=branch%3Amain)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=SAP_knowledge-hub-extension&metric=bugs)](https://sonarcloud.io/summary/new_code?id=SAP_knowledge-hub-extension)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=SAP_knowledge-hub-extension&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=SAP_knowledge-hub-extension)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=SAP_knowledge-hub-extension&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=SAP_knowledge-hub-extension)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=SAP_knowledge-hub-extension&metric=coverage)](https://sonarcloud.io/summary/new_code?id=SAP_knowledge-hub-extension)
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP/knowledge-hub-extension)](https://api.reuse.software/info/github.com/SAP/knowledge-hub-extension)
+
+
 # Knowledge Hub extension by SAP
 <img align="left" style="padding-right:10px" src="./docs/resources/knowledge-hub-logo.svg"/> 
 Knowledge Hub is an open source Visual Studio Code extension maintained by SAP that aggregates developer resources (tutorials, blogs, and more) in the user's IDE. 

@@ -9,8 +9,17 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import { reducer } from '../../src/webview/store/reducer';
 import { I18nextProvider } from 'react-i18next';
+
+import { reducer } from '../../src/webview/store/reducer';
+import type { RootState } from '../../src/webview/store/store';
+
+import { appInitialState } from '../../test/__mocks__/app';
+import { homeInitialState } from '../../test/__mocks__/home';
+import { tutorialsInitialState } from '../../test/__mocks__/tutorials';
+import { tagsInitialState } from '../../test/__mocks__/tags';
+import { blogsInitialState } from '../../test/__mocks__/blogs';
+import { searchInitialState } from '../../test/__mocks__/search';
 
 import i18nMock from './i18n';
 
@@ -54,3 +63,12 @@ export * from '@testing-library/react';
 
 // override render method
 export { render, renderWithRouter };
+
+export const rootState: RootState = {
+    app: appInitialState,
+    home: homeInitialState,
+    tutorials: tutorialsInitialState,
+    tags: tagsInitialState,
+    blogs: blogsInitialState,
+    search: searchInitialState
+};

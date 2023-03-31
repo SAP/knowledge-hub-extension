@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
-import type { BlogsSearchResultContentItem, BlogsManagedTag } from '@sap/knowledge-hub-extension-types';
+import type { BlogsSearchResultContentItem, Tag } from '@sap/knowledge-hub-extension-types';
 
 import { initIcons } from '@sap-ux/ui-components';
 import { initLCIcons } from '../../../src/webview/Icons/icons';
@@ -21,7 +21,7 @@ describe('BlogCard', () => {
     const renderBlogCard = (
         blog: BlogsSearchResultContentItem,
         loading: boolean,
-        onSelectedTag: { (tag: BlogsManagedTag): void; (tag: BlogsManagedTag): void }
+        onSelectedTag: { (tag: Tag): void; (tag: Tag): void }
     ): RenderResult => render(<BlogCard blog={blog} loading={loading} onSelectedTag={onSelectedTag} />);
 
     test('test if the BlogCard render is ok', () => {

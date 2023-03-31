@@ -1,0 +1,18 @@
+.blogs-result-number {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+    padding-left: 10px;
+
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+
+        &__text {
+            display: flex;
+            align-items: center;
+            padding-left: 5px;
+        }
+    }
+}

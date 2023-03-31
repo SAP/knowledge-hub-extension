@@ -18,14 +18,14 @@ describe('blog-api', () => {
                 searchTerm: '',
                 questionType: '',
                 language: '',
-                blogCategories: '',
+                blogCategories: [],
                 authorId: '',
                 userTags: '',
                 boostingStrategy: '',
                 additionalManagedTags: [],
                 additionalUserTags: []
             };
-            const result = 'page=0&limit=3&orderBy=CREATE_TIME&order=DESC&contentTypes%5B0%5D=blogpost';
+            const result = 'page=0&limit=3&orderBy=UPDATE_TIME&order=DESC&contentTypes%5B0%5D=blogpost';
             const res = prepareQueryOptions(options);
 
             await expect(res).toEqual(result);
@@ -41,7 +41,7 @@ describe('blog-api', () => {
                 searchTerm: 'test',
                 questionType: '',
                 language: '',
-                blogCategories: '',
+                blogCategories: [],
                 authorId: '',
                 userTags: '',
                 boostingStrategy: '',
@@ -82,7 +82,7 @@ describe('blog-api', () => {
                 searchTerm: '',
                 questionType: '',
                 language: '',
-                blogCategories: '',
+                blogCategories: [],
                 authorId: '',
                 userTags: '',
                 boostingStrategy: '',
@@ -131,7 +131,7 @@ describe('blog-api', () => {
             const result = await getBlogs(host, options);
 
             expect(requestUrl).toBe(
-                'https://searchproxy.api.community.sap.com/external/api/v1/search?page=0&limit=3&orderBy=CREATE_TIME&order=DESC&contentTypes%5B0%5D=blogpost'
+                'https://searchproxy.api.community.sap.com/external/api/v1/search?page=0&limit=3&orderBy=UPDATE_TIME&order=DESC&contentTypes%5B0%5D=blogpost'
             );
 
             await expect(result).toEqual({

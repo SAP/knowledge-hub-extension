@@ -203,10 +203,16 @@ export const queryEmptyWithFilters = {
 };
 
 const uiInitial = {
+    isLoading: false,
     isFiltersMenuOpened: false
 };
 
-export const initial = {
+const uiInitialWithLoading = {
+    isLoading: true,
+    isFiltersMenuOpened: false
+};
+
+export const tutorialsInitialState = {
     result: {
         data: emptyData,
         error: noError,
@@ -214,6 +220,17 @@ export const initial = {
     },
     query: queryEmpty,
     ui: uiInitial,
+    tags: tagsEmpty
+};
+
+export const initialWithLoading = {
+    result: {
+        data: emptyData,
+        error: noError,
+        pending: false
+    },
+    query: queryEmpty,
+    ui: uiInitialWithLoading,
     tags: tagsEmpty
 };
 

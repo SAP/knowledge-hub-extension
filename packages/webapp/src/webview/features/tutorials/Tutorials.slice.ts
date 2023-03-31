@@ -18,7 +18,9 @@ import {
     tutorialsFiltersTagsAdd,
     tutorialsFiltersTagsDelete,
     tutorialsFiltersTagsDeleteAll,
-    tutorialsFiltersSelected
+    tutorialsFiltersTagsResetWith,
+    tutorialsFiltersSelected,
+    tutorialsLoading
 } from '../../store/actions';
 import type { RootState } from '../../store';
 
@@ -53,7 +55,8 @@ export const initialQueryState: TutorialsSearchQuery = {
     filters: []
 };
 
-export const initialFiltersState: TutorialsUiState = {
+export const initialUiState: TutorialsUiState = {
+    isLoading: false,
     isFiltersMenuOpened: false
 };
 
@@ -128,6 +131,13 @@ const query = createSlice({
                 }
             )
             .addMatcher(
+                tutorialsFiltersTagsResetWith.match,
+                (state: TutorialsSearchQuery, action: PayloadAction<string>): void => {
+                    const newFilter = action.payload;
+                    state.filters = [newFilter];
+                }
+            )
+            .addMatcher(
                 tutorialsFiltersTagsDelete.match,
                 (state: TutorialsSearchQuery, action: PayloadAction<string>): void => {
                     const currentFilters = state.filters;
@@ -146,16 +156,21 @@ const query = createSlice({
 
 const ui = createSlice({
     name: 'tutorialsUI',
-    initialState: initialFiltersState,
+    initialState: initialUiState,
     reducers: {},
     extraReducers: (builder) =>
-        builder.addMatcher(
-            tutorialsFiltersSelected.match,
-            (state: TutorialsUiState, action: PayloadAction<boolean>): void => {
-                const isOpened = action.payload;
-                state.isFiltersMenuOpened = isOpened;
-            }
-        )
+        builder
+            .addMatcher(tutorialsLoading.match, (state: TutorialsUiState, action: PayloadAction<boolean>): void => {
+                const isLoading = action.payload;
+                state.isLoading = isLoading;
+            })
+            .addMatcher(
+                tutorialsFiltersSelected.match,
+                (state: TutorialsUiState, action: PayloadAction<boolean>): void => {
+                    const isOpened = action.payload;
+                    state.isFiltersMenuOpened = isOpened;
+                }
+            )
 });
 
 const tags = createSlice({
@@ -174,7 +189,7 @@ const tags = createSlice({
 export const initialState: Tutorials = {
     result: initialSearchState,
     query: initialQueryState,
-    ui: initialFiltersState,
+    ui: initialUiState,
     tags: initialTagsState
 };
 
@@ -187,5 +202,6 @@ export const getTutorialsQuery = (state: RootState) => state.tutorials.query;
 export const getTutorialsQueryFilters = (state: RootState) => state.tutorials.query.filters;
 export const getTutorialsUI = (state: RootState) => state.tutorials.ui;
 export const getTutorialsDataTags = (state: RootState) => state.tutorials.tags.tags;
+export const getTutorialsUIIsLoading = (state: RootState) => state.tutorials.ui.isLoading;
 
 export default combineReducers({ result: result.reducer, query: query.reducer, ui: ui.reducer, tags: tags.reducer });

@@ -8,7 +8,7 @@ import { initIcons } from '@sap-ux/ui-components';
 import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import {
-    initial,
+    initialWithLoading,
     withNoDataNoError,
     withNoDataWithError,
     withDataNoError,
@@ -27,15 +27,17 @@ describe('Blogs', () => {
 
     test('render a Blogs component initial, do the fetch call', () => {
         const renderBlogsInitial = (): RenderResult =>
-            renderWithRouter(<Blogs />, { initialState: { blogs: initial } });
+            renderWithRouter(<Blogs />, { initialState: { blogs: initialWithLoading } });
 
-        renderBlogsInitial();
+        act(() => {
+            renderBlogsInitial();
+        });
 
         const headerText = screen.getByText('BLOGS_TITLE');
         expect(headerText.className).toEqual('blogs-header-title');
 
-        const noResultTitleDOM = screen.getByText(/BLOGS_LOADING_CONTENT/i);
-        expect(noResultTitleDOM.className).toMatch(/ms-Spinner-label/i);
+        const loadingTitleDOM = screen.getByText(/BLOGS_LOADING_CONTENT/i);
+        expect(loadingTitleDOM.className).toContain('ms-Spinner-label');
     });
 
     test('render a Blogs component with data', () => {
@@ -83,14 +85,14 @@ describe('Blogs', () => {
         const headerText = screen.getByText('BLOGS_TITLE');
         expect(headerText.className).toEqual('blogs-header-title');
 
-        const filteredHeaderDOM = screen.getByText(/BLOGS_FILTERS_FILTERED_BY/i);
-        expect(filteredHeaderDOM.className).toEqual('blog-filters-header-title');
+        const filteredHeaderDOM = screen.getByText(/BLOGS_FILTERS_BAR_FILTERED_BY/i);
+        expect(filteredHeaderDOM.className).toEqual('blogs-filters-bar-header-title');
 
-        const listOfFilterPill = screen.getByTestId('blog-filters-list-of-pill').querySelectorAll('.ui-pill');
-        expect(listOfFilterPill.length).toEqual(2);
+        const listOfFilterPill = screen.getByTestId('blogs-filters-bar-list-of-pill').querySelectorAll('.ui-pill');
+        expect(listOfFilterPill.length).toEqual(4);
 
-        const clearAllDOM = screen.getByText(/BLOGS_FILTERS_CLEAR_ALL/i);
-        expect(clearAllDOM.className).toMatch(/blog-filters-clear/);
+        const clearAllDOM = screen.getByText(/BLOGS_FILTERS_BAR_CLEAR_ALL/i);
+        expect(clearAllDOM.className).toContain('ms-Button-label');
     });
 
     test('render a Blogs component, pagination event handler', () => {
@@ -141,21 +143,21 @@ describe('Blogs', () => {
         const headerText = screen.getByText('BLOGS_TITLE');
         expect(headerText.className).toEqual('blogs-header-title');
 
-        const tagsText = screen.getAllByText('TAG Test');
+        const tagsText = screen.getByTestId('ui-pill-tag-1');
 
         if (tagsText) {
             act(() => {
-                tagsText[0].dispatchEvent(new MouseEvent('click', { bubbles: true }));
+                tagsText.dispatchEvent(new MouseEvent('click', { bubbles: true }));
             });
 
-            const filteredHeaderDOM = screen.getByText(/BLOGS_FILTERS_FILTERED_BY/i);
-            expect(filteredHeaderDOM.className).toEqual('blog-filters-header-title');
+            const filteredHeaderDOM = screen.getByText(/BLOGS_FILTERS_BAR_FILTERED_BY/i);
+            expect(filteredHeaderDOM.className).toEqual('blogs-filters-bar-header-title');
 
-            const listOfFilterPill = screen.getByTestId('blog-filters-list-of-pill').querySelectorAll('.ui-pill');
-            expect(listOfFilterPill.length).toEqual(1);
+            const listOfFilterPill = screen.getByTestId('blogs-filters-bar-list-of-pill').querySelectorAll('.ui-pill');
+            expect(listOfFilterPill.length).toEqual(3);
 
-            const clearAllDOM = screen.getByText(/BLOGS_FILTERS_CLEAR_ALL/i);
-            expect(clearAllDOM.className).toMatch(/blog-filters-clear/);
+            const clearAllDOM = screen.getByText(/BLOGS_FILTERS_BAR_CLEAR_ALL/i);
+            expect(clearAllDOM.className).toContain('ms-Button-label');
         }
     });
 });
