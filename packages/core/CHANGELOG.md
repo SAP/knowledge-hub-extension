@@ -1,5 +1,16 @@
 # Change Log - @sap/guided-answers-extension-core
 
+## 0.11.0
+
+### Minor Changes
+
+-   2781849: FEATURE - Introduce filtering to the Blogs tab
+
+### Patch Changes
+
+-   Updated dependencies [2781849]
+    -   @sap/knowledge-hub-extension-types@0.11.0
+
 ## 0.10.0
 
 ### Minor Changes

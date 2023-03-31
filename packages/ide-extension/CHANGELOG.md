@@ -1,5 +1,11 @@
 # Change Log - sap-knowledge-extension
 
+## 0.11.0
+
+### Minor Changes
+
+-   2781849: FEATURE - Introduce filtering to the Blogs tab
+
 ## 0.10.0
 
 ### Minor Changes
