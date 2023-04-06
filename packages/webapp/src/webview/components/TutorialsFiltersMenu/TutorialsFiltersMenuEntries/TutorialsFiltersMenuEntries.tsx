@@ -6,7 +6,7 @@ import { UICheckbox, UISearchBox } from '@sap-ux/ui-components';
 import { TutorialsTags, TUTORIALS_FILTERS_LABELS } from '@sap/knowledge-hub-extension-types';
 
 import { store } from '../../../store';
-import { isFilteredTag } from '../../../features/tutorials/Tutorials.utils';
+import { onTagSelected } from '../../../features/tutorials/Tutorials.utils';
 import { getAlternativeTitles, getTutorialsTag, makeTutorialsTagCompare } from './TutorialsFiltersMenuEntries.utils';
 import type { SortedTagListEntry } from './TutorialsFiltersMenuEntries.utils';
 
@@ -20,8 +20,7 @@ export type TutorialsFiltersMenuEntriesProps = {
     tags: TutorialsTags;
     withSearchOn: boolean;
     isSmall: boolean;
-    onSelectedTag(tag: string): void;
-    onClearedTag(tag: string): void;
+    loading: boolean;
 };
 
 export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> = ({
@@ -30,31 +29,16 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
     tags,
     withSearchOn,
     isSmall,
-    onSelectedTag,
-    onClearedTag
+    loading
 }): JSX.Element => {
     const [listEntries, setListEntries] = useState(entries);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(loading);
 
     const isTagChecked = useCallback((tagId: string): boolean => {
         const state = store.getState();
         const tagFilters = Object.assign([], state.tutorials.query.filters);
         return tagFilters.includes(tagId);
     }, []);
-
-    const onTagSelected = (tagId: string, checked: boolean): void => {
-        const state = store.getState();
-        const tagFilters = Object.assign([], state.tutorials.query.filters);
-        if (checked) {
-            if (!isFilteredTag(tagId, tagFilters)) {
-                setLoading(true);
-                onSelectedTag(tagId);
-            }
-        } else if (isFilteredTag(tagId, tagFilters)) {
-            setLoading(true);
-            onClearedTag(tagId);
-        }
-    };
 
     const onChange = useCallback(
         (_event: React.ChangeEvent<HTMLInputElement> | undefined, searchItem: string | undefined) => {
@@ -122,9 +106,13 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
     };
 
     useEffect(() => {
-        setLoading(false);
+        setIsLoading(false);
         setListEntries(entries);
     }, [entries]);
+
+    useEffect(() => {
+        setIsLoading(loading);
+    }, [loading]);
 
     return (
         <div
@@ -134,7 +122,7 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
             ]
                 .filter((x) => !!x)
                 .join(' ')}>
-            {loading && <Loader blockDOM={true} delayed={true} />}
+            {isLoading && <Loader blockDOM={true} delayed={true} />}
 
             <div className="tutorials-filters-menu-entries__header">
                 <span className="tutorials-filters-menu-entries__header-title">{title}</span>

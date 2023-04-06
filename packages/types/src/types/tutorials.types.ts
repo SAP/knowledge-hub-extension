@@ -83,6 +83,11 @@ export interface TutorialsFacets {
     [index: string]: string[];
 }
 
+export interface TutorialsTagWithTitle {
+    tag: string;
+    title: string;
+}
+
 // API
 
 export interface TutorialsAPI {

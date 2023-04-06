@@ -1,5 +1,6 @@
 import * as actions from '../../src/webview/store/actions';
 import * as types from '@sap/knowledge-hub-extension-types';
+import type { BlogFiltersEntry, TutorialsTagWithTitle } from '@sap/knowledge-hub-extension-types';
 
 describe('Page Map redux actions', () => {
     test('Webview is ready action', () => {
@@ -11,22 +12,25 @@ describe('Page Map redux actions', () => {
     });
 
     test('Fetch `tutorials` action', () => {
-        const options: types.TutorialsSearchQuery = {
+        const query: types.TutorialsSearchQuery = {
             rows: 5,
             start: 2,
             searchField: ''
         };
+        const filters: TutorialsTagWithTitle[] = [];
         const expectedAction = {
             type: types.TUTORIALS_FETCH_TUTORIALS,
-            options: options,
+            query: query,
+            filters: filters,
             home: false
         };
-        const action = actions.tutorialsFetchTutorials(options, false);
+
+        const action = actions.tutorialsFetchTutorials(query, filters, false);
         expect(action).toEqual(expectedAction);
     });
 
     test('Fetch `blogs` action', () => {
-        const options: types.BlogsSearchQuery = {
+        const query: types.BlogsSearchQuery = {
             page: 0,
             limit: 20,
             orderBy: 'UPDATE_TIME',
@@ -47,13 +51,15 @@ describe('Page Map redux actions', () => {
             additionalManagedTags: [],
             additionalUserTags: []
         };
-
+        const filters: BlogFiltersEntry[] = [];
         const expectedAction = {
             type: types.BLOGS_FETCH_BLOGS,
-            options: options,
+            query: query,
+            filters: filters,
             home: false
         };
-        const action = actions.blogsFetchBlogs(options, false);
+
+        const action = actions.blogsFetchBlogs(query, filters, false);
         expect(action).toEqual(expectedAction);
     });
 });

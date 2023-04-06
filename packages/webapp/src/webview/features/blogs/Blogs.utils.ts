@@ -5,6 +5,7 @@ import type {
     LanguageId,
     BlogsCategory
 } from '@sap/knowledge-hub-extension-types';
+
 import { BlogFiltersEntryType, allLanguages, blogsCategories } from '@sap/knowledge-hub-extension-types';
 import { store, actions } from '../../store';
 import {
@@ -60,21 +61,26 @@ export const getCategoryLabel = (categoryId: string): string => {
     const category = blogsCategories.find((category: BlogsCategory) => category.id === categoryId);
     return category ? category.label : '';
 };
+
 /**
  * Fetch blogs data.
  *
- * @param {BlogsSearchQuery} option - blogs search query
+ * @param {BlogsSearchQuery} query - The fetch query object
+ * @param {boolean} home Set true if data is for home page or not
  */
-export const fetchData = (option: BlogsSearchQuery) => {
+export const fetchBlogData = (query: BlogsSearchQuery, home?: boolean): void => {
+    const state = store.getState();
+    const filters = state.blogs.ui.filtersEntries;
+
     store.dispatch(blogsLoading(true));
-    actions.blogsFetchBlogs(option, false);
+    actions.blogsFetchBlogs(query, filters, home ? home : false);
 };
 
 /**
  * Function to handle tag selection.
  *
- * @param {Tag} tag The selected tag
- * @param {boolean} checked true|false if tag is selected
+ * @param {Tag} tag - The selected tag
+ * @param {boolean} checked - true|false if tag is selected
  */
 export const onTagSelected = (tag: Tag, checked: boolean): void => {
     const state = store.getState();
@@ -104,14 +110,14 @@ export const onTagSelected = (tag: Tag, checked: boolean): void => {
         store.dispatch(blogsManagedTagsDelete(tag.guid));
     }
     store.dispatch(blogsTagsAdd(tag));
-    const options: BlogsSearchQuery = Object.assign({}, currentQuery, { managedTags: blogTags });
-    fetchData(options);
+    const query: BlogsSearchQuery = Object.assign({}, currentQuery, { managedTags: blogTags });
+    fetchBlogData(query);
 };
 
 /**
  * Function to handle language selection.
  *
- * @param {string} language The selected language
+ * @param {string} language - The selected language
  */
 export const onLanguageSelected = (language: string): void => {
     const state = store.getState();
@@ -126,7 +132,7 @@ export const onLanguageSelected = (language: string): void => {
     store.dispatch(blogsLanguageUpdate(language));
 
     const options: BlogsSearchQuery = Object.assign({}, currentQuery, { language: language });
-    fetchData(options);
+    fetchBlogData(options);
 };
 
 /**
@@ -164,5 +170,5 @@ export const onCategorySelected = (categoryId: string, checked: boolean): void =
     }
 
     const options: BlogsSearchQuery = Object.assign({}, currentQuery, { blogCategories: blogCategories });
-    fetchData(options);
+    fetchBlogData(options);
 };

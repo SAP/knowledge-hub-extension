@@ -1,5 +1,5 @@
-import type { TutorialsSearchQuery } from './tutorials.types';
-import type { BlogsSearchQuery } from './blogs.types';
+import type { TutorialsSearchQuery, TutorialsTagWithTitle } from './tutorials.types';
+import type { BlogsSearchQuery, BlogFiltersEntry } from './blogs.types';
 export interface PendingActions {
     [key: string]: boolean;
 }
@@ -33,13 +33,15 @@ export interface KnowledgeHubWebViewReady {
 
 export interface TutorialsFetchTutorials {
     type: typeof TUTORIALS_FETCH_TUTORIALS;
-    options: TutorialsSearchQuery;
+    query: TutorialsSearchQuery;
+    filters: TutorialsTagWithTitle[];
     home: boolean;
 }
 
 export interface BlogsFetchBlogs {
     type: typeof BLOGS_FETCH_BLOGS;
-    options: BlogsSearchQuery;
+    query: BlogsSearchQuery;
+    filters: BlogFiltersEntry[];
     home: boolean;
 }
 
