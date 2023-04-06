@@ -99,7 +99,8 @@ describe('TutorialsFiltersMenuEntries', () => {
         entries: string[],
         tags: TutorialsTags,
         withSearchOn: boolean,
-        isSmall: boolean
+        isSmall: boolean,
+        loading: boolean
     ): RenderResult =>
         render(
             <TutorialsFiltersMenuEntries
@@ -108,6 +109,7 @@ describe('TutorialsFiltersMenuEntries', () => {
                 tags={tags}
                 withSearchOn={withSearchOn}
                 isSmall={isSmall}
+                loading={loading}
             />,
             {
                 initialState: { tutorials: withDataNoErrorWithFilters }
@@ -119,8 +121,9 @@ describe('TutorialsFiltersMenuEntries', () => {
         const entries = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4'];
         const withSearchOn = true;
         const isSmall = false;
+        const loading = false;
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, loading);
 
         const filteredMenuTitleDOM = screen.getByText(/Topic/i);
         expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
@@ -135,8 +138,9 @@ describe('TutorialsFiltersMenuEntries', () => {
 
         const withSearchOn = false;
         const isSmall = false;
+        const loading = false;
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, loading);
 
         const filteredMenuTitleDOM = screen.getByText(/Topic/i);
         expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
@@ -150,8 +154,9 @@ describe('TutorialsFiltersMenuEntries', () => {
         const entries = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4'];
         const withSearchOn = true;
         const isSmall = false;
+        const loading = false;
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, loading);
 
         const searchInput = screen.getByRole('searchbox');
         expect(searchInput).toBeInTheDocument();
@@ -185,9 +190,10 @@ describe('TutorialsFiltersMenuEntries', () => {
         const entries = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4'];
         const withSearchOn = true;
         const isSmall = false;
+        const loading = false;
         const spyOnTagSelected = jest.spyOn(utils, 'onTagSelected');
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, loading);
 
         const filteredMenuTitleDOM = screen.getByText(/Topic/i);
         expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
@@ -217,8 +223,9 @@ describe('TutorialsFiltersMenuEntries', () => {
         const entries = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4', 'Tag 5'];
         const withSearchOn = true;
         const isSmall = false;
+        const loading = false;
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, loading);
 
         const searchInput = screen.getByRole('searchbox');
         if (searchInput) {

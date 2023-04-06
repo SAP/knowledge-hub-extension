@@ -19,23 +19,10 @@ describe('TutorialsFiltersMenu', () => {
     initIcons();
     initLCIcons();
 
-    const renderTutorialsFiltersMenu = (
-        facets: TutorialsFacets,
-        tags: TutorialsTags,
-        onTagSelected: { (tagId: string): void; (tagId: string): void },
-        onClearedTag: { (tagId: string): void; (tagId: string): void }
-    ): RenderResult =>
-        render(
-            <TutorialsFiltersMenu
-                facets={facets}
-                tags={tags}
-                onSelectedTag={onTagSelected}
-                onClearedTag={onClearedTag}
-            />,
-            {
-                initialState: { tutorials: withDataNoErrorWithFilters }
-            }
-        );
+    const renderTutorialsFiltersMenu = (facets: TutorialsFacets, tags: TutorialsTags, loading: boolean): RenderResult =>
+        render(<TutorialsFiltersMenu facets={facets} tags={tags} loading={loading} />, {
+            initialState: { tutorials: withDataNoErrorWithFilters }
+        });
 
     test('test if the TutorialsFiltersMenu render is ok with data', () => {
         const facets = {
@@ -116,10 +103,8 @@ describe('TutorialsFiltersMenu', () => {
                 tagAlternativeTitles: []
             }
         };
-        const onTagSelected = jest.fn();
-        const onClearedTag = jest.fn();
 
-        renderTutorialsFiltersMenu(facets, tags, onTagSelected, onClearedTag);
+        renderTutorialsFiltersMenu(facets, tags, false);
 
         const filteredMenuTitleDOM = screen.getByText('Topic');
         expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
