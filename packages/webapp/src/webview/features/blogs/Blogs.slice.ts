@@ -1,6 +1,12 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { BlogFiltersEntryType, fetchBlogs, BLOGS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
+import {
+    BlogFiltersEntryType,
+    fetchBlogs,
+    BLOGS_LIMIT_PER_PAGE,
+    initBlogsFilters,
+    initBlogsQuery
+} from '@sap/knowledge-hub-extension-types';
 import type {
     Blogs,
     BlogsState,
@@ -111,6 +117,27 @@ const query = createSlice({
     reducers: {},
     extraReducers: (builder) =>
         builder
+            .addCase(
+                initBlogsQuery.fulfilled.type,
+                (state: BlogsSearchQuery, action: PayloadAction<BlogFiltersEntry[]>) => {
+                    const managedTags: string[] = [];
+                    const blogCategories: string[] = [];
+                    let language: string = '';
+                    action.payload.forEach((entry: BlogFiltersEntry) => {
+                        if (entry.type === BlogFiltersEntryType.TAG) {
+                            managedTags.push(entry.id);
+                        }
+                        if (entry.type === BlogFiltersEntryType.CATEGORY) {
+                            blogCategories.push(entry.id);
+                        }
+                        if (entry.type === BlogFiltersEntryType.LANGUAGE) {
+                            language = entry.id;
+                        }
+                    });
+
+                    return { ...state, managedTags, blogCategories, language };
+                }
+            )
             .addMatcher(blogsPageChanged.match, (state: BlogsSearchQuery, action: PayloadAction<number>): void => {
                 state.page = action.payload;
             })
@@ -188,6 +215,13 @@ const ui = createSlice({
     reducers: {},
     extraReducers: (builder) =>
         builder
+            .addCase(
+                initBlogsFilters.fulfilled.type,
+                (state: BlogsUiState, action: PayloadAction<BlogFiltersEntry[]>) => {
+                    const filtersEntries = action.payload;
+                    return { ...state, filtersEntries };
+                }
+            )
             .addMatcher(blogsFiltersSelected.match, (state: BlogsUiState, action: PayloadAction<boolean>): void => {
                 const isOpened = action.payload;
                 state.isFiltersMenuOpened = isOpened;

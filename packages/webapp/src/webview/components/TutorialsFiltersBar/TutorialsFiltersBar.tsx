@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import type { FC } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
 import { UIIcon } from '@sap-ux/ui-components';
 import type { TutorialsSearchQuery, TutorialsTags, TutorialsTag } from '@sap/knowledge-hub-extension-types';
 
-import { useAppSelector } from '../../store';
+import { store, useAppSelector } from '../../store';
 import { getTutorialsQuery, getTutorialsDataTags } from '../../features/tutorials/Tutorials.slice';
+import { fetchTutorialsData } from '../../features/tutorials/Tutorials.utils';
+import { tutorialsFiltersTagsDeleteAll, tutorialsFiltersTagsDelete } from '../../store/actions';
+
 import { UIPill } from '../UI/UIPill/UIPill';
 import { UISmallButton } from '../UI/UISmallButton';
 
 import './TutorialsFiltersBar.scss';
 
-export type TutorialsFiltersBarProps = {
-    clearAllTags(): void;
-    clearTag(tagId: string): void;
-};
-
-export const TutorialsFiltersBar: FC<TutorialsFiltersBarProps> = ({ clearAllTags, clearTag }): JSX.Element => {
+export const TutorialsFiltersBar: FC = (): JSX.Element => {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
 
     const activeQuery: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
     const activeTags: TutorialsTags = useAppSelector(getTutorialsDataTags);
@@ -48,10 +48,44 @@ export const TutorialsFiltersBar: FC<TutorialsFiltersBarProps> = ({ clearAllTags
     const addTagPill = (tagId: string): JSX.Element | null => {
         const tag = getTagById(tagId);
         if (tag) {
-            return <UIPill key={tagId} pillId={tagId} pillLabel={tag.title} callback={clearTag} />;
+            return <UIPill key={tagId} pillId={tagId} pillLabel={tag.title} callback={onClearTagFilter} />;
         } else {
             return null;
         }
+    };
+
+    const onClearAllTagFilter = useCallback((): void => {
+        const state = store.getState();
+        const currentQuery = state.tutorials.query;
+
+        const options: TutorialsSearchQuery = Object.assign({}, currentQuery);
+        options.filters = [];
+        options.start = 1;
+
+        dispatch(tutorialsFiltersTagsDeleteAll(null));
+        fetchTutorialsData(options);
+    }, []);
+
+    const onClearTagFilter = (tagId: string): void => {
+        const state = store.getState();
+        const currentQuery = state.tutorials.query;
+
+        const tagFilters = Object.assign([], currentQuery.filters);
+        const options: TutorialsSearchQuery = Object.assign({}, currentQuery);
+
+        if (tagFilters && tagFilters.length > 0) {
+            const newTags = tagFilters.filter((element: string) => element !== tagId);
+            options.filters = newTags;
+        } else {
+            options.filters = [];
+        }
+
+        if (options.filters && options.filters.length === 0) {
+            options.start = 1;
+        }
+
+        dispatch(tutorialsFiltersTagsDelete(tagId));
+        fetchTutorialsData(options);
     };
 
     useEffect(() => {
@@ -74,7 +108,7 @@ export const TutorialsFiltersBar: FC<TutorialsFiltersBarProps> = ({ clearAllTags
                                 return addTagPill(tagId);
                             })}
 
-                            <UISmallButton primary onClick={clearAllTags}>
+                            <UISmallButton primary onClick={onClearAllTagFilter}>
                                 {t('TUTORIALS_FILTERS_BAR_CLEAR_ALL')}
                             </UISmallButton>
                         </>

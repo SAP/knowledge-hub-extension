@@ -1,11 +1,13 @@
-import type { WebviewPanel } from 'vscode';
+import type { WebviewPanel, ExtensionContext } from 'vscode';
 import { Uri, ViewColumn, window } from 'vscode';
 import i18next from 'i18next';
 
 import { RESTART_WEBVIEW } from '@sap/knowledge-hub-extension-types';
 
 import { MessageHandler } from '../knowledge-hub/messageHandler';
+import { AppSession } from '../knowledge-hub/appSession';
 import { getHtml, getWebviewUri } from '../utils/web';
+import { Storage } from '../utils/storage';
 import { errorInstance } from '../utils/error';
 
 /**
@@ -14,6 +16,9 @@ import { errorInstance } from '../utils/error';
 export class KnowledgeHubPanel {
     // VSCode's Webview Panel
     public panel: WebviewPanel;
+
+    // Application data/state
+    private readonly appSession: AppSession;
 
     // file path to extension
     private extensionPath: string;
@@ -24,14 +29,19 @@ export class KnowledgeHubPanel {
     /**
      * Initializes class properties.
      *
-     * @param {string} extensionPath The extension path
+     * @param {ExtensionContext} context The extension path
      */
-    constructor(extensionPath: string) {
+    constructor(context: ExtensionContext) {
         try {
-            this.extensionPath = extensionPath;
+            this.extensionPath = context.extensionPath;
             this.panel = this.createKnowledgeHubWebview();
 
-            this.messageHandler = new MessageHandler(this.panel);
+            this.appSession = new AppSession({
+                storage: new Storage(context.globalState, 'sap.ux.knowledgeHub.filters'),
+                panel: this.panel
+            });
+
+            this.messageHandler = new MessageHandler(this.panel, this.appSession);
         } catch (error) {
             console.error(errorInstance(error).message);
             throw errorInstance(error);
@@ -55,7 +65,7 @@ export class KnowledgeHubPanel {
         const viewRootUri = Uri.file(webappDirPath);
 
         // Create Webview panel
-        const pageMapWebView = window.createWebviewPanel(
+        const knowledgeHubWebView = window.createWebviewPanel(
             'knowledgeHub.knowledgeHubPanel',
             'Knowledge Hub extension by SAP',
             ViewColumn.Active,
@@ -68,9 +78,9 @@ export class KnowledgeHubPanel {
             }
         );
 
-        const uri: string = getWebviewUri(pageMapWebView.webview, viewRootUri).toString();
+        const uri: string = getWebviewUri(knowledgeHubWebView.webview, viewRootUri).toString();
 
-        pageMapWebView.webview.html = getHtml(
+        knowledgeHubWebView.webview.html = getHtml(
             uri.toString(),
             i18next.t('KNOWLEDGE_HUB_VIEW_TITLE'),
             '/knowledgeHub.js',
@@ -79,7 +89,7 @@ export class KnowledgeHubPanel {
         );
 
         // Register for incoming messages from web view
-        pageMapWebView.webview.onDidReceiveMessage(async (action) => {
+        knowledgeHubWebView.webview.onDidReceiveMessage(async (action) => {
             await this.messageHandler.processRequestAction(action);
             // Special case when restart is requested
             if (action.type === RESTART_WEBVIEW) {
@@ -88,7 +98,7 @@ export class KnowledgeHubPanel {
             }
         });
 
-        return pageMapWebView;
+        return knowledgeHubWebView;
     }
 
     public show(): void {

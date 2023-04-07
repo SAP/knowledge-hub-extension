@@ -1,9 +1,11 @@
 import type { WebviewPanel } from 'vscode';
 import type { AnyAction } from '@sap/knowledge-hub-extension-types';
 
+import type { ActionHandlerResult, ActionsHandlerFn, ResponseActions } from './types';
+import type { AppSession } from './appSession';
+
 import { ActionHandler } from './actionsHandler';
 import { getGenericRejectAction } from '../actions';
-import type { ActionHandlerResult, ActionsHandlerFn, ResponseActions } from './types';
 
 interface ActionHandleResult {
     status: boolean;
@@ -19,10 +21,11 @@ export class MessageHandler {
     /**
      * Initializes class properties.
      *
-     * @param {WebviewPanel} panel The vscode web panel
+     * @param {WebviewPanel} panel - The vscode web panel
+     * @param {AppSession} appSession - The application session
      */
-    constructor(private readonly panel: WebviewPanel) {
-        this.actionHandler = new ActionHandler(this.panel);
+    constructor(private readonly panel: WebviewPanel, private readonly appSession: AppSession) {
+        this.actionHandler = new ActionHandler(this.appSession, this.panel);
     }
 
     /**

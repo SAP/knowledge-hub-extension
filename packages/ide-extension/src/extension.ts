@@ -18,7 +18,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
         commands.registerCommand('sap.ux.knowledgeHub.openKnowledgeHub', async () => {
             try {
                 logString(`Knowledge Hub command called. Options: ${JSON.stringify(context.extensionPath)}`);
-                const knowledgeHubPanel = new KnowledgeHubPanel(context.extensionPath);
+                const knowledgeHubPanel = new KnowledgeHubPanel(context);
                 knowledgeHubPanel.show();
             } catch (error) {
                 window.showErrorMessage(`Error while starting Knowledge Hub: ${(error as Error).message}`);

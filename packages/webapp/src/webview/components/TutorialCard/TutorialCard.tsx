@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -18,7 +18,7 @@ type TutorialCardProps = {
     tag?: string;
     tags?: TutorialsTags;
     loading?: boolean;
-    onSelectedTag(tag: string): void;
+    onSelectedTag(tag: string, isChecked: boolean): void;
 };
 
 export const TutorialCard: FC<TutorialCardProps> = ({
@@ -29,6 +29,10 @@ export const TutorialCard: FC<TutorialCardProps> = ({
     onSelectedTag
 }: TutorialCardProps): JSX.Element => {
     const { t } = useTranslation();
+
+    const onClickedTag = useCallback((tag: string) => {
+        onSelectedTag(tag, true);
+    }, []);
 
     const getFullNameForTag = (tag: string): string => {
         if (tags && tags[tag]) {
@@ -55,7 +59,7 @@ export const TutorialCard: FC<TutorialCardProps> = ({
                         </div>
                         <div className="tutorial-card-header-info">
                             <div className="tutorial-card-header-info-task-type">
-                                <TaskType type={tutorial.taskType} tags={tags} />
+                                <TaskType type={getFullNameForTag(tutorial.taskType)} />
                             </div>
                             <div className="tutorial-card-header-info-experience">
                                 <Experience experience={getFullNameForTag(tutorial.experience)} />
@@ -72,7 +76,7 @@ export const TutorialCard: FC<TutorialCardProps> = ({
                             tagText={tag}
                             tagId={tutorial.primaryTag}
                             isFeatured={tutorial.featured}
-                            callback={onSelectedTag}
+                            callback={onClickedTag}
                         />
                         {tutorial.featured && <Featured />}
                     </div>

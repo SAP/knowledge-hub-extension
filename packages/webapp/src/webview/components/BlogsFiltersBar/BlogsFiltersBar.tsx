@@ -7,8 +7,9 @@ import { UIIcon } from '@sap-ux/ui-components';
 
 import { BlogFiltersEntry, BlogFiltersEntryType, BlogsSearchQuery } from '@sap/knowledge-hub-extension-types';
 
-import { store, actions, useAppSelector } from '../../store';
+import { store, useAppSelector } from '../../store';
 import { getBlogsUIFiltersEntries } from '../../features/blogs/Blogs.slice';
+import { fetchBlogData } from '../../features/blogs/Blogs.utils';
 import {
     blogsManagedTagsDelete,
     blogsManagedTagsDeleteAll,
@@ -16,8 +17,7 @@ import {
     blogsCategoryDelete,
     blogsCategoryDeleteAll,
     blogsFilterEntryDelete,
-    blogsFilterEntryDeleteAll,
-    blogsLoading
+    blogsFilterEntryDeleteAll
 } from '../../store/actions';
 
 import { UIPill } from '../UI/UIPill/UIPill';
@@ -30,11 +30,6 @@ export const BlogsFiltersBar: FC = (): JSX.Element => {
     const dispatch = useDispatch();
     const activeFiltersEntries = useAppSelector(getBlogsUIFiltersEntries);
     const [filtersEntries, setFiltersEntries] = useState<BlogFiltersEntry[]>([]);
-
-    const fetchData = (option: BlogsSearchQuery) => {
-        dispatch(blogsLoading(true));
-        actions.blogsFetchBlogs(option, false);
-    };
 
     const onClearAllFilterEntries = useCallback((): void => {
         const state = store.getState();
@@ -49,7 +44,7 @@ export const BlogsFiltersBar: FC = (): JSX.Element => {
         dispatch(blogsManagedTagsDeleteAll(null));
         dispatch(blogsLanguageUpdate(null));
         dispatch(blogsFilterEntryDeleteAll(null));
-        fetchData(options);
+        fetchBlogData(options);
     }, []);
 
     const onClearFilterEntry = useCallback((id: string): void => {
@@ -79,7 +74,7 @@ export const BlogsFiltersBar: FC = (): JSX.Element => {
             }
         }
         dispatch(blogsFilterEntryDelete(id));
-        fetchData(options);
+        fetchBlogData(options);
     }, []);
 
     useEffect(() => {

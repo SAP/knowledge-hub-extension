@@ -8,12 +8,13 @@ import userEvent from '@testing-library/user-event';
 import { initIcons } from '@sap-ux/ui-components';
 import { initLCIcons } from '../../../../src/webview/Icons/icons';
 
-import type { TutorialsTags, TutorialsFacets } from '@sap/knowledge-hub-extension-types';
+import type { TutorialsTags } from '@sap/knowledge-hub-extension-types';
 
-import { withDataNoErrorWithFilters, withDataNoErrorWithFiltersSelected } from '../../../__mocks__/tutorials';
+import { withDataNoErrorWithFilters } from '../../../__mocks__/tutorials';
 import { render } from '../../../__mocks__/store.mock';
 
 import { TutorialsFiltersMenuEntries } from '../../../../src/webview/components/TutorialsFiltersMenu/TutorialsFiltersMenuEntries';
+import * as utils from '../../../../src/webview/features/tutorials/Tutorials.utils';
 
 describe('TutorialsFiltersMenuEntries', () => {
     // Initialize and register ui-components icons and specific icon to LC
@@ -99,8 +100,7 @@ describe('TutorialsFiltersMenuEntries', () => {
         tags: TutorialsTags,
         withSearchOn: boolean,
         isSmall: boolean,
-        onSelectedTag: { (tag: string): void; (tag: string): void },
-        onClearedTag: { (tag: string): void; (tag: string): void }
+        loading: boolean
     ): RenderResult =>
         render(
             <TutorialsFiltersMenuEntries
@@ -109,8 +109,7 @@ describe('TutorialsFiltersMenuEntries', () => {
                 tags={tags}
                 withSearchOn={withSearchOn}
                 isSmall={isSmall}
-                onSelectedTag={onSelectedTag}
-                onClearedTag={onClearedTag}
+                loading={loading}
             />,
             {
                 initialState: { tutorials: withDataNoErrorWithFilters }
@@ -122,10 +121,9 @@ describe('TutorialsFiltersMenuEntries', () => {
         const entries = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4'];
         const withSearchOn = true;
         const isSmall = false;
-        const onSelectedTag = jest.fn();
-        const onClearedTag = jest.fn();
+        const loading = false;
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag, onClearedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, loading);
 
         const filteredMenuTitleDOM = screen.getByText(/Topic/i);
         expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
@@ -140,10 +138,9 @@ describe('TutorialsFiltersMenuEntries', () => {
 
         const withSearchOn = false;
         const isSmall = false;
-        const onSelectedTag = jest.fn();
-        const onClearedTag = jest.fn();
+        const loading = false;
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag, onClearedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, loading);
 
         const filteredMenuTitleDOM = screen.getByText(/Topic/i);
         expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
@@ -157,10 +154,9 @@ describe('TutorialsFiltersMenuEntries', () => {
         const entries = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4'];
         const withSearchOn = true;
         const isSmall = false;
-        const onSelectedTag = jest.fn();
-        const onClearedTag = jest.fn();
+        const loading = false;
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag, onClearedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, loading);
 
         const searchInput = screen.getByRole('searchbox');
         expect(searchInput).toBeInTheDocument();
@@ -194,10 +190,10 @@ describe('TutorialsFiltersMenuEntries', () => {
         const entries = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4'];
         const withSearchOn = true;
         const isSmall = false;
-        const onSelectedTag = jest.fn();
-        const onClearedTag = jest.fn();
+        const loading = false;
+        const spyOnTagSelected = jest.spyOn(utils, 'onTagSelected');
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag, onClearedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, loading);
 
         const filteredMenuTitleDOM = screen.getByText(/Topic/i);
         expect(filteredMenuTitleDOM.className).toEqual('tutorials-filters-menu-entries__header-title');
@@ -216,7 +212,7 @@ describe('TutorialsFiltersMenuEntries', () => {
                 // Simulate click
                 fireEvent.click(screen.getAllByRole('checkbox')?.[0]);
 
-                expect(onSelectedTag).toHaveBeenCalledWith('Tag 1');
+                expect(spyOnTagSelected).toHaveBeenCalledWith('Tag 1', true);
             }
         }
     });
@@ -227,10 +223,9 @@ describe('TutorialsFiltersMenuEntries', () => {
         const entries = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4', 'Tag 5'];
         const withSearchOn = true;
         const isSmall = false;
-        const onSelectedTag = jest.fn();
-        const onClearedTag = jest.fn();
+        const loading = false;
 
-        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, onSelectedTag, onClearedTag);
+        renderTutorialsFiltersMenuEntries(title, entries, tags, withSearchOn, isSmall, loading);
 
         const searchInput = screen.getByRole('searchbox');
         if (searchInput) {

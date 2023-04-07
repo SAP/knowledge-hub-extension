@@ -1,4 +1,11 @@
-import type { App, TutorialsSearchResult, BlogsSearchResult, TagsSearchResult } from '../types';
+import type {
+    App,
+    TutorialsSearchResult,
+    BlogsSearchResult,
+    TagsSearchResult,
+    BlogFiltersEntry,
+    TutorialsTagWithTitle
+} from '../types';
 
 export const VIEW_PREFIX = '[view]';
 export const CORE_PREFIX = '[core]';
@@ -138,3 +145,6 @@ export const fetchBlogs = createCoreAction<BlogsSearchResult>('blogs/fetch');
 export const fetchHomeTutorials = createCoreAction<TutorialsSearchResult>('home/tutorials/fetch');
 export const fetchHomeBlogs = createCoreAction<BlogsSearchResult>('home/blogs/fetch');
 export const fetchTags = createCoreAction<TagsSearchResult>('tags/fetch');
+export const initBlogsQuery = createCoreAction<BlogFiltersEntry[]>('blogs/init/query');
+export const initBlogsFilters = createCoreAction<BlogFiltersEntry[]>('blogs/init/filters');
+export const initTutorialsFilters = createCoreAction<TutorialsTagWithTitle[]>('tutorials/init/filters');
