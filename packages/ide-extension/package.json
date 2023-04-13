@@ -44,6 +44,31 @@
         "onCommand:sap.ux.knowledgeHub.openKnowledgeHub"
     ],
     "contributes": {
+        "configuration": {
+            "id": "sap.ux.knowledgehub",
+            "type": "object",
+            "title": "%configuration.title%",
+            "properties": {
+                "sap.ux.knowledgehub.apiHost": {
+                    "type": "string",
+                    "description": "%configuration.apiHost%",
+                    "default": "https://ga.support.sap.com",
+                    "scope": "window"
+                },
+                "sap.ux.knowledgehub.openInNewTab": {
+                    "type": "boolean",
+                    "description": "%configuration.openInNewTab%",
+                    "default": false,
+                    "scope": "window"
+                },
+                "sap.ux.knowledgehub.telemetryEnabled": {
+                    "type": "boolean",
+                    "description": "%configuration.telemetryEnabled%",
+                    "default": true,
+                    "scope": "window"
+                }
+            }
+        },
         "commands": [
             {
                 "command": "sap.ux.knowledgeHub.openKnowledgeHub",
@@ -55,6 +80,7 @@
     "devDependencies": {
         "@sap/knowledge-hub-extension-core": "workspace:*",
         "@sap/knowledge-hub-extension-types": "workspace:*",
+        "applicationinsights": "2.5.0",
         "@types/vscode": "1.39.0",
         "esbuild": "0.15.12",
         "esbuild-plugin-copy": "2.1.0",

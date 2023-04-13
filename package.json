@@ -56,5 +56,8 @@
     },
     "resolutions": {
         "react-virtualized": "9.22.3"
+    },
+    "dependencies": {
+        "applicationinsights": "2.5.1"
     }
 }
