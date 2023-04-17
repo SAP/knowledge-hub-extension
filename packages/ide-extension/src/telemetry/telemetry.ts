@@ -78,16 +78,16 @@ export function setCommonProperties(properties?: {
     if (reporter) {
         reporter.commonProperties = properties
             ? {
-                  'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
-                  'cmn.devspace': properties.devSpace,
-                  apiHost: properties.apiHost,
-                  apiVersion: properties.apiVersion,
-                  'common.os': platform(),
-                  'common.nodeArch': arch(),
-                  'common.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
-                  'common.extname': packageJson.name,
-                  'common.extversion': packageJson.version
-              }
+                'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
+                'cmn.devspace': properties.devSpace,
+                'apiHost': properties.apiHost,
+                'apiVersion': properties.apiVersion,
+                'common.os': platform(),
+                'common.nodeArch': arch(),
+                'common.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
+                'common.extname': packageJson.name,
+                'common.extversion': packageJson.version
+            }
             : undefined;
     }
 }
@@ -114,18 +114,20 @@ export async function trackEvent(event: TelemetryEvent): Promise<void> {
 /**
  * Map specified redux actions to to telemetry events and track them.
  *
+ * @param action - action that occurred
  */
-export async function trackAction(): Promise<void> {
+export async function trackAction(action: any): Promise<void> {
     if (!reporter?.enabled) {
         return;
     }
     try {
+        console.log(action.payload);
         // if (actionMap[action.payload.action.type]) {
         //     const properties = actionMap[action.payload.action.type](action);
         //     trackEvent({ name: 'USER_INTERACTION', properties });
         // }
     } catch (error) {
-        // logString(`Error sending telemetry action '${action?.payload?.action?.type}': ${(error as Error).message}`);
+        logString(`Error sending telemetry action '${action?.payload?.action?.type}': ${(error as Error).message}`);
     }
 }
 

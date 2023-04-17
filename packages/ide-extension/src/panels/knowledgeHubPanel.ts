@@ -9,6 +9,8 @@ import { AppSession } from '../knowledge-hub/appSession';
 import { getHtml, getWebviewUri } from '../utils/web';
 import { Storage } from '../utils/storage';
 import { errorInstance } from '../utils/error';
+import { SEND_TELEMETRY } from '../utils/telemetry';
+import { trackAction } from '../telemetry';
 
 /**
  *  A class to handle the knowledge hub extension panel.
@@ -95,6 +97,9 @@ export class KnowledgeHubPanel {
             if (action.type === RESTART_WEBVIEW) {
                 this.panel.dispose();
                 this.panel = this.createKnowledgeHubWebview();
+            }
+            if (action.type === SEND_TELEMETRY) {
+                trackAction(action);
             }
         });
 

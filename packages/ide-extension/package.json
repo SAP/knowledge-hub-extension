@@ -44,31 +44,6 @@
         "onCommand:sap.ux.knowledgeHub.openKnowledgeHub"
     ],
     "contributes": {
-        "configuration": {
-            "id": "sap.ux.knowledgehub",
-            "type": "object",
-            "title": "%configuration.title%",
-            "properties": {
-                "sap.ux.knowledgehub.apiHost": {
-                    "type": "string",
-                    "description": "%configuration.apiHost%",
-                    "default": "https://ga.support.sap.com",
-                    "scope": "window"
-                },
-                "sap.ux.knowledgehub.openInNewTab": {
-                    "type": "boolean",
-                    "description": "%configuration.openInNewTab%",
-                    "default": false,
-                    "scope": "window"
-                },
-                "sap.ux.knowledgehub.telemetryEnabled": {
-                    "type": "boolean",
-                    "description": "%configuration.telemetryEnabled%",
-                    "default": true,
-                    "scope": "window"
-                }
-            }
-        },
         "commands": [
             {
                 "command": "sap.ux.knowledgeHub.openKnowledgeHub",

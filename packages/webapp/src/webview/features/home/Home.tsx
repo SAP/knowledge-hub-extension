@@ -61,6 +61,10 @@ export const Home: FC = (): JSX.Element => {
     const onTutorialTagSelected = useCallback((tagId: string): void => {
         navigate('/tutorials', { state: { tagId: tagId } });
     }, []);
+    const onClickTutorialsCard = useCallback((tagId: string): void => {
+        console.log('on click tutorial card..');
+        // navigate('/tutorials', { state: { tagId: tagId } });
+    }, []);
 
     useEffect(() => {
         if (homeBlogs && !homeTutorialsError.isError && homeBlogs.totalCount) {
@@ -107,6 +111,7 @@ export const Home: FC = (): JSX.Element => {
                                             tags={homeTutorials.data.tags}
                                             loading={homeTutorialsLoading}
                                             onSelectedTag={onTutorialTagSelected}
+                                            callback={onClickTutorialsCard}
                                         />
                                     );
                                 })}
