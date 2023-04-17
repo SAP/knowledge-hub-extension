@@ -1,6 +1,5 @@
 import type { Disposable } from 'vscode';
 import type { TelemetryClient } from 'applicationinsights';
-// import { Tutorials, Blogs } from '@sap/knowledge-hub-extension-types';
 
 export interface TelemetryReporter extends Disposable {
     client: TelemetryClient;
@@ -40,7 +39,7 @@ export interface TelemetryStartupEvent extends TelemetryBaseEvent {
 }
 
 export interface TelemetryUIEvent extends TelemetryBaseEvent {
-    name: 'USER_INTERACTION';
+    name: 'KHUB_OPEN_TUTORIAL' | 'KHUB_OPEN_BLOGS';
     properties: TelemetryUIEventProps;
 }
 
@@ -73,9 +72,4 @@ export interface TelemetryUIGoToPreviousPage extends TelemetryUIEventProps {
     lastNodeTitle: string;
     nodeIdPath: string;
     nodeLevel: string;
-}
-export const SEND_TELEMETRY = 'SEND_TELEMETRY';
-export interface SendTelemetry {
-    type: typeof SEND_TELEMETRY;
-    payload: string;
 }

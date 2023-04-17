@@ -3,11 +3,10 @@ import { env, workspace } from 'vscode';
 import type { Disposable } from 'vscode';
 import { TelemetryClient } from 'applicationinsights';
 import type { Contracts } from 'applicationinsights';
-// import type { IDE, SendTelemetry } from '@sap/guided-answers-extension-types';
 import { logString } from '../logger/logger';
 import packageJson from '../../package.json';
 import type { TelemetryEvent, TelemetryReporter } from '../utils/telemetry';
-// import { actionMap } from './action-map';
+
 
 const key = 'ApplicationInsightsInstrumentationKeyPLACEH0LDER';
 
@@ -78,16 +77,16 @@ export function setCommonProperties(properties?: {
     if (reporter) {
         reporter.commonProperties = properties
             ? {
-                'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
-                'cmn.devspace': properties.devSpace,
-                'apiHost': properties.apiHost,
-                'apiVersion': properties.apiVersion,
-                'common.os': platform(),
-                'common.nodeArch': arch(),
-                'common.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
-                'common.extname': packageJson.name,
-                'common.extversion': packageJson.version
-            }
+                  'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
+                  'cmn.devspace': properties.devSpace,
+                  apiHost: properties.apiHost,
+                  apiVersion: properties.apiVersion,
+                  'common.os': platform(),
+                  'common.nodeArch': arch(),
+                  'common.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
+                  'common.extname': packageJson.name,
+                  'common.extversion': packageJson.version
+              }
             : undefined;
     }
 }
@@ -103,9 +102,9 @@ export async function trackEvent(event: TelemetryEvent): Promise<void> {
     }
     try {
         const name = `${packageJson.name}/${event.name}`;
-        const properties = propertyValuesToString({ ...event.properties, ...(reporter.commonProperties || {}) });
+        const properties = propertyValuesToString({ ...event.properties });
         reporter.client.trackEvent({ name, properties });
-        logString(`Telemetry event '${event.name}': ${JSON.stringify(properties)}`);
+        logString(`Telemetry event '${event.name}': ${JSON.stringify(event.properties)}`);
     } catch (error) {
         logString(`Error sending telemetry event '${event.name}': ${(error as Error).message}`);
     }
@@ -121,11 +120,19 @@ export async function trackAction(action: any): Promise<void> {
         return;
     }
     try {
-        console.log(action.payload);
-        // if (actionMap[action.payload.action.type]) {
-        //     const properties = actionMap[action.payload.action.type](action);
-        //     trackEvent({ name: 'USER_INTERACTION', properties });
-        // }
+        const properties = {
+            action: '',
+            description: action.description,
+            primarytag: action.primarytag
+        };
+        if (action.source === 'tutorials') {
+            properties.action = 'open tutorials';
+            trackEvent({ name: 'KHUB_OPEN_TUTORIAL', properties });
+        }
+        if (action.source === 'blogs') {
+            properties.action = 'open blogs';
+            trackEvent({ name: 'KHUB_OPEN_BLOGS', properties });
+        }
     } catch (error) {
         logString(`Error sending telemetry action '${action?.payload?.action?.type}': ${(error as Error).message}`);
     }

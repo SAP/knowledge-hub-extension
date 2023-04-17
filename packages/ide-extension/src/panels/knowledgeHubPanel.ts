@@ -9,7 +9,6 @@ import { AppSession } from '../knowledge-hub/appSession';
 import { getHtml, getWebviewUri } from '../utils/web';
 import { Storage } from '../utils/storage';
 import { errorInstance } from '../utils/error';
-import { SEND_TELEMETRY } from '../utils/telemetry';
 import { trackAction } from '../telemetry';
 
 /**
@@ -98,7 +97,7 @@ export class KnowledgeHubPanel {
                 this.panel.dispose();
                 this.panel = this.createKnowledgeHubWebview();
             }
-            if (action.type === SEND_TELEMETRY) {
+            if (action.type === 'SEND_TELEMETRY') {
                 trackAction(action);
             }
         });

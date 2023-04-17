@@ -7,7 +7,8 @@ import type {
     BlogFiltersEntry,
     Tag,
     TagsFetchTags,
-    TutorialsTagWithTitle
+    TutorialsTagWithTitle,
+    SendTelemetry
 } from '@sap/knowledge-hub-extension-types';
 
 import {
@@ -42,6 +43,18 @@ export const blogsFetchBlogs = (
     query,
     filters,
     home
+});
+export const sendTutorialDataToTelemetry = (_desc: string, _primarytag: string): SendTelemetry => ({
+    type: 'SEND_TELEMETRY',
+    source: 'tutorials',
+    description: _desc,
+    primarytag: _primarytag
+});
+export const sendBlogDataToTelemetry = (_desc: string, _primarytag: string): SendTelemetry => ({
+    type: 'SEND_TELEMETRY',
+    source: 'blogs',
+    description: _desc,
+    primarytag: _primarytag
 });
 
 export const tagsFetchTags = (): TagsFetchTags => ({

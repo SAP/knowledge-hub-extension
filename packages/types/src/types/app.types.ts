@@ -6,6 +6,7 @@ export const UPDATE_GLOBAL_SETTING = 'UPDATE_GLOBAL_SETTING';
 
 export const FILTERS_BLOGS_TAGS = 'blogs';
 export const FILTERS_TUTORIALS_TAGS = 'tutorials';
+export const SEND_TELEMETRY = 'SEND_TELEMETRY';
 
 export const enum Feature {
     NATIVE_PROPERTIES = 'NATIVE_PROPERTIES',
@@ -27,4 +28,11 @@ export interface StorageSettings {
 export interface AppFilters {
     [FILTERS_BLOGS_TAGS]?: BlogFiltersEntry[];
     [FILTERS_TUTORIALS_TAGS]?: TutorialsTagWithTitle[];
+}
+
+export interface SendTelemetry {
+    type: typeof SEND_TELEMETRY;
+    source: typeof FILTERS_TUTORIALS_TAGS | typeof FILTERS_BLOGS_TAGS;
+    description: string;
+    primarytag: string;
 }

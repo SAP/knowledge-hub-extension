@@ -12,6 +12,7 @@ import { Featured } from './Featured';
 import { TagsTutorial } from './TagsTutorial';
 
 import './TutorialCard.scss';
+import { actions } from '../../store';
 
 type TutorialCardProps = {
     tutorial?: TutorialsEntry;
@@ -19,7 +20,7 @@ type TutorialCardProps = {
     tags?: TutorialsTags;
     loading?: boolean;
     onSelectedTag(tag: string, isChecked: boolean): void;
-    callback?(tag: string): void;
+    callback?(desc: string, primaryTag: string): void;
 };
 
 export const TutorialCard: FC<TutorialCardProps> = ({
@@ -35,7 +36,14 @@ export const TutorialCard: FC<TutorialCardProps> = ({
     const onClickedTag = useCallback((tag: string) => {
         onSelectedTag(tag, true);
     }, []);
-
+    const onClickTurialCard = useCallback(
+        (desc: string, primaryTag: string) =>
+            (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
+                console.log('tutorial card clicked...');
+                actions.sendTutorialDataToTelemetry(desc, primaryTag);
+            },
+        []
+    );
     const getFullNameForTag = (tag: string): string => {
         if (tags && tags[tag]) {
             return tags[tag].title;
@@ -48,6 +56,7 @@ export const TutorialCard: FC<TutorialCardProps> = ({
             {!loading && tutorial && tag && (
                 <a
                     href={`https://developers.sap.com${tutorial.publicUrl}`}
+                    onClick={onClickTurialCard(tutorial.description, tutorial.primaryTag)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="tutorial-card-link">
