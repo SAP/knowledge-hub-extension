@@ -15,7 +15,7 @@ export interface AnyAction extends Action {
 /**
  * Action related types
  */
-export type Actions = KnowledgeHubWebViewReady | TutorialsFetchTutorials | BlogsFetchBlogs ;
+export type Actions = KnowledgeHubWebViewReady | TutorialsFetchTutorials | BlogsFetchBlogs;
 
 // Action types that are handled by middleware (ide extension)
 export const RESTART_WEBVIEW = 'RESTART_WEBVIEW';
@@ -25,7 +25,6 @@ export const BLOGS_FETCH_BLOGS = 'BLOGS_FETCH_BLOGS';
 export const TAGS_FETCH_TAGS = 'TAGS_FETCH_TAGS';
 export const HOME_FETCH_TUTORIALS = 'HOME_FETCH_TUTORIALS';
 export const HOME_FETCH_BLOGS = 'HOME_FETCH_BLOGS';
-
 
 // Actions
 export interface KnowledgeHubWebViewReady {
@@ -53,4 +52,3 @@ export interface TagsFetchTags {
 export interface Send_Telemetry {
     type: typeof TAGS_FETCH_TAGS;
 }
-

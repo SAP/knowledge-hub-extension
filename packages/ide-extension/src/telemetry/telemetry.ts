@@ -7,7 +7,6 @@ import { logString } from '../logger/logger';
 import packageJson from '../../package.json';
 import type { TelemetryEvent, TelemetryReporter } from '../utils/telemetry';
 
-
 const key = 'ApplicationInsightsInstrumentationKeyPLACEH0LDER';
 
 // Telemetry reporter client
