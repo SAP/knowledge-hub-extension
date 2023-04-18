@@ -33,6 +33,6 @@ export interface AppFilters {
 export interface SendTelemetry {
     type: typeof SEND_TELEMETRY;
     source: typeof FILTERS_TUTORIALS_TAGS | typeof FILTERS_BLOGS_TAGS;
-    description: string;
-    primarytag: string;
+    title: string;
+    primaryTag: string;
 }

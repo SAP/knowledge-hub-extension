@@ -44,17 +44,17 @@ export const blogsFetchBlogs = (
     filters,
     home
 });
-export const sendTutorialDataToTelemetry = (_desc: string, _primarytag: string): SendTelemetry => ({
+export const sendTutorialDataToTelemetry = (_title: string, _primaryTag: string): SendTelemetry => ({
     type: 'SEND_TELEMETRY',
     source: 'tutorials',
-    description: _desc,
-    primarytag: _primarytag
+    title: _title,
+    primaryTag: _primaryTag
 });
-export const sendBlogDataToTelemetry = (_desc: string, _primarytag: string): SendTelemetry => ({
+export const sendBlogDataToTelemetry = (_title: string, _primaryTag: string): SendTelemetry => ({
     type: 'SEND_TELEMETRY',
     source: 'blogs',
-    description: _desc,
-    primarytag: _primarytag
+    title: _title,
+    primaryTag: _primaryTag
 });
 
 export const tagsFetchTags = (): TagsFetchTags => ({

@@ -36,11 +36,10 @@ export const TutorialCard: FC<TutorialCardProps> = ({
     const onClickedTag = useCallback((tag: string) => {
         onSelectedTag(tag, true);
     }, []);
-    const onClickTurialCard = useCallback(
-        (desc: string, primaryTag: string) =>
+    const onClickTutorialCard = useCallback(
+        (title: string, primaryTag: string) =>
             (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
-                console.log('tutorial card clicked...');
-                actions.sendTutorialDataToTelemetry(desc, primaryTag);
+                actions.sendTutorialDataToTelemetry(title, primaryTag);
             },
         []
     );
@@ -56,7 +55,7 @@ export const TutorialCard: FC<TutorialCardProps> = ({
             {!loading && tutorial && tag && (
                 <a
                     href={`https://developers.sap.com${tutorial.publicUrl}`}
-                    onClick={onClickTurialCard(tutorial.description, tutorial.primaryTag)}
+                    onClick={onClickTutorialCard(tutorial.title, tutorial.primaryTag)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="tutorial-card-link">

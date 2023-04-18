@@ -114,8 +114,8 @@ export async function trackAction(action: any): Promise<void> {
     try {
         const properties = {
             action: '',
-            description: action.description,
-            primarytag: action.primarytag
+            title: action.title,
+            primaryTag: action.primaryTag
         };
         if (action.source === 'tutorials') {
             properties.action = 'OPEN_TUTORIALS';
