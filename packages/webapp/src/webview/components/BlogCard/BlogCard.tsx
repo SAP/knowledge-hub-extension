@@ -9,6 +9,7 @@ import { DateTime } from './DateTime';
 import { TagsBlog } from './TagsBlog';
 
 import './BlogCard.scss';
+import { actions } from '../../store';
 
 type BlogCardProps = {
     blog?: BlogsSearchResultContentItem;
@@ -22,6 +23,14 @@ export const BlogCard: FC<BlogCardProps> = ({ blog, loading, onSelectedTag }: Bl
     const onClickedTag = useCallback((tag: Tag) => {
         onSelectedTag(tag, true);
     }, []);
+
+    const onClickBlogTitle = useCallback(
+        (title: string, primaryTag: string) =>
+            (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
+                actions.sendBlogDataToTelemetry(title, primaryTag);
+            },
+        []
+    );
 
     return (
         <div className="blog-card">
@@ -48,7 +57,15 @@ export const BlogCard: FC<BlogCardProps> = ({ blog, loading, onSelectedTag }: Bl
                         </div>
                         <div className="blog-card-data-content">
                             <span className="blog-card-data-content-title">
-                                <a href={blog.url} target="_blank" rel="noopener noreferrer" className="blog-card-link">
+                                <a
+                                    href={blog.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="blog-card-link"
+                                    onClick={onClickBlogTitle(
+                                        blog.title,
+                                        blog.managedTags.map((u: Tag) => u.displayName).join(', ')
+                                    )}>
                                     {blog.title}
                                 </a>
                             </span>
