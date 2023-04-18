@@ -6,7 +6,8 @@ import type {
     BlogsSearchQuery,
     BlogFiltersEntry,
     Tag,
-    TagsFetchTags
+    TagsFetchTags,
+    TutorialsTagWithTitle
 } from '@sap/knowledge-hub-extension-types';
 
 import {
@@ -21,15 +22,25 @@ export const knowledgeHubWebViewReady = (): KnowledgeHubWebViewReady => ({
     type: KNOWLEDGE_HUB_WEB_VIEW_READY
 });
 
-export const tutorialsFetchTutorials = (options: TutorialsSearchQuery, home: boolean): TutorialsFetchTutorials => ({
+export const tutorialsFetchTutorials = (
+    query: TutorialsSearchQuery,
+    filters: TutorialsTagWithTitle[],
+    home: boolean
+): TutorialsFetchTutorials => ({
     type: TUTORIALS_FETCH_TUTORIALS,
-    options,
+    query,
+    filters,
     home
 });
 
-export const blogsFetchBlogs = (options: BlogsSearchQuery, home: boolean): BlogsFetchBlogs => ({
+export const blogsFetchBlogs = (
+    query: BlogsSearchQuery,
+    filters: BlogFiltersEntry[],
+    home: boolean
+): BlogsFetchBlogs => ({
     type: BLOGS_FETCH_BLOGS,
-    options,
+    query,
+    filters,
     home
 });
 
@@ -64,4 +75,5 @@ export const tutorialsFiltersTagsDelete = createViewAction<string>('tutorials/fi
 export const tutorialsFiltersTagsDeleteAll = createViewAction('tutorials/filters-tags-delete-all');
 export const tutorialsFiltersTagsResetWith = createViewAction<string>('tutorials/filters-tags-reset-with');
 export const tutorialsFiltersSelected = createViewAction<boolean>('tutorials/filters-selected');
+export const tutorialsSearchFieldChanged = createViewAction<string>('tutorials/change-searchField');
 export const tutorialsLoading = createViewAction<boolean>('tutorials/loading');

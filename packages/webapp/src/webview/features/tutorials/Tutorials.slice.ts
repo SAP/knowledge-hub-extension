@@ -1,6 +1,11 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { fetchTutorials, fetchHomeTutorials, TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
+import {
+    fetchTutorials,
+    fetchHomeTutorials,
+    initTutorialsFilters,
+    TUTORIALS_LIMIT_PER_PAGE
+} from '@sap/knowledge-hub-extension-types';
 import type {
     Tutorials,
     TutorialsTags,
@@ -9,6 +14,7 @@ import type {
     TutorialsSearchQuery,
     TutorialsUiState,
     TutorialsTagsState,
+    TutorialsTagWithTitle,
     Error,
     ErrorAction,
     PendingAction
@@ -20,8 +26,10 @@ import {
     tutorialsFiltersTagsDeleteAll,
     tutorialsFiltersTagsResetWith,
     tutorialsFiltersSelected,
+    tutorialsSearchFieldChanged,
     tutorialsLoading
 } from '../../store/actions';
+
 import type { RootState } from '../../store';
 
 export const initialSearchState: TutorialsState = {
@@ -108,6 +116,17 @@ const query = createSlice({
     reducers: {},
     extraReducers: (builder) =>
         builder
+            .addCase(
+                initTutorialsFilters.fulfilled.type,
+                (state: TutorialsSearchQuery, action: PayloadAction<TutorialsTagWithTitle[]>) => {
+                    const filters: string[] = [];
+                    action.payload.forEach((tagWithTitle: TutorialsTagWithTitle) => {
+                        filters.push(tagWithTitle.tag);
+                    });
+
+                    return { ...state, filters };
+                }
+            )
             .addMatcher(
                 tutorialsPageChanged.match,
                 (state: TutorialsSearchQuery, action: PayloadAction<number>): void => {
@@ -152,6 +171,12 @@ const query = createSlice({
             .addMatcher(tutorialsFiltersTagsDeleteAll.match, (state: TutorialsSearchQuery): void => {
                 state.filters = [];
             })
+            .addMatcher(
+                tutorialsSearchFieldChanged.match,
+                (state: TutorialsSearchQuery, action: PayloadAction<string>): void => {
+                    state.searchField = action.payload;
+                }
+            )
 });
 
 const ui = createSlice({

@@ -18,16 +18,10 @@ import './TutorialsFiltersMenu.scss';
 export type TutorialsFiltersMenuProps = {
     facets: TutorialsFacets;
     tags: TutorialsTags;
-    onSelectedTag(tag: string): void;
-    onClearedTag(tag: string): void;
+    loading: boolean;
 };
 
-export const TutorialsFiltersMenu: FC<TutorialsFiltersMenuProps> = ({
-    facets,
-    tags,
-    onSelectedTag,
-    onClearedTag
-}): JSX.Element => {
+export const TutorialsFiltersMenu: FC<TutorialsFiltersMenuProps> = ({ facets, tags, loading }): JSX.Element => {
     const activeUi: TutorialsUiState = useAppSelector(getTutorialsUI);
 
     return (
@@ -55,8 +49,7 @@ export const TutorialsFiltersMenu: FC<TutorialsFiltersMenuProps> = ({
                                 tags={tags}
                                 withSearchOn={withSearchOn}
                                 isSmall={isSmall}
-                                onSelectedTag={onSelectedTag}
-                                onClearedTag={onClearedTag}
+                                loading={loading}
                             />
                         );
                     })}

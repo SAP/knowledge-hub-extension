@@ -17,22 +17,13 @@ describe('TutorialsFiltersBar', () => {
     initIcons();
     initLCIcons();
 
-    const renderTutorialsFiltersBar = (
-        onClearAllTagFilter: {
-            (): void;
-            (): void;
-        },
-        onClearTagFilter: { (tagId: string): void; (tagId: string): void }
-    ): RenderResult =>
-        render(<TutorialsFiltersBar clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />, {
+    const renderTutorialsFiltersBar = (): RenderResult =>
+        render(<TutorialsFiltersBar />, {
             initialState: { tutorials: withDataNoErrorWithFilters }
         });
 
     test('test if the TutorialsFiltersBar render is ok with data', () => {
-        const onClearAllTagFilterfn = jest.fn();
-        const onClearTagFilterfn = jest.fn();
-
-        renderTutorialsFiltersBar(onClearAllTagFilterfn, onClearTagFilterfn);
+        renderTutorialsFiltersBar();
 
         const filteredHeaderDOM = screen.getByText(/TUTORIALS_FILTERS_BAR_FILTERED_BY/i);
         expect(filteredHeaderDOM.className).toEqual('tutorials-filters-bar-header-title');
@@ -45,10 +36,7 @@ describe('TutorialsFiltersBar', () => {
     });
 
     test('test if the TutorialsFiltersBar render is ok when the clear all filters is clicked', () => {
-        const onClearAllTagFilterfn = jest.fn();
-        const onClearTagFilterfn = jest.fn();
-
-        renderTutorialsFiltersBar(onClearAllTagFilterfn, onClearTagFilterfn);
+        renderTutorialsFiltersBar();
 
         const listOfFilterPill = screen.getByTestId('tutorials-filters-bar-list-of-pill').querySelectorAll('.ui-pill');
         expect(listOfFilterPill.length).toEqual(3);
@@ -60,35 +48,12 @@ describe('TutorialsFiltersBar', () => {
             act(() => {
                 clearAllDOM.dispatchEvent(new MouseEvent('click', { bubbles: true }));
             });
-            expect(onClearAllTagFilterfn).toHaveBeenCalled();
-        }
-    });
-
-    test('test if the TutorialsFiltersBar render is ok when the clear all filters is clicked', () => {
-        const onClearAllTagFilterfn = jest.fn();
-        const onClearTagFilterfn = jest.fn();
-
-        renderTutorialsFiltersBar(onClearAllTagFilterfn, onClearTagFilterfn);
-
-        const listOfFilterPill = screen.getByTestId('tutorials-filters-bar-list-of-pill').querySelectorAll('.ui-pill');
-        expect(listOfFilterPill.length).toEqual(3);
-
-        const clearAllDOM = screen.getByText(/TUTORIALS_FILTERS_BAR_CLEAR_ALL/i);
-        expect(clearAllDOM.className).toContain('ms-Button-label');
-
-        if (clearAllDOM) {
-            act(() => {
-                clearAllDOM.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-            });
-            expect(onClearAllTagFilterfn).toHaveBeenCalled();
+            expect(() => screen.getByTestId('tutorials-filters-bar')).toThrow();
         }
     });
 
     test('test if the TutorialsFiltersBar render is ok when one of the filter clear icon is clicked', () => {
-        const onClearAllTagFilterfn = jest.fn();
-        const onClearTagFilterfn = jest.fn();
-
-        renderTutorialsFiltersBar(onClearAllTagFilterfn, onClearTagFilterfn);
+        renderTutorialsFiltersBar();
 
         let listOfFilterPill = screen
             .getByTestId('tutorials-filters-bar-list-of-pill')
@@ -99,7 +64,6 @@ describe('TutorialsFiltersBar', () => {
             act(() => {
                 listOfFilterPill[0].dispatchEvent(new MouseEvent('click', { bubbles: true }));
             });
-            expect(onClearTagFilterfn).toHaveBeenCalled();
         }
     });
 });

@@ -1,7 +1,7 @@
-import { fetchBlogs, BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
+import { fetchBlogs, BlogFiltersEntryType, initBlogsFilters, initBlogsQuery } from '@sap/knowledge-hub-extension-types';
 import type { Blogs } from '@sap/knowledge-hub-extension-types';
-import reducer from '../../../src/webview/features/blogs/Blogs.slice';
-import {
+
+import reducer, {
     getBlogs,
     getBlogsError,
     getBlogsQuery,
@@ -29,7 +29,8 @@ import {
     blogsLoading,
     blogsFilterEntryAdd,
     blogsFilterEntryDelete,
-    blogsFilterEntryDeleteAll
+    blogsFilterEntryDeleteAll,
+    blogsSearchTermChanged
 } from '../../../src/webview/store/actions';
 
 import {
@@ -74,6 +75,23 @@ describe('blogs slice', () => {
         });
 
         describe('blogs slice > reducer > blogsQuery', () => {
+            test('blogs init filters', () => {
+                const state = Object.assign({}, initialState, {
+                    query: {
+                        ...initialState.query,
+                        blogCategories: ['testCategory'],
+                        managedTags: ['testTag'],
+                        language: 'en'
+                    }
+                });
+                const action = initBlogsQuery.fulfilled([
+                    { id: 'testTag', label: 'Test tag', type: BlogFiltersEntryType.TAG },
+                    { id: 'testCategory', label: 'Test category', type: BlogFiltersEntryType.CATEGORY },
+                    { id: 'en', label: 'English', type: BlogFiltersEntryType.LANGUAGE }
+                ]);
+                expect(reducer(initialState, action)).toEqual(state);
+            });
+
             test('blogs page changed action', () => {
                 const state = Object.assign({}, initialState, {
                     query: {
@@ -203,7 +221,18 @@ describe('blogs slice', () => {
                 expect(reducer(uiInitialState, blogsCategoryDeleteAll(''))).toEqual(state);
             });
 
-            test('blogs update search term action - blogsSearchTermChanged', () => {});
+            test('blogs update search term action - blogsSearchTermChanged', () => {
+                const uiInitialState = Object.assign({}, initialState, {
+                    query: { ...initialState.query, searchTerm: '' }
+                });
+                const state = Object.assign({}, initialState, {
+                    query: {
+                        ...initialState.query,
+                        searchTerm: 'test'
+                    }
+                });
+                expect(reducer(uiInitialState, blogsSearchTermChanged('test'))).toEqual(state);
+            });
         });
 
         describe('blogs slice > reducer > blogsTags', () => {
@@ -252,6 +281,25 @@ describe('blogs slice', () => {
         });
 
         describe('blogs slice > reducer > blogsUI', () => {
+            test('blogs init filters', () => {
+                const state = Object.assign({}, initialState, {
+                    ui: {
+                        ...initialState.ui,
+                        filtersEntries: [
+                            {
+                                id: 'testTag',
+                                label: 'Test tag',
+                                type: 'TAG'
+                            }
+                        ]
+                    }
+                });
+                const action = initBlogsFilters.fulfilled([
+                    { id: 'testTag', label: 'Test tag', type: BlogFiltersEntryType.TAG }
+                ]);
+                expect(reducer(initialState, action)).toEqual(state);
+            });
+
             test('blogs is filter menu opened - blogsFiltersSelected', () => {
                 const state = Object.assign({}, initialState, {
                     ui: { isLoading: false, isFiltersMenuOpened: true, filtersEntries: [] }

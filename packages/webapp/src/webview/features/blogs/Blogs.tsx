@@ -21,7 +21,7 @@ import {
 import { store, useAppSelector } from '../../store';
 import { getBlogs, getBlogsQuery, getManagedTags, getBlogsUIIsLoading } from './Blogs.slice';
 import { getTagsData } from '../tags/Tags.slice';
-import { fetchData, isManagedTag, getBlogsTagById, onTagSelected } from './Blogs.utils';
+import { fetchBlogData, isManagedTag, getBlogsTagById, onTagSelected } from './Blogs.utils';
 import { getSearchTerm } from '../search/Search.slice';
 
 import type { UIPaginationSelected } from '../../components/UI/UIPagination';
@@ -65,7 +65,7 @@ export const Blogs: FC = (): JSX.Element => {
             dispatch(blogsPageChanged(event.selected));
             setPageOffset(event.selected);
 
-            fetchData(options);
+            fetchBlogData(options);
         },
         [activeQuery]
     );
@@ -92,7 +92,7 @@ export const Blogs: FC = (): JSX.Element => {
                 dispatch(blogsManagedTagsAdd(tag.guid));
                 dispatch(blogsTagsAdd({ displayName: tag.displayName, guid: tag.guid }));
                 options.managedTags = [tag.guid];
-                fetchData(options);
+                fetchBlogData(options);
                 navigate(location.pathname, { replace: true });
             } else if (activeBlogs && activeBlogs.totalCount > 0) {
                 setBlogs(activeBlogs.data);
@@ -109,7 +109,7 @@ export const Blogs: FC = (): JSX.Element => {
             } else if (activeBlogs.totalCount === -1) {
                 setLoading(true);
                 setNoResult(false);
-                fetchData(options);
+                fetchBlogData(options);
             }
         }
     }, [activeBlogs]);
@@ -119,7 +119,7 @@ export const Blogs: FC = (): JSX.Element => {
         const currentQuery = state.blogs.query;
         const options: BlogsSearchQuery = Object.assign({}, currentQuery, { searchTerm: activeSearchTerm });
         dispatch(blogsSearchTermChanged(activeSearchTerm));
-        fetchData(options);
+        fetchBlogData(options);
     }, [activeSearchTerm]);
 
     useEffect(() => {

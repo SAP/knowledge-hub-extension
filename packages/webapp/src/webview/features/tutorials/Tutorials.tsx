@@ -12,23 +12,18 @@ import type {
 } from '@sap/knowledge-hub-extension-types';
 import { TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 
-import {
-    tutorialsPageChanged,
-    tutorialsFiltersTagsAdd,
-    tutorialsFiltersTagsDeleteAll,
-    tutorialsFiltersTagsDelete,
-    tutorialsFiltersTagsResetWith
-} from '../../store/actions';
-import { store, actions, useAppSelector } from '../../store';
+import { tutorialsPageChanged, tutorialsFiltersTagsResetWith, tutorialsSearchFieldChanged } from '../../store/actions';
+import { store, useAppSelector } from '../../store';
 import { getTutorials, getTutorialsQuery, getTutorialsUIIsLoading } from './Tutorials.slice';
-import { getTutorialsTag, isFilteredTag } from './Tutorials.utils';
+import { getTutorialsTag, onTagSelected, fetchTutorialsData } from './Tutorials.utils';
 import { getSearchTerm } from '../search/Search.slice';
 
+import type { UIPaginationSelected } from '../../components/UI/UIPagination';
+import { UIPagination } from '../../components/UI/UIPagination';
 import { TutorialCard } from '../../components/TutorialCard';
 import { TutorialsResultNumber } from '../../components/TutorialsResultNumber';
 import { TutorialsFiltersMenu } from '../../components/TutorialsFiltersMenu';
 import { TutorialsFiltersBar } from '../../components/TutorialsFiltersBar';
-import { UIPagination } from '../../components/UI/UIPagination';
 import { Loader } from '../../components/Loader';
 import { NoResult } from '../../components/NoResult';
 import { WithError } from '../../components/WithError';
@@ -60,89 +55,24 @@ export const Tutorials: FC = (): JSX.Element => {
 
     const [pageOffset, setPageOffset] = useState(activeQuery.start);
     const [noResult, setNoResult] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-
-    const fetchData = (option: TutorialsSearchQuery) => {
-        const options = Object.assign({}, activeQuery, option);
-        setLoading(true);
-        actions.tutorialsFetchTutorials(options, false);
-    };
 
     const handlePageClick = useCallback(
-        (event: any) => {
+        (event: UIPaginationSelected) => {
             const options: TutorialsSearchQuery = Object.assign({}, activeQuery, { start: event.selected });
 
             dispatch(tutorialsPageChanged(event.selected));
             setPageOffset(event.selected);
 
-            fetchData(options);
+            fetchTutorialsData(options);
         },
         [activeQuery]
     );
 
-    const onTagSelected = (tagId: string): void => {
-        const state = store.getState();
-        const tagFilters = Object.assign([], state.tutorials.query.filters);
-
-        if (!isFilteredTag(tagId, tagFilters)) {
-            const options: TutorialsSearchQuery = {};
-            const state = store.getState();
-            const tagFilters = Object.assign([], state.tutorials.query.filters);
-
-            if (state.search.term !== '') {
-                options.searchField = state.search.term;
-            }
-
-            tagFilters.push(tagId);
-
-            dispatch(tutorialsFiltersTagsAdd(tagId));
-
-            options.filters = tagFilters;
-            fetchData(options);
-        }
-    };
-
-    const onClearAllTagFilter = useCallback((): void => {
-        const options: TutorialsSearchQuery = {};
-        options.filters = [];
-        options.start = 1;
-
-        if (searchTerm !== '') {
-            options.searchField = activeSearchTerm;
-        }
-
-        dispatch(tutorialsFiltersTagsDeleteAll(null));
-
-        fetchData(options);
-    }, []);
-
-    const onClearTagFilter = (tagId: string): void => {
-        const state = store.getState();
-        const tagFilters = Object.assign([], state.tutorials.query.filters);
-        const options: TutorialsSearchQuery = {};
-
-        if (tagFilters && tagFilters.length > 0) {
-            const newTags = tagFilters.filter((element: string) => element !== tagId);
-            options.filters = newTags;
-        } else {
-            options.filters = [];
-        }
-
-        if (options.filters && options.filters.length === 0) {
-            options.start = 1;
-        }
-
-        if (state.search.term !== '') {
-            options.searchField = state.search.term;
-        }
-
-        dispatch(tutorialsFiltersTagsDelete(tagId));
-
-        fetchData(options);
-    };
-
     useEffect(() => {
-        const options: TutorialsSearchQuery = {};
+        const state = store.getState();
+        const currentQuery = state.tutorials.query;
+        const options: TutorialsSearchQuery = Object.assign({}, currentQuery);
+
         let limit;
 
         if (activeTutorials.error.isError) {
@@ -156,7 +86,7 @@ export const Tutorials: FC = (): JSX.Element => {
                 dispatch(tutorialsFiltersTagsResetWith(tagId));
 
                 options.filters = [tagId];
-                fetchData(options);
+                fetchTutorialsData(options);
                 navigate(location.pathname, { replace: true });
             }
 
@@ -186,22 +116,17 @@ export const Tutorials: FC = (): JSX.Element => {
             } else if (activeTutorials.data.numFound === -1) {
                 setLoading(true);
                 setNoResult(false);
-                fetchData(options);
+                fetchTutorialsData(options);
             }
         }
     }, [activeTutorials]);
 
     useEffect(() => {
-        if (searchTerm !== activeSearchTerm) {
-            const options: TutorialsSearchQuery = {};
-            const state = store.getState();
-            const tagFilters = Object.assign([], state.tutorials.query.filters);
-
-            options.filters = tagFilters;
-            options.searchField = activeSearchTerm;
-            setSearchTerm(activeSearchTerm);
-            fetchData(options);
-        }
+        const state = store.getState();
+        const currentQuery = state.tutorials.query;
+        const query: TutorialsSearchQuery = Object.assign({}, currentQuery, { searchField: activeSearchTerm });
+        dispatch(tutorialsSearchFieldChanged(activeSearchTerm));
+        fetchTutorialsData(query);
     }, [activeSearchTerm]);
 
     useEffect(() => {
@@ -212,13 +137,8 @@ export const Tutorials: FC = (): JSX.Element => {
         <div className="tutorials">
             <div className="tutorials-filters">
                 <div className="tutorials-filters-wrapper">
-                    <TutorialsFiltersMenu
-                        facets={facets}
-                        tags={tags}
-                        onSelectedTag={onTagSelected}
-                        onClearedTag={onClearTagFilter}
-                    />
-                    <TutorialsFiltersBar clearAllTags={onClearAllTagFilter} clearTag={onClearTagFilter} />
+                    <TutorialsFiltersMenu facets={facets} tags={tags} loading={loading} />
+                    <TutorialsFiltersBar />
                 </div>
             </div>
 

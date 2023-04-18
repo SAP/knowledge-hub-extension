@@ -1,6 +1,6 @@
-import { fetchTutorials, fetchHomeTutorials } from '@sap/knowledge-hub-extension-types';
+import { fetchTutorials, fetchHomeTutorials. initTutorialsFilters } from '@sap/knowledge-hub-extension-types';
 import type { Tutorials } from '@sap/knowledge-hub-extension-types';
-import reducer from '../../../src/webview/features/tutorials/Tutorials.slice';
+
 import {
     tutorialsPageChanged,
     tutorialsFiltersTagsAdd,
@@ -11,7 +11,7 @@ import {
     tutorialsFiltersSelected
 } from '../../../src/webview/store/actions';
 
-import {
+import reducer, {
     getTutorials,
     getTutorialsData,
     getTutorialsPending,
@@ -64,6 +64,19 @@ describe('tutorials slice', () => {
         });
 
         describe('tutorials slice > reducer > tutorialsQuery', () => {
+            test('tutorials init filters', () => {
+                const state = Object.assign({}, initialState, {
+                    query: {
+                        ...initialState.query,
+                        filters: ['testTag']
+                    }
+                });
+                const action = initTutorialsFilters.fulfilled([{ tag: 'testTag', title: 'Test tag' }]);
+                expect(reducer(initialState, action)).toEqual(
+                    state
+                );
+            });
+
             test('tutorials page changed action', () => {
                 const state = Object.assign({}, initialState, {
                     query: {
