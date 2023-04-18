@@ -118,11 +118,11 @@ export async function trackAction(action: any): Promise<void> {
             primarytag: action.primarytag
         };
         if (action.source === 'tutorials') {
-            properties.action = 'open tutorials';
+            properties.action = 'OPEN_TUTORIALS';
             trackEvent({ name: 'KHUB_OPEN_TUTORIAL', properties });
         }
         if (action.source === 'blogs') {
-            properties.action = 'open blogs';
+            properties.action = 'OPEN_BLOGS';
             trackEvent({ name: 'KHUB_OPEN_BLOGS', properties });
         }
     } catch (error) {
