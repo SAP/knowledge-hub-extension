@@ -44,6 +44,25 @@
         "onCommand:sap.ux.knowledgeHub.openKnowledgeHub"
     ],
     "contributes": {
+        "configuration": {
+            "id": "sap.ux.knowledgeHub",
+            "type": "object",
+            "title": "%configuration.title%",
+            "properties": {
+                "sap.ux.knowledgeHub.openInNewTab": {
+                    "type": "boolean",
+                    "description": "%configuration.openInNewTab%",
+                    "default": false,
+                    "scope": "window"
+                },
+                "sap.ux.knowledgeHub.telemetryEnabled": {
+                    "type": "boolean",
+                    "description": "%configuration.telemetryEnabled%",
+                    "default": true,
+                    "scope": "window"
+                }
+            }
+        },
         "commands": [
             {
                 "command": "sap.ux.knowledgeHub.openKnowledgeHub",

@@ -50,7 +50,7 @@ export function initTelemetry(): TelemetryReporter {
  * @returns - status of telemetry setting, true: enabled; false: disabled
  */
 function updateTelemetryStatus(): boolean {
-    const enabled = !!workspace.getConfiguration('sap.ux.guidedAnswer').get('telemetryEnabled');
+    const enabled = !!workspace.getConfiguration('sap.ux.knowledgeHub').get('telemetryEnabled');
     if (reporter) {
         reporter.enabled = enabled;
     }
@@ -64,22 +64,15 @@ function updateTelemetryStatus(): boolean {
  * @param properties - name/value pair of properties (optional)
  * @param properties.ide - development environment VSCODE or SBAS
  * @param properties.devSpace - SBAS devspace
- * @param properties.apiHost - host for Guided Answers API
- * @param properties.apiVersion - version of Guided Answers API
  */
-export function setCommonProperties(properties?: {
-    ide: 'VSCODE' | 'SBAS';
-    devSpace: string;
-    apiHost: string;
-    apiVersion: string;
-}) {
+export function setCommonProperties(properties?: { ide: 'VSCODE' | 'SBAS'; devSpace: string }) {
     if (reporter) {
         reporter.commonProperties = properties
             ? {
                   'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
                   'cmn.devspace': properties.devSpace,
-                  apiHost: properties.apiHost,
-                  apiVersion: properties.apiVersion,
+                  apiHost: '',
+                  apiVersion: '',
                   'common.os': platform(),
                   'common.nodeArch': arch(),
                   'common.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
@@ -101,7 +94,7 @@ export async function trackEvent(event: TelemetryEvent): Promise<void> {
     }
     try {
         const name = `${packageJson.name}/${event.name}`;
-        const properties = propertyValuesToString({ ...event.properties });
+        const properties = propertyValuesToString({ ...event.properties, ...(reporter.commonProperties || {}) });
         reporter.client.trackEvent({ name, properties });
         logString(`Telemetry event '${event.name}': ${JSON.stringify(event.properties)}`);
     } catch (error) {
