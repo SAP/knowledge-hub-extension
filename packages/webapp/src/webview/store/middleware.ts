@@ -22,7 +22,6 @@ export const postMessageMiddleware: Middleware = (store: MiddlewareAPI) => {
     } catch (e) {
         console.warn('Cannot acquire VSCode API. Not running in VSCode webview');
     }
-    // const allowedTelemetryActions = new Set([tutorials, blogs]);
     return (next: Dispatch) =>
         (action): Action => {
             action = next(action);

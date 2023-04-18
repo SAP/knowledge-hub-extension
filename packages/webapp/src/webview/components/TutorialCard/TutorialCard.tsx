@@ -20,7 +20,6 @@ type TutorialCardProps = {
     tags?: TutorialsTags;
     loading?: boolean;
     onSelectedTag(tag: string, isChecked: boolean): void;
-    callback?(desc: string, primaryTag: string): void;
 };
 
 export const TutorialCard: FC<TutorialCardProps> = ({
@@ -28,8 +27,7 @@ export const TutorialCard: FC<TutorialCardProps> = ({
     tag,
     tags,
     loading,
-    onSelectedTag,
-    callback
+    onSelectedTag
 }: TutorialCardProps): JSX.Element => {
     const { t } = useTranslation();
 

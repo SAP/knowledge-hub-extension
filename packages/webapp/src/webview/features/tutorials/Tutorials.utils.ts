@@ -4,7 +4,6 @@ import type {
     TutorialsTagWithTitle,
     TutorialsTags
 } from '@sap/knowledge-hub-extension-types';
-
 import { store, actions } from '../../store';
 import { tutorialsFiltersTagsAdd, tutorialsFiltersTagsDelete, tutorialsLoading } from '../../store/actions';
 

@@ -48,7 +48,3 @@ export interface BlogsFetchBlogs {
 export interface TagsFetchTags {
     type: typeof TAGS_FETCH_TAGS;
 }
-
-export interface Send_Telemetry {
-    type: typeof TAGS_FETCH_TAGS;
-}

@@ -20,7 +20,6 @@ export const TagsTutorial: FC<TagsTutorialProps> = ({
     const handleTagIdClick = useCallback(
         (tagId: string) =>
             (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
-                console.log('tag clicked...');
                 callback(tagId);
             },
         []
