@@ -1,7 +1,5 @@
 import type { Middleware, MiddlewareAPI, Dispatch, Action } from 'redux';
 import { createLogger } from 'redux-logger';
-import tutorials from '../features/tutorials/Tutorials.slice';
-import blogs from '../features/blogs/Blogs.slice';
 
 declare let window: Window;
 declare let acquireVsCodeApi: () => (typeof window)['vscode'];
