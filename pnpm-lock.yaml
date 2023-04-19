@@ -227,8 +227,8 @@ importers:
         specifier: 4.6.0
         version: 4.6.0(eslint@8.38.0)
       html-react-parser:
-        specifier: 3.0.12
-        version: 3.0.12(react@18.2.0)
+        specifier: 3.0.15
+        version: 3.0.15(react@18.2.0)
       i18next:
         specifier: 22.4.11
         version: 22.4.11
@@ -3892,7 +3892,7 @@ packages:
       dom-serializer: 2.0.0
       domhandler: 5.0.3
       domutils: 3.0.1
-      htmlparser2: 8.0.1
+      htmlparser2: 8.0.2
       parse5: 7.1.2
       parse5-htmlparser2-tree-adapter: 7.0.0
     dev: true
@@ -5936,11 +5936,11 @@ packages:
       lru-cache: 6.0.0
     dev: true
 
-  /html-dom-parser@3.1.5:
-    resolution: {integrity: sha512-9KTy2C7G7OcDDvnJ3Y7np84RF3OuO7X0PE5ZXyrNdOTI9NYam8thaUtxGEIM5lUqJkJR8T1aVe+zlN6H4PCtuA==}
+  /html-dom-parser@3.1.7:
+    resolution: {integrity: sha512-cDgNF4YgF6J3H+d9mcldGL19p0GzVdS3iGuDNzYWQpU47q3+IRM85X3Xo07E+nntF4ek4s78A9V24EwxlPTjig==}
     dependencies:
       domhandler: 5.0.3
-      htmlparser2: 8.0.1
+      htmlparser2: 8.0.2
     dev: true
 
   /html-encoding-sniffer@3.0.0:
@@ -5960,13 +5960,13 @@ packages:
       void-elements: 3.1.0
     dev: true
 
-  /html-react-parser@3.0.12(react@18.2.0):
-    resolution: {integrity: sha512-eOXg0EvKhXjYjljd8gtBPzL8Pqf49uRrb9JAjYLlqYFr95E+HoCvGt0/w0J1E/fR1ArsEMWY+K6M4/wUuvaQ5Q==}
+  /html-react-parser@3.0.15(react@18.2.0):
+    resolution: {integrity: sha512-iM2KUVhNoeIsezbpO6xwOHlFqWH+EYaCGwWWeX7R+jvrgc+mbnuouWaCU8GZRRbPKDD0eJXPZwLoeGVft84QXw==}
     peerDependencies:
       react: 0.14 || 15 || 16 || 17 || 18
     dependencies:
       domhandler: 5.0.3
-      html-dom-parser: 3.1.5
+      html-dom-parser: 3.1.7
       react: 18.2.0
       react-property: 2.0.0
       style-to-js: 1.1.3
@@ -5981,8 +5981,8 @@ packages:
       entities: 2.2.0
     dev: false
 
-  /htmlparser2@8.0.1:
-    resolution: {integrity: sha512-4lVbmc1diZC7GUJQtRQ5yBAeUCL1exyMwmForWkRLnwyzWBFxN633SALPMGYaWZvKe9j1pRZJpauvmxENSp/EA==}
+  /htmlparser2@8.0.2:
+    resolution: {integrity: sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==}
     dependencies:
       domelementtype: 2.3.0
       domhandler: 5.0.3
