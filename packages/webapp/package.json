@@ -46,7 +46,7 @@
         "esbuild-plugin-replace": "1.3.0",
         "esbuild-plugin-svgr": "1.0.1",
         "esbuild-sass-plugin": "2.4.0",
-        "i18next": "22.4.11",
+        "i18next": "22.4.15",
         "jest-css-modules-transform": "4.4.2",
         "jest-environment-jsdom": "29.5.0",
         "path": "0.12.7",
