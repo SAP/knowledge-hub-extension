@@ -226,9 +226,6 @@ importers:
       eslint-plugin-react-hooks:
         specifier: 4.6.0
         version: 4.6.0(eslint@8.38.0)
-      html-react-parser:
-        specifier: 3.0.12
-        version: 3.0.12(react@18.2.0)
       i18next:
         specifier: 22.4.11
         version: 22.4.11
@@ -3892,7 +3889,7 @@ packages:
       dom-serializer: 2.0.0
       domhandler: 5.0.3
       domutils: 3.0.1
-      htmlparser2: 8.0.1
+      htmlparser2: 8.0.2
       parse5: 7.1.2
       parse5-htmlparser2-tree-adapter: 7.0.0
     dev: true
@@ -5936,13 +5933,6 @@ packages:
       lru-cache: 6.0.0
     dev: true
 
-  /html-dom-parser@3.1.5:
-    resolution: {integrity: sha512-9KTy2C7G7OcDDvnJ3Y7np84RF3OuO7X0PE5ZXyrNdOTI9NYam8thaUtxGEIM5lUqJkJR8T1aVe+zlN6H4PCtuA==}
-    dependencies:
-      domhandler: 5.0.3
-      htmlparser2: 8.0.1
-    dev: true
-
   /html-encoding-sniffer@3.0.0:
     resolution: {integrity: sha512-oWv4T4yJ52iKrufjnyZPkrN0CH3QnrUqdB6In1g5Fe1mia8GmF36gnfNySxoZtxD5+NmYw1EElVXiBk93UeskA==}
     engines: {node: '>=12'}
@@ -5960,18 +5950,6 @@ packages:
       void-elements: 3.1.0
     dev: true
 
-  /html-react-parser@3.0.12(react@18.2.0):
-    resolution: {integrity: sha512-eOXg0EvKhXjYjljd8gtBPzL8Pqf49uRrb9JAjYLlqYFr95E+HoCvGt0/w0J1E/fR1ArsEMWY+K6M4/wUuvaQ5Q==}
-    peerDependencies:
-      react: 0.14 || 15 || 16 || 17 || 18
-    dependencies:
-      domhandler: 5.0.3
-      html-dom-parser: 3.1.5
-      react: 18.2.0
-      react-property: 2.0.0
-      style-to-js: 1.1.3
-    dev: true
-
   /htmlparser2@6.1.0:
     resolution: {integrity: sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==}
     dependencies:
@@ -5981,8 +5959,8 @@ packages:
       entities: 2.2.0
     dev: false
 
-  /htmlparser2@8.0.1:
-    resolution: {integrity: sha512-4lVbmc1diZC7GUJQtRQ5yBAeUCL1exyMwmForWkRLnwyzWBFxN633SALPMGYaWZvKe9j1pRZJpauvmxENSp/EA==}
+  /htmlparser2@8.0.2:
+    resolution: {integrity: sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==}
     dependencies:
       domelementtype: 2.3.0
       domhandler: 5.0.3
@@ -6130,10 +6108,6 @@ packages:
 
   /ini@1.3.8:
     resolution: {integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==}
-    dev: true
-
-  /inline-style-parser@0.1.1:
-    resolution: {integrity: sha512-7NXolsK4CAS5+xvdj5OMMbI962hU/wvwoxk+LWR9Ek9bVtyuuYScDN6eS0rUm6TxApFpw7CX1o4uJzcd4AyD3Q==}
     dev: true
 
   /internal-slot@1.0.4:
@@ -8361,10 +8335,6 @@ packages:
       react: 18.2.0
     dev: true
 
-  /react-property@2.0.0:
-    resolution: {integrity: sha512-kzmNjIgU32mO4mmH5+iUyrqlpFQhF8K2k7eZ4fdLSOPFrD1XgEuSBv9LDEgxRXTMBqMd8ppT0x6TIzqE5pdGdw==}
-    dev: true
-
   /react-redux@8.0.5(@types/react-dom@18.0.11)(@types/react@18.0.28)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1):
     resolution: {integrity: sha512-Q2f6fCKxPFpkXt1qNRZdEDLlScsDWyrgSj0mliK59qU6W5gvBiKkdMEG2lJzhd1rCctf0hb6EtePPLZ2e0m1uw==}
     peerDependencies:
@@ -9035,18 +9005,6 @@ packages:
   /strip-json-comments@3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
-    dev: true
-
-  /style-to-js@1.1.3:
-    resolution: {integrity: sha512-zKI5gN/zb7LS/Vm0eUwjmjrXWw8IMtyA8aPBJZdYiQTXj4+wQ3IucOLIOnF7zCHxvW8UhIGh/uZh/t9zEHXNTQ==}
-    dependencies:
-      style-to-object: 0.4.1
-    dev: true
-
-  /style-to-object@0.4.1:
-    resolution: {integrity: sha512-HFpbb5gr2ypci7Qw+IOhnP2zOU7e77b+rzM+wTzXzfi1PrtBCX0E7Pk4wL4iTLnhzZ+JgEGAhX81ebTg/aYjQw==}
-    dependencies:
-      inline-style-parser: 0.1.1
     dev: true
 
   /stylis@4.1.3:
