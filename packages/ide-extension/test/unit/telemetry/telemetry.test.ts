@@ -166,6 +166,18 @@ describe('Telemetry disabled', () => {
         expect(reporter.enabled).toBe(true);
         expect(reporter.client.trackEvent).toBeCalled();
     });
+    test('Track action when telemetry is enabled, should not send anything', () => {
+        // Mock setup
+        // jest.spyOn(workspace, 'getConfiguration').mockReturnValue({ get: () => true } as any);
+    
+        // Test execution
+        reporter = initTelemetry();
+        reporter.enabled = true;
+        trackAction(getDummyAction(''));
+    
+        // Result check
+        expect(reporter.client.trackEvent).toBeCalled();
+    });
 });
 
 describe('Test for setCommonProperties()', () => {
