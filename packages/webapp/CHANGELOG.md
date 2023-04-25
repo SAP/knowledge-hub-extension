@@ -1,5 +1,11 @@
 # Change Log - @sap/knowledge-hub-extension-webapp
 
+## 0.12.1
+
+### Patch Changes
+
+-   6f763ec: chore(deps): update dependency i18next to v22.4.15
+
 ## 0.12.0
 
 ### Minor Changes
