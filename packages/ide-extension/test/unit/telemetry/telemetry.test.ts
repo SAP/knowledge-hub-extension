@@ -8,7 +8,7 @@ import { LogTelemetryEvent, LOG_TELEMETRY_EVENT } from '@sap/knowledge-hub-exten
 
 import type { TelemetryEvent, TelemetryReporter } from '../../../src/utils/telemetry';
 import packageJson from '../../../package.json';
-import { OPEN_TUTORIAL } from '../../../../types/dist/types';
+import { OPEN_BLOG, OPEN_TUTORIAL } from '../../../../types/dist/types';
 
 jest.mock('applicationinsights', () => ({
     TelemetryClient: jest.fn().mockImplementation((key) => ({
@@ -165,7 +165,7 @@ describe('Telemetry disabled', () => {
         expect(reporter.enabled).toBe(true);
         expect(reporter.client.trackEvent).toBeCalled();
     });
-    test('Track action when telemetry is enabled, should not send anything', () => {
+    test('Track action when telemetry is enabled for logging tutorials', () => {
         // Test execution
         reporter = initTelemetry();
         reporter.enabled = true;
@@ -173,6 +173,30 @@ describe('Telemetry disabled', () => {
 
         // Result check
         expect(reporter.client.trackEvent).toBeCalled();
+    });
+
+    test('Track action when telemetry is enabled for logging blogs', () => {
+        // Test execution
+        reporter = initTelemetry();
+        reporter.enabled = true;
+        trackAction(getDummyAction1(''));
+
+        // Result check
+        expect(reporter.client.trackEvent).toBeCalledWith({
+            name : "sap-knowledge-hub-extension/KHUB_OPEN_BLOGS", 
+            "properties" : {
+                "action": "string", 
+                "cmn.appstudio": "true",
+                "cmn.devspace": "DevSpace",
+                "cmn.extname": "sap-knowledge-hub-extension",
+                "cmn.extversion": "0.12.1",
+                "cmn.nodeArch": "arch",
+                "cmn.os": "platform",
+                "cmn.platformversion": "1.2.3",
+                "primaryTag": "abc-def-fgh",
+                "title": "hello sap"
+            }
+        })
     });
 });
 
@@ -210,6 +234,15 @@ function getDummyAction(_actionName: string): LogTelemetryEvent {
     return {
         type: LOG_TELEMETRY_EVENT,
         source: OPEN_TUTORIAL,
+        title: 'hello sap',
+        primaryTag: 'abc-def-fgh'
+    };
+}
+
+function getDummyAction1(_actionName: string): LogTelemetryEvent {
+    return {
+        type: LOG_TELEMETRY_EVENT,
+        source: OPEN_BLOG,
         title: 'hello sap',
         primaryTag: 'abc-def-fgh'
     };
