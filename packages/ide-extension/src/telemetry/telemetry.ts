@@ -6,7 +6,12 @@ import type { Contracts } from 'applicationinsights';
 import { logString } from '../logger/logger';
 import packageJson from '../../package.json';
 import type { TelemetryEvent, TelemetryReporter, TelemetryUIEventProps } from '../utils/telemetry';
-import { FILTERS_BLOGS_TAGS, FILTERS_TUTORIALS_TAGS, OPEN_TUTORIAL, OPEN_BLOG } from '@sap/knowledge-hub-extension-types';
+import {
+    FILTERS_BLOGS_TAGS,
+    FILTERS_TUTORIALS_TAGS,
+    OPEN_TUTORIAL,
+    OPEN_BLOG
+} from '@sap/knowledge-hub-extension-types';
 const key = 'ApplicationInsightsInstrumentationKeyPLACEH0LDER';
 
 // Telemetry reporter client
@@ -63,7 +68,7 @@ function updateTelemetryStatus(): boolean {
  *
  * @param properties - name/value pair of properties (optional)
  * @param properties.ide - development environment VSCODE or SBAS
- * @param properties.devSpace - SBAS devspace
+ * @param properties.sbasdevSpace - SBAS devspace
  */
 export function setCommonProperties(properties?: { ide: 'VSCODE' | 'SBAS'; sbasdevSpace: string }) {
     if (reporter) {
@@ -110,7 +115,7 @@ export async function trackAction(action: any): Promise<void> {
         return;
     }
     try {
-        let properties: TelemetryUIEventProps = {
+        const properties: TelemetryUIEventProps = {
             action: '',
             title: action.title,
             primaryTag: action.primaryTag
