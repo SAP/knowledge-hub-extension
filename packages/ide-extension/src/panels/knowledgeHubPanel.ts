@@ -2,7 +2,7 @@ import type { WebviewPanel, ExtensionContext } from 'vscode';
 import { Uri, ViewColumn, window } from 'vscode';
 import i18next from 'i18next';
 
-import { RESTART_WEBVIEW } from '@sap/knowledge-hub-extension-types';
+import { RESTART_WEBVIEW, LOG_TELEMETRY_EVENT } from '@sap/knowledge-hub-extension-types';
 
 import { MessageHandler } from '../knowledge-hub/messageHandler';
 import { AppSession } from '../knowledge-hub/appSession';
@@ -97,7 +97,7 @@ export class KnowledgeHubPanel {
                 this.panel.dispose();
                 this.panel = this.createKnowledgeHubWebview();
             }
-            if (action.type === 'SEND_TELEMETRY') {
+            if (action.type ===  LOG_TELEMETRY_EVENT) {
                 trackAction(action);
             }
         });

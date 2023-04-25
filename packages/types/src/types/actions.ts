@@ -25,6 +25,9 @@ export const BLOGS_FETCH_BLOGS = 'BLOGS_FETCH_BLOGS';
 export const TAGS_FETCH_TAGS = 'TAGS_FETCH_TAGS';
 export const HOME_FETCH_TUTORIALS = 'HOME_FETCH_TUTORIALS';
 export const HOME_FETCH_BLOGS = 'HOME_FETCH_BLOGS';
+export const LOG_TELEMETRY_EVENT = 'LOG_TELEMETRY_EVENT';
+export const OPEN_BLOG = 'openBlog';
+export const OPEN_TUTORIAL = 'openTutorial';
 
 // Actions
 export interface KnowledgeHubWebViewReady {

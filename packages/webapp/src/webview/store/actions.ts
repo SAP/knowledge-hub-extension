@@ -8,7 +8,7 @@ import type {
     Tag,
     TagsFetchTags,
     TutorialsTagWithTitle,
-    SendTelemetry
+    LogTelemetryEvent
 } from '@sap/knowledge-hub-extension-types';
 
 import {
@@ -16,7 +16,10 @@ import {
     TUTORIALS_FETCH_TUTORIALS,
     TAGS_FETCH_TAGS,
     BLOGS_FETCH_BLOGS,
-    createViewAction
+    createViewAction,
+    LOG_TELEMETRY_EVENT,
+    OPEN_BLOG, 
+    OPEN_TUTORIAL
 } from '@sap/knowledge-hub-extension-types';
 
 export const knowledgeHubWebViewReady = (): KnowledgeHubWebViewReady => ({
@@ -44,15 +47,15 @@ export const blogsFetchBlogs = (
     filters,
     home
 });
-export const sendTutorialDataToTelemetry = (_title: string, _primaryTag: string): SendTelemetry => ({
-    type: 'SEND_TELEMETRY',
-    source: 'tutorials',
+export const logOpenTutorialTelemetryEvent = (_title: string, _primaryTag: string): LogTelemetryEvent => ({
+    type: LOG_TELEMETRY_EVENT,
+    source: OPEN_TUTORIAL,
     title: _title,
     primaryTag: _primaryTag
 });
-export const sendBlogDataToTelemetry = (_title: string, _primaryTag: string): SendTelemetry => ({
-    type: 'SEND_TELEMETRY',
-    source: 'blogs',
+export const logOpenBlogTelemetryEvent = (_title: string, _primaryTag: string): LogTelemetryEvent => ({
+    type: LOG_TELEMETRY_EVENT,
+    source: OPEN_BLOG,
     title: _title,
     primaryTag: _primaryTag
 });

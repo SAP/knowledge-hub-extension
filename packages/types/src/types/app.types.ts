@@ -1,12 +1,12 @@
 import type { BlogFiltersEntry } from './blogs.types';
 import type { TutorialsTagWithTitle } from './tutorials.types';
+import type {LOG_TELEMETRY_EVENT, OPEN_BLOG, OPEN_TUTORIAL} from './actions'
 
 export const SET_GLOBAL_SETTINGS = 'SET_GLOBAL_SETTINGS';
 export const UPDATE_GLOBAL_SETTING = 'UPDATE_GLOBAL_SETTING';
 
 export const FILTERS_BLOGS_TAGS = 'blogs';
 export const FILTERS_TUTORIALS_TAGS = 'tutorials';
-export const SEND_TELEMETRY = 'SEND_TELEMETRY';
 
 export const enum Feature {
     NATIVE_PROPERTIES = 'NATIVE_PROPERTIES',
@@ -30,9 +30,9 @@ export interface AppFilters {
     [FILTERS_TUTORIALS_TAGS]?: TutorialsTagWithTitle[];
 }
 
-export interface SendTelemetry {
-    type: typeof SEND_TELEMETRY;
-    source: typeof FILTERS_TUTORIALS_TAGS | typeof FILTERS_BLOGS_TAGS;
+export interface LogTelemetryEvent {
+    type: typeof LOG_TELEMETRY_EVENT;
+    source: typeof OPEN_BLOG | typeof OPEN_TUTORIAL;
     title: string;
     primaryTag: string;
 }

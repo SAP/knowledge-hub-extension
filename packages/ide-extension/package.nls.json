@@ -1,8 +1,6 @@
 {
     "knowledgeHub.displayName": "Knowledge Hub extension by SAP",
     "knowledgeHub.description": "Knowledge Hub extension by SAP",
-    "configuration.title": "SAP Knowledge Hub extension",
-    "configuration.openInNewTab": "If enabled, on activation Knowledge Hub will open in a new tab instead of reusing an existing one",
     "configuration.telemetryEnabled": "If enabled, telemetry events to improve extension quality will be recorded",
     "commands.knowledgeHub.category": "SAP",
     "commands.knowledgeHub.openKnowledgeHub.title": "Open Knowledge Hub"

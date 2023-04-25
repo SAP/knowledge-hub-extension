@@ -5,8 +5,8 @@ import { TelemetryClient } from 'applicationinsights';
 import type { Contracts } from 'applicationinsights';
 import { logString } from '../logger/logger';
 import packageJson from '../../package.json';
-import type { TelemetryEvent, TelemetryReporter } from '../utils/telemetry';
-
+import type { TelemetryEvent, TelemetryReporter, TelemetryUIEventProps } from '../utils/telemetry';
+import { FILTERS_BLOGS_TAGS, FILTERS_TUTORIALS_TAGS, openTutorial, openBlog } from '@sap/knowledge-hub-extension-types'
 const key = 'ApplicationInsightsInstrumentationKeyPLACEH0LDER';
 
 // Telemetry reporter client
@@ -65,20 +65,18 @@ function updateTelemetryStatus(): boolean {
  * @param properties.ide - development environment VSCODE or SBAS
  * @param properties.devSpace - SBAS devspace
  */
-export function setCommonProperties(properties?: { ide: 'VSCODE' | 'SBAS'; devSpace: string }) {
+export function setCommonProperties(properties?: { ide: 'VSCODE' | 'SBAS'; sbasdevSpace: string }) {
     if (reporter) {
         reporter.commonProperties = properties
             ? {
-                  'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
-                  'cmn.devspace': properties.devSpace,
-                  apiHost: '',
-                  apiVersion: '',
-                  'common.os': platform(),
-                  'common.nodeArch': arch(),
-                  'common.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
-                  'common.extname': packageJson.name,
-                  'common.extversion': packageJson.version
-              }
+                'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
+                'cmn.devspace': properties.sbasdevSpace,
+                'cmn.os': platform(),
+                'cmn.nodeArch': arch(),
+                'cmn.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
+                'cmn.extname': packageJson.name,
+                'cmn.extversion': packageJson.version
+            }
             : undefined;
     }
 }
@@ -112,18 +110,18 @@ export async function trackAction(action: any): Promise<void> {
         return;
     }
     try {
-        const properties = {
+        let properties: TelemetryUIEventProps = {
             action: '',
             title: action.title,
             primaryTag: action.primaryTag
         };
-        if (action.source === 'tutorials') {
-            properties.action = 'OPEN_TUTORIALS';
-            trackEvent({ name: 'KHUB_OPEN_TUTORIAL', properties });
+        if (action.source === openTutorial) {
+            properties.action = typeof FILTERS_TUTORIALS_TAGS;
+            await trackEvent({ name: 'KHUB_OPEN_TUTORIAL', properties });
         }
-        if (action.source === 'blogs') {
-            properties.action = 'OPEN_BLOGS';
-            trackEvent({ name: 'KHUB_OPEN_BLOGS', properties });
+        else if (action.source === openBlog) {
+            properties.action = typeof FILTERS_BLOGS_TAGS;
+            await trackEvent({ name: 'KHUB_OPEN_BLOGS', properties });
         }
     } catch (error) {
         logString(`Error sending telemetry action '${action?.payload?.action?.type}': ${(error as Error).message}`);
@@ -132,7 +130,7 @@ export async function trackAction(action: any): Promise<void> {
 
 /**
  * Ensure all property values are strings. While type TelemetryEventProperties defines the values
- * as string | number | any, the call sendTelemetryEvent() throws an exception if a non-string
+ * as string | number | any, the call LogTelemetryEvent() throws an exception if a non-string
  * property value is passed.
  *
  * @param properties - key/value map of properties

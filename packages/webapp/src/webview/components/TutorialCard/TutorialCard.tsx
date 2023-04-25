@@ -37,7 +37,7 @@ export const TutorialCard: FC<TutorialCardProps> = ({
     const onClickTutorialCard = useCallback(
         (title: string, primaryTag: string) =>
             (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
-                actions.sendTutorialDataToTelemetry(title, primaryTag);
+                actions.logOpenTutorialTelemetryEvent(title, primaryTag);
             },
         []
     );

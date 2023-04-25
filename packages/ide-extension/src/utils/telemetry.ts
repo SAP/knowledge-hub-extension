@@ -21,21 +21,16 @@ interface TelemetryBaseEvent {
 export interface TelemetryCommonProperties extends TelemetryEventProperties {
     'cmn.appstudio': 'true' | 'false';
     'cmn.devspace': string;
-    apiHost: string;
-    apiVersion: string;
-    'common.os': string;
-    'common.nodeArch': string;
-    'common.platformversion': string;
-    'common.extname': string;
-    'common.extversion': string;
+    'cmn.os': string;
+    'cmn.nodeArch': string;
+    'cmn.platformversion': string;
+    'cmn.extname': string;
+    'cmn.extversion': string;
 }
 
 export interface TelemetryStartupEvent extends TelemetryBaseEvent {
     name: 'STARTUP';
-    properties: {
-        treeId: string;
-        nodeIdPath: string;
-    };
+    properties: {};
 }
 
 export interface TelemetryUIEvent extends TelemetryBaseEvent {

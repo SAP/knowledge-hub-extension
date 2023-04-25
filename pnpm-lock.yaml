@@ -6,10 +6,6 @@ overrides:
 importers:
 
   .:
-    dependencies:
-      applicationinsights:
-        specifier: 2.5.1
-        version: 2.5.1
     devDependencies:
       '@changesets/cli':
         specifier: 2.26.1
@@ -109,6 +105,10 @@ importers:
         version: 6.11.1
 
   packages/ide-extension:
+    dependencies:
+      applicationinsights:
+        specifier: 2.5.1
+        version: 2.5.1
     devDependencies:
       '@sap/knowledge-hub-extension-core':
         specifier: workspace:*
@@ -119,9 +119,6 @@ importers:
       '@types/vscode':
         specifier: 1.39.0
         version: 1.39.0
-      applicationinsights:
-        specifier: 2.5.0
-        version: 2.5.0
       axios:
         specifier: 1.3.4
         version: 1.3.4
@@ -301,6 +298,7 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       tslib: 2.5.0
+    dev: false
 
   /@azure/core-auth@1.4.0:
     resolution: {integrity: sha512-HFrcTgmuSuukRf/EdPmqBrc5l6Q5Uu+2TbuhaKbgaCpP2TfAeiNaQPAadxO+CYBRHGUzIDteMAjFspFLDLnKVQ==}
@@ -308,6 +306,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       tslib: 2.5.0
+    dev: false
 
   /@azure/core-rest-pipeline@1.10.3:
     resolution: {integrity: sha512-AMQb0ttiGJ0MIV/r+4TVra6U4+90mPeOveehFnrqKlo7dknPJYdJ61wOzYJXJjDxF8LcCtSogfRelkq+fCGFTw==}
@@ -324,12 +323,14 @@ packages:
       tslib: 2.5.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /@azure/core-tracing@1.0.1:
     resolution: {integrity: sha512-I5CGMoLtX+pI17ZdiFJZgxMJApsK6jjfm85hpgp3oazCdq5Wxgh4wMr7ge/TTWW1B5WBuvIOI1fMU/FrOAMKrw==}
     engines: {node: '>=12.0.0'}
     dependencies:
       tslib: 2.5.0
+    dev: false
 
   /@azure/core-util@1.3.1:
     resolution: {integrity: sha512-pjfOUAb+MPLODhGuXot/Hy8wUgPD0UTqYkY3BiYcwEETrLcUCVM1t0roIvlQMgvn1lc48TGy5bsonsFpF862Jw==}
@@ -337,12 +338,14 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       tslib: 2.5.0
+    dev: false
 
   /@azure/logger@1.0.4:
     resolution: {integrity: sha512-ustrPY8MryhloQj7OWGe+HrYx+aoiOxzbXTtgblbV3xwCqpzUK36phH3XNHQKj3EPonyFUuDTfR3qFhTEAuZEg==}
     engines: {node: '>=14.0.0'}
     dependencies:
       tslib: 2.5.0
+    dev: false
 
   /@azure/opentelemetry-instrumentation-azure-sdk@1.0.0-beta.2:
     resolution: {integrity: sha512-WZ2u3J7LmwwVbyXGguiEGNYHyDoUjNb+VZ9S76xecsYOkoKSzFdWJtv/vYBknW9fLuoWCoyVVg8+lU2ouaZbJQ==}
@@ -2762,6 +2765,7 @@ packages:
 
   /@microsoft/applicationinsights-web-snippet@1.0.1:
     resolution: {integrity: sha512-2IHAOaLauc8qaAitvWS+U931T+ze+7MNWrDHY47IENP5y2UA0vqJDu67kWZDdpCN1fFC77sfgfB+HV7SrKshnQ==}
+    dev: false
 
   /@microsoft/load-themed-styles@1.10.295:
     resolution: {integrity: sha512-W+IzEBw8a6LOOfRJM02dTT7BDZijxm+Z7lhtOAz1+y9vQm1Kdz9jlAO+qCEKsfxtUOmKilW8DIRqFw2aUgKeGg==}
@@ -2799,6 +2803,7 @@ packages:
   /@opentelemetry/api@1.4.1:
     resolution: {integrity: sha512-O2yRJce1GOc6PAy3QxFM4NzFiWzvScDC1/5ihYBL6BUEVdq0XMWN01sppE+H6bBXbaFYipjwFLEWLg5PaSOThA==}
     engines: {node: '>=8.0.0'}
+    dev: false
 
   /@opentelemetry/core@1.12.0(@opentelemetry/api@1.4.1):
     resolution: {integrity: sha512-4DWYNb3dLs2mSCGl65jY3aEgbvPWSHVQV/dmDWiYeWUrMakZQFcymqZOSUNZO0uDrEJoxMu8O5tZktX6UKFwag==}
@@ -2808,6 +2813,7 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.4.1
       '@opentelemetry/semantic-conventions': 1.12.0
+    dev: false
 
   /@opentelemetry/instrumentation@0.33.0(@opentelemetry/api@1.4.1):
     resolution: {integrity: sha512-8joPjKJ6TznNt04JbnzZG+m1j/4wm1OIrX7DEw/V5lyZ9/2fahIqG72jeZ26VKOZnLOpVzUUnU/dweURqBzT3Q==}
@@ -2833,6 +2839,7 @@ packages:
       '@opentelemetry/api': 1.4.1
       '@opentelemetry/core': 1.12.0(@opentelemetry/api@1.4.1)
       '@opentelemetry/semantic-conventions': 1.12.0
+    dev: false
 
   /@opentelemetry/sdk-trace-base@1.12.0(@opentelemetry/api@1.4.1):
     resolution: {integrity: sha512-pfCOB3tNDlYVoWuz4D7Ji+Jmy9MHnATWHVpkERdCEiwUGEZ+4IvNPXUcPc37wJVmMpjGLeaWgPPrie0KIpWf1A==}
@@ -2844,10 +2851,12 @@ packages:
       '@opentelemetry/core': 1.12.0(@opentelemetry/api@1.4.1)
       '@opentelemetry/resources': 1.12.0(@opentelemetry/api@1.4.1)
       '@opentelemetry/semantic-conventions': 1.12.0
+    dev: false
 
   /@opentelemetry/semantic-conventions@1.12.0:
     resolution: {integrity: sha512-hO+bdeGOlJwqowUBoZF5LyP3ORUFOP1G0GRv8N45W/cztXbT2ZEXaAzfokRS9Xc9FWmYrDj32mF6SzH6wuoIyA==}
     engines: {node: '>=14'}
+    dev: false
 
   /@pkgr/utils@2.3.1:
     resolution: {integrity: sha512-wfzX8kc1PMyUILA+1Z/EqoE4UCXGy0iRGMhPwdfae1+f0OXlLqCk+By+aMzgJBzR9AzS4CDizioG6Ss1gvAFJw==}
@@ -3614,30 +3623,6 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /applicationinsights@2.5.0:
-    resolution: {integrity: sha512-6kIFmpANRok+6FhCOmO7ZZ/mh7fdNKn17BaT13cg/RV5roLPJlA6q8srWexayHd3MPcwMb9072e8Zp0P47s/pw==}
-    engines: {node: '>=8.0.0'}
-    peerDependencies:
-      applicationinsights-native-metrics: '*'
-    peerDependenciesMeta:
-      applicationinsights-native-metrics:
-        optional: true
-    dependencies:
-      '@azure/core-auth': 1.4.0
-      '@azure/core-rest-pipeline': 1.10.3
-      '@microsoft/applicationinsights-web-snippet': 1.0.1
-      '@opentelemetry/api': 1.4.1
-      '@opentelemetry/core': 1.12.0(@opentelemetry/api@1.4.1)
-      '@opentelemetry/sdk-trace-base': 1.12.0(@opentelemetry/api@1.4.1)
-      '@opentelemetry/semantic-conventions': 1.12.0
-      cls-hooked: 4.2.2
-      continuation-local-storage: 3.2.1
-      diagnostic-channel: 1.1.0
-      diagnostic-channel-publishers: 1.0.5(diagnostic-channel@1.1.0)
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /applicationinsights@2.5.1:
     resolution: {integrity: sha512-FkkvevcsaPnfifZvVTSxZy6njnNKpTaOFZQ55cGlbvVX9Y15vuRFpZUdLTLLyS0vqOeNUa+xk30jzwLjJBTXbQ==}
     engines: {node: '>=8.0.0'}
@@ -3762,6 +3747,7 @@ packages:
     engines: {node: ^4.7 || >=6.9 || >=7.3}
     dependencies:
       stack-chain: 1.3.7
+    dev: false
 
   /async-listener@0.6.10:
     resolution: {integrity: sha512-gpuo6xOyF4D5DE5WvyqZdPA3NGhiT6Qf07l7DCB0wwDEsLvDIbCr6j9S5aj5Ch96dLace5tXVzWBZkxU/c5ohw==}
@@ -3769,6 +3755,7 @@ packages:
     dependencies:
       semver: 5.7.1
       shimmer: 1.2.1
+    dev: false
 
   /asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
@@ -4172,6 +4159,7 @@ packages:
       async-hook-jl: 1.7.6
       emitter-listener: 1.1.2
       semver: 5.7.1
+    dev: false
 
   /clsx@1.2.1:
     resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
@@ -4249,6 +4237,7 @@ packages:
     dependencies:
       async-listener: 0.6.10
       emitter-listener: 1.1.2
+    dev: false
 
   /conventional-changelog-angular@5.0.13:
     resolution: {integrity: sha512-i/gipMxs7s8L/QeuavPF2hLnJgH6pEZAttySB6aiQLWcX3puWDL3ACVmvBhJGxnAy52Qc15ua26BufY6KpmrVA==}
@@ -4572,11 +4561,13 @@ packages:
       diagnostic-channel: '*'
     dependencies:
       diagnostic-channel: 1.1.0
+    dev: false
 
   /diagnostic-channel@1.1.0:
     resolution: {integrity: sha512-fwujyMe1gj6rk6dYi9hMZm0c8Mz8NDMVl2LB4iaYh3+LIAThZC8RKFGXWG0IML2OxAit/ZFRgZhMkhQ3d/bobQ==}
     dependencies:
       semver: 5.7.1
+    dev: false
 
   /diff-sequences@29.3.1:
     resolution: {integrity: sha512-hlM3QR272NXCi4pq+N4Kok4kOp6EsgOM3ZSpJI7Da3UAs+Ttsi8MRmB6trM/lhyzUxGfOgnpkHtgqm5Q/CTcfQ==}
@@ -4700,6 +4691,7 @@ packages:
     resolution: {integrity: sha512-Bt1sBAGFHY9DKY+4/2cV6izcKJUf5T7/gkdmkxzX/qv9CcGH8xSwVRW5mtX03SWJtRTWSOpzCuWN9rBFYZepZQ==}
     dependencies:
       shimmer: 1.2.1
+    dev: false
 
   /emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
@@ -8968,6 +8960,7 @@ packages:
 
   /shimmer@1.2.1:
     resolution: {integrity: sha512-sQTKC1Re/rM6XyFM6fIAGHRPVGvyXfgzIDvzoq608vM+jeyVD0Tu1E6Np0Kc2zAIFWIj963V2800iF/9LPieQw==}
+    dev: false
 
   /side-channel@1.0.4:
     resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
@@ -9107,6 +9100,7 @@ packages:
 
   /stack-chain@1.3.7:
     resolution: {integrity: sha512-D8cWtWVdIe/jBA7v5p5Hwl5yOSOrmZPWDPe2KxQ5UAGD+nxbxU0lKXA4h85Ta6+qgdKVL3vUxsbIZjc1kBG7ug==}
+    dev: false
 
   /stack-utils@2.0.6:
     resolution: {integrity: sha512-XlkWvfIm6RmsWtNJx+uqtKLS8eqFbxUg0ZzLXqY0caEy9l7hruX8IpiDnjsLavoBgqCCR71TqWO8MaXYheJ3RQ==}

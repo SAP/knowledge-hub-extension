@@ -4,7 +4,7 @@ import { initTelemetry, setCommonProperties, trackAction, trackEvent } from '../
 import type { Contracts } from 'applicationinsights';
 import * as logger from '../../../src/logger/logger';
 import { activate } from '../../../src/extension';
-import type { SendTelemetry } from '@sap/knowledge-hub-extension-types';
+import { LogTelemetryEvent, LOG_TELEMETRY_EVENT } from '@sap/knowledge-hub-extension-types';
 
 import type { TelemetryEvent, TelemetryReporter } from '../../../src/utils/telemetry';
 import packageJson from '../../../package.json';
@@ -64,22 +64,20 @@ describe('Telemetry trackEvent() tests', () => {
 
     test('set common properties and track event, telemetry enabled', () => {
         // Test execution
-        setCommonProperties({ ide: 'SBAS', devSpace: 'DevSpace' });
+        setCommonProperties({ ide: 'SBAS', sbasdevSpace: 'DevSpace' });
         trackEvent({ name: 'STARTUP', properties: { key1: 'key1Val', key2: 'key2Val' } } as unknown as TelemetryEvent);
 
         // Result check
         expect(reporter.client.trackEvent).toBeCalledWith({
             name: 'sap-knowledge-hub-extension/STARTUP',
             properties: {
-                apiHost: '',
-                apiVersion: '',
                 'cmn.appstudio': 'true',
                 'cmn.devspace': 'DevSpace',
-                'common.os': 'platform',
-                'common.nodeArch': 'arch',
-                'common.platformversion': '1.2.3',
-                'common.extname': packageJson.name,
-                'common.extversion': packageJson.version,
+                'cmn.os': 'platform',
+                'cmn.nodeArch': 'arch',
+                'cmn.platformversion': '1.2.3',
+                'cmn.extname': packageJson.name,
+                'cmn.extversion': packageJson.version,
                 key1: 'key1Val',
                 key2: 'key2Val'
             }
@@ -166,10 +164,7 @@ describe('Telemetry disabled', () => {
         expect(reporter.enabled).toBe(true);
         expect(reporter.client.trackEvent).toBeCalled();
     });
-    test('Track action when telemetry is enabled, should not send anything', () => {
-        // Mock setup
-        // jest.spyOn(workspace, 'getConfiguration').mockReturnValue({ get: () => true } as any);
-    
+    test('Track action when telemetry is enabled, should not send anything', () => { 
         // Test execution
         reporter = initTelemetry();
         reporter.enabled = true;
@@ -193,17 +188,15 @@ describe('Test for setCommonProperties()', () => {
 
     test('Set common properties for VSCode, no release', () => {
         jest.spyOn(os, 'release').mockImplementation(() => undefined as any);
-        setCommonProperties({ ide: 'VSCODE', devSpace: '' });
+        setCommonProperties({ ide: 'VSCODE', sbasdevSpace: '' });
         expect(reporter.commonProperties).toEqual({
-            apiHost: '',
-            apiVersion: '',
             'cmn.appstudio': 'false',
             'cmn.devspace': '',
-            'common.os': 'platform',
-            'common.nodeArch': 'arch',
-            'common.platformversion': '',
-            'common.extname': packageJson.name,
-            'common.extversion': packageJson.version
+            'cmn.os': 'platform',
+            'cmn.nodeArch': 'arch',
+            'cmn.platformversion': '',
+            'cmn.extname': packageJson.name,
+            'cmn.extversion': packageJson.version
         });
     });
 });
@@ -212,9 +205,9 @@ describe('Test for setCommonProperties()', () => {
  *
  * @param _actionName
  */
-function getDummyAction(_actionName: string): SendTelemetry {
+function getDummyAction(_actionName: string): LogTelemetryEvent {
     return {
-        type: 'SEND_TELEMETRY',
+        type: LOG_TELEMETRY_EVENT,
         source: 'tutorials',
         title: 'hello sap',
         primaryTag: 'abc-def-fgh'

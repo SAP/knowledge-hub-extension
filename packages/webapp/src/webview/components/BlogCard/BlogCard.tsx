@@ -27,7 +27,7 @@ export const BlogCard: FC<BlogCardProps> = ({ blog, loading, onSelectedTag }: Bl
     const onClickBlogTitle = useCallback(
         (title: string, primaryTag: string) =>
             (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
-                actions.sendBlogDataToTelemetry(title, primaryTag);
+                actions.logOpenBlogTelemetryEvent(title, primaryTag);
             },
         []
     );

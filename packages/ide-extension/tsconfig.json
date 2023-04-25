@@ -1,6 +1,6 @@
 {
     "extends": "../../tsconfig.json",
-    "include": ["src", "src/utils/telemetry.ts"],
+    "include": ["src"],
     "compilerOptions": {
         "outDir": "dist",
         "resolveJsonModule": true
