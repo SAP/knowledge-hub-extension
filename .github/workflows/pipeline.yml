@@ -51,6 +51,7 @@ jobs:
               with:
                 registry: gcr.io
                 image: gitpod/openvscode-server
+                ports: 3000
                 shell: bash
                 options: -v ${{ github.workspace }}:/home/workspace:cached
                 run: |
