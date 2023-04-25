@@ -53,6 +53,7 @@
         ]
     },
     "devDependencies": {
+        "@playwright/test": "1.32.3",
         "@sap/knowledge-hub-extension-core": "workspace:*",
         "@sap/knowledge-hub-extension-types": "workspace:*",
         "@types/vscode": "1.39.0",
