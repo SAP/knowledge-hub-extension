@@ -5,7 +5,6 @@ import type { RenderResult } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import { withDataNoErrorWithFilters } from '../../__mocks__/tutorials';
 import { render } from '../../__mocks__/store.mock';
@@ -15,7 +14,6 @@ import { TutorialsFiltersBar } from '../../../src/webview/components/TutorialsFi
 describe('TutorialsFiltersBar', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const renderTutorialsFiltersBar = (): RenderResult =>
         render(<TutorialsFiltersBar />, {

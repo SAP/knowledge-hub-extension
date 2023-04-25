@@ -6,7 +6,6 @@ import type { RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import { render } from '../../../test/__mocks__/store.mock';
 
@@ -16,7 +15,6 @@ import { act } from 'react-dom/test-utils';
 describe('Search', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const renderSearch = (type: string): RenderResult => render(<Search type={type} />);
 

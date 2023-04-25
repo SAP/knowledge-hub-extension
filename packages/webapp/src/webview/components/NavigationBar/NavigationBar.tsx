@@ -4,12 +4,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { PathType } from '@sap/knowledge-hub-extension-types';
+import type { TabsConfig } from '@sap/knowledge-hub-extension-types';
 
 import { UITabs } from '@sap-ux/ui-components';
 import type { UITabsItem } from '@sap-ux/ui-components';
 import { Search } from '../../features/search';
-
-import type { TabsConfig } from '../../routes/config';
 
 import './NavigationBar.scss';
 

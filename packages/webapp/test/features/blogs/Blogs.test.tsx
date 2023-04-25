@@ -5,7 +5,6 @@ import { screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import {
     initialWithLoading,
@@ -23,7 +22,6 @@ import { Blogs } from '../../../src/webview/features/blogs/Blogs';
 describe('Blogs', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     test('render a Blogs component initial, do the fetch call', () => {
         const renderBlogsInitial = (): RenderResult =>

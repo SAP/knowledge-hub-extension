@@ -33,10 +33,15 @@
     "BLOGS_FILTERS_BAR_FILTERED_BY": "Filtered by:",
     "BLOGS_FILTERS_BAR_CLEAR_ALL": "Clear all",
     "BLOGS_FILTERS_TAGS": "Tags",
+    "BLOGS_FILTERS_TAGS_VIEW_ALL": "View all tags",
     "BLOGS_FILTERS_LANGUAGES": "Languages",
     "BLOGS_FILTERS_CATEGORIES": "Blog Categories",
     "BLOGS_LOADING_CONTENT": "Loading Content",
     "BLOGS_PAGINATION_HEADER": "Showing {{maxDisplayPage}} pages out of {{totalPage}} available. Use search to narrow the list.",
+
+    "TAGS_TITLE": "All tags for SAP Community blog",
+    "TAGS_BACK_TO_BLOGS": "Back to blogs",
+    "TAGS_SEARCH_PLACEHOLDER": "Filter tags",
 
     "SEARCH_TAB": "Search results",
     "SEARCH_DESCRIPTION": "Search results",

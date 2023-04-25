@@ -5,6 +5,11 @@
     overflow: auto;
     flex-grow: 1;
     position: relative;
+    width: 100%;
+    height: 100%;
+    align-items: flex-start;
+    align-content: flex-start;
+    left: 0;
 
     &-filters {
         padding-top: 20px;
@@ -13,6 +18,7 @@
         justify-content: flex-start;
         align-content: flex-start;
         box-sizing: border-box;
+        width: 100%;
 
         &-wrapper {
             display: flex;
@@ -26,6 +32,12 @@
     &-header {
         padding: 0 20px;
         margin-bottom: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-content: flex-start;
+        box-sizing: border-box;
+        width: 100%;
         background-color: var(--vscode-editorGroupHeader-tabsBackground);
 
         &-title {
@@ -64,6 +76,7 @@
         align-content: flex-start;
         box-sizing: border-box;
         height: 100%;
+        width: 100%;
         min-height: 250px;
         padding: 0 20px;
         position: relative;
@@ -82,6 +95,7 @@
         flex: 1 1 auto;
         justify-content: center;
         align-items: center;
+        width: 100%;
     }
 
     &-pagination {
@@ -95,6 +109,7 @@
         justify-content: flex-start;
         padding: 20px;
         margin-top: auto;
+        width: 100%;
     }
 }
 

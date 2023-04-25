@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
-import { UIIcon } from '@sap-ux/ui-components';
+import { UIIcon, UISmallButton } from '@sap-ux/ui-components';
 import type { TutorialsSearchQuery, TutorialsTags, TutorialsTag } from '@sap/knowledge-hub-extension-types';
 
 import { store, useAppSelector } from '../../store';
@@ -12,7 +12,6 @@ import { fetchTutorialsData } from '../../features/tutorials/Tutorials.utils';
 import { tutorialsFiltersTagsDeleteAll, tutorialsFiltersTagsDelete } from '../../store/actions';
 
 import { UIPill } from '../UI/UIPill/UIPill';
-import { UISmallButton } from '../UI/UISmallButton';
 
 import './TutorialsFiltersBar.scss';
 

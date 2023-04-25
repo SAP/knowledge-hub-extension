@@ -5,7 +5,6 @@ import { act } from 'react-dom/test-utils';
 import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import {
     initialWithLoading,
@@ -22,7 +21,6 @@ import { Tutorials } from '../../../src/webview/features/tutorials/Tutorials';
 describe('Tutorials', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     test('render a Tutorials component', () => {
         const renderTutorials = (): RenderResult =>

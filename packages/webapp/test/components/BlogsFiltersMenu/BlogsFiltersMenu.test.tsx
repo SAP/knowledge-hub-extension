@@ -2,23 +2,20 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import { withDataNoError } from '../../__mocks__/blogs';
-import { render } from '../../__mocks__/store.mock';
+import { renderWithRouter } from '../../__mocks__/store.mock';
 
 import { BlogsFiltersMenu } from '../../../src/webview/components/BlogsFiltersMenu';
 
 describe('BlogsFiltersMenu', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const renderBlogsFiltersMenu = (loading: boolean): RenderResult =>
-        render(<BlogsFiltersMenu loading={loading} />, {
+        renderWithRouter(<BlogsFiltersMenu loading={loading} />, {
             initialState: { tutorials: withDataNoError }
         });
 

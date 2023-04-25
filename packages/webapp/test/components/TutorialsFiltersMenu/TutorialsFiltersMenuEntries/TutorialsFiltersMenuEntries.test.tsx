@@ -6,7 +6,6 @@ import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../../src/webview/Icons/icons';
 
 import type { TutorialsTags } from '@sap/knowledge-hub-extension-types';
 
@@ -19,7 +18,6 @@ import * as utils from '../../../../src/webview/features/tutorials/Tutorials.uti
 describe('TutorialsFiltersMenuEntries', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const tags = {
         'Tag 1': {

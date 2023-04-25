@@ -5,7 +5,7 @@ import type { RenderResult } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
 import { NavigationBar } from '../../../src/webview/components/NavigationBar';
-import { tabs } from '../../../src/webview/routes/config';
+import { tabs } from '../../../src/webview/constants/tabs';
 import { renderWithRouter } from '../../../test/__mocks__/store.mock';
 
 describe('NavigationBar', () => {

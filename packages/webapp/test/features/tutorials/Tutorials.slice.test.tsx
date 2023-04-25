@@ -1,4 +1,4 @@
-import { fetchTutorials, fetchHomeTutorials. initTutorialsFilters } from '@sap/knowledge-hub-extension-types';
+import { fetchTutorials, fetchHomeTutorials, initTutorialsFilters } from '@sap/knowledge-hub-extension-types';
 import type { Tutorials } from '@sap/knowledge-hub-extension-types';
 
 import {
@@ -72,9 +72,7 @@ describe('tutorials slice', () => {
                     }
                 });
                 const action = initTutorialsFilters.fulfilled([{ tag: 'testTag', title: 'Test tag' }]);
-                expect(reducer(initialState, action)).toEqual(
-                    state
-                );
+                expect(reducer(initialState, action)).toEqual(state);
             });
 
             test('tutorials page changed action', () => {
