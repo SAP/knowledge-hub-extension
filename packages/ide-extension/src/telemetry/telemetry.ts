@@ -6,7 +6,7 @@ import type { Contracts } from 'applicationinsights';
 import { logString } from '../logger/logger';
 import packageJson from '../../package.json';
 import type { TelemetryEvent, TelemetryReporter, TelemetryUIEventProps } from '../utils/telemetry';
-import { FILTERS_BLOGS_TAGS, FILTERS_TUTORIALS_TAGS, openTutorial, openBlog } from '@sap/knowledge-hub-extension-types'
+import { FILTERS_BLOGS_TAGS, FILTERS_TUTORIALS_TAGS, OPEN_TUTORIAL, OPEN_BLOG } from '@sap/knowledge-hub-extension-types';
 const key = 'ApplicationInsightsInstrumentationKeyPLACEH0LDER';
 
 // Telemetry reporter client
@@ -69,14 +69,14 @@ export function setCommonProperties(properties?: { ide: 'VSCODE' | 'SBAS'; sbasd
     if (reporter) {
         reporter.commonProperties = properties
             ? {
-                'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
-                'cmn.devspace': properties.sbasdevSpace,
-                'cmn.os': platform(),
-                'cmn.nodeArch': arch(),
-                'cmn.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
-                'cmn.extname': packageJson.name,
-                'cmn.extversion': packageJson.version
-            }
+                  'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
+                  'cmn.devspace': properties.sbasdevSpace,
+                  'cmn.os': platform(),
+                  'cmn.nodeArch': arch(),
+                  'cmn.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
+                  'cmn.extname': packageJson.name,
+                  'cmn.extversion': packageJson.version
+              }
             : undefined;
     }
 }
@@ -115,11 +115,10 @@ export async function trackAction(action: any): Promise<void> {
             title: action.title,
             primaryTag: action.primaryTag
         };
-        if (action.source === openTutorial) {
+        if (action.source === OPEN_TUTORIAL) {
             properties.action = typeof FILTERS_TUTORIALS_TAGS;
             await trackEvent({ name: 'KHUB_OPEN_TUTORIAL', properties });
-        }
-        else if (action.source === openBlog) {
+        } else if (action.source === OPEN_BLOG) {
             properties.action = typeof FILTERS_BLOGS_TAGS;
             await trackEvent({ name: 'KHUB_OPEN_BLOGS', properties });
         }

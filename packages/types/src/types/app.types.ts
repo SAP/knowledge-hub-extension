@@ -1,6 +1,6 @@
 import type { BlogFiltersEntry } from './blogs.types';
 import type { TutorialsTagWithTitle } from './tutorials.types';
-import type {LOG_TELEMETRY_EVENT, OPEN_BLOG, OPEN_TUTORIAL} from './actions'
+import type { LOG_TELEMETRY_EVENT, OPEN_BLOG, OPEN_TUTORIAL } from './actions';
 
 export const SET_GLOBAL_SETTINGS = 'SET_GLOBAL_SETTINGS';
 export const UPDATE_GLOBAL_SETTING = 'UPDATE_GLOBAL_SETTING';

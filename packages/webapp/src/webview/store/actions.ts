@@ -18,7 +18,7 @@ import {
     BLOGS_FETCH_BLOGS,
     createViewAction,
     LOG_TELEMETRY_EVENT,
-    OPEN_BLOG, 
+    OPEN_BLOG,
     OPEN_TUTORIAL
 } from '@sap/knowledge-hub-extension-types';
 

@@ -8,6 +8,7 @@ import { LogTelemetryEvent, LOG_TELEMETRY_EVENT } from '@sap/knowledge-hub-exten
 
 import type { TelemetryEvent, TelemetryReporter } from '../../../src/utils/telemetry';
 import packageJson from '../../../package.json';
+import { OPEN_TUTORIAL } from '../../../../types/dist/types';
 
 jest.mock('applicationinsights', () => ({
     TelemetryClient: jest.fn().mockImplementation((key) => ({
@@ -146,7 +147,7 @@ describe('Telemetry disabled', () => {
 
         // Enable telemetry
         reporter.enabled = true;
-        let changeHandler: (e: ConfigurationChangeEvent) => any = () => { };
+        let changeHandler: (e: ConfigurationChangeEvent) => any = () => {};
         jest.spyOn(workspace, 'onDidChangeConfiguration').mockImplementation(
             (listener: (e: ConfigurationChangeEvent) => any) => {
                 changeHandler = listener;
@@ -164,12 +165,12 @@ describe('Telemetry disabled', () => {
         expect(reporter.enabled).toBe(true);
         expect(reporter.client.trackEvent).toBeCalled();
     });
-    test('Track action when telemetry is enabled, should not send anything', () => { 
+    test('Track action when telemetry is enabled, should not send anything', () => {
         // Test execution
         reporter = initTelemetry();
         reporter.enabled = true;
         trackAction(getDummyAction(''));
-    
+
         // Result check
         expect(reporter.client.trackEvent).toBeCalled();
     });
@@ -208,7 +209,7 @@ describe('Test for setCommonProperties()', () => {
 function getDummyAction(_actionName: string): LogTelemetryEvent {
     return {
         type: LOG_TELEMETRY_EVENT,
-        source: 'tutorials',
+        source: OPEN_TUTORIAL,
         title: 'hello sap',
         primaryTag: 'abc-def-fgh'
     };
