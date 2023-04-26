@@ -56,15 +56,18 @@ jobs:
                 options: -v ${{ github.workspace }}:/home/workspace:cached
                 run: |
                   ls /home/workspace
-            - name: Package the VS Code extension
-              if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
-              run: pnpm --filter sap-knowledge-hub-extension run ide-ext:package
-            - name: Install playwright browsers
-              if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
-              run: pnpm --filter sap-knowledge-hub-extension exec playwright install --with-deps
-            - name: Run playwright tests
-              if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
-              run: pnpm --filter sap-knowledge-hub-extension exec playwright test
+                  pnpm --filter sap-knowledge-hub-extension run ide-ext:package
+                  pnpm --filter sap-knowledge-hub-extension exec playwright install --with-deps
+                  pnpm --filter sap-knowledge-hub-extension exec playwright test
+            # - name: Package the VS Code extension
+            #   if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
+            #   run: pnpm --filter sap-knowledge-hub-extension run ide-ext:package
+            # - name: Install playwright browsers
+            #   if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
+            #   run: pnpm --filter sap-knowledge-hub-extension exec playwright install --with-deps
+            # - name: Run playwright tests
+            #   if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
+            #   run: pnpm --filter sap-knowledge-hub-extension exec playwright test
             - name: Upload playwright reports
               if: matrix.os == 'ubuntu-latest' && matrix.node-version == '16.x'
               uses: actions/upload-artifact@v3
