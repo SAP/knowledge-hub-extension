@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { TabsConfig, MOTION_VARIANTS_PAGE } from '../../constants';
+import { tabs, MOTION_VARIANTS_PAGE } from '../../constants';
 
 import type {
     TutorialsState,
@@ -13,7 +13,8 @@ import type {
     BlogsState,
     BlogsSearchResultContentItem,
     Tag,
-    Error
+    Error,
+    TabsConfig
 } from '@sap/knowledge-hub-extension-types';
 
 import { TutorialCard } from '../../components/TutorialCard';
@@ -58,11 +59,11 @@ export const Home: FC = (): JSX.Element => {
     );
 
     const onBlogTagSelected = useCallback((tag: Tag): void => {
-        navigate(TabsConfig['blogs'].path, { state: { tagId: tag.guid } });
+        navigate(tabs['blogs'].path, { state: { tagId: tag.guid } });
     }, []);
 
     const onTutorialTagSelected = useCallback((tagId: string): void => {
-        navigate(TabsConfig['tutorials'].path, { state: { tagId: tagId } });
+        navigate(tabs['tutorials'].path, { state: { tagId: tagId } });
     }, []);
 
     useEffect(() => {
