@@ -13,8 +13,7 @@ import type {
     BlogsState,
     BlogsSearchResultContentItem,
     Tag,
-    Error,
-    TabsConfig
+    Error
 } from '@sap/knowledge-hub-extension-types';
 
 import { TutorialCard } from '../../components/TutorialCard';

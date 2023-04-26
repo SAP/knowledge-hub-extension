@@ -167,9 +167,7 @@ export const Blogs: FC = (): JSX.Element => {
             {totalPage > 1 && (
                 <div className="blogs-pagination">
                     {totalPage > maxDisplayPage && (
-                        <div>
-                            {t('BLOGS_PAGINATION_HEADER', { maxDisplayPage: maxDisplayPage, totalPage: totalPage })}
-                        </div>
+                        <div>{t('BLOGS_PAGINATION_HEADER', { maxDisplayPage: maxDisplayPage })}</div>
                     )}
                     <UIPagination
                         nextLabel={t('UI_PAGINATION_CAPTION_NEXT')}

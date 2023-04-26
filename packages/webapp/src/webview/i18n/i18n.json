@@ -35,7 +35,7 @@
     "BLOGS_FILTERS_LANGUAGES": "Languages",
     "BLOGS_FILTERS_CATEGORIES": "Blog Categories",
     "BLOGS_LOADING_CONTENT": "Loading Content",
-    "BLOGS_PAGINATION_HEADER": "Showing {{maxDisplayPage}} pages out of {{totalPage}} available. Use search to narrow the list.",
+    "BLOGS_PAGINATION_HEADER": "Showing only the first {{maxDisplayPage}} pages of results. Use search and filters to view additional content.",
 
     "TAGS_TITLE": "All tags for SAP Community blog",
     "TAGS_BACK_TO_BLOGS": "Back to blogs",
