@@ -56,7 +56,7 @@ jobs:
                 options: -v ${{ github.workspace }}:/home/workspace:cached
                 run: |
                   ls /home/workspace
-                  apt install -y nodejs
+                  sudo apt install -y nodejs
                   npm install -g pnpm
                   pnpm --filter sap-knowledge-hub-extension run ide-ext:package
                   pnpm --filter sap-knowledge-hub-extension exec playwright install --with-deps
