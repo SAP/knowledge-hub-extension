@@ -3,6 +3,8 @@ import type { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { MOTION_VARIANTS_PAGE } from '../../constants';
 import type {
     TutorialsState,
     TutorialsEntry,
@@ -134,7 +136,13 @@ export const Tutorials: FC = (): JSX.Element => {
     }, [activeLoading]);
 
     return (
-        <div className="tutorials">
+        <motion.div
+            className="tutorials"
+            custom={{ direction: 'forward' }}
+            initial="initial"
+            animate="getIn"
+            exit="getOut"
+            variants={MOTION_VARIANTS_PAGE}>
             <div className="tutorials-filters">
                 <div className="tutorials-filters-wrapper">
                     <TutorialsFiltersMenu facets={facets} tags={tags} loading={loading} />
@@ -143,8 +151,7 @@ export const Tutorials: FC = (): JSX.Element => {
             </div>
 
             <div className="tutorials-header">
-                <h2 className="tutorials-header-title">{t('TUTORIALS_TITLE')}</h2>
-                <h3 className="tutorials-header-description">{t('TUTORIALS_DESCRIPTION')}</h3>
+                <h2 className="ui-large-header tutorials-header-title">{t('TUTORIALS_TITLE')}</h2>
             </div>
 
             <TutorialsResultNumber
@@ -188,6 +195,6 @@ export const Tutorials: FC = (): JSX.Element => {
                     />
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 };

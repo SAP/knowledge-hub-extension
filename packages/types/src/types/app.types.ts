@@ -30,7 +30,11 @@ export interface AppFilters {
 }
 
 export type TabsConfig = {
+    [key: string]: TabsConfigEntry;
+};
+
+export type TabsConfigEntry = {
     key: string;
     path: string;
-    text?: string;
+    text: string;
 };

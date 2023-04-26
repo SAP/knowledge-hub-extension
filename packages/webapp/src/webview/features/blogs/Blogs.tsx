@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MOTION_VARIANTS } from '../../constants';
+import { MOTION_VARIANTS_PAGE } from '../../constants';
 import type {
     BlogsState,
     BlogsSearchQuery,
@@ -135,7 +135,7 @@ export const Blogs: FC = (): JSX.Element => {
             initial="initial"
             animate="getIn"
             exit="getOut"
-            variants={MOTION_VARIANTS}>
+            variants={MOTION_VARIANTS_PAGE}>
             <div className="blogs-filters">
                 <div className="blogs-filters-wrapper">
                     <BlogsFiltersMenu loading={loading} />
@@ -144,8 +144,7 @@ export const Blogs: FC = (): JSX.Element => {
             </div>
 
             <div className="blogs-header">
-                <h2 className="blogs-header-title">{t('BLOGS_TITLE')}</h2>
-                <h3 className="blogs-header-description">{t('BLOGS_DESCRIPTION')}</h3>
+                <h2 className="ui-large-header blogs-header-title">{t('BLOGS_TITLE')}</h2>
             </div>
 
             <BlogsResultNumber totalNumber={totalEntries} />

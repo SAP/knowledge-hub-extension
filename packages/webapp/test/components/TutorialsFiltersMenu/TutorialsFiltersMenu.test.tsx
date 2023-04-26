@@ -9,7 +9,7 @@ import { initIcons } from '@sap-ux/ui-components';
 import type { TutorialsTags, TutorialsFacets } from '@sap/knowledge-hub-extension-types';
 
 import { withDataNoErrorWithFilters } from '../../__mocks__/tutorials';
-import { render } from '../../__mocks__/store.mock';
+import { renderWithRouter } from '../../__mocks__/store.mock';
 
 import { TutorialsFiltersMenu } from '../../../src/webview/components/TutorialsFiltersMenu';
 
@@ -18,7 +18,7 @@ describe('TutorialsFiltersMenu', () => {
     initIcons();
 
     const renderTutorialsFiltersMenu = (facets: TutorialsFacets, tags: TutorialsTags, loading: boolean): RenderResult =>
-        render(<TutorialsFiltersMenu facets={facets} tags={tags} loading={loading} />, {
+        renderWithRouter(<TutorialsFiltersMenu facets={facets} tags={tags} loading={loading} />, {
             initialState: { tutorials: withDataNoErrorWithFilters }
         });
 

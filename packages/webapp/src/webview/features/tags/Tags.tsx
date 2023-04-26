@@ -4,10 +4,18 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-import { UIActionButton, UIIconButton, UIDefaultButton, UISearchBox, UISeparator } from '@sap-ux/ui-components';
+import {
+    UIActionButton,
+    UILink,
+    UIIcon,
+    UIIconButton,
+    UIDefaultButton,
+    UISearchBox,
+    UISeparator
+} from '@sap-ux/ui-components';
 
 import type { Tag, SortedAlphaTags } from '@sap/knowledge-hub-extension-types';
-import { MOTION_VARIANTS } from '../../constants';
+import { MOTION_VARIANTS_PAGE } from '../../constants';
 
 import { useAppSelector } from '../../store';
 import { getTagsData } from './Tags.slice';
@@ -129,18 +137,22 @@ export const Tags: FC = (): JSX.Element => {
             initial="initial"
             animate="getIn"
             exit="getOut"
-            variants={MOTION_VARIANTS}>
-            <div className="tags-header">
-                <div className="tags-header-back-to-guide">
-                    <UIActionButton
-                        onClick={backToBlogs}
-                        iconProps={{ iconName: 'ArrowLeft' }}
-                        className="tags-header-back-to-guide__btn">
-                        {t('TAGS_BACK_TO_BLOGS')}
-                    </UIActionButton>
-                </div>
-                <h2 className="tags-header-title">{t('TAGS_TITLE')}</h2>
+            variants={MOTION_VARIANTS_PAGE}>
+            <div className="tags-back">
+                <UILink
+                    className="tags-back-link"
+                    title={t('TAGS_BACK_TO_BLOGS')}
+                    href="#"
+                    onClick={backToBlogs}
+                    onKeyDown={backToBlogs}>
+                    <UIIcon iconName="ArrowLeft" className="tags-back-link__icn" /> {t('TAGS_BACK_TO_BLOGS')}
+                </UILink>
             </div>
+
+            <div className="tags-header">
+                <h2 className="ui-large-header tags-header-title">{t('TAGS_TITLE')}</h2>
+            </div>
+
             <div className="tags-search">
                 <div className="tags-search__nav" ref={navAlphaTopRef}>
                     <ul className="tags-search__nav-list">
@@ -162,6 +174,7 @@ export const Tags: FC = (): JSX.Element => {
                     />
                 </div>
             </div>
+
             <div className="tags-content">
                 <div className="tags-content-wrapper">{getListTag(sortTags(listTags))}</div>
             </div>

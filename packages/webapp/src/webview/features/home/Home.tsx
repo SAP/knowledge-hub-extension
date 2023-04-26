@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import type { FC } from 'react';
+import { motion } from 'framer-motion';
 
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+
+import { TabsConfig, MOTION_VARIANTS_PAGE } from '../../constants';
 
 import type {
     TutorialsState,
@@ -28,7 +31,7 @@ import {
 } from './Home.slice';
 import { getTutorialsTag } from '../tutorials/Tutorials.utils';
 
-import { UIActionButton } from '@sap-ux/ui-components';
+import { UILink } from '@sap-ux/ui-components';
 
 import './Home.scss';
 
@@ -55,11 +58,11 @@ export const Home: FC = (): JSX.Element => {
     );
 
     const onBlogTagSelected = useCallback((tag: Tag): void => {
-        navigate('/blogs', { state: { tagId: tag.guid } });
+        navigate(TabsConfig['blogs'].path, { state: { tagId: tag.guid } });
     }, []);
 
     const onTutorialTagSelected = useCallback((tagId: string): void => {
-        navigate('/tutorials', { state: { tagId: tagId } });
+        navigate(TabsConfig['tutorials'].path, { state: { tagId: tagId } });
     }, []);
 
     useEffect(() => {
@@ -75,10 +78,16 @@ export const Home: FC = (): JSX.Element => {
     }, [homeTutorials, homeTutorialsLoading, homeTutorialsError]);
 
     return (
-        <div className="home">
+        <motion.div
+            className="home"
+            custom={{ direction: 'forward' }}
+            initial="initial"
+            animate="getIn"
+            exit="getOut"
+            variants={MOTION_VARIANTS_PAGE}>
             <div className="home-header">
                 <h2 className="ui-large-header home-header-title">{t('HOME_TITLE')}</h2>
-                <h3 className="home-header-description">{t('HOME_DESCRIPTION')}</h3>
+                <h3 className="ui-small-header home-header-description">{t('HOME_DESCRIPTION')}</h3>
             </div>
             <div className="home-content">
                 <div className="home-content-tutorials-wrapper">
@@ -88,11 +97,13 @@ export const Home: FC = (): JSX.Element => {
                                 {t('TUTORIALS_TITLE')}
                             </h2>
                             <span className="home-content-tutorials-container-header-link">
-                                <UIActionButton
+                                <UILink
+                                    title={t('LNK_VIEW_ALL')}
+                                    href="#"
                                     onClick={handleOnClickViewMore('/tutorials')}
-                                    className="home-tutorials-container-header-link-btn">
+                                    onKeyDown={handleOnClickViewMore('/tutorials')}>
                                     {t('LNK_VIEW_ALL')}
-                                </UIActionButton>
+                                </UILink>
                             </span>
                         </div>
                         <div className="home-content-tutorials-container-content">
@@ -123,11 +134,13 @@ export const Home: FC = (): JSX.Element => {
                                 {t('BLOGS_TITLE')}
                             </h3>
                             <span className="home-content-blogs-container-header-link">
-                                <UIActionButton
+                                <UILink
+                                    title={t('LNK_VIEW_ALL')}
+                                    href="#"
                                     onClick={handleOnClickViewMore('/blogs')}
-                                    className="home-blogs-container-header-link-btn">
+                                    onKeyDown={handleOnClickViewMore('/blogs')}>
                                     {t('LNK_VIEW_ALL')}
-                                </UIActionButton>
+                                </UILink>
                             </span>
                         </div>
                         <div className="home-content-blogs-container-content">
@@ -143,6 +156,6 @@ export const Home: FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };

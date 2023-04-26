@@ -4,28 +4,40 @@
     flex-wrap: nowrap;
     overflow: auto;
     flex-grow: 1;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    align-items: flex-start;
-    align-content: flex-start;
-    left: 0;
 
+    &-back {
+        padding: 20px 20px 10px;
+        margin: 0;
+        height: 16px;
+
+        &-link {
+            margin-bottom: 20px;
+            position: relative;
+            line-height: 16px;
+            padding-left: 12px;
+
+            &__icn {
+                position: absolute;
+                top: 0px;
+                left: -5px;
+                height: 16px;
+
+                svg > path,
+                svg > rect,
+                svg > g > path {
+                    fill: var(--vscode-textLink-foreground);
+                }
+            }
+        }
+    }
     &-header {
-        padding: 20px;
-        margin-bottom: 20px;
-        background-color: var(--vscode-editorGroupHeader-tabsBackground);
+        padding: 0 20px 10px 20px;
+        margin: 0;
 
         &-title {
             width: 100%;
-            color: var(--vscode-editor-foreground);
-            font-style: normal;
-            font-weight: bold;
-            font-size: 24px;
-            line-height: 29px;
-            margin-top: 20px;
-            margin-bottom: 5px;
             padding: 0;
+            margin: 0;
         }
     }
 
@@ -83,7 +95,6 @@
                     justify-content: flex-start;
                     flex-wrap: wrap;
                     align-items: baseline;
-                    width: 100%;
 
                     &-item {
                         width: 30%;

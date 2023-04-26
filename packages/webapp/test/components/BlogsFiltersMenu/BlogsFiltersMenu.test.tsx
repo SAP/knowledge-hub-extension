@@ -5,7 +5,7 @@ import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
 
-import { withDataNoError } from '../../__mocks__/blogs';
+import { withDataNoErrorMenuOpened } from '../../__mocks__/blogs';
 import { renderWithRouter } from '../../__mocks__/store.mock';
 
 import { BlogsFiltersMenu } from '../../../src/webview/components/BlogsFiltersMenu';
@@ -16,7 +16,7 @@ describe('BlogsFiltersMenu', () => {
 
     const renderBlogsFiltersMenu = (loading: boolean): RenderResult =>
         renderWithRouter(<BlogsFiltersMenu loading={loading} />, {
-            initialState: { tutorials: withDataNoError }
+            initialState: { blogs: withDataNoErrorMenuOpened }
         });
 
     test('test if the BlogsFiltersMenu render is ok with data', () => {

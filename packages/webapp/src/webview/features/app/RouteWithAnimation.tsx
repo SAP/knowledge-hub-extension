@@ -19,7 +19,7 @@ export const RoutesWithAnimation: FC = (): JSX.Element => {
                 <Route
                     path="/blogs/*"
                     element={
-                        <AnimatePresence initial={true}>
+                        <AnimatePresence initial={false}>
                             <Routes location={location} key={locationArr[2]}>
                                 <Route path="/*" element={<Blogs />} />
                                 <Route path=":tagId" element={<Blogs />} />

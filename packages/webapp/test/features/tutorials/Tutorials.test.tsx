@@ -28,7 +28,7 @@ describe('Tutorials', () => {
 
         renderTutorials();
         const headerText = screen.getByText('TUTORIALS_TITLE');
-        expect(headerText.className).toEqual('tutorials-header-title');
+        expect(headerText.className).toEqual('ui-large-header tutorials-header-title');
 
         const noResultTitleDOM = screen.getByText(/TUTORIALS_LOADING_CONTENT/i);
         expect(noResultTitleDOM.className).toMatch(/ms-Spinner-label/i);
@@ -41,7 +41,7 @@ describe('Tutorials', () => {
         renderTutorials();
 
         const headerText = screen.getByText('TUTORIALS_TITLE');
-        expect(headerText.className).toEqual('tutorials-header-title');
+        expect(headerText.className).toEqual('ui-large-header tutorials-header-title');
     });
 
     test('render a Tutorials component with no data', () => {
@@ -51,7 +51,7 @@ describe('Tutorials', () => {
         renderTutorialsNoData();
 
         const headerText = screen.getByText('TUTORIALS_TITLE');
-        expect(headerText.className).toEqual('tutorials-header-title');
+        expect(headerText.className).toEqual('ui-large-header tutorials-header-title');
 
         const noResultTitleDOM = screen.getByText(/NO_RESULT_TITLE/i);
         expect(noResultTitleDOM.className).toEqual('no-result-title ui-large-header');
@@ -64,7 +64,7 @@ describe('Tutorials', () => {
         renderTutorialsNoData();
 
         const headerText = screen.getByText('TUTORIALS_TITLE');
-        expect(headerText.className).toEqual('tutorials-header-title');
+        expect(headerText.className).toEqual('ui-large-header tutorials-header-title');
 
         const withErrorTitleDOM = screen.getByText(/WITH_ERROR_TITLE/i);
         expect(withErrorTitleDOM.className).toEqual('with-error-title ui-large-header');
@@ -79,7 +79,7 @@ describe('Tutorials', () => {
         });
 
         const headerText = screen.getByText('TUTORIALS_TITLE');
-        expect(headerText.className).toEqual('tutorials-header-title');
+        expect(headerText.className).toEqual('ui-large-header tutorials-header-title');
 
         const paginationNextText = screen.getByText('UI_PAGINATION_CAPTION_NEXT');
         expect(paginationNextText.className).toEqual('ui-pagination-page__li__anchor');
