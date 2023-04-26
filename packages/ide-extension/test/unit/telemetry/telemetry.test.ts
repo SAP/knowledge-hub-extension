@@ -32,16 +32,11 @@ describe('Test for initTelemetry()', () => {
     test('Init telemetry, enabled in config', () => {
         // Mock setup
         jest.spyOn(workspace, 'getConfiguration').mockReturnValue({ get: () => true } as any);
-        const envelope = {
-            tags: { ['ai.location.ip']: '1.2.3.4', ['ai.cloud.roleInstance']: 'role-instance' }
-        } as Partial<Contracts.Envelope>;
-
+        
         // Test execution
         const reporter = initTelemetry();
-        (reporter.client.addTelemetryProcessor as jest.Mock).mock.calls[0][0](envelope as Contracts.Envelope);
 
         // Result check
-        expect(envelope).toEqual({ tags: { ['ai.location.ip']: '0.0.0.0', ['ai.cloud.roleInstance']: 'masked' } });
         expect(reporter.enabled).toBe(true);
         expect(typeof reporter.dispose).toBe('function');
     });

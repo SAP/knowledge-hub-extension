@@ -2,7 +2,6 @@ import { platform, arch, release } from 'os';
 import { env, workspace } from 'vscode';
 import type { Disposable } from 'vscode';
 import { TelemetryClient } from 'applicationinsights';
-import type { Contracts } from 'applicationinsights';
 import { logString } from '../logger/logger';
 import packageJson from '../../package.json';
 import type { TelemetryEvent, TelemetryReporter, TelemetryUIEventProps } from '../utils/telemetry';
@@ -27,11 +26,6 @@ export function initTelemetry(): TelemetryReporter {
     if (!reporter) {
         const client = new TelemetryClient(key);
         client.channel.setUseDiskRetryCaching(true);
-        client.addTelemetryProcessor((envelope: Contracts.Envelope) => {
-            envelope.tags['ai.location.ip'] = '0.0.0.0';
-            envelope.tags['ai.cloud.roleInstance'] = 'masked';
-            return true;
-        });
         client.context.tags[client.context.keys.userId] = env.machineId;
         client.context.tags[client.context.keys.sessionId] = env.sessionId;
         client.context.tags[client.context.keys.cloudRole] = env.appName;
@@ -99,7 +93,6 @@ export async function trackEvent(event: TelemetryEvent): Promise<void> {
         const name = `${packageJson.name}/${event.name}`;
         const properties = propertyValuesToString({ ...event.properties, ...(reporter.commonProperties || {}) });
         reporter.client.trackEvent({ name, properties });
-        logString(`Telemetry event '${event.name}': ${JSON.stringify(event.properties)}`);
     } catch (error) {
         logString(`Error sending telemetry event '${event.name}': ${(error as Error).message}`);
     }
@@ -120,6 +113,7 @@ export async function trackAction(action: any): Promise<void> {
             title: action.title,
             primaryTag: action.primaryTag
         };
+
         if (action.source === OPEN_TUTORIAL) {
             properties.action = typeof FILTERS_TUTORIALS_TAGS;
             await trackEvent({ name: 'KHUB_OPEN_TUTORIAL', properties });
