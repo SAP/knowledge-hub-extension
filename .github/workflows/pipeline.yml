@@ -56,7 +56,12 @@ jobs:
                 options: -v ${{ github.workspace }}:/home/workspace:cached
                 run: |
                   ls /home/workspace
-                  sudo apt install -y nodejs
+                  sudo apt install -y curl
+                  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+                  . .nvm/nvm.sh
+                  nvm install 16
+                  nvm use 16
+                  nvm alias default 16
                   npm install -g pnpm
                   pnpm --filter sap-knowledge-hub-extension run ide-ext:package
                   pnpm --filter sap-knowledge-hub-extension exec playwright install --with-deps
