@@ -82,10 +82,11 @@ export const Tags: FC = (): JSX.Element => {
         return (
             <React.Fragment>
                 {Object.keys(sortedTags).map((key) => (
-                    <div className="tags-content-wrapper__item" key={key}>
+                    <div className="tags-content-wrapper__item" key={key} data-testid={`${key}-wrapper`}>
                         <div className="tags-content-wrapper__item-title" ref={getRefForKey(key)}>
                             <h3 className="tags-content-wrapper__item-title-txt">{key}</h3>
                             <UIIconButton
+                                data-testid={`${key}-btn-top`}
                                 className="tags-content-wrapper__item-title-btn-top"
                                 iconProps={{ iconName: 'ToTheTop' }}
                                 onClick={goToTop}
@@ -158,7 +159,9 @@ export const Tags: FC = (): JSX.Element => {
                     <ul className="tags-search__nav-list">
                         {tagAlphaWithRef.map((alpha) => (
                             <li className="tags-search__nav-list-entry" role="presentation" key={alpha.label}>
-                                <UIDefaultButton onClick={goToAlpha(alpha.ref)}>{alpha.label}</UIDefaultButton>
+                                <UIDefaultButton onClick={goToAlpha(alpha.ref)} data-testid={alpha.label}>
+                                    {alpha.label}
+                                </UIDefaultButton>
                             </li>
                         ))}
                     </ul>
