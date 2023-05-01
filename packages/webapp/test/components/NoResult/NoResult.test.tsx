@@ -4,7 +4,6 @@ import { screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import { render } from '../../__mocks__/store.mock';
 
@@ -13,7 +12,6 @@ import { NoResult } from '../../../src/webview/components/NoResult';
 describe('NoResult', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const renderNoResult = (): RenderResult => render(<NoResult />);
 

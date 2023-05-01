@@ -4,7 +4,6 @@ import { screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import { withDataNoError } from '../../__mocks__/tutorials';
 import { render } from '../../__mocks__/store.mock';
@@ -14,7 +13,6 @@ import { Experience } from '../../../src/webview/components/TutorialCard/Experie
 describe('TutorialCard > Experience', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const renderExperience = (experience: string): RenderResult =>
         render(<Experience experience={experience} />, { initialState: { tutorials: withDataNoError } });

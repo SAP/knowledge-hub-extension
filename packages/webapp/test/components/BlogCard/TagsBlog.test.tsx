@@ -6,7 +6,6 @@ import { act } from 'react-dom/test-utils';
 
 import type { Tag } from '@sap/knowledge-hub-extension-types';
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import { render } from '../../../test/__mocks__/store.mock';
 
@@ -15,7 +14,6 @@ import { TagsBlog } from '../../../src/webview/components/BlogCard/TagsBlog';
 describe('BlogCard > TagsBlog', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const renderTagsBlog = (tags: Tag[], callback: { (tag: Tag): void; (tags: Tag): void }): RenderResult =>
         render(<TagsBlog tags={tags} callback={callback} />);

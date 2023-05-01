@@ -5,7 +5,6 @@ import type { RenderResult } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import { render } from '../../__mocks__/store.mock';
 import { UIPill } from '../../../src/webview/components/UI/UIPill';
@@ -13,7 +12,6 @@ import { UIPill } from '../../../src/webview/components/UI/UIPill';
 describe('UI > UIPill', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const renderUIPill = (
         pillLabel: string,

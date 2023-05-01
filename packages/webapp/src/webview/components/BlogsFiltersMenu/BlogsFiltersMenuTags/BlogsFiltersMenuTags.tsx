@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-import { UICheckbox, UISearchBox } from '@sap-ux/ui-components';
+import { UICheckbox, UISearchBox, UILink } from '@sap-ux/ui-components';
 
 import { Tag } from '@sap/knowledge-hub-extension-types';
 
@@ -27,6 +28,7 @@ export const BlogsFiltersMenuTags: FC<BlogsFiltersMenuTagsProps> = ({
     loading
 }): JSX.Element => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
 
     const activeTags: string[] | undefined = useAppSelector(getManagedTags);
     const tags: Tag[] = useAppSelector(getTagsData);
@@ -56,6 +58,11 @@ export const BlogsFiltersMenuTags: FC<BlogsFiltersMenuTagsProps> = ({
         return !!activeTags?.includes(tagId);
     };
 
+    const viewAllTags = (): void => {
+        let fullPath = '/blogs/tags';
+        navigate(fullPath);
+    };
+
     useEffect(() => {
         setIsLoading(loading);
     }, [loading]);
@@ -77,6 +84,15 @@ export const BlogsFiltersMenuTags: FC<BlogsFiltersMenuTagsProps> = ({
 
             <div className="blogs-filters-menu-tags__header">
                 <span className="blogs-filters-menu-tags__header-title">{t('BLOGS_FILTERS_TAGS')}</span>
+                <span className="blogs-filters-menu-tags__header-title__view-all">
+                    <UILink
+                        title={t('BLOGS_FILTERS_TAGS_VIEW_ALL')}
+                        href="#"
+                        onClick={viewAllTags}
+                        onKeyDown={viewAllTags}>
+                        {t('BLOGS_FILTERS_TAGS_VIEW_ALL')}
+                    </UILink>
+                </span>
             </div>
             {withSearchOn && (
                 <div className="blogs-filters-menu-tags__search">

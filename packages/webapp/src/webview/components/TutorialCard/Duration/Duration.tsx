@@ -26,7 +26,7 @@ export const Duration: FC<DurationProps> = ({ duration }: DurationProps): JSX.El
 
     return (
         <div className="duration">
-            <UIIcon iconName="duration" />
+            <UIIcon iconName="ClockShort" />
             <span className="duration-text">
                 {hours !== 0 && hours !== 12 && (
                     <div className="duration-text-hours">

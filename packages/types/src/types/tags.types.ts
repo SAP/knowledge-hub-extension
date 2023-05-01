@@ -19,6 +19,16 @@ export interface TagsSearchResult {
     filteredTags: Tag[];
 }
 
+export interface SortedAlphaTags {
+    [key: string]: Tag[];
+}
+
+export interface TagsAlphaRef {
+    label: string;
+    value: string;
+    ref: null | HTMLDivElement;
+}
+
 // API
 
 export interface TagsAPI {

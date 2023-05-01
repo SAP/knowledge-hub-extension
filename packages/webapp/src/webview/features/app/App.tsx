@@ -1,21 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { FC } from 'react';
-import { createMemoryRouter, RouterProvider } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
-import { myRoutes } from '../../routes/config';
+import { tabs } from '../../constants';
+import { NavigationBar } from '../../components/NavigationBar';
+import { RoutesWithAnimation } from './RouteWithAnimation';
+
+import { fecthHomeBlogs, fecthHomeTutorials, fetchTags } from '../home/home.utils';
 
 import './App.scss';
 
 export const App: FC = (): JSX.Element => {
-    const myRouter = createMemoryRouter(myRoutes, {
-        initialEntries: ['/'],
-        initialIndex: 1
-    });
+    useEffect(() => {
+        fecthHomeBlogs();
+        fecthHomeTutorials();
+        fetchTags();
+    }, []);
 
     return (
         <div className="app-knowledge-hub">
             <div className="app-knowledge-hub-wrapper">
-                <RouterProvider router={myRouter} />
+                <MemoryRouter>
+                    <NavigationBar tabs={tabs} />
+                    <RoutesWithAnimation />
+                </MemoryRouter>
             </div>
         </div>
     );

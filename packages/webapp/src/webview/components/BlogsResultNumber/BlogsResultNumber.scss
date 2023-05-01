@@ -1,13 +1,16 @@
 .blogs-result-number {
     display: flex;
     align-items: center;
-    padding-bottom: 20px;
-    padding-left: 10px;
+    padding: 0 20px 20px 20px;
 
     &__wrapper {
         display: flex;
         align-items: center;
         padding-left: 10px;
+
+        &:first-child {
+            padding-left: 0;
+        }
 
         &__text {
             display: flex;

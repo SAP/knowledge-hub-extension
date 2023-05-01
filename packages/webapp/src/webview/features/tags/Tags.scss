@@ -1,0 +1,118 @@
+.tags {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow: auto;
+    flex-grow: 1;
+
+    &-back {
+        padding: 20px 20px 10px;
+        margin: 0;
+        height: 16px;
+
+        &-link {
+            margin-bottom: 20px;
+            position: relative;
+            line-height: 16px;
+            padding-left: 12px;
+
+            &__icn {
+                position: absolute;
+                top: 0px;
+                left: -5px;
+                height: 16px;
+
+                svg > path,
+                svg > rect,
+                svg > g > path {
+                    fill: var(--vscode-textLink-foreground);
+                }
+            }
+        }
+    }
+    &-header {
+        padding: 0 20px 10px 20px;
+        margin: 0;
+
+        &-title {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    &-search {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 20px 40px 20px;
+
+        &__nav {
+            &-list {
+                list-style: none;
+                display: flex;
+                margin: 0;
+                padding: 0;
+
+                &-entry {
+                    padding-right: 1px;
+                }
+            }
+        }
+        &__search {
+            &-box {
+                min-width: 300px;
+            }
+        }
+    }
+
+    &-content {
+        padding: 0 20px;
+
+        &-wrapper {
+            &__item {
+                &-title {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: baseline;
+
+                    &-txt {
+                        color: var(--vscode-editor-foreground);
+                        font-style: normal;
+                        font-weight: bold;
+                        font-size: 24px;
+                        line-height: 29px;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    &-btn-top {
+                        margin-left: 14px;
+                    }
+                }
+                &-list {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    flex-wrap: wrap;
+                    align-items: baseline;
+
+                    &-item {
+                        width: 30%;
+
+                        &__btn {
+                            white-space: break-spaces;
+                            text-align: left;
+                            height: auto;
+                            margin: 5px;
+
+                            .ms-Button-label {
+                                display: inline-flex;
+                                line-height: 22px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
