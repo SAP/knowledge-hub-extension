@@ -3,4 +3,4 @@
 "@sap/knowledge-hub-extension-webapp": minor
 ---
 
-Feat/33/view all blogs filters
+Introduce "View All" view to Blogs filters
