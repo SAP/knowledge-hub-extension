@@ -1,5 +1,11 @@
 # Change Log - @sap/knowledge-hub-extension-webapp
 
+## 0.13.0
+
+### Minor Changes
+
+-   3df8913: Introduce "View All" view to Blogs filters
+
 ## 0.12.1
 
 ### Patch Changes
