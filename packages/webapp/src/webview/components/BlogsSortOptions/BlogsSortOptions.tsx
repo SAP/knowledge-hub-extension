@@ -41,7 +41,7 @@ export const BlogsSortOptions: FC = (): JSX.Element => {
                                 .join(' ')}>
                             {t('BLOGS_SORT_BY_RELEVANCE')}
                         </span>
-                        <UISeparator vertical />
+                        <UISeparator vertical className="blogs-sort-options__separator" />
                         <span
                             onClick={changeSortBy(BlogSearchSortBy.UPDATE_TIME)}
                             className={[
