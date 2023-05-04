@@ -4,6 +4,7 @@ import {
     BlogFiltersEntryType,
     fetchBlogs,
     BLOGS_LIMIT_PER_PAGE,
+    BlogSearchSortBy,
     initBlogsFilters,
     initBlogsQuery
 } from '@sap/knowledge-hub-extension-types';
@@ -28,6 +29,7 @@ import {
     blogsManagedTagsDeleteAll,
     blogsTagsAdd,
     blogsLanguageUpdate,
+    blogsOrderByUpdate,
     blogsCategoryAdd,
     blogsCategoryDelete,
     blogsCategoryDeleteAll,
@@ -53,7 +55,7 @@ export const initialSearchState: BlogsState = {
 export const initialQueryState: BlogsSearchQuery = {
     page: 0,
     limit: BLOGS_LIMIT_PER_PAGE,
-    orderBy: 'UPDATE_TIME',
+    orderBy: BlogSearchSortBy.UPDATE_TIME,
     order: 'DESC',
     contentTypes: ['blogpost'],
     managedTags: [] as string[],
@@ -175,6 +177,9 @@ const query = createSlice({
                     state.language = action.payload;
                 }
             )
+            .addMatcher(blogsOrderByUpdate.match, (state: BlogsSearchQuery, action: PayloadAction<string>): void => {
+                state.orderBy = action.payload;
+            })
             .addMatcher(blogsCategoryAdd.match, (state: BlogsSearchQuery, action: PayloadAction<string>): void => {
                 const currentBlogsCaterories: string[] = Object.assign([], state.blogCategories);
                 const newCategory = action.payload;
@@ -305,5 +310,6 @@ export const getBlogsLanguage = (state: RootState) => state.blogs.query.language
 export const getBlogsCategories = (state: RootState) => state.blogs.query.blogCategories;
 export const getBlogsTags = (state: RootState) => state.blogs.tags;
 export const getBlogsSearchTerm = (state: RootState) => state.blogs.query.searchTerm;
+export const getBlogsOrderBy = (state: RootState) => state.blogs.query.orderBy;
 
 export default combineReducers({ result: result.reducer, query: query.reducer, ui: ui.reducer, tags: tags.reducer });

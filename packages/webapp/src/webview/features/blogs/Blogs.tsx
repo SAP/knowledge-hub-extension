@@ -11,17 +11,18 @@ import type {
     BlogsSearchResultContentItem,
     BlogFiltersEntry
 } from '@sap/knowledge-hub-extension-types';
-import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
+import { BlogFiltersEntryType, BlogSearchSortBy } from '@sap/knowledge-hub-extension-types';
 
 import {
     blogsPageChanged,
     blogsManagedTagsAdd,
     blogsTagsAdd,
     blogsFilterEntryAdd,
-    blogsSearchTermChanged
+    blogsSearchTermChanged,
+    blogsOrderByUpdate
 } from '../../store/actions';
 import { store, useAppSelector } from '../../store';
-import { getBlogs, getBlogsQuery, getManagedTags, getBlogsUIIsLoading } from './Blogs.slice';
+import { getBlogs, getBlogsQuery, getBlogsOrderBy, getManagedTags, getBlogsUIIsLoading } from './Blogs.slice';
 import { getTagsData } from '../tags/Tags.slice';
 import { fetchBlogData, isManagedTag, getBlogsTagById, onTagSelected } from './Blogs.utils';
 import { getSearchTerm } from '../search/Search.slice';
@@ -35,6 +36,7 @@ import { BlogCard } from '../../components/BlogCard';
 import { BlogsFiltersMenu } from '../../components/BlogsFiltersMenu';
 import { BlogsFiltersBar } from '../../components/BlogsFiltersBar';
 import { BlogsResultNumber } from '../../components/BlogsResultNumber';
+import { BlogsSortOptions } from '../../components/BlogsSortOptions';
 
 import './Blogs.scss';
 
@@ -48,6 +50,7 @@ export const Blogs: FC = (): JSX.Element => {
     const activeBlogs: BlogsState = useAppSelector(getBlogs);
     const activeQuery: BlogsSearchQuery = useAppSelector(getBlogsQuery);
     const activeSearchTerm: string = useAppSelector(getSearchTerm);
+    const activeOrderBy: string | undefined = useAppSelector(getBlogsOrderBy);
     const activeManagedTags: string[] = useAppSelector(getManagedTags) || [];
     const activeLoading = useAppSelector(getBlogsUIIsLoading);
     const tags = useAppSelector(getTagsData);
@@ -119,10 +122,24 @@ export const Blogs: FC = (): JSX.Element => {
     useEffect(() => {
         const state = store.getState();
         const currentQuery = state.blogs.query;
-        const options: BlogsSearchQuery = Object.assign({}, currentQuery, { searchTerm: activeSearchTerm });
+        let orderBy = BlogSearchSortBy.UPDATE_TIME;
+        if (activeSearchTerm !== '') {
+            dispatch(blogsOrderByUpdate(BlogSearchSortBy.RELEVANCE));
+            orderBy = BlogSearchSortBy.RELEVANCE;
+        }
+        const options: BlogsSearchQuery = Object.assign({}, currentQuery, {
+            searchTerm: activeSearchTerm,
+            orderBy: orderBy
+        });
         dispatch(blogsSearchTermChanged(activeSearchTerm));
         fetchBlogData(options);
     }, [activeSearchTerm]);
+
+    useEffect(() => {
+        const state = store.getState();
+        const currentQuery = state.blogs.query;
+        fetchBlogData(currentQuery);
+    }, [activeOrderBy]);
 
     useEffect(() => {
         setLoading(activeLoading);
@@ -147,7 +164,10 @@ export const Blogs: FC = (): JSX.Element => {
                 <h2 className="ui-large-header blogs-header-title">{t('BLOGS_TITLE')}</h2>
             </div>
 
-            <BlogsResultNumber totalNumber={totalEntries} />
+            <div className="blogs-result">
+                <BlogsResultNumber totalNumber={totalEntries} />
+                <BlogsSortOptions />
+            </div>
 
             {!(loading || error || noResult) && (
                 <div className="blogs-content">

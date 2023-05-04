@@ -58,6 +58,7 @@ export const blogsManagedTagsDelete = createViewAction<string>('blogs/managed-ta
 export const blogsManagedTagsDeleteAll = createViewAction('blogs/managed-tags-delete-all');
 export const blogsTagsAdd = createViewAction<Tag>('blogs/tags-add');
 export const blogsLanguageUpdate = createViewAction<string | null>('blogs/language-update');
+export const blogsOrderByUpdate = createViewAction<string>('blogs/orderBy-update');
 export const blogsCategoryAdd = createViewAction<string>('blogs/category-add');
 export const blogsCategoryDelete = createViewAction<string>('blogs/category-delete');
 export const blogsCategoryDeleteAll = createViewAction('blogs/category-delete-all');
