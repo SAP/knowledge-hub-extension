@@ -98,7 +98,7 @@ export class KnowledgeHubPanel {
                 this.panel = this.createKnowledgeHubWebview();
             }
             if (action.type === LOG_TELEMETRY_EVENT) {
-                trackAction(action);
+                await trackAction(action);
             }
         });
 
