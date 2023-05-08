@@ -6,7 +6,6 @@ import type { RenderResult } from '@testing-library/react';
 import type { TutorialsEntry } from '@sap/knowledge-hub-extension-types';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import { withDataNoError } from '../../__mocks__/tutorials';
 import { render } from '../../__mocks__/store.mock';
@@ -16,7 +15,6 @@ import { TutorialCard } from '../../../src/webview/components/TutorialCard';
 describe('TutorialCard', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const renderTutorialCard = (
         tutorial: TutorialsEntry,

@@ -2,7 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import type { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { MOTION_VARIANTS_PAGE } from '../../constants';
 import type {
     BlogsState,
     BlogsSearchQuery,
@@ -127,7 +129,13 @@ export const Blogs: FC = (): JSX.Element => {
     }, [activeLoading]);
 
     return (
-        <div className="blogs">
+        <motion.div
+            className="blogs"
+            custom={{ direction: 'forward' }}
+            initial="initial"
+            animate="getIn"
+            exit="getOut"
+            variants={MOTION_VARIANTS_PAGE}>
             <div className="blogs-filters">
                 <div className="blogs-filters-wrapper">
                     <BlogsFiltersMenu loading={loading} />
@@ -136,8 +144,7 @@ export const Blogs: FC = (): JSX.Element => {
             </div>
 
             <div className="blogs-header">
-                <h2 className="blogs-header-title">{t('BLOGS_TITLE')}</h2>
-                <h3 className="blogs-header-description">{t('BLOGS_DESCRIPTION')}</h3>
+                <h2 className="ui-large-header blogs-header-title">{t('BLOGS_TITLE')}</h2>
             </div>
 
             <BlogsResultNumber totalNumber={totalEntries} />
@@ -160,9 +167,7 @@ export const Blogs: FC = (): JSX.Element => {
             {totalPage > 1 && (
                 <div className="blogs-pagination">
                     {totalPage > maxDisplayPage && (
-                        <div>
-                            {t('BLOGS_PAGINATION_HEADER', { maxDisplayPage: maxDisplayPage, totalPage: totalPage })}
-                        </div>
+                        <div>{t('BLOGS_PAGINATION_HEADER', { maxDisplayPage: maxDisplayPage })}</div>
                     )}
                     <UIPagination
                         nextLabel={t('UI_PAGINATION_CAPTION_NEXT')}
@@ -174,6 +179,6 @@ export const Blogs: FC = (): JSX.Element => {
                     />
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 };

@@ -18,7 +18,6 @@ export interface PayloadAction<T extends string, U> {
     type: T;
     payload: U;
 }
-
 export interface PendingAction<T extends string, U> extends PayloadAction<T, U> {
     pending: boolean;
 }

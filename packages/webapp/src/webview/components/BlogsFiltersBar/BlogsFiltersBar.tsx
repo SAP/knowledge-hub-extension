@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { UIIcon } from '@sap-ux/ui-components';
+import { UIIcon, UISmallButton } from '@sap-ux/ui-components';
 
 import { BlogFiltersEntry, BlogFiltersEntryType, BlogsSearchQuery } from '@sap/knowledge-hub-extension-types';
 
@@ -21,7 +21,6 @@ import {
 } from '../../store/actions';
 
 import { UIPill } from '../UI/UIPill/UIPill';
-import { UISmallButton } from '../UI/UISmallButton';
 
 import './BlogsFiltersBar.scss';
 

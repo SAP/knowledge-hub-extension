@@ -33,6 +33,7 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
 }): JSX.Element => {
     const [listEntries, setListEntries] = useState(entries);
     const [isLoading, setIsLoading] = useState(loading);
+    const [searchItem, setSearchItem] = useState<string | undefined>(undefined);
 
     const isTagChecked = useCallback((tagId: string): boolean => {
         const state = store.getState();
@@ -42,25 +43,28 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
 
     const onChange = useCallback(
         (_event: React.ChangeEvent<HTMLInputElement> | undefined, searchItem: string | undefined) => {
-            if (searchItem) {
-                const filteredEntries = entries.filter((entry) => {
-                    const entryTitle = getTutorialsTag(entry, tags);
-                    const alternativeTitles = getAlternativeTitles(entry, tags);
-
-                    return (
-                        entryTitle.toUpperCase().includes(searchItem.toUpperCase()) ||
-                        alternativeTitles?.some((element: string) =>
-                            element.toUpperCase().includes(searchItem.toUpperCase())
-                        )
-                    );
-                });
-                setListEntries(filteredEntries);
-            } else {
-                setListEntries(entries);
-            }
+            setSearchItem(searchItem);
         },
         []
     );
+
+    const filterEntriesWithSearchItem = (entries: string[]): string[] => {
+        if (searchItem) {
+            return entries.filter((entry) => {
+                const entryTitle = getTutorialsTag(entry, tags);
+                const alternativeTitles = getAlternativeTitles(entry, tags);
+
+                return (
+                    entryTitle.toUpperCase().includes(searchItem.toUpperCase()) ||
+                    alternativeTitles?.some((element: string) =>
+                        element.toUpperCase().includes(searchItem.toUpperCase())
+                    )
+                );
+            });
+        } else {
+            return entries;
+        }
+    };
 
     const onClear = useCallback((): void => {
         setListEntries(entries);
@@ -107,12 +111,16 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
 
     useEffect(() => {
         setIsLoading(false);
-        setListEntries(entries);
+        setListEntries(filterEntriesWithSearchItem(entries));
     }, [entries]);
 
     useEffect(() => {
         setIsLoading(loading);
     }, [loading]);
+
+    useEffect(() => {
+        setListEntries(filterEntriesWithSearchItem(entries));
+    }, [searchItem]);
 
     return (
         <div

@@ -168,6 +168,12 @@ export const uiNoFiltersNoLoading = {
     filtersEntries: []
 };
 
+export const uiNoFiltersNoLoadingMenuOpened = {
+    isLoading: false,
+    isFiltersMenuOpened: true,
+    filtersEntries: []
+};
+
 export const uiWithFilters = {
     isLoading: false,
     isFiltersMenuOpened: true,
@@ -231,6 +237,18 @@ export const withDataNoError = {
     },
     query: queryEmpty,
     ui: uiNoFiltersNoLoading,
+    tags: []
+};
+
+export const withDataNoErrorMenuOpened = {
+    result: {
+        data: blogEntry,
+        totalCount: 4,
+        error: noError,
+        pending: false
+    },
+    query: queryEmpty,
+    ui: uiNoFiltersNoLoadingMenuOpened,
     tags: []
 };
 

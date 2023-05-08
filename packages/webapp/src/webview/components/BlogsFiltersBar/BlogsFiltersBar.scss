@@ -1,9 +1,8 @@
 .blogs-filters-bar {
     display: flex;
-    margin: 0 20px 20px;
+    margin: 20px 20px 0 20px;
     justify-content: space-between;
     box-sizing: content-box;
-    padding-bottom: 10px;
     flex-direction: column;
 
     &-header {
@@ -19,7 +18,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        margin-top: 10px;
+        margin-top: 5px;
 
         &-tag-entry {
             padding-right: 5px;

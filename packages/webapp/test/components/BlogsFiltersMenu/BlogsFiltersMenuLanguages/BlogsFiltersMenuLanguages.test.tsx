@@ -4,7 +4,6 @@ import { fireEvent, screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../../src/webview/Icons/icons';
 
 import { withDataWithFilter } from '../../../__mocks__/blogs';
 import { render } from '../../../__mocks__/store.mock';
@@ -15,7 +14,6 @@ import * as utils from '../../../../src/webview/features/blogs/Blogs.utils';
 describe('BlogsFiltersMenuLanguages', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const renderBlogsFiltersMenuLanguages = (loading: boolean, isSmall: boolean): RenderResult =>
         render(<BlogsFiltersMenuLanguages loading={loading} isSmall={isSmall} />, {

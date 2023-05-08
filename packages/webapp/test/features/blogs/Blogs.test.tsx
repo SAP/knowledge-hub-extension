@@ -5,7 +5,6 @@ import { screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import {
     initialWithLoading,
@@ -23,7 +22,6 @@ import { Blogs } from '../../../src/webview/features/blogs/Blogs';
 describe('Blogs', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     test('render a Blogs component initial, do the fetch call', () => {
         const renderBlogsInitial = (): RenderResult =>
@@ -34,7 +32,7 @@ describe('Blogs', () => {
         });
 
         const headerText = screen.getByText('BLOGS_TITLE');
-        expect(headerText.className).toEqual('blogs-header-title');
+        expect(headerText.className).toEqual('ui-large-header blogs-header-title');
 
         const loadingTitleDOM = screen.getByText(/BLOGS_LOADING_CONTENT/i);
         expect(loadingTitleDOM.className).toContain('ms-Spinner-label');
@@ -47,7 +45,7 @@ describe('Blogs', () => {
         renderBlogs();
 
         const headerText = screen.getByText('BLOGS_TITLE');
-        expect(headerText.className).toEqual('blogs-header-title');
+        expect(headerText.className).toEqual('ui-large-header blogs-header-title');
     });
 
     test('render a Blogs component with no data', () => {
@@ -57,7 +55,7 @@ describe('Blogs', () => {
         renderBlogsNoData();
 
         const headerText = screen.getByText('BLOGS_TITLE');
-        expect(headerText.className).toEqual('blogs-header-title');
+        expect(headerText.className).toEqual('ui-large-header blogs-header-title');
 
         const noResultTitleDOM = screen.getByText(/NO_RESULT_TITLE/i);
         expect(noResultTitleDOM.className).toEqual('no-result-title ui-large-header');
@@ -70,7 +68,7 @@ describe('Blogs', () => {
         renderBlogsNoData();
 
         const headerText = screen.getByText('BLOGS_TITLE');
-        expect(headerText.className).toEqual('blogs-header-title');
+        expect(headerText.className).toEqual('ui-large-header blogs-header-title');
 
         const withErrorTitleDOM = screen.getByText(/WITH_ERROR_TITLE/i);
         expect(withErrorTitleDOM.className).toEqual('with-error-title ui-large-header');
@@ -83,7 +81,7 @@ describe('Blogs', () => {
         renderBlogsWithFilters();
 
         const headerText = screen.getByText('BLOGS_TITLE');
-        expect(headerText.className).toEqual('blogs-header-title');
+        expect(headerText.className).toEqual('ui-large-header blogs-header-title');
 
         const filteredHeaderDOM = screen.getByText(/BLOGS_FILTERS_BAR_FILTERED_BY/i);
         expect(filteredHeaderDOM.className).toEqual('blogs-filters-bar-header-title');
@@ -104,7 +102,7 @@ describe('Blogs', () => {
         });
 
         const headerText = screen.getByText('BLOGS_TITLE');
-        expect(headerText.className).toEqual('blogs-header-title');
+        expect(headerText.className).toEqual('ui-large-header blogs-header-title');
 
         const paginationNextText = screen.getByText('UI_PAGINATION_CAPTION_NEXT');
         expect(paginationNextText.className).toEqual('ui-pagination-page__li__anchor');
@@ -141,7 +139,7 @@ describe('Blogs', () => {
         renderBlogs();
 
         const headerText = screen.getByText('BLOGS_TITLE');
-        expect(headerText.className).toEqual('blogs-header-title');
+        expect(headerText.className).toEqual('ui-large-header blogs-header-title');
 
         const tagsText = screen.getByTestId('ui-pill-tag-1');
 

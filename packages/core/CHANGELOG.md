@@ -1,5 +1,12 @@
 # Change Log - @sap/guided-answers-extension-core
 
+## 0.13.0
+
+### Patch Changes
+
+-   Updated dependencies [3df8913]
+    -   @sap/knowledge-hub-extension-types@0.13.0
+
 ## 0.12.1
 
 ### Patch Changes

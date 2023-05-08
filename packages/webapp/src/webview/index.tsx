@@ -7,13 +7,11 @@ import { store, actions } from './store';
 import { initI18n } from './i18n';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from './Icons/icons';
 
 import '@sap-ux/ui-components/dist/styles/ui-components.scss';
 
 // Initialize and register ui-components icons and specific icon to LC
 initIcons();
-initLCIcons();
 
 // Initialize i18next
 initI18n();

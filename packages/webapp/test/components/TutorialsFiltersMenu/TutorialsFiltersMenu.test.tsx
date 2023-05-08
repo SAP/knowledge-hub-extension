@@ -5,22 +5,20 @@ import type { RenderResult } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import type { TutorialsTags, TutorialsFacets } from '@sap/knowledge-hub-extension-types';
 
 import { withDataNoErrorWithFilters } from '../../__mocks__/tutorials';
-import { render } from '../../__mocks__/store.mock';
+import { renderWithRouter } from '../../__mocks__/store.mock';
 
 import { TutorialsFiltersMenu } from '../../../src/webview/components/TutorialsFiltersMenu';
 
 describe('TutorialsFiltersMenu', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const renderTutorialsFiltersMenu = (facets: TutorialsFacets, tags: TutorialsTags, loading: boolean): RenderResult =>
-        render(<TutorialsFiltersMenu facets={facets} tags={tags} loading={loading} />, {
+        renderWithRouter(<TutorialsFiltersMenu facets={facets} tags={tags} loading={loading} />, {
             initialState: { tutorials: withDataNoErrorWithFilters }
         });
 

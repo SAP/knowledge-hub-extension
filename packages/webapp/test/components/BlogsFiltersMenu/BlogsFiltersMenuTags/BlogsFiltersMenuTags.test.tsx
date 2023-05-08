@@ -6,11 +6,10 @@ import type { RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../../src/webview/Icons/icons';
 
 import { withDataWithTags } from '../../../__mocks__/blogs';
 import { tagsWithTags } from '../../../__mocks__/tags';
-import { render } from '../../../__mocks__/store.mock';
+import { renderWithRouter } from '../../../__mocks__/store.mock';
 
 import { BlogsFiltersMenuTags } from '../../../../src/webview/components/BlogsFiltersMenu/BlogsFiltersMenuTags';
 import * as utils from '../../../../src/webview/features/blogs/Blogs.utils';
@@ -18,10 +17,9 @@ import * as utils from '../../../../src/webview/features/blogs/Blogs.utils';
 describe('BlogsFiltersMenuTags', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const renderBlogsFiltersMenuTags = (withSearchOn: boolean, loading: boolean, isSmall: boolean): RenderResult =>
-        render(<BlogsFiltersMenuTags withSearchOn={withSearchOn} loading={loading} isSmall={isSmall} />, {
+        renderWithRouter(<BlogsFiltersMenuTags withSearchOn={withSearchOn} loading={loading} isSmall={isSmall} />, {
             initialState: { blogs: withDataWithTags, tags: tagsWithTags }
         });
 

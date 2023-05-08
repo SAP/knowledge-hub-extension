@@ -212,6 +212,11 @@ const uiInitialWithLoading = {
     isFiltersMenuOpened: false
 };
 
+const uiInitialMenuOpened = {
+    isLoading: false,
+    isFiltersMenuOpened: true
+};
+
 export const tutorialsInitialState = {
     result: {
         data: emptyData,
@@ -307,6 +312,6 @@ export const withDataNoErrorWithFilters = {
         pending: false
     },
     query: queryEmptyWithFilters,
-    ui: uiInitial,
+    ui: uiInitialMenuOpened,
     tags: tagsData
 };

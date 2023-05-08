@@ -4,7 +4,6 @@ import { screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
-import { initLCIcons } from '../../../src/webview/Icons/icons';
 
 import { render } from '../../__mocks__/store.mock';
 import { Duration } from '../../../src/webview/components/TutorialCard/Duration';
@@ -12,7 +11,6 @@ import { Duration } from '../../../src/webview/components/TutorialCard/Duration'
 describe('TutorialCard > Duration', () => {
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
-    initLCIcons();
 
     const renderDuration = (testTime: string): RenderResult => render(<Duration duration={testTime} />);
 

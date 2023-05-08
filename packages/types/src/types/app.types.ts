@@ -30,6 +30,16 @@ export interface AppFilters {
     [FILTERS_TUTORIALS_TAGS]?: TutorialsTagWithTitle[];
 }
 
+export type TabsConfig = {
+    [key: string]: TabsConfigEntry;
+};
+
+export type TabsConfigEntry = {
+    key: string;
+    path: string;
+    text: string;
+};
+
 export interface LogTelemetryEvent {
     type: typeof LOG_TELEMETRY_EVENT;
     source: typeof OPEN_BLOG | typeof OPEN_TUTORIAL;

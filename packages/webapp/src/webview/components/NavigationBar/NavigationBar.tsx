@@ -4,17 +4,16 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { PathType } from '@sap/knowledge-hub-extension-types';
+import type { TabsConfig } from '@sap/knowledge-hub-extension-types';
 
 import { UITabs } from '@sap-ux/ui-components';
 import type { UITabsItem } from '@sap-ux/ui-components';
 import { Search } from '../../features/search';
 
-import type { TabsConfig } from '../../routes/config';
-
 import './NavigationBar.scss';
 
 export type NavigationBarProps = {
-    tabs: TabsConfig[];
+    tabs: TabsConfig;
 };
 
 export const NavigationBar: FC<NavigationBarProps> = ({ tabs }: NavigationBarProps): JSX.Element => {
@@ -28,9 +27,9 @@ export const NavigationBar: FC<NavigationBarProps> = ({ tabs }: NavigationBarPro
 
     useEffect(() => {
         const allTabs: string[] = [];
-        tabs.forEach((tab: TabsConfig) => {
-            if (tab.text) {
-                allTabs.push(t(tab.text));
+        Object.keys(tabs).forEach((key: string) => {
+            if (tabs[key].text) {
+                allTabs.push(t(tabs[key].text));
             }
         });
         setItems(allTabs);
@@ -38,10 +37,10 @@ export const NavigationBar: FC<NavigationBarProps> = ({ tabs }: NavigationBarPro
 
     useEffect(() => {
         if (location.pathname) {
-            tabs.forEach((tab: TabsConfig) => {
-                if (tab.path === location.pathname && tab.text) {
-                    setSelectedTab(t(tab.text));
-                    setSelectedKey(tab.key);
+            Object.keys(tabs).forEach((key: string) => {
+                if (tabs[key].path === location.pathname && tabs[key].text) {
+                    setSelectedTab(t(tabs[key].text));
+                    setSelectedKey(tabs[key].key);
                 }
             });
         }
@@ -52,11 +51,11 @@ export const NavigationBar: FC<NavigationBarProps> = ({ tabs }: NavigationBarPro
             let fullPath = '/';
             if (item) {
                 if (item.props.headerText !== t('HOME_TAB')) {
-                    tabs.forEach((tab: TabsConfig) => {
-                        if (tab.text && t(tab.text) === item.props.headerText) {
-                            fullPath = tab.path;
+                    Object.keys(tabs).forEach((key: string) => {
+                        if (tabs[key].text && t(tabs[key].text) === item.props.headerText) {
+                            fullPath = tabs[key].path;
                             setSelectedTab(item.props.headerText);
-                            setSelectedKey(tab.key);
+                            setSelectedKey(tabs[key].key);
                         }
                     });
                 }
