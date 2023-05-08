@@ -32,7 +32,7 @@ describe('Test for initTelemetry()', () => {
     test('Init telemetry, enabled in config', () => {
         // Mock setup
         jest.spyOn(workspace, 'getConfiguration').mockReturnValue({ get: () => true } as any);
-        
+
         // Test execution
         const reporter = initTelemetry();
 
@@ -178,20 +178,20 @@ describe('Telemetry disabled', () => {
 
         // Result check
         expect(reporter.client.trackEvent).toBeCalledWith({
-            name : "sap-knowledge-hub-extension/KHUB_OPEN_BLOGS", 
-            "properties" : {
-                "action": "string", 
-                "cmn.appstudio": "true",
-                "cmn.devspace": "DevSpace",
-                "cmn.extname": "sap-knowledge-hub-extension",
-                "cmn.extversion": "0.12.1",
-                "cmn.nodeArch": "arch",
-                "cmn.os": "platform",
-                "cmn.platformversion": "1.2.3",
-                "primaryTag": "abc-def-fgh",
-                "title": "hello sap"
+            name: 'sap-knowledge-hub-extension/KHUB_OPEN_BLOGS',
+            properties: {
+                action: 'string',
+                'cmn.appstudio': 'true',
+                'cmn.devspace': 'DevSpace',
+                'cmn.extname': 'sap-knowledge-hub-extension',
+                'cmn.extversion': '0.12.1',
+                'cmn.nodeArch': 'arch',
+                'cmn.os': 'platform',
+                'cmn.platformversion': '1.2.3',
+                primaryTag: 'abc-def-fgh',
+                title: 'hello sap'
             }
-        })
+        });
     });
 });
 

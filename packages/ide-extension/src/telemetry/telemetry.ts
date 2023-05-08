@@ -11,7 +11,7 @@ import {
     OPEN_TUTORIAL,
     OPEN_BLOG
 } from '@sap/knowledge-hub-extension-types';
-import * as dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 import { join } from 'path';
 let key = 'ApplicationInsightsInstrumentationKeyPLACEH0LDER';
 
@@ -27,11 +27,9 @@ export function initTelemetry(): TelemetryReporter {
     const disposables: Disposable[] = [];
     const envValue = dotenv.config({ path: join(__dirname, '../' + '.env') });
     console.log(envValue);
-    if (process.env.NODE_ENV === 'production')
-    {
+    if (process.env.NODE_ENV === 'production') {
         key = envValue.parsed?.REACT_APP_PRODUCTION_KEY_FOR_TELEMETRY_PLACEHOLDER as string;
-    }
-    else{
+    } else {
         key = envValue.parsed?.REACT_APP_DEVELOPMENT_KEY_FOR_TELEMETRY_PLACEHOLDER as string;
     }
     if (!reporter) {
@@ -79,14 +77,14 @@ export function setCommonProperties(properties?: { ide: 'VSCODE' | 'SBAS'; sbasd
     if (reporter) {
         reporter.commonProperties = properties
             ? {
-                'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
-                'cmn.devspace': properties.sbasdevSpace,
-                'cmn.os': platform(),
-                'cmn.nodeArch': arch(),
-                'cmn.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
-                'cmn.extname': packageJson.name,
-                'cmn.extversion': packageJson.version
-            }
+                  'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
+                  'cmn.devspace': properties.sbasdevSpace,
+                  'cmn.os': platform(),
+                  'cmn.nodeArch': arch(),
+                  'cmn.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
+                  'cmn.extname': packageJson.name,
+                  'cmn.extversion': packageJson.version
+              }
             : undefined;
     }
 }
