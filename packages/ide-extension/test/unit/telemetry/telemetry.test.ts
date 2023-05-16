@@ -6,7 +6,7 @@ import * as logger from '../../../src/logger/logger';
 import { activate } from '../../../src/extension';
 import { LogTelemetryEvent, LOG_TELEMETRY_EVENT } from '@sap/knowledge-hub-extension-types';
 
-import type { TelemetryEvent, TelemetryReporter } from '../../../src/utils/telemetry';
+import type { TelemetryEvent, TelemetryReporter } from '../../../src/telemetry/types';
 import packageJson from '../../../package.json';
 import { OPEN_BLOG, OPEN_TUTORIAL } from '../../../../types/dist/types';
 

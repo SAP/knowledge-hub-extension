@@ -4,7 +4,7 @@ import type { Disposable } from 'vscode';
 import { TelemetryClient } from 'applicationinsights';
 import { logString } from '../logger/logger';
 import packageJson from '../../package.json';
-import type { TelemetryEvent, TelemetryReporter, TelemetryUIEventProps } from '../utils/telemetry';
+import type { TelemetryEvent, TelemetryReporter, TelemetryUIEventProps } from './types';
 import {
     FILTERS_BLOGS_TAGS,
     FILTERS_TUTORIALS_TAGS,
@@ -33,7 +33,7 @@ export function initTelemetry(): TelemetryReporter {
         const client = new TelemetryClient(instrumentationKey);
         client.channel.setUseDiskRetryCaching(true);
         client.context.tags[client.context.keys.userId] = env.machineId;
-        client.context.tags[client.context.keys.sessionId] = env.sessionId;
+        client.context.tags[client.context.keys.sessionId] = uuidv4();
         client.context.tags[client.context.keys.cloudRole] = env.appName;
         const enabled = updateTelemetryStatus();
 
@@ -150,3 +150,7 @@ function propertyValuesToString(properties: { [key: string]: any }): { [key: str
     }
     return properties;
 }
+function uuidv4(): string {
+    throw new Error('Function not implemented.');
+}
+
