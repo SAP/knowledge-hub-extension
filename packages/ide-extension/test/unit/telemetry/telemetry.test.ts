@@ -184,7 +184,7 @@ describe('Telemetry disabled', () => {
                 'cmn.appstudio': 'true',
                 'cmn.devspace': 'DevSpace',
                 'cmn.extname': 'sap-knowledge-hub-extension',
-                'cmn.extversion': '0.13.0',
+                'cmn.extversion': '0.14.0',
                 'cmn.nodeArch': 'arch',
                 'cmn.os': 'platform',
                 'cmn.platformversion': '1.2.3',
