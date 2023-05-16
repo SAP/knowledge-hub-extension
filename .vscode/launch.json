@@ -5,17 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Knowledge Hub extension - Launch Knowledge Hub extension",
-            "type": "extensionHost",
-            "request": "launch",
-            "runtimeExecutable": "${execPath}",
-            "args": ["--log=debug", "--extensionDevelopmentPath=${workspaceFolder}/packages/ide-extension/"],
-            "outFiles": ["${workspaceFolder}/pacakges/ide-extension/dist/**/*.js"],
-            "preLaunchTask": "extension-watch",
-            "postDebugTask": "Terminate All Tasks"
-        },
-        {
-            "name": "Knowledge Hub extension - webapp: Run Current Jest File",
+            "name": "core: Run current jest file",
             "type": "node",
             "request": "launch",
             "program": "${workspaceFolder}/node_modules/jest/bin/jest",
@@ -25,10 +15,20 @@
             "windows": {
                 "program": "${workspaceFolder}/node_modules/jest/bin/jest"
             },
-            "cwd": "${workspaceFolder}/packages/webapp"
+            "cwd": "${workspaceFolder}/packages/core"
         },
         {
-            "name": "Knowledge Hub extension - ide-extension: Run Current Jest File",
+            "name": "ide-extension: Launch extension",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "args": ["--log=debug", "--extensionDevelopmentPath=${workspaceFolder}/packages/ide-extension/"],
+            "outFiles": ["${workspaceFolder}/pacakges/ide-extension/dist/**/*.js"],
+            "preLaunchTask": "extension-watch",
+            "postDebugTask": "Terminate All Tasks"
+        },
+        {
+            "name": "ide-extension: Run current jest file",
             "type": "node",
             "request": "launch",
             "program": "${workspaceFolder}/node_modules/jest/bin/jest",
@@ -41,7 +41,7 @@
             "cwd": "${workspaceFolder}/packages/ide-extension"
         },
         {
-            "name": "Knowledge Hub extension - core: Run Current Jest File",
+            "name": "webapp: Run current jest file",
             "type": "node",
             "request": "launch",
             "program": "${workspaceFolder}/node_modules/jest/bin/jest",
@@ -51,7 +51,7 @@
             "windows": {
                 "program": "${workspaceFolder}/node_modules/jest/bin/jest"
             },
-            "cwd": "${workspaceFolder}/packages/core"
+            "cwd": "${workspaceFolder}/packages/webapp"
         }
     ]
 }

@@ -20,7 +20,7 @@ const buildConfig = {
         '.svg': 'file'
     },
     platform: 'node',
-    target: 'node12.22',
+    target: 'node16.1',
     external: [
         'vscode' // the vscode-module is created on-the-fly and must be excluded. Add other modules that cannot be webpack'ed, 📖 -> https://webpack.js.org/configuration/externals/
     ],
