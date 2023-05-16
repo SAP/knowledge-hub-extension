@@ -150,5 +150,3 @@ function propertyValuesToString(properties: { [key: string]: any }): { [key: str
     }
     return properties;
 }
-
-
