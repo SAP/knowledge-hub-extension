@@ -1,0 +1,40 @@
+.blogs-sort-options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &__title {
+        padding-right: 10px;
+    }
+
+    &__separator {
+        height: 18px;
+    }
+    
+    &__options {
+        display: flex;
+        align-items: center;
+
+        &-entry {
+            font-style: normal;
+            font-size: 13px;
+            line-height: 18px;
+
+            &__active {
+                font-weight: 700;
+                color: var(--vscode-tab-activeForeground);
+                user-select: none;
+            }
+
+            &__not-active {
+                font-weight: 400;
+                color: var(--vscode-foreground);
+                text-decoration-line: underline;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

@@ -21,3 +21,8 @@ export enum BlogFiltersEntryType {
     LANGUAGE = 'LANGUAGE',
     CATEGORY = 'CATEGORY'
 }
+
+export enum BlogSearchSortBy {
+    UPDATE_TIME = 'UPDATE_TIME',
+    RELEVANCE = 'RELEVANCE'
+}

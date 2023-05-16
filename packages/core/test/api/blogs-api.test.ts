@@ -48,7 +48,7 @@ describe('blog-api', () => {
                 additionalManagedTags: [],
                 additionalUserTags: []
             };
-            const result = 'page=0&limit=3&orderBy=RELEVANCE&order=DESC&contentTypes%5B0%5D=blogpost&searchTerm=test';
+            const result = 'page=0&limit=3&orderBy=UPDATE_TIME&order=DESC&contentTypes%5B0%5D=blogpost&searchTerm=test';
             const res = prepareQueryOptions(options);
 
             await expect(res).toEqual(result);

@@ -73,6 +73,28 @@ export const queryWithFilter = {
     additionalUserTags: [] as string[]
 };
 
+export const queryWithSearchTerm = {
+    page: 0,
+    limit: 20,
+    orderBy: 'RELEVANCE',
+    order: 'DESC',
+    contentTypes: ['blogpost'],
+    managedTags: ['2'],
+    searchTerm: 'test',
+    questionType: '',
+    language: '4',
+    blogCategories: ['b6e6296c-7cf2-4fe6-aa91-d77078aad028'],
+    authorId: '',
+    userTags: '',
+    updatedFrom: undefined,
+    updatedTo: undefined,
+    createdFrom: undefined,
+    createdTo: undefined,
+    boostingStrategy: '',
+    additionalManagedTags: [] as string[],
+    additionalUserTags: [] as string[]
+};
+
 export const blogEntry = [
     {
         id: '1',

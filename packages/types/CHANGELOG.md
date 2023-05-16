@@ -1,5 +1,11 @@
 # Change Log - @sap/knowledge-hub-extension-types
 
+## 0.14.0
+
+### Minor Changes
+
+-   38594b7: feat: #67 - blogs search result page is sorted by relevance or time updated
+
 ## 0.13.0
 
 ### Minor Changes

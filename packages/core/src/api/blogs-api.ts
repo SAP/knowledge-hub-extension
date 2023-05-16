@@ -37,9 +37,7 @@ export function getCommunityBlogsApi(options?: BlogsAPIOptions): BlogsAPI {
  */
 export function prepareQueryOptions(queryOptions: BlogsSearchQuery | undefined): string {
     if (queryOptions) {
-        if (queryOptions.searchTerm !== '') {
-            queryOptions.orderBy = 'RELEVANCE';
-        } else {
+        if (queryOptions.searchTerm === '') {
             queryOptions.orderBy = 'UPDATE_TIME';
         }
 

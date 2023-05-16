@@ -35,6 +35,12 @@
         }
     }
 
+    &-result {
+        display: flex;
+        flex-direction: row;
+        padding: 0 20px 20px 20px;
+    }
+
     &-content {
         display: flex;
         flex-wrap: wrap;
@@ -44,7 +50,7 @@
         height: 100%;
         width: 100%;
         min-height: 250px;
-        padding: 30px 20px;
+        padding: 10px 20px;
         position: relative;
         scroll-behavior: smooth;
         overflow: auto;

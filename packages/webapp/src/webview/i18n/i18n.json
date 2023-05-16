@@ -36,6 +36,9 @@
     "BLOGS_FILTERS_CATEGORIES": "Blog Categories",
     "BLOGS_LOADING_CONTENT": "Loading Content",
     "BLOGS_PAGINATION_HEADER": "Showing only the first {{maxDisplayPage}} pages of results. Use search and filters to view additional content.",
+    "BLOGS_SORT_BY_DESCRIPTION": "Sort By:",
+    "BLOGS_SORT_BY_RELEVANCE": "Relevance",
+    "BLOGS_SORT_BY_LAST_UPDATED": "Last updated",
 
     "TAGS_TITLE": "All tags for SAP Community blog",
     "TAGS_BACK_TO_BLOGS": "Back to blogs",
