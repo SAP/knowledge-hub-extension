@@ -11,9 +11,8 @@ import {
     OPEN_TUTORIAL,
     OPEN_BLOG
 } from '@sap/knowledge-hub-extension-types';
-import * as dotenv from 'dotenv';
+import { config as dotenvConfig } from 'dotenv';
 import { join } from 'path';
-let key = 'ApplicationInsightsInstrumentationKeyPLACEH0LDER';
 
 // Telemetry reporter client
 let reporter: TelemetryReporter | undefined;
@@ -24,21 +23,21 @@ let reporter: TelemetryReporter | undefined;
  * @returns - telemetry reporter
  */
 export function initTelemetry(): TelemetryReporter {
-    const disposables: Disposable[] = [];
-    const envValue = dotenv.config({ path: join(__dirname, '../' + '.env') });
-    console.log(envValue);
-    if (process.env.NODE_ENV === 'production') {
-        key = envValue.parsed?.REACT_APP_PRODUCTION_KEY_FOR_TELEMETRY_PLACEHOLDER as string;
-    } else {
-        key = envValue.parsed?.REACT_APP_DEVELOPMENT_KEY_FOR_TELEMETRY_PLACEHOLDER as string;
-    }
     if (!reporter) {
-        const client = new TelemetryClient(key);
+        dotenvConfig({ path: join(__dirname, '../', `.env`) });
+        const instrumentationKey = process.env.KHE_TELEMETRY_INSTRUMENTATION_KEY;
+        if (!instrumentationKey) {
+            logString('Instrumentation key missing in .env file');
+        }
+
+        const client = new TelemetryClient(instrumentationKey);
         client.channel.setUseDiskRetryCaching(true);
         client.context.tags[client.context.keys.userId] = env.machineId;
         client.context.tags[client.context.keys.sessionId] = env.sessionId;
         client.context.tags[client.context.keys.cloudRole] = env.appName;
         const enabled = updateTelemetryStatus();
+
+        const disposables: Disposable[] = [];
         disposables.push(workspace.onDidChangeConfiguration(() => updateTelemetryStatus()));
         reporter = {
             client,
