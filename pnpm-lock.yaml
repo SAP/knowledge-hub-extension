@@ -112,6 +112,9 @@ importers:
       '@sap/knowledge-hub-extension-types':
         specifier: workspace:*
         version: link:../types
+      '@types/uuid':
+        specifier: 9.0.1
+        version: 9.0.1
       '@types/vscode':
         specifier: 1.39.0
         version: 1.39.0
@@ -3370,6 +3373,10 @@ packages:
 
   /@types/use-sync-external-store@0.0.3:
     resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
+    dev: true
+
+  /@types/uuid@9.0.1:
+    resolution: {integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==}
     dev: true
 
   /@types/vscode@1.39.0:

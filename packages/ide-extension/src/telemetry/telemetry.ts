@@ -13,6 +13,7 @@ import {
 } from '@sap/knowledge-hub-extension-types';
 import { config as dotenvConfig } from 'dotenv';
 import { join } from 'path';
+import { v4 as uuidv4 } from 'uuid';
 
 // Telemetry reporter client
 let reporter: TelemetryReporter | undefined;
@@ -29,13 +30,12 @@ export function initTelemetry(): TelemetryReporter {
         if (!instrumentationKey) {
             logString('Instrumentation key missing in .env file');
         }
-
+        const enabled = updateTelemetryStatus();
         const client = new TelemetryClient(instrumentationKey);
         client.channel.setUseDiskRetryCaching(true);
         client.context.tags[client.context.keys.userId] = env.machineId;
         client.context.tags[client.context.keys.sessionId] = uuidv4();
         client.context.tags[client.context.keys.cloudRole] = env.appName;
-        const enabled = updateTelemetryStatus();
 
         const disposables: Disposable[] = [];
         disposables.push(workspace.onDidChangeConfiguration(() => updateTelemetryStatus()));
@@ -150,7 +150,5 @@ function propertyValuesToString(properties: { [key: string]: any }): { [key: str
     }
     return properties;
 }
-function uuidv4(): string {
-    throw new Error('Function not implemented.');
-}
+
 
