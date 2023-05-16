@@ -27,8 +27,7 @@ export function initTelemetry(): TelemetryReporter {
     if (!reporter) {
         dotenvConfig({ path: join(__dirname, '../', `.env`) });
         const instrumentationKey = process.env.KHE_TELEMETRY_INSTRUMENTATION_KEY;
-        logString('Instrumentation key available..');
-        console.log("Instrumentation key available..");
+        logString('Instrumentation key available..' + instrumentationKey);
         if (!instrumentationKey) {
             logString('Instrumentation key missing in .env file');
         }
