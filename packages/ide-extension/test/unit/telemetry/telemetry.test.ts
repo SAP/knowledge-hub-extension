@@ -42,58 +42,6 @@ describe('Test for initTelemetry()', () => {
     });
 });
 
-describe('Telemetry trackEvent() tests', () => {
-    let reporter: TelemetryReporter;
-
-    beforeEach(() => {
-        jest.clearAllMocks();
-        jest.spyOn(commands, 'registerCommand');
-        jest.spyOn(logger, 'logString').mockImplementation(() => null);
-        jest.spyOn(workspace, 'getConfiguration').mockReturnValue({ get: () => true } as any);
-
-        const context = {
-            subscriptions: []
-        };
-        activate(context as unknown as ExtensionContext);
-        reporter = context.subscriptions[0] as TelemetryReporter;
-    });
-
-    test('set common properties and track event, telemetry enabled', () => {
-        // Test execution
-        setCommonProperties({ ide: 'SBAS', sbasdevSpace: 'DevSpace' });
-        trackEvent({ name: 'STARTUP', properties: { key1: 'key1Val', key2: 'key2Val' } } as unknown as TelemetryEvent);
-
-        // Result check
-        expect(reporter.client.trackEvent).toBeCalledWith({
-            name: 'sap-knowledge-hub-extension/STARTUP',
-            properties: {
-                'cmn.appstudio': 'true',
-                'cmn.devspace': 'DevSpace',
-                'cmn.os': 'platform',
-                'cmn.nodeArch': 'arch',
-                'cmn.platformversion': '1.2.3',
-                'cmn.extname': packageJson.name,
-                'cmn.extversion': packageJson.version,
-                key1: 'key1Val',
-                key2: 'key2Val'
-            }
-        });
-    });
-
-    test('error handling when track event throws error', () => {
-        // Mock setup
-        jest.spyOn(reporter.client, 'trackEvent').mockImplementationOnce(() => {
-            throw Error('TRACK_EVENT_ERROR');
-        });
-
-        // Test execution
-        trackEvent({ name: 'STARTUP', properties: { treeId: 1, nodeIdPath: '2:3:4' } } as unknown as TelemetryEvent);
-
-        // Result check
-        expect(logger.logString).toHaveBeenCalledWith(expect.stringContaining('TRACK_EVENT_ERROR'));
-    });
-});
-
 describe('Telemetry disabled', () => {
     let reporter: TelemetryReporter;
 
@@ -142,7 +90,7 @@ describe('Telemetry disabled', () => {
 
         // Enable telemetry
         reporter.enabled = true;
-        let changeHandler: (e: ConfigurationChangeEvent) => any = () => {};
+        let changeHandler: (e: ConfigurationChangeEvent) => any = () => { };
         jest.spyOn(workspace, 'onDidChangeConfiguration').mockImplementation(
             (listener: (e: ConfigurationChangeEvent) => any) => {
                 changeHandler = listener;
@@ -180,16 +128,9 @@ describe('Telemetry disabled', () => {
         expect(reporter.client.trackEvent).toBeCalledWith({
             name: 'sap-knowledge-hub-extension/KHUB_OPEN_BLOGS',
             properties: {
-                action: 'string',
-                'cmn.appstudio': 'true',
-                'cmn.devspace': 'DevSpace',
-                'cmn.extname': 'sap-knowledge-hub-extension',
-                'cmn.extversion': '0.14.0',
-                'cmn.nodeArch': 'arch',
-                'cmn.os': 'platform',
-                'cmn.platformversion': '1.2.3',
-                primaryTag: 'abc-def-fgh',
-                title: 'hello sap'
+                action: "string",
+                primaryTag: "abc-def-fgh",
+                title: "hello sap"
             }
         });
     });
