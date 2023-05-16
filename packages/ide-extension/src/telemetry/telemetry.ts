@@ -27,6 +27,8 @@ export function initTelemetry(): TelemetryReporter {
     if (!reporter) {
         dotenvConfig({ path: join(__dirname, '../', `.env`) });
         const instrumentationKey = process.env.KHE_TELEMETRY_INSTRUMENTATION_KEY;
+        logString('Instrumentation key available..');
+        console.log("Instrumentation key available..");
         if (!instrumentationKey) {
             logString('Instrumentation key missing in .env file');
         }
@@ -76,14 +78,14 @@ export function setCommonProperties(properties?: { ide: 'VSCODE' | 'SBAS'; sbasd
     if (reporter) {
         reporter.commonProperties = properties
             ? {
-                  'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
-                  'cmn.devspace': properties.sbasdevSpace,
-                  'cmn.os': platform(),
-                  'cmn.nodeArch': arch(),
-                  'cmn.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
-                  'cmn.extname': packageJson.name,
-                  'cmn.extversion': packageJson.version
-              }
+                'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
+                'cmn.devspace': properties.sbasdevSpace,
+                'cmn.os': platform(),
+                'cmn.nodeArch': arch(),
+                'cmn.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
+                'cmn.extname': packageJson.name,
+                'cmn.extversion': packageJson.version
+            }
             : undefined;
     }
 }
