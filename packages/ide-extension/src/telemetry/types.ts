@@ -11,7 +11,7 @@ export interface TelemetryEventProperties {
     readonly [key: string]: string;
 }
 
-export type TelemetryEvent =  TelemetryUIEvent;
+export type TelemetryEvent = TelemetryUIEvent;
 
 interface TelemetryBaseEvent {
     name: string;

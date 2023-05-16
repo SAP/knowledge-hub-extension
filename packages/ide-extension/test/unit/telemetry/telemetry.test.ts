@@ -90,7 +90,7 @@ describe('Telemetry disabled', () => {
 
         // Enable telemetry
         reporter.enabled = true;
-        let changeHandler: (e: ConfigurationChangeEvent) => any = () => { };
+        let changeHandler: (e: ConfigurationChangeEvent) => any = () => {};
         jest.spyOn(workspace, 'onDidChangeConfiguration').mockImplementation(
             (listener: (e: ConfigurationChangeEvent) => any) => {
                 changeHandler = listener;
@@ -128,9 +128,9 @@ describe('Telemetry disabled', () => {
         expect(reporter.client.trackEvent).toBeCalledWith({
             name: 'sap-knowledge-hub-extension/KHUB_OPEN_BLOGS',
             properties: {
-                action: "string",
-                primaryTag: "abc-def-fgh",
-                title: "hello sap"
+                action: 'string',
+                primaryTag: 'abc-def-fgh',
+                title: 'hello sap'
             }
         });
     });
