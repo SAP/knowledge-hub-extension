@@ -65,7 +65,6 @@ describe('TutorialCard', () => {
                     cancelable: true,
                 }),
             )
-            // });
             expect(logTelemetryEventSpy).toBeCalledTimes(1);
         }
     });

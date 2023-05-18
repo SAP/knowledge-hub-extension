@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
 import type { BlogsSearchResultContentItem, Tag } from '@sap/knowledge-hub-extension-types';
@@ -11,6 +11,7 @@ import { blogEntry } from '../../../test/__mocks__/blogs';
 import { render } from '../../../test/__mocks__/store.mock';
 
 import { BlogCard } from '../../../src/webview/components/BlogCard';
+import { actions } from '../../../src/webview/store';
 
 describe('BlogCard', () => {
     // Initialize and register ui-components icons and specific icon to LC
@@ -32,5 +33,17 @@ describe('BlogCard', () => {
 
         const authorNameDOM = screen.getByText(/John Doe/i);
         expect(authorNameDOM.className).toEqual('blog-card-data-header-author');
+        const logTelemetryEventSpy = jest.spyOn(actions, 'logOpenBlogTelemetryEvent');
+        if (screen) {
+            // Simulate click
+            fireEvent(
+                screen.getByTestId('blog-card-link'),
+                new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true,
+                }),
+            )
+            expect(logTelemetryEventSpy).toBeCalledTimes(1);
+        }
     });
 });

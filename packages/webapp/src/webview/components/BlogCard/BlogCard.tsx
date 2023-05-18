@@ -59,6 +59,7 @@ export const BlogCard: FC<BlogCardProps> = ({ blog, loading, onSelectedTag }: Bl
                             <span className="blog-card-data-content-title">
                                 <a
                                     href={blog.url}
+                                    data-testid="blog-card-link"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="blog-card-link"
