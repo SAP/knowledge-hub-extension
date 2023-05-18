@@ -52,6 +52,7 @@ export const TutorialCard: FC<TutorialCardProps> = ({
         <div className="tutorial-card">
             {!loading && tutorial && tag && (
                 <a
+                    data-testid="tutorial-card-link"
                     href={`https://developers.sap.com${tutorial.publicUrl}`}
                     onClick={onClickTutorialCard(tutorial.title, tutorial.primaryTag)}
                     target="_blank"
