@@ -16,7 +16,7 @@ import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 import { blogsPageChanged, blogsManagedTagsAdd, blogsTagsAdd, blogsFilterEntryAdd } from '../../store/actions';
 import { store, useAppSelector } from '../../store';
 import { getBlogs, getBlogsQuery, getBlogsOrderBy, getManagedTags, getBlogsUIIsLoading } from './Blogs.slice';
-import { getTagsData } from '../tags/Tags.slice';
+import { getTagsBlogsData } from '../tags/Tags.slice';
 import { fetchBlogData, isManagedTag, getBlogsTagById, onTagSelected, searchBlogs } from './Blogs.utils';
 import { getSearchTerm } from '../search/Search.slice';
 
@@ -46,7 +46,7 @@ export const Blogs: FC = (): JSX.Element => {
     const activeOrderBy: string | undefined = useAppSelector(getBlogsOrderBy);
     const activeManagedTags: string[] = useAppSelector(getManagedTags) || [];
     const activeLoading = useAppSelector(getBlogsUIIsLoading);
-    const tags = useAppSelector(getTagsData);
+    const tags = useAppSelector(getTagsBlogsData);
 
     const [loading, setLoading] = useState(true);
     const [noResult, setNoResult] = useState(true);
@@ -153,10 +153,9 @@ export const Blogs: FC = (): JSX.Element => {
             {!(loading || error || noResult) && (
                 <div className="blogs-content">
                     <div className="blogs-content-wrapper">
-                        {blogs &&
-                            blogs.map((blog: BlogsSearchResultContentItem, index: number) => {
-                                return <BlogCard key={blog.id} blog={blog} onSelectedTag={onTagSelected} />;
-                            })}
+                        {blogs?.map((blog: BlogsSearchResultContentItem, _index: number) => {
+                            return <BlogCard key={blog.id} blog={blog} onSelectedTag={onTagSelected} />;
+                        })}
                     </div>
                 </div>
             )}

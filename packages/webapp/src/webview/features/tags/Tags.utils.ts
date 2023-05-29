@@ -9,10 +9,18 @@ export const getTagsAlphaRef = () => {
     });
 };
 
-export const fetchTags = (): void => {
+export const fetchBlogsTags = (): void => {
     const state = store.getState();
     const tagsState: Tags = state.tags;
-    if (tagsState.result.data.filteredTags.length === 0) {
-        actions.tagsFetchTags();
+    if (tagsState.blogs.data.filteredTags.length === 0) {
+        actions.tagsFetchBlogsTags();
+    }
+};
+
+export const fetchTutorialsTags = (): void => {
+    const state = store.getState();
+    const tagsState: Tags = state.tags;
+    if (Object.keys(tagsState.tutorials.tags).length === 0 && tagsState.tutorials.tags.constructor === Object) {
+        actions.tagsFetchTutorialsTags();
     }
 };

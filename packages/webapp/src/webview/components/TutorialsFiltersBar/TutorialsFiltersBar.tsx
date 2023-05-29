@@ -7,7 +7,8 @@ import { UIIcon, UISmallButton } from '@sap-ux/ui-components';
 import type { TutorialsSearchQuery, TutorialsTags, TutorialsTag } from '@sap/knowledge-hub-extension-types';
 
 import { store, useAppSelector } from '../../store';
-import { getTutorialsQuery, getTutorialsDataTags } from '../../features/tutorials/Tutorials.slice';
+import { getTutorialsQuery } from '../../features/tutorials/Tutorials.slice';
+import { getTagsTutorialsData } from '../../features/tags/Tags.slice';
 import { fetchTutorialsData } from '../../features/tutorials/Tutorials.utils';
 import { tutorialsFiltersTagsDeleteAll, tutorialsFiltersTagsDelete } from '../../store/actions';
 
@@ -20,7 +21,7 @@ export const TutorialsFiltersBar: FC = (): JSX.Element => {
     const dispatch = useDispatch();
 
     const activeQuery: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
-    const activeTags: TutorialsTags = useAppSelector(getTutorialsDataTags);
+    const activeTags: TutorialsTags = useAppSelector(getTagsTutorialsData);
     const [allTags, setAlltags] = useState(activeQuery.filters);
 
     /**

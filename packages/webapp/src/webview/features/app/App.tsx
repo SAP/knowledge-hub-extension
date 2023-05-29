@@ -10,7 +10,7 @@ import { RoutesWithAnimation } from './RouteWithAnimation';
 
 import { getAppTabs, getAppReady } from '../../features/app/App.slice';
 import { useAppSelector } from '../../store';
-import { fetchTags } from '../tags/Tags.utils';
+
 import { searchBlogs } from '../blogs/Blogs.utils';
 import { searchTutorials } from '../tutorials/Tutorials.utils';
 
@@ -25,7 +25,6 @@ export const App: FC = (): JSX.Element => {
     useEffect(() => {
         setReady(activeReady);
         if (activeReady) {
-            fetchTags();
             searchBlogs('');
             searchTutorials('');
         }

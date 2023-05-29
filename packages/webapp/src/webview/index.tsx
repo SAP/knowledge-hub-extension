@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import { App } from './features/app';
 import { store, actions } from './store';
 
+import { fetchBlogsTags, fetchTutorialsTags } from './features/tags/Tags.utils';
+
 import './i18n';
 
 import { initIcons } from '@sap-ux/ui-components';
@@ -16,6 +18,10 @@ initIcons();
 
 // Notify VSCode extension that web view is ready
 actions.knowledgeHubWebViewReady();
+
+// Fetch tags
+fetchBlogsTags();
+fetchTutorialsTags();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

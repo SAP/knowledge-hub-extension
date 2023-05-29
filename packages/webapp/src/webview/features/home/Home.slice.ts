@@ -3,13 +3,10 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { fetchBlogs, fetchTutorials } from '@sap/knowledge-hub-extension-types';
 import type {
     Home,
-    BlogsState,
-    HomeTutorials,
+    TutorialsState,
     TutorialsSearchResult,
-    TutorialsSearchQuery,
-    TutorialsTags,
+    BlogsState,
     BlogsSearchResult,
-    BlogsSearchQuery,
     BlogsSearchResultContentItem,
     Error,
     ErrorAction,
@@ -20,27 +17,24 @@ import type { RootState } from '../../store';
 
 export const initialState: Home = {
     tutorials: {
-        tutorials: {
-            data: {
-                group: '',
-                mission: '',
-                facets: {},
-                iconPath: {},
-                tags: {},
-                tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
-                result: [],
-                numFound: 0,
-                countGroups: 0,
-                countMissions: 0,
-                countTutorials: 0
-            },
-            error: {
-                isError: false,
-                message: ''
-            },
-            pending: true
+        data: {
+            group: '',
+            mission: '',
+            facets: {},
+            iconPath: {},
+            tags: {},
+            tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
+            result: [],
+            numFound: 0,
+            countGroups: 0,
+            countMissions: 0,
+            countTutorials: 0
         },
-        tags: {}
+        error: {
+            isError: false,
+            message: ''
+        },
+        pending: true
     },
     blogs: {
         data: [],
@@ -53,38 +47,6 @@ export const initialState: Home = {
     }
 };
 
-export const initialHomeTutorialsUIState: TutorialsSearchQuery = {
-    rows: 3,
-    start: 0,
-    searchField: '',
-    pagePath: '/content/developers/website/languages/en/tutorial-navigator',
-    language: 'en_us',
-    addDefaultLanguage: true,
-    filters: []
-};
-
-export const initialHomeBlogsUIState: BlogsSearchQuery = {
-    page: 0,
-    limit: 3,
-    orderBy: 'UPDATE_TIME',
-    order: 'DESC',
-    contentTypes: ['blogpost'],
-    managedTags: [],
-    searchTerm: '',
-    questionType: '',
-    language: '',
-    blogCategories: [],
-    authorId: '',
-    userTags: '',
-    updatedFrom: undefined,
-    updatedTo: undefined,
-    createdFrom: undefined,
-    createdTo: undefined,
-    boostingStrategy: '',
-    additionalManagedTags: [],
-    additionalUserTags: []
-};
-
 const tutorials = createSlice({
     name: 'homeTutorials',
     initialState: initialState.tutorials,
@@ -92,47 +54,24 @@ const tutorials = createSlice({
 
     extraReducers: (builder) => {
         builder
-            .addCase(fetchTutorials.pending.type, (state: HomeTutorials, action: PendingAction<string, undefined>) => {
+            .addCase(fetchTutorials.pending.type, (state: TutorialsState, action: PendingAction<string, undefined>) => {
                 const pending = action.pending;
-                return { ...state, tutorials: { ...state.tutorials, pending } };
+                return { ...state, pending };
             })
             .addCase(
                 fetchTutorials.fulfilled.type,
-                (state: HomeTutorials, action: PayloadAction<TutorialsSearchResult>) => {
+                (state: TutorialsState, action: PayloadAction<TutorialsSearchResult>) => {
                     const data: TutorialsSearchResult = action.payload;
                     const error: Error = { isError: false, message: '' };
                     const pending = false;
-                    const tags: TutorialsTags = data.tags;
-
-                    return { ...state, tutorials: { data, error, pending }, tags };
+                    return { ...state, data, error, pending };
                 }
             )
-            .addCase(fetchTutorials.rejected.type, (state: HomeTutorials, action: ErrorAction<string, undefined>) => {
+            .addCase(fetchTutorials.rejected.type, (state: TutorialsState, action: ErrorAction<string, undefined>) => {
                 const pending = false;
                 const error: Error = { isError: true, message: action.error.message };
-
-                return { ...state, tutorials: { ...state.tutorials, error, pending } };
+                return { ...state, error, pending };
             });
-
-        // .addCase(fetchHomeTutorials.pending.type, (state, action: PendingAction<string, undefined>) => {
-        //     const pending = action.pending;
-        //     return { ...state, tutorials: { ...state.tutorials, pending } };
-        // });
-
-        // builder.addCase(fetchHomeTutorials.fulfilled.type, (state, action: PayloadAction<TutorialsSearchResult>) => {
-        //     const data: TutorialsSearchResult = action.payload;
-        //     const error: Error = { isError: false, message: '' };
-        //     const pending = false;
-        //     const tags: TutorialsTags = data.tags;
-
-        //     return { ...state, tutorials: { data, error, pending }, tags };
-        // });
-
-        // builder.addCase(fetchHomeTutorials.rejected.type, (state, action: ErrorAction<string, undefined>) => {
-        //     const pending = false;
-        //     const error: Error = { isError: true, message: action.error.message };
-        //     return { ...state, tutorials: { ...state.tutorials, error, pending } };
-        // });
     }
 });
 
@@ -162,10 +101,9 @@ const blogs = createSlice({
 });
 
 // State selectors
-export const getHomeTutorials = (state: RootState) => state.home.tutorials.tutorials;
-export const getHomeTutorialsError = (state: RootState) => state.home.tutorials.tutorials.error;
-// export const getHomeTutorialsTags = (state: RootState) => state.home.tutorials.tags;
-export const getHomeTutorialsPending = (state: RootState) => state.home.tutorials.tutorials.pending;
+export const getHomeTutorials = (state: RootState) => state.home.tutorials;
+export const getHomeTutorialsError = (state: RootState) => state.home.tutorials.error;
+export const getHomeTutorialsPending = (state: RootState) => state.home.tutorials.pending;
 
 export const getHomeBlogs = (state: RootState) => state.home.blogs;
 export const getHomeBlogsError = (state: RootState) => state.home.blogs.error;

@@ -160,18 +160,17 @@ export const Tutorials: FC = (): JSX.Element => {
             {!(loading || error || noResult) && (
                 <div className="tutorials-content">
                     <div className="tutorials-content-wrapper">
-                        {tutorials &&
-                            tutorials.map((tutorial, index) => {
-                                return (
-                                    <TutorialCard
-                                        key={tutorial.imsId}
-                                        tutorial={tutorial}
-                                        tag={getTutorialsTag(tutorial.primaryTag, activeTutorials.data)}
-                                        tags={activeTutorials.data.tags}
-                                        onSelectedTag={onTagSelected}
-                                    />
-                                );
-                            })}
+                        {tutorials?.map((tutorial, index) => {
+                            return (
+                                <TutorialCard
+                                    key={tutorial.imsId}
+                                    tutorial={tutorial}
+                                    tag={getTutorialsTag(tutorial.primaryTag, activeTutorials.data)}
+                                    tags={activeTutorials.data.tags}
+                                    onSelectedTag={onTagSelected}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
             )}

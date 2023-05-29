@@ -6,12 +6,14 @@ import {
     BLOGS_FETCH_BLOGS,
     FILTERS_BLOGS_TAGS,
     FILTERS_TUTORIALS_TAGS,
-    TAGS_FETCH_TAGS,
+    TAGS_FETCH_BLOGS_TAGS,
+    TAGS_FETCH_TUTORIALS_TAGS,
     initialize,
     fetchBlogs,
     fetchHomeBlogs,
     fetchTutorials,
-    fetchTags,
+    fetchTutorialsTags,
+    fetchBlogsTags,
     fetchBlogsTotalCount,
     fetchTutorialsTotalCount
 } from '@sap/knowledge-hub-extension-types';
@@ -138,18 +140,36 @@ export class ActionHandler {
      *
      * @returns void
      */
-    private fetchTags = async (): Promise<void> => {
+    private fetchTagsBlogs = async (): Promise<void> => {
         try {
-            await this.panel.webview.postMessage(fetchTags.pending(true));
-            const response = await this.communityTagsApi.getTags();
+            await this.panel.webview.postMessage(fetchBlogsTags.pending(true));
+            const response = await this.communityTagsApi.getBlogsTags();
 
             if (response.status === 'fetched' && response.data) {
-                await this.panel.webview.postMessage(fetchTags.fulfilled(response.data));
+                await this.panel.webview.postMessage(fetchBlogsTags.fulfilled(response.data));
             }
 
             if (response.status === 'error') {
                 const errorMsg = (response.error ? response.error : 'error') as unknown as string;
-                await this.panel.webview.postMessage(fetchTags.rejected(errorMsg));
+                await this.panel.webview.postMessage(fetchBlogsTags.rejected(errorMsg));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    private fetchTagsTutorials = async (): Promise<void> => {
+        try {
+            await this.panel.webview.postMessage(fetchTutorialsTags.pending(true));
+            const response = await this.communityTagsApi.getTutorialsTags();
+
+            if (response.status === 'fetched' && response.data) {
+                await this.panel.webview.postMessage(fetchTutorialsTags.fulfilled(response.data));
+            }
+
+            if (response.status === 'error') {
+                const errorMsg = (response.error ? response.error : 'error') as unknown as string;
+                await this.panel.webview.postMessage(fetchTutorialsTags.rejected(errorMsg));
             }
         } catch (error) {
             console.error(error);
@@ -182,8 +202,11 @@ export class ActionHandler {
         [BLOGS_FETCH_BLOGS]: async (action: AnyAction): Promise<void> => {
             await this.fetchBlogs(action);
         },
-        [TAGS_FETCH_TAGS]: async (): Promise<void> => {
-            await this.fetchTags();
+        [TAGS_FETCH_BLOGS_TAGS]: async (): Promise<void> => {
+            await this.fetchTagsBlogs();
+        },
+        [TAGS_FETCH_TUTORIALS_TAGS]: async (): Promise<void> => {
+            await this.fetchTagsTutorials();
         }
     };
 }

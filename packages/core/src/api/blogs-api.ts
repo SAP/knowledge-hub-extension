@@ -7,12 +7,8 @@ import type {
     BlogsAPIOptions,
     FetchResponse
 } from '@sap/knowledge-hub-extension-types';
-
+import { BLOGS_API_HOST, BLOGS_SEARCH_PATH } from '@sap/knowledge-hub-extension-types';
 import asyncFetch from '../utils/asyncFetch';
-
-const API_HOST = 'https://searchproxy.api.community.sap.com';
-const VERSION = 'v1';
-const SEARCH_PATH = `/external/api/${VERSION}/search?`;
 
 /**
  * Returns API to programmatically access community blogs.
@@ -21,7 +17,7 @@ const SEARCH_PATH = `/external/api/${VERSION}/search?`;
  * @returns - API
  */
 export function getCommunityBlogsApi(options?: BlogsAPIOptions): BlogsAPI {
-    const apiHost = options?.apiHost || API_HOST;
+    const apiHost = options?.apiHost ?? BLOGS_API_HOST;
 
     return {
         getBlogs: async (queryOptions?: BlogsSearchQuery | undefined): Promise<FetchResponse<BlogsSearchResult>> =>
@@ -63,7 +59,7 @@ export async function getBlogs(
     queryOptions: BlogsSearchQuery | undefined
 ): Promise<FetchResponse<BlogsSearchResult>> {
     const options = prepareQueryOptions(queryOptions);
-    const url = `${host}${SEARCH_PATH}${options}`;
+    const url = `${host}${BLOGS_SEARCH_PATH}${options}`;
 
     return await asyncFetch<BlogsSearchResult>(url);
 }

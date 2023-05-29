@@ -10,7 +10,7 @@ import { Tag } from '@sap/knowledge-hub-extension-types';
 import { useAppSelector } from '../../../store';
 import { getManagedTags } from '../../../features/blogs/Blogs.slice';
 import { onTagSelected } from '../../../features/blogs/Blogs.utils';
-import { getTagsData } from '../../../features/tags/Tags.slice';
+import { getTagsBlogsData } from '../../../features/tags/Tags.slice';
 
 import { Loader } from '../../Loader';
 
@@ -31,7 +31,7 @@ export const BlogsFiltersMenuTags: FC<BlogsFiltersMenuTagsProps> = ({
     const navigate = useNavigate();
 
     const activeTags: string[] | undefined = useAppSelector(getManagedTags);
-    const tags: Tag[] = useAppSelector(getTagsData);
+    const tags: Tag[] = useAppSelector(getTagsBlogsData);
 
     const [listTags, setListTags] = useState<Tag[]>(tags);
     const [isLoading, setIsLoading] = useState(loading);

@@ -4,7 +4,6 @@ export interface Tutorials {
     result: TutorialsState;
     query: TutorialsSearchQuery;
     ui: TutorialsUiState;
-    tags: TutorialsTagsState;
 }
 
 export interface TutorialsState {
@@ -25,10 +24,6 @@ export interface TutorialsSearchQuery {
 export interface TutorialsUiState {
     isLoading: boolean;
     isFiltersMenuOpened: boolean;
-}
-
-export interface TutorialsTagsState {
-    tags: TutorialsTags;
 }
 
 export interface TutorialsSearchResult {

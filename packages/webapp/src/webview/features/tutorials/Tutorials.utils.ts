@@ -20,22 +20,26 @@ export const getTutorialsTag = (val: string, allTutorials: TutorialsSearchResult
     }
 };
 
-export const getTutorialsTagTitle = (val: string, tags: TutorialsTags): string => {
-    if (tags[val]) {
-        return tags[val].title;
-    } else {
-        return '';
-    }
+export const getTutorialsTagTitle = (val: string): string => {
+    // get tags from tags tutorial state
+
+    // if (tags[val]) {
+    //     return tags[val].title;
+    // } else {
+    //     return '';
+    // }
+
+    return '';
 };
 
 export const isFilteredTag = (tagId: string, tags: string[]): boolean => {
     return tags.includes(tagId);
 };
 
-export const getTutorialsTagsTitle = (tags: string[], allTags: TutorialsTags): TutorialsTagWithTitle[] => {
+export const getTutorialsTagsTitle = (tags: string[]): TutorialsTagWithTitle[] => {
     const tagsWithTitle: TutorialsTagWithTitle[] = [];
     tags.forEach((tagId: string) => {
-        const title = getTutorialsTagTitle(tagId, allTags);
+        const title = getTutorialsTagTitle(tagId);
 
         tagsWithTitle.push({
             tag: tagId,
@@ -55,10 +59,9 @@ export const fetchTutorialsData = (query: TutorialsSearchQuery, home?: boolean):
     const state = store.getState();
     const filters: string[] | undefined = state.tutorials.query.filters;
     let filtersWithTitle: TutorialsTagWithTitle[] = [];
-    const tags = state.tutorials.tags.tags;
 
     if (filters && filters.length > 0) {
-        filtersWithTitle = getTutorialsTagsTitle(filters, tags);
+        filtersWithTitle = getTutorialsTagsTitle(filters);
     }
 
     store.dispatch(tutorialsLoading(true));

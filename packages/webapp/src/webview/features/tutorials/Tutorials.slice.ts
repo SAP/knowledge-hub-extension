@@ -1,19 +1,12 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import {
-    fetchTutorials,
-    fetchHomeTutorials,
-    initTutorialsFilters,
-    TUTORIALS_LIMIT_PER_PAGE
-} from '@sap/knowledge-hub-extension-types';
+import { fetchTutorials, initTutorialsFilters, TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 import type {
     Tutorials,
-    TutorialsTags,
     TutorialsState,
     TutorialsSearchResult,
     TutorialsSearchQuery,
     TutorialsUiState,
-    TutorialsTagsState,
     TutorialsTagWithTitle,
     Error,
     ErrorAction,
@@ -66,10 +59,6 @@ export const initialQueryState: TutorialsSearchQuery = {
 export const initialUiState: TutorialsUiState = {
     isLoading: false,
     isFiltersMenuOpened: false
-};
-
-export const initialTagsState: TutorialsTagsState = {
-    tags: {}
 };
 
 // Slice
@@ -191,24 +180,10 @@ const ui = createSlice({
             )
 });
 
-const tags = createSlice({
-    name: 'tutorialsTags',
-    initialState: initialTagsState,
-    reducers: {},
-    extraReducers: (builder) =>
-        builder.addCase(fetchHomeTutorials.fulfilled.type, (state, action: PayloadAction<TutorialsSearchResult>) => {
-            const data: TutorialsSearchResult = action.payload;
-            const tags: TutorialsTags = data.tags;
-
-            return { ...state, tags };
-        })
-});
-
 export const initialState: Tutorials = {
     result: initialSearchState,
     query: initialQueryState,
-    ui: initialUiState,
-    tags: initialTagsState
+    ui: initialUiState
 };
 
 // State selectors
@@ -219,7 +194,6 @@ export const getTutorialsError = (state: RootState) => state.tutorials.result.er
 export const getTutorialsQuery = (state: RootState) => state.tutorials.query;
 export const getTutorialsQueryFilters = (state: RootState) => state.tutorials.query.filters;
 export const getTutorialsUI = (state: RootState) => state.tutorials.ui;
-export const getTutorialsDataTags = (state: RootState) => state.tutorials.tags.tags;
 export const getTutorialsUIIsLoading = (state: RootState) => state.tutorials.ui.isLoading;
 
-export default combineReducers({ result: result.reducer, query: query.reducer, ui: ui.reducer, tags: tags.reducer });
+export default combineReducers({ result: result.reducer, query: query.reducer, ui: ui.reducer });

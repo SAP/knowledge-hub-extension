@@ -2,7 +2,7 @@ import type {
     AppState,
     TutorialsSearchResult,
     BlogsSearchResult,
-    TagsSearchResult,
+    BlogsTagsSearchResult,
     BlogFiltersEntry,
     TutorialsTagWithTitle
 } from '../types';
@@ -141,9 +141,8 @@ export const createViewAction = createActionFactory(VIEW_PREFIX);
 export const initialize = createCoreAction<AppState>('app/initialize');
 export const fetchTutorials = createCoreAction<TutorialsSearchResult>('tutorials/fetch');
 export const fetchBlogs = createCoreAction<BlogsSearchResult>('blogs/fetch');
-export const fetchHomeTutorials = createCoreAction<TutorialsSearchResult>('home/tutorials/fetch');
-export const fetchHomeBlogs = createCoreAction<BlogsSearchResult>('home/blogs/fetch');
-export const fetchTags = createCoreAction<TagsSearchResult>('tags/fetch');
+export const fetchBlogsTags = createCoreAction<BlogsTagsSearchResult>('tags/fetch/blogs-tags');
+export const fetchTutorialsTags = createCoreAction<TutorialsSearchResult>('tags/fetch/tutorials-tags');
 export const initBlogsQuery = createCoreAction<BlogFiltersEntry[]>('blogs/init/query');
 export const initBlogsFilters = createCoreAction<BlogFiltersEntry[]>('blogs/init/filters');
 export const initTutorialsFilters = createCoreAction<TutorialsTagWithTitle[]>('tutorials/init/filters');

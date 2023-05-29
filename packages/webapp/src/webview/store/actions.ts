@@ -6,14 +6,16 @@ import type {
     BlogsSearchQuery,
     BlogFiltersEntry,
     Tag,
-    TagsFetchTags,
+    TagsFetchBlogsTags,
+    TagsFetchTutorialsTags,
     TutorialsTagWithTitle
 } from '@sap/knowledge-hub-extension-types';
 
 import {
     KNOWLEDGE_HUB_WEB_VIEW_READY,
     TUTORIALS_FETCH_TUTORIALS,
-    TAGS_FETCH_TAGS,
+    TAGS_FETCH_BLOGS_TAGS,
+    TAGS_FETCH_TUTORIALS_TAGS,
     BLOGS_FETCH_BLOGS,
     createViewAction
 } from '@sap/knowledge-hub-extension-types';
@@ -44,8 +46,12 @@ export const blogsFetchBlogs = (
     home
 });
 
-export const tagsFetchTags = (): TagsFetchTags => ({
-    type: TAGS_FETCH_TAGS
+export const tagsFetchBlogsTags = (): TagsFetchBlogsTags => ({
+    type: TAGS_FETCH_BLOGS_TAGS
+});
+
+export const tagsFetchTutorialsTags = (): TagsFetchTutorialsTags => ({
+    type: TAGS_FETCH_TUTORIALS_TAGS
 });
 
 // Search actions
