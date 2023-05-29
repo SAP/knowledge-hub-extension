@@ -79,34 +79,27 @@ const result = createSlice({
     reducers: {},
 
     extraReducers: (builder) => {
-        builder.addCase(
-            fetchTutorials.pending.type,
-            (state: TutorialsState, action: PendingAction<string, undefined>) => {
+        builder
+            .addCase(fetchTutorials.pending.type, (state: TutorialsState, action: PendingAction<string, undefined>) => {
                 const pending = action.pending;
                 return { ...state, pending };
-            }
-        );
+            })
+            .addCase(
+                fetchTutorials.fulfilled.type,
+                (state: TutorialsState, action: PayloadAction<TutorialsSearchResult>) => {
+                    const data: TutorialsSearchResult = action.payload;
+                    const error: Error = { isError: false, message: '' };
+                    const pending = false;
 
-        builder.addCase(
-            fetchTutorials.fulfilled.type,
-            (state: TutorialsState, action: PayloadAction<TutorialsSearchResult>) => {
-                const data: TutorialsSearchResult = action.payload;
-                const error: Error = { isError: false, message: '' };
-                const pending = false;
-
-                return { ...state, data, error, pending };
-            }
-        );
-
-        builder.addCase(
-            fetchTutorials.rejected.type,
-            (state: TutorialsState, action: ErrorAction<string, undefined>) => {
+                    return { ...state, data, error, pending };
+                }
+            )
+            .addCase(fetchTutorials.rejected.type, (state: TutorialsState, action: ErrorAction<string, undefined>) => {
                 const pending = false;
                 const error: Error = { isError: true, message: action.error.message };
 
                 return { ...state, error, pending };
-            }
-        );
+            });
     }
 });
 

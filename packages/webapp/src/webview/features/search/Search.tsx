@@ -7,10 +7,19 @@ import { PathType } from '@sap/knowledge-hub-extension-types';
 
 import { UISearchBox, UIIconButton } from '@sap-ux/ui-components';
 import { useAppSelector } from '../../store';
-import { searchTermChanged, tutorialsFiltersSelected, blogsFiltersSelected } from '../../store/actions';
+import {
+    searchTermChanged,
+    tutorialsFiltersSelected,
+    blogsFiltersSelected,
+    appBlogsTotalCountUpdate,
+    appTutorialsTotalCountUpdate
+} from '../../store/actions';
 import { getSearchTerm } from './Search.slice';
 import { getTutorialsUI, getTutorialsQueryFilters } from '../tutorials/Tutorials.slice';
 import { getBlogsUI, getBlogsUIFiltersEntries } from '../blogs/Blogs.slice';
+
+import { searchBlogs } from '../blogs/Blogs.utils';
+import { searchTutorials } from '../tutorials/Tutorials.utils';
 
 import './Search.scss';
 
@@ -28,17 +37,38 @@ export const Search: FC<SearchProps> = ({ type }: SearchProps): JSX.Element => {
 
     const onSearch = useCallback((searchItem: string): void => {
         dispatch(searchTermChanged(searchItem));
+
+        if (type !== PathType.BLOGS) {
+            searchBlogs(searchItem);
+        }
+        if (type !== PathType.TUTORIALS) {
+            searchTutorials(searchItem);
+        }
     }, []);
 
     const onClear = useCallback((): void => {
         dispatch(searchTermChanged(''));
+
+        if (type !== PathType.BLOGS) {
+            searchBlogs('');
+        }
+        if (type !== PathType.TUTORIALS) {
+            searchTutorials('');
+        }
     }, []);
 
     const onBlur = useCallback(
         () =>
             (_evt: React.FocusEvent<HTMLInputElement>): void => {
-                const term = _evt.target.defaultValue;
-                dispatch(searchTermChanged(term));
+                const searchItem = _evt.target.defaultValue;
+                dispatch(searchTermChanged(searchItem));
+
+                if (type !== PathType.BLOGS) {
+                    searchBlogs(searchItem);
+                }
+                if (type !== PathType.TUTORIALS) {
+                    searchTutorials(searchItem);
+                }
             },
         []
     );
@@ -57,53 +87,44 @@ export const Search: FC<SearchProps> = ({ type }: SearchProps): JSX.Element => {
     );
 
     return (
-        <React.Fragment>
-            {type !== PathType.HOME && (
-                <div className="search" data-testid="search-component">
-                    {type === PathType.TUTORIALS && (
-                        <div className="search-filters">
-                            <UIIconButton
-                                className={[
-                                    'search-filters__icon',
-                                    activeQueryTutorialsFilters && activeQueryTutorialsFilters.length > 0
-                                        ? 'search-filters__icon-active'
-                                        : ''
-                                ]
-                                    .filter((x) => !!x)
-                                    .join(' ')}
-                                iconProps={{ iconName: 'Filter' }}
-                                onClick={onHandleFilter(type)}
-                            />
-                            <div className="search-filters__divider" />
-                        </div>
-                    )}
-                    {type === PathType.BLOGS && (
-                        <div className="search-filters">
-                            <UIIconButton
-                                className={[
-                                    'search-filters__icon',
-                                    activeQueryBlogsFilters && activeQueryBlogsFilters.length > 0
-                                        ? 'search-filters__icon-active'
-                                        : ''
-                                ]
-                                    .filter((x) => !!x)
-                                    .join(' ')}
-                                iconProps={{ iconName: 'Filter' }}
-                                onClick={onHandleFilter(type)}
-                            />
-                            <div className="search-filters__divider" />
-                        </div>
-                    )}
-                    <div className="search-box">
-                        <UISearchBox
-                            onSearch={onSearch}
-                            onClear={onClear}
-                            onBlur={onBlur}
-                            defaultValue={activeSearch}
-                        />
-                    </div>
+        <div className="search" data-testid="search-component">
+            {type === PathType.TUTORIALS && (
+                <div className="search-filters">
+                    <UIIconButton
+                        className={[
+                            'search-filters__icon',
+                            activeQueryTutorialsFilters && activeQueryTutorialsFilters.length > 0
+                                ? 'search-filters__icon-active'
+                                : ''
+                        ]
+                            .filter((x) => !!x)
+                            .join(' ')}
+                        iconProps={{ iconName: 'Filter' }}
+                        onClick={onHandleFilter(type)}
+                    />
+                    <div className="search-filters__divider" />
                 </div>
             )}
-        </React.Fragment>
+            {type === PathType.BLOGS && (
+                <div className="search-filters">
+                    <UIIconButton
+                        className={[
+                            'search-filters__icon',
+                            activeQueryBlogsFilters && activeQueryBlogsFilters.length > 0
+                                ? 'search-filters__icon-active'
+                                : ''
+                        ]
+                            .filter((x) => !!x)
+                            .join(' ')}
+                        iconProps={{ iconName: 'Filter' }}
+                        onClick={onHandleFilter(type)}
+                    />
+                    <div className="search-filters__divider" />
+                </div>
+            )}
+            <div className="search-box">
+                <UISearchBox onSearch={onSearch} onClear={onClear} onBlur={onBlur} defaultValue={activeSearch} />
+            </div>
+        </div>
     );
 };

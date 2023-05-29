@@ -11,20 +11,13 @@ import type {
     BlogsSearchResultContentItem,
     BlogFiltersEntry
 } from '@sap/knowledge-hub-extension-types';
-import { BlogFiltersEntryType, BlogSearchSortBy } from '@sap/knowledge-hub-extension-types';
+import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
-import {
-    blogsPageChanged,
-    blogsManagedTagsAdd,
-    blogsTagsAdd,
-    blogsFilterEntryAdd,
-    blogsSearchTermChanged,
-    blogsOrderByUpdate
-} from '../../store/actions';
+import { blogsPageChanged, blogsManagedTagsAdd, blogsTagsAdd, blogsFilterEntryAdd } from '../../store/actions';
 import { store, useAppSelector } from '../../store';
 import { getBlogs, getBlogsQuery, getBlogsOrderBy, getManagedTags, getBlogsUIIsLoading } from './Blogs.slice';
 import { getTagsData } from '../tags/Tags.slice';
-import { fetchBlogData, isManagedTag, getBlogsTagById, onTagSelected } from './Blogs.utils';
+import { fetchBlogData, isManagedTag, getBlogsTagById, onTagSelected, searchBlogs } from './Blogs.utils';
 import { getSearchTerm } from '../search/Search.slice';
 
 import type { UIPaginationSelected } from '../../components/UI/UIPagination';
@@ -58,7 +51,7 @@ export const Blogs: FC = (): JSX.Element => {
     const [loading, setLoading] = useState(true);
     const [noResult, setNoResult] = useState(true);
     const [error, setError] = useState(false);
-    const [blogs, setBlogs] = useState<BlogsSearchResultContentItem[]>();
+    const [blogs, setBlogs] = useState<BlogsSearchResultContentItem[]>(activeBlogs.data);
     const [totalPage, setTotalPage] = useState(0);
     const [totalEntries, setTotalEntries] = useState(0);
     const [pageOffset, setPageOffset] = useState(activeQuery.page);
@@ -119,31 +112,19 @@ export const Blogs: FC = (): JSX.Element => {
         }
     }, [activeBlogs]);
 
-    useEffect(() => {
-        const state = store.getState();
-        const currentQuery = state.blogs.query;
-        let orderBy = BlogSearchSortBy.UPDATE_TIME;
-        if (activeSearchTerm !== '') {
-            dispatch(blogsOrderByUpdate(BlogSearchSortBy.RELEVANCE));
-            orderBy = BlogSearchSortBy.RELEVANCE;
-        }
-        const options: BlogsSearchQuery = Object.assign({}, currentQuery, {
-            searchTerm: activeSearchTerm,
-            orderBy: orderBy
-        });
-        dispatch(blogsSearchTermChanged(activeSearchTerm));
-        fetchBlogData(options);
-    }, [activeSearchTerm]);
+    // useEffect(() => {
+    //     searchBlogs(activeSearchTerm);
+    // }, [activeSearchTerm]);
 
-    useEffect(() => {
-        const state = store.getState();
-        const currentQuery = state.blogs.query;
-        fetchBlogData(currentQuery);
-    }, [activeOrderBy]);
+    // useEffect(() => {
+    //     const state = store.getState();
+    //     const currentQuery = state.blogs.query;
+    //     fetchBlogData(currentQuery);
+    // }, [activeOrderBy]);
 
-    useEffect(() => {
-        setLoading(activeLoading);
-    }, [activeLoading]);
+    // useEffect(() => {
+    //     setLoading(activeLoading);
+    // }, [activeLoading]);
 
     return (
         <motion.div

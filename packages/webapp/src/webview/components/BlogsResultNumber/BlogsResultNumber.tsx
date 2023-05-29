@@ -18,7 +18,7 @@ export const BlogsResultNumber: FC<BlogsResultNumberProps> = ({ totalNumber }): 
         <div className="blogs-result-number" data-testid="blogs-result-number">
             {totalNumber > 0 && (
                 <div className="blogs-result-number__wrapper">
-                    <UIBadge text={totalNumber} />{' '}
+                    <UIBadge text={totalNumber} />
                     <span className="blogs-result-number__wrapper__text">
                         {t('BLOGS_RESULT', { count: totalNumber })}
                     </span>

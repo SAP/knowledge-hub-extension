@@ -1,6 +1,7 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+    initialize,
     BlogFiltersEntryType,
     fetchBlogs,
     BLOGS_LIMIT_PER_PAGE,
@@ -9,6 +10,7 @@ import {
     initBlogsQuery
 } from '@sap/knowledge-hub-extension-types';
 import type {
+    AppState,
     Blogs,
     BlogsState,
     BlogsSearchQuery,
@@ -119,27 +121,46 @@ const query = createSlice({
     reducers: {},
     extraReducers: (builder) =>
         builder
-            .addCase(
-                initBlogsQuery.fulfilled.type,
-                (state: BlogsSearchQuery, action: PayloadAction<BlogFiltersEntry[]>) => {
-                    const managedTags: string[] = [];
-                    const blogCategories: string[] = [];
-                    let language: string = '';
-                    action.payload.forEach((entry: BlogFiltersEntry) => {
-                        if (entry.type === BlogFiltersEntryType.TAG) {
-                            managedTags.push(entry.id);
-                        }
-                        if (entry.type === BlogFiltersEntryType.CATEGORY) {
-                            blogCategories.push(entry.id);
-                        }
-                        if (entry.type === BlogFiltersEntryType.LANGUAGE) {
-                            language = entry.id;
-                        }
-                    });
+            .addCase(initialize.fulfilled.type, (state: BlogsSearchQuery, action: PayloadAction<AppState>) => {
+                const filters = action.payload.appFilters;
+                const managedTags: string[] = [];
+                const blogCategories: string[] = [];
+                let language: string = '';
 
-                    return { ...state, managedTags, blogCategories, language };
-                }
-            )
+                filters.blogs?.forEach((entry: BlogFiltersEntry) => {
+                    if (entry.type === BlogFiltersEntryType.TAG) {
+                        managedTags.push(entry.id);
+                    }
+                    if (entry.type === BlogFiltersEntryType.CATEGORY) {
+                        blogCategories.push(entry.id);
+                    }
+                    if (entry.type === BlogFiltersEntryType.LANGUAGE) {
+                        language = entry.id;
+                    }
+                });
+                return { ...state, managedTags, blogCategories, language };
+            })
+            // .addCase(
+            //     initBlogsQuery.fulfilled.type,
+            //     (state: BlogsSearchQuery, action: PayloadAction<BlogFiltersEntry[]>) => {
+            //         const managedTags: string[] = [];
+            //         const blogCategories: string[] = [];
+            //         let language: string = '';
+            //         action.payload.forEach((entry: BlogFiltersEntry) => {
+            //             if (entry.type === BlogFiltersEntryType.TAG) {
+            //                 managedTags.push(entry.id);
+            //             }
+            //             if (entry.type === BlogFiltersEntryType.CATEGORY) {
+            //                 blogCategories.push(entry.id);
+            //             }
+            //             if (entry.type === BlogFiltersEntryType.LANGUAGE) {
+            //                 language = entry.id;
+            //             }
+            //         });
+
+            //         return { ...state, managedTags, blogCategories, language };
+            //     }
+            // )
             .addMatcher(blogsPageChanged.match, (state: BlogsSearchQuery, action: PayloadAction<number>): void => {
                 state.page = action.payload;
             })
@@ -220,13 +241,18 @@ const ui = createSlice({
     reducers: {},
     extraReducers: (builder) =>
         builder
-            .addCase(
-                initBlogsFilters.fulfilled.type,
-                (state: BlogsUiState, action: PayloadAction<BlogFiltersEntry[]>) => {
-                    const filtersEntries = action.payload;
-                    return { ...state, filtersEntries };
-                }
-            )
+            .addCase(initialize.fulfilled.type, (state: BlogsUiState, action: PayloadAction<AppState>) => {
+                const filters = action.payload.appFilters;
+                const filtersEntries = filters.blogs ?? [];
+                return { ...state, filtersEntries };
+            })
+            // .addCase(
+            //     initBlogsFilters.fulfilled.type,
+            //     (state: BlogsUiState, action: PayloadAction<BlogFiltersEntry[]>) => {
+            //         const filtersEntries = action.payload;
+            //         return { ...state, filtersEntries };
+            //     }
+            // )
             .addMatcher(blogsFiltersSelected.match, (state: BlogsUiState, action: PayloadAction<boolean>): void => {
                 const isOpened = action.payload;
                 state.isFiltersMenuOpened = isOpened;
@@ -301,6 +327,7 @@ export const initialState: Blogs = {
 // State selectors
 export const getBlogs = (state: RootState) => state.blogs.result;
 export const getBlogsError = (state: RootState) => state.blogs.result.error;
+export const getBlogsTotalCount = (state: RootState) => state.blogs.result.totalCount;
 export const getBlogsQuery = (state: RootState) => state.blogs.query;
 export const getBlogsUI = (state: RootState) => state.blogs.ui;
 export const getBlogsUIIsLoading = (state: RootState) => state.blogs.ui.isLoading;

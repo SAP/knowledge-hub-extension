@@ -68,5 +68,7 @@ export async function getTutorials(
     const options = prepareQueyOptions(queryOptions);
     const url = `${host}${SEARCH_PATH}${options}`;
 
+    console.log('getTutorials: ', url);
+
     return await asyncFetch<TutorialsSearchResult>(url);
 }

@@ -78,3 +78,7 @@ export const tutorialsFiltersTagsResetWith = createViewAction<string>('tutorials
 export const tutorialsFiltersSelected = createViewAction<boolean>('tutorials/filters-selected');
 export const tutorialsSearchFieldChanged = createViewAction<string>('tutorials/change-searchField');
 export const tutorialsLoading = createViewAction<boolean>('tutorials/loading');
+
+// app actions
+export const appBlogsTotalCountUpdate = createViewAction<number>('app/blogs-total-count-update');
+export const appTutorialsTotalCountUpdate = createViewAction<number>('app/tutorials-total-count-update');

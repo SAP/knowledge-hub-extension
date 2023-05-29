@@ -1,28 +1,47 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { tabs } from '../../constants';
+import { Loader } from '../../components/Loader';
+import type { TabsConfig } from '@sap/knowledge-hub-extension-types';
 import { NavigationBar } from '../../components/NavigationBar';
 import { RoutesWithAnimation } from './RouteWithAnimation';
 
-import { fecthHomeBlogs, fecthHomeTutorials, fetchTags } from '../home/home.utils';
+import { getAppTabs, getAppReady } from '../../features/app/App.slice';
+import { useAppSelector } from '../../store';
+import { fetchTags } from '../tags/Tags.utils';
+import { searchBlogs } from '../blogs/Blogs.utils';
+import { searchTutorials } from '../tutorials/Tutorials.utils';
 
 import './App.scss';
 
 export const App: FC = (): JSX.Element => {
+    const { t } = useTranslation();
+    const activeTabs: TabsConfig = useAppSelector(getAppTabs);
+    const activeReady: boolean = useAppSelector(getAppReady);
+    const [ready, setReady] = useState(activeReady);
+
     useEffect(() => {
-        fecthHomeBlogs();
-        fecthHomeTutorials();
-        fetchTags();
-    }, []);
+        setReady(activeReady);
+        if (activeReady) {
+            fetchTags();
+            searchBlogs('');
+            searchTutorials('');
+        }
+    }, [activeReady]);
 
     return (
         <div className="app-knowledge-hub">
             <div className="app-knowledge-hub-wrapper">
                 <MemoryRouter>
-                    <NavigationBar tabs={tabs} />
-                    <RoutesWithAnimation />
+                    {!ready && <Loader label={t('APP_LOADING_CONTENT')} />}
+                    {ready && (
+                        <React.Fragment>
+                            <NavigationBar tabs={activeTabs} />
+                            <RoutesWithAnimation />
+                        </React.Fragment>
+                    )}
                 </MemoryRouter>
             </div>
         </div>

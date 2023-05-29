@@ -17,7 +17,18 @@ export const enum Feature {
 }
 
 export interface App {
+    app: AppState;
+    ui: AppUiState;
+}
+
+export interface AppState {
     appId: string;
+    appFilters: AppFilters;
+}
+
+export interface AppUiState {
+    ready: boolean;
+    tabs: TabsConfig;
 }
 
 export interface StorageSettings {
@@ -36,5 +47,7 @@ export type TabsConfig = {
 export type TabsConfigEntry = {
     key: string;
     path: string;
-    text: string;
+    headerText: string;
+    count: number;
+    ariaLabel: string;
 };

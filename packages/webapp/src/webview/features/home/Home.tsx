@@ -109,7 +109,7 @@ export const Home: FC = (): JSX.Element => {
                         <div className="home-content-tutorials-container-content">
                             {!(homeTutorialsLoading || homeTutorialsError.isError) &&
                                 tutorials &&
-                                tutorials.map((tutorial, index) => {
+                                tutorials.slice(0, 3).map((tutorial, index) => {
                                     return (
                                         <TutorialCard
                                             key={tutorial.imsId}
@@ -146,7 +146,7 @@ export const Home: FC = (): JSX.Element => {
                         <div className="home-content-blogs-container-content">
                             {!(homeBlogsLoading || homeBlogsError.isError) &&
                                 blogs &&
-                                blogs.map((blog, index) => {
+                                blogs.slice(0, 3).map((blog, index) => {
                                     return <BlogCard key={blog.id} blog={blog} onSelectedTag={onBlogTagSelected} />;
                                 })}
                             {homeBlogsLoading && (

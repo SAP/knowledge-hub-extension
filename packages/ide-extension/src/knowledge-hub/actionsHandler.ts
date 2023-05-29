@@ -11,11 +11,9 @@ import {
     fetchBlogs,
     fetchHomeBlogs,
     fetchTutorials,
-    fetchHomeTutorials,
     fetchTags,
-    initBlogsFilters,
-    initBlogsQuery,
-    initTutorialsFilters
+    fetchBlogsTotalCount,
+    fetchTutorialsTotalCount
 } from '@sap/knowledge-hub-extension-types';
 import type {
     AnyAction,
@@ -74,60 +72,32 @@ export class ActionHandler {
     /**
      *
      * @param {AnyAction} action An action object
-     */
-    private fetchHomeTutorials = async (action: AnyAction): Promise<void> => {
-        this.panel.webview.postMessage(fetchHomeTutorials.pending(true));
-        const response = await this.developerTutorialsApi.getTutorials(action.query);
-
-        if (response.status === 'fetched' && response.data) {
-            this.panel.webview.postMessage(fetchHomeTutorials.fulfilled(response.data));
-        }
-
-        if (response.status === 'error') {
-            const errorMsg = (response.error ? response.error : 'error') as unknown as string;
-            this.panel.webview.postMessage(fetchHomeTutorials.rejected(errorMsg));
-        }
-    };
-
-    /**
-     *
-     * @param {AnyAction} action An action object
      * @returns void
      */
     private fetchTutorials = async (action: AnyAction): Promise<void> => {
-        this.panel.webview.postMessage(fetchTutorials.pending(true));
-        const response = await this.developerTutorialsApi.getTutorials(action.query);
+        try {
+            await this.panel.webview.postMessage(fetchTutorials.pending(true));
+            const response = await this.developerTutorialsApi.getTutorials(action.query);
 
-        // Save filters
-        const filters = action.filters;
-        this.appSession.storage.setFilters(FILTERS_TUTORIALS_TAGS, filters);
+            // Save filters
+            const filters = action.filters;
+            this.appSession.storage.setFilters(FILTERS_TUTORIALS_TAGS, filters);
 
-        if (response.status === 'fetched' && response.data) {
-            this.panel.webview.postMessage(fetchTutorials.fulfilled(response.data));
-        }
+            if (response.status === 'fetched' && response.data) {
+                await this.panel.webview.postMessage(fetchTutorials.fulfilled(response.data));
+                if (action.query.searchField !== '') {
+                    await this.panel.webview.postMessage(fetchTutorialsTotalCount.fulfilled(response.data.numFound));
+                } else {
+                    await this.panel.webview.postMessage(fetchTutorialsTotalCount.fulfilled(-1));
+                }
+            }
 
-        if (response.status === 'error') {
-            const errorMsg = (response.error ? response.error : 'error') as unknown as string;
-            this.panel.webview.postMessage(fetchTutorials.rejected(errorMsg));
-        }
-    };
-
-    /**
-     *
-     * @param {AnyAction} action An action object
-     * @returns void
-     */
-    private fetchHomeBlogs = async (action: AnyAction): Promise<void> => {
-        this.panel.webview.postMessage(fetchHomeBlogs.pending(true));
-        const response = await this.communityBlogsApi.getBlogs(action.query);
-
-        if (response.status === 'fetched' && response.data) {
-            this.panel.webview.postMessage(fetchHomeBlogs.fulfilled(response.data));
-        }
-
-        if (response.status === 'error') {
-            const errorMsg = (response.error ? response.error : 'error') as unknown as string;
-            this.panel.webview.postMessage(fetchHomeBlogs.rejected(errorMsg));
+            if (response.status === 'error') {
+                const errorMsg = (response.error ? response.error : 'error') as unknown as string;
+                await this.panel.webview.postMessage(fetchTutorials.rejected(errorMsg));
+            }
+        } catch (error) {
+            console.error(error);
         }
     };
 
@@ -137,20 +107,30 @@ export class ActionHandler {
      * @returns void
      */
     private fetchBlogs = async (action: AnyAction): Promise<void> => {
-        this.panel.webview.postMessage(fetchBlogs.pending(true));
-        const response = await this.communityBlogsApi.getBlogs(action.query);
+        try {
+            await this.panel.webview.postMessage(fetchBlogs.pending(true));
+            const response = await this.communityBlogsApi.getBlogs(action.query);
 
-        // Save filters
-        const filters = action.filters;
-        this.appSession.storage.setFilters(FILTERS_BLOGS_TAGS, filters);
+            // Save filters
+            const filters = action.filters;
+            this.appSession.storage.setFilters(FILTERS_BLOGS_TAGS, filters);
 
-        if (response.status === 'fetched' && response.data) {
-            this.panel.webview.postMessage(fetchBlogs.fulfilled(response.data));
-        }
+            if (response.status === 'fetched' && response.data) {
+                await this.panel.webview.postMessage(fetchBlogs.fulfilled(response.data));
+                if (action.query.searchTerm !== '') {
+                    await this.panel.webview.postMessage(fetchBlogsTotalCount.fulfilled(response.data.totalCount));
+                    await this.panel.webview.postMessage(fetchHomeBlogs.fulfilled(response.data));
+                } else {
+                    await this.panel.webview.postMessage(fetchBlogsTotalCount.fulfilled(-1));
+                }
+            }
 
-        if (response.status === 'error') {
-            const errorMsg = (response.error ? response.error : 'error') as unknown as string;
-            this.panel.webview.postMessage(fetchBlogs.rejected(errorMsg));
+            if (response.status === 'error') {
+                const errorMsg = (response.error ? response.error : 'error') as unknown as string;
+                await this.panel.webview.postMessage(fetchBlogs.rejected(errorMsg));
+            }
+        } catch (error) {
+            console.error(error);
         }
     };
 
@@ -159,52 +139,51 @@ export class ActionHandler {
      * @returns void
      */
     private fetchTags = async (): Promise<void> => {
-        this.panel.webview.postMessage(fetchTags.pending(true));
-        const response = await this.communityTagsApi.getTags();
+        try {
+            await this.panel.webview.postMessage(fetchTags.pending(true));
+            const response = await this.communityTagsApi.getTags();
 
-        if (response.status === 'fetched' && response.data) {
-            this.panel.webview.postMessage(fetchTags.fulfilled(response.data));
-        }
+            if (response.status === 'fetched' && response.data) {
+                await this.panel.webview.postMessage(fetchTags.fulfilled(response.data));
+            }
 
-        if (response.status === 'error') {
-            const errorMsg = (response.error ? response.error : 'error') as unknown as string;
-            this.panel.webview.postMessage(fetchTags.rejected(errorMsg));
+            if (response.status === 'error') {
+                const errorMsg = (response.error ? response.error : 'error') as unknown as string;
+                await this.panel.webview.postMessage(fetchTags.rejected(errorMsg));
+            }
+        } catch (error) {
+            console.error(error);
         }
     };
 
     // Webview actions handlers
     public actionsHandlersMap: ActionsHandlersMap = {
         [KNOWLEDGE_HUB_WEB_VIEW_READY]: async (): Promise<void> => {
-            const blogsFilters: BlogFiltersEntry[] = await this.getSavedBlogsFilters();
-            const tutorialsFilters: TutorialsTagWithTitle[] = await this.getSavedTutorialsFilters();
+            try {
+                const blogsFilters: BlogFiltersEntry[] = await this.getSavedBlogsFilters();
+                const tutorialsFilters: TutorialsTagWithTitle[] = await this.getSavedTutorialsFilters();
 
-            this.panel.webview.postMessage(
-                initialize.fulfilled({
-                    appId: 'sap.ux.knowledgeHub'
-                })
-            );
-
-            this.panel.webview.postMessage(initBlogsFilters.fulfilled(blogsFilters));
-            this.panel.webview.postMessage(initBlogsQuery.fulfilled(blogsFilters));
-
-            this.panel.webview.postMessage(initTutorialsFilters.fulfilled(tutorialsFilters));
+                await this.panel.webview.postMessage(
+                    initialize.fulfilled({
+                        appId: 'sap.ux.knowledgeHub',
+                        appFilters: {
+                            blogs: blogsFilters,
+                            tutorials: tutorialsFilters
+                        }
+                    })
+                );
+            } catch (error) {
+                console.error(error);
+            }
         },
         [TUTORIALS_FETCH_TUTORIALS]: async (action: AnyAction): Promise<void> => {
-            if (action.home) {
-                this.fetchHomeTutorials(action);
-            } else {
-                this.fetchTutorials(action);
-            }
+            await this.fetchTutorials(action);
         },
         [BLOGS_FETCH_BLOGS]: async (action: AnyAction): Promise<void> => {
-            if (action.home) {
-                this.fetchHomeBlogs(action);
-            } else {
-                this.fetchBlogs(action);
-            }
+            await this.fetchBlogs(action);
         },
         [TAGS_FETCH_TAGS]: async (): Promise<void> => {
-            this.fetchTags();
+            await this.fetchTags();
         }
     };
 }

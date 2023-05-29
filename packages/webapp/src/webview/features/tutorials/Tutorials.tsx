@@ -17,7 +17,7 @@ import { TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 import { tutorialsPageChanged, tutorialsFiltersTagsResetWith, tutorialsSearchFieldChanged } from '../../store/actions';
 import { store, useAppSelector } from '../../store';
 import { getTutorials, getTutorialsQuery, getTutorialsUIIsLoading } from './Tutorials.slice';
-import { getTutorialsTag, onTagSelected, fetchTutorialsData } from './Tutorials.utils';
+import { getTutorialsTag, onTagSelected, fetchTutorialsData, searchTutorials } from './Tutorials.utils';
 import { getSearchTerm } from '../search/Search.slice';
 
 import type { UIPaginationSelected } from '../../components/UI/UIPagination';
@@ -123,17 +123,13 @@ export const Tutorials: FC = (): JSX.Element => {
         }
     }, [activeTutorials]);
 
-    useEffect(() => {
-        const state = store.getState();
-        const currentQuery = state.tutorials.query;
-        const query: TutorialsSearchQuery = Object.assign({}, currentQuery, { searchField: activeSearchTerm });
-        dispatch(tutorialsSearchFieldChanged(activeSearchTerm));
-        fetchTutorialsData(query);
-    }, [activeSearchTerm]);
+    // useEffect(() => {
+    //     searchTutorials(activeSearchTerm);
+    // }, [activeSearchTerm]);
 
-    useEffect(() => {
-        setLoading(activeLoading);
-    }, [activeLoading]);
+    // useEffect(() => {
+    //     setLoading(activeLoading);
+    // }, [activeLoading]);
 
     return (
         <motion.div

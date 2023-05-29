@@ -1,4 +1,6 @@
 {
+    "APP_LOADING_CONTENT": "Loading Knowledge Hub extension",
+
     "HOME_TAB": "Home",
     "HOME_TITLE": "Most Recent Content",
     "HOME_DESCRIPTION": "",
@@ -24,7 +26,7 @@
     "VIDEOS_TITLE": "YouTube Tutorials",
     "VIDEOS_DESCRIPTION": "All our videos from our community",
 
-    "BLOGS_TAB": "From the blogs",
+    "BLOGS_TAB": "SAP Community Blogs",
     "BLOGS_TITLE": "SAP Community Blogs",
     "BLOGS_RESULT_one": "result",
     "BLOGS_RESULT_other": "results",
