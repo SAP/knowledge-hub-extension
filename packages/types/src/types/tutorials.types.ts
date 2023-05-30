@@ -12,13 +12,13 @@ export interface TutorialsState {
     pending: boolean;
 }
 export interface TutorialsSearchQuery {
-    rows?: number;
-    start?: number;
-    searchField?: string;
-    pagePath?: string;
-    language?: string;
-    addDefaultLanguage?: boolean;
-    filters?: string[];
+    rows: number;
+    start: number;
+    searchField: string;
+    pagePath: string;
+    language: string;
+    addDefaultLanguage: boolean;
+    filters: string[];
 }
 
 export interface TutorialsUiState {

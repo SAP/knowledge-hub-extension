@@ -14,11 +14,10 @@ import type {
 } from '@sap/knowledge-hub-extension-types';
 import { TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 
-import { tutorialsPageChanged, tutorialsFiltersTagsResetWith, tutorialsSearchFieldChanged } from '../../store/actions';
+import { tutorialsPageChanged, tutorialsFiltersTagsResetWith } from '../../store/actions';
 import { store, useAppSelector } from '../../store';
-import { getTutorials, getTutorialsQuery, getTutorialsUIIsLoading } from './Tutorials.slice';
-import { getTutorialsTag, onTagSelected, fetchTutorialsData, searchTutorials } from './Tutorials.utils';
-import { getSearchTerm } from '../search/Search.slice';
+import { getTutorials, getTutorialsQuery } from './Tutorials.slice';
+import { getTutorialsTag, onTagSelected, fetchTutorialsData } from './Tutorials.utils';
 
 import type { UIPaginationSelected } from '../../components/UI/UIPagination';
 import { UIPagination } from '../../components/UI/UIPagination';
@@ -40,8 +39,6 @@ export const Tutorials: FC = (): JSX.Element => {
 
     const activeTutorials: TutorialsState = useAppSelector(getTutorials);
     const activeQuery: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
-    const activeSearchTerm: string = useAppSelector(getSearchTerm);
-    const activeLoading = useAppSelector(getTutorialsUIIsLoading);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -122,14 +119,6 @@ export const Tutorials: FC = (): JSX.Element => {
             }
         }
     }, [activeTutorials]);
-
-    // useEffect(() => {
-    //     searchTutorials(activeSearchTerm);
-    // }, [activeSearchTerm]);
-
-    // useEffect(() => {
-    //     setLoading(activeLoading);
-    // }, [activeLoading]);
 
     return (
         <motion.div

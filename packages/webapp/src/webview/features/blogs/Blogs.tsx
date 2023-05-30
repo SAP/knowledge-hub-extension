@@ -15,10 +15,9 @@ import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
 import { blogsPageChanged, blogsManagedTagsAdd, blogsTagsAdd, blogsFilterEntryAdd } from '../../store/actions';
 import { store, useAppSelector } from '../../store';
-import { getBlogs, getBlogsQuery, getBlogsOrderBy, getManagedTags, getBlogsUIIsLoading } from './Blogs.slice';
+import { getBlogs, getBlogsQuery, getBlogsOrderBy, getManagedTags } from './Blogs.slice';
 import { getTagsBlogsData } from '../tags/Tags.slice';
-import { fetchBlogData, isManagedTag, getBlogsTagById, onTagSelected, searchBlogs } from './Blogs.utils';
-import { getSearchTerm } from '../search/Search.slice';
+import { fetchBlogData, isManagedTag, getBlogsTagById, onTagSelected } from './Blogs.utils';
 
 import type { UIPaginationSelected } from '../../components/UI/UIPagination';
 import { UIPagination } from '../../components/UI/UIPagination';
@@ -42,10 +41,8 @@ export const Blogs: FC = (): JSX.Element => {
 
     const activeBlogs: BlogsState = useAppSelector(getBlogs);
     const activeQuery: BlogsSearchQuery = useAppSelector(getBlogsQuery);
-    const activeSearchTerm: string = useAppSelector(getSearchTerm);
     const activeOrderBy: string | undefined = useAppSelector(getBlogsOrderBy);
-    const activeManagedTags: string[] = useAppSelector(getManagedTags) || [];
-    const activeLoading = useAppSelector(getBlogsUIIsLoading);
+    const activeManagedTags: string[] = useAppSelector(getManagedTags) ?? [];
     const tags = useAppSelector(getTagsBlogsData);
 
     const [loading, setLoading] = useState(true);
@@ -79,7 +76,7 @@ export const Blogs: FC = (): JSX.Element => {
             setNoResult(true);
             setError(true);
         } else if (!activeBlogs.pending) {
-            if (location.state && location.state.tagId && !isManagedTag(location.state.tagId, activeManagedTags)) {
+            if (location?.state?.tagId && !isManagedTag(location.state.tagId, activeManagedTags)) {
                 const tag = getBlogsTagById(location.state.tagId, tags);
                 const filterEntry: BlogFiltersEntry = {
                     id: tag.guid,
@@ -112,19 +109,11 @@ export const Blogs: FC = (): JSX.Element => {
         }
     }, [activeBlogs]);
 
-    // useEffect(() => {
-    //     searchBlogs(activeSearchTerm);
-    // }, [activeSearchTerm]);
-
-    // useEffect(() => {
-    //     const state = store.getState();
-    //     const currentQuery = state.blogs.query;
-    //     fetchBlogData(currentQuery);
-    // }, [activeOrderBy]);
-
-    // useEffect(() => {
-    //     setLoading(activeLoading);
-    // }, [activeLoading]);
+    useEffect(() => {
+        const state = store.getState();
+        const currentQuery = state.blogs.query;
+        fetchBlogData(currentQuery);
+    }, [activeOrderBy]);
 
     return (
         <motion.div

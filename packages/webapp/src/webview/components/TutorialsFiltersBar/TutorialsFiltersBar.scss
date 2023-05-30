@@ -2,7 +2,6 @@
     display: flex;
     justify-content: space-between;
     box-sizing: content-box;
-    padding-bottom: 10px;
     flex-direction: column;
 
     &-header {
@@ -18,7 +17,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        margin-top: 4px;
+        margin-top: 5px;
 
         &-tag-entry {
             padding-right: 5px;
