@@ -18,7 +18,6 @@ import {
     blogsManagedTagsDelete,
     blogsFilterEntryAdd,
     blogsFilterEntryDelete,
-    blogsTagsAdd,
     blogsLanguageUpdate,
     blogsCategoryAdd,
     blogsCategoryDelete,
@@ -116,7 +115,6 @@ export const onTagSelected = (tag: Tag, checked: boolean): void => {
         store.dispatch(blogsFilterEntryDelete(filterEntry.id));
         store.dispatch(blogsManagedTagsDelete(tag.guid));
     }
-    store.dispatch(blogsTagsAdd(tag));
     const query: BlogsSearchQuery = Object.assign({}, currentQuery, { managedTags: blogTags });
     fetchBlogData(query);
 };

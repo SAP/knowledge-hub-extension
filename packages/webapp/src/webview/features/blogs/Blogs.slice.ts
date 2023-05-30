@@ -27,7 +27,6 @@ import {
     blogsManagedTagsAdd,
     blogsManagedTagsDelete,
     blogsManagedTagsDeleteAll,
-    blogsTagsAdd,
     blogsLanguageUpdate,
     blogsOrderByUpdate,
     blogsCategoryAdd,
@@ -223,13 +222,6 @@ const ui = createSlice({
                 const filtersEntries = filters.blogs ?? [];
                 return { ...state, filtersEntries };
             })
-            // .addCase(
-            //     initBlogsFilters.fulfilled.type,
-            //     (state: BlogsUiState, action: PayloadAction<BlogFiltersEntry[]>) => {
-            //         const filtersEntries = action.payload;
-            //         return { ...state, filtersEntries };
-            //     }
-            // )
             .addMatcher(blogsFiltersSelected.match, (state: BlogsUiState, action: PayloadAction<boolean>): void => {
                 const isOpened = action.payload;
                 state.isFiltersMenuOpened = isOpened;
@@ -281,24 +273,10 @@ const ui = createSlice({
             })
 });
 
-const tags = createSlice({
-    name: 'blogsTags',
-    initialState: initialTagsState,
-    reducers: {},
-    extraReducers: (builder) =>
-        builder.addMatcher(blogsTagsAdd.match, (state: Tag[], action: PayloadAction<Tag>): void => {
-            const found = state.find((element: Tag) => element.guid === action.payload.guid);
-            if (!found) {
-                state.push(action.payload);
-            }
-        })
-});
-
 export const initialState: Blogs = {
     result: initialSearchState,
     query: initialQueryState,
-    ui: initialUiState,
-    tags: initialTagsState
+    ui: initialUiState
 };
 
 // State selectors
@@ -312,8 +290,11 @@ export const getBlogsUIFiltersEntries = (state: RootState) => state.blogs.ui.fil
 export const getManagedTags = (state: RootState) => state.blogs.query.managedTags;
 export const getBlogsLanguage = (state: RootState) => state.blogs.query.language ?? '';
 export const getBlogsCategories = (state: RootState) => state.blogs.query.blogCategories;
-export const getBlogsTags = (state: RootState) => state.blogs.tags;
 export const getBlogsSearchTerm = (state: RootState) => state.blogs.query.searchTerm;
 export const getBlogsOrderBy = (state: RootState) => state.blogs.query.orderBy;
 
-export default combineReducers({ result: result.reducer, query: query.reducer, ui: ui.reducer, tags: tags.reducer });
+export default combineReducers({
+    result: result.reducer,
+    query: query.reducer,
+    ui: ui.reducer
+});

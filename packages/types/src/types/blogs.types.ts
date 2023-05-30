@@ -6,7 +6,6 @@ export interface Blogs {
     result: BlogsState;
     query: BlogsSearchQuery;
     ui: BlogsUiState;
-    tags: Tag[];
 }
 
 export interface BlogsState {

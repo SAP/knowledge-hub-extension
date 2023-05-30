@@ -5,7 +5,6 @@ import type {
     BlogsFetchBlogs,
     BlogsSearchQuery,
     BlogFiltersEntry,
-    Tag,
     TagsFetchBlogsTags,
     TagsFetchTutorialsTags,
     TutorialsTagWithTitle
@@ -62,7 +61,6 @@ export const blogsPageChanged = createViewAction<number>('blogs/change-page');
 export const blogsManagedTagsAdd = createViewAction<string>('blogs/managed-tags-add');
 export const blogsManagedTagsDelete = createViewAction<string>('blogs/managed-tags-delete');
 export const blogsManagedTagsDeleteAll = createViewAction('blogs/managed-tags-delete-all');
-export const blogsTagsAdd = createViewAction<Tag>('blogs/tags-add');
 export const blogsLanguageUpdate = createViewAction<string | null>('blogs/language-update');
 export const blogsOrderByUpdate = createViewAction<string>('blogs/orderBy-update');
 export const blogsCategoryAdd = createViewAction<string>('blogs/category-add');

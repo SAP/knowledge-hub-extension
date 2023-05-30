@@ -43,34 +43,27 @@ const blogsTags = createSlice({
     reducers: {},
 
     extraReducers: (builder) => {
-        builder.addCase(
-            fetchBlogsTags.pending.type,
-            (state: BlogsTagsState, action: PendingAction<string, undefined>) => {
+        builder
+            .addCase(fetchBlogsTags.pending.type, (state: BlogsTagsState, action: PendingAction<string, undefined>) => {
                 const pending = action.pending;
                 return { ...state, pending };
-            }
-        );
+            })
+            .addCase(
+                fetchBlogsTags.fulfilled.type,
+                (state: BlogsTagsState, action: PayloadAction<BlogsTagsSearchResult>) => {
+                    const data: BlogsTagsSearchResult = action.payload;
+                    const error: Error = { isError: false, message: '' };
+                    const pending = false;
 
-        builder.addCase(
-            fetchBlogsTags.fulfilled.type,
-            (state: BlogsTagsState, action: PayloadAction<BlogsTagsSearchResult>) => {
-                const data: BlogsTagsSearchResult = action.payload;
-                const error: Error = { isError: false, message: '' };
-                const pending = false;
-
-                return { ...state, data, error, pending };
-            }
-        );
-
-        builder.addCase(
-            fetchBlogsTags.rejected.type,
-            (state: BlogsTagsState, action: ErrorAction<string, undefined>) => {
+                    return { ...state, data, error, pending };
+                }
+            )
+            .addCase(fetchBlogsTags.rejected.type, (state: BlogsTagsState, action: ErrorAction<string, undefined>) => {
                 const pending = false;
                 const error: Error = { isError: true, message: action.error.message };
 
                 return { ...state, error, pending };
-            }
-        );
+            });
     }
 });
 
@@ -80,34 +73,33 @@ const tutorialsTags = createSlice({
     reducers: {},
 
     extraReducers: (builder) => {
-        builder.addCase(
-            fetchTutorialsTags.pending.type,
-            (state: TutorialsTagsState, action: PendingAction<string, undefined>) => {
-                const pending = action.pending;
-                return { ...state, pending };
-            }
-        );
+        builder
+            .addCase(
+                fetchTutorialsTags.pending.type,
+                (state: TutorialsTagsState, action: PendingAction<string, undefined>) => {
+                    const pending = action.pending;
+                    return { ...state, pending };
+                }
+            )
+            .addCase(
+                fetchTutorialsTags.fulfilled.type,
+                (state: TutorialsTagsState, action: PayloadAction<TutorialsSearchResult>) => {
+                    const tags: TutorialsTags = action.payload.tags;
+                    const error: Error = { isError: false, message: '' };
+                    const pending = false;
 
-        builder.addCase(
-            fetchTutorialsTags.fulfilled.type,
-            (state: TutorialsTagsState, action: PayloadAction<TutorialsSearchResult>) => {
-                const tags: TutorialsTags = action.payload.tags;
-                const error: Error = { isError: false, message: '' };
-                const pending = false;
+                    return { ...state, tags, error, pending };
+                }
+            )
+            .addCase(
+                fetchTutorialsTags.rejected.type,
+                (state: TutorialsTagsState, action: ErrorAction<string, undefined>) => {
+                    const pending = false;
+                    const error: Error = { isError: true, message: action.error.message };
 
-                return { ...state, tags, error, pending };
-            }
-        );
-
-        builder.addCase(
-            fetchTutorialsTags.rejected.type,
-            (state: TutorialsTagsState, action: ErrorAction<string, undefined>) => {
-                const pending = false;
-                const error: Error = { isError: true, message: action.error.message };
-
-                return { ...state, error, pending };
-            }
-        );
+                    return { ...state, error, pending };
+                }
+            );
     }
 });
 

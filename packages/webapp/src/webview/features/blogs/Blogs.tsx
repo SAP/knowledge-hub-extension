@@ -13,7 +13,7 @@ import type {
 } from '@sap/knowledge-hub-extension-types';
 import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
-import { blogsPageChanged, blogsManagedTagsAdd, blogsTagsAdd, blogsFilterEntryAdd } from '../../store/actions';
+import { blogsPageChanged, blogsManagedTagsAdd, blogsFilterEntryAdd } from '../../store/actions';
 import { store, useAppSelector } from '../../store';
 import { getBlogs, getBlogsQuery, getBlogsOrderBy, getManagedTags } from './Blogs.slice';
 import { getTagsBlogsData } from '../tags/Tags.slice';
@@ -85,7 +85,6 @@ export const Blogs: FC = (): JSX.Element => {
                 };
                 dispatch(blogsFilterEntryAdd(filterEntry));
                 dispatch(blogsManagedTagsAdd(tag.guid));
-                dispatch(blogsTagsAdd({ displayName: tag.displayName, guid: tag.guid }));
                 options.managedTags = [tag.guid];
                 fetchBlogData(options);
                 navigate(location.pathname, { replace: true });
