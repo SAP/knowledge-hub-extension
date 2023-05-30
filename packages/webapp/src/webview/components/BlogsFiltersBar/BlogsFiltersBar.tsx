@@ -24,11 +24,16 @@ import { UIPill } from '../UI/UIPill/UIPill';
 
 import './BlogsFiltersBar.scss';
 
-export const BlogsFiltersBar: FC = (): JSX.Element => {
+export type BlogsFiltersBarProps = {
+    editable?: boolean;
+};
+
+export const BlogsFiltersBar: FC<BlogsFiltersBarProps> = ({ editable }): JSX.Element => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const activeFiltersEntries = useAppSelector(getBlogsUIFiltersEntries);
     const [filtersEntries, setFiltersEntries] = useState<BlogFiltersEntry[]>([]);
+    const isEditable = editable ?? true;
 
     const onClearAllFilterEntries = useCallback((): void => {
         const state = store.getState();
@@ -96,13 +101,15 @@ export const BlogsFiltersBar: FC = (): JSX.Element => {
                                     pillId={entry.id}
                                     pillLabel={entry.label}
                                     callback={onClearFilterEntry}
+                                    clearButton={isEditable}
                                 />
                             );
                         })}
-
-                        <UISmallButton primary onClick={onClearAllFilterEntries}>
-                            {t('BLOGS_FILTERS_BAR_CLEAR_ALL')}
-                        </UISmallButton>
+                        {isEditable && (
+                            <UISmallButton primary onClick={onClearAllFilterEntries}>
+                                {t('BLOGS_FILTERS_BAR_CLEAR_ALL')}
+                            </UISmallButton>
+                        )}
                     </div>
                 </div>
             )}

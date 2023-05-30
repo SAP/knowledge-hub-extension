@@ -50,6 +50,7 @@
     "SEARCH_DESCRIPTION": "Search results",
 
     "LNK_VIEW_ALL": "View All",
+    "LNK_VIEW_MORE_RESULTS": "View {{results}} more filtered results",
 
     "UI_PAGINATION_CAPTION_PREVIOUS": "Previous",
     "UI_PAGINATION_CAPTION_NEXT": "Next",

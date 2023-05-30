@@ -37,13 +37,13 @@ export const Tags: FC = (): JSX.Element => {
     };
 
     const goToTop = (): void => {
-        if (navAlphaTopRef && navAlphaTopRef.current) {
+        if (navAlphaTopRef?.current) {
             navAlphaTopRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
 
     const goToAlpha = (ref: React.MutableRefObject<HTMLDivElement | null>) => (): void => {
-        if (ref && ref.current) {
+        if (ref?.current) {
             ref.current.scrollIntoView({ behavior: 'smooth' });
         }
     };

@@ -1,7 +1,8 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { fetchTutorials, initTutorialsFilters, TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
+import { initialize, fetchTutorials, TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 import type {
+    AppState,
     Tutorials,
     TutorialsState,
     TutorialsSearchResult,
@@ -98,17 +99,15 @@ const query = createSlice({
     reducers: {},
     extraReducers: (builder) =>
         builder
-            .addCase(
-                initTutorialsFilters.fulfilled.type,
-                (state: TutorialsSearchQuery, action: PayloadAction<TutorialsTagWithTitle[]>) => {
-                    const filters: string[] = [];
-                    action.payload.forEach((tagWithTitle: TutorialsTagWithTitle) => {
-                        filters.push(tagWithTitle.tag);
-                    });
+            .addCase(initialize.fulfilled.type, (state: TutorialsSearchQuery, action: PayloadAction<AppState>) => {
+                const initFilters = action.payload.appFilters;
+                const filters: string[] = [];
+                initFilters.tutorials?.forEach((tagWithTitle: TutorialsTagWithTitle) => {
+                    filters.push(tagWithTitle.tag);
+                });
 
-                    return { ...state, filters };
-                }
-            )
+                return { ...state, filters };
+            })
             .addMatcher(
                 tutorialsPageChanged.match,
                 (state: TutorialsSearchQuery, action: PayloadAction<number>): void => {
@@ -189,6 +188,7 @@ export const initialState: Tutorials = {
 // State selectors
 export const getTutorials = (state: RootState) => state.tutorials.result;
 export const getTutorialsData = (state: RootState) => state.tutorials.result.data;
+export const getTutorialsTotalCount = (state: RootState) => state.tutorials.result.data.numFound;
 export const getTutorialsPending = (state: RootState) => state.tutorials.result.pending;
 export const getTutorialsError = (state: RootState) => state.tutorials.result.error;
 export const getTutorialsQuery = (state: RootState) => state.tutorials.query;

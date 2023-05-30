@@ -83,7 +83,7 @@ export const Tutorials: FC = (): JSX.Element => {
             setNoResult(true);
             setError(true);
         } else if (!activeTutorials.pending) {
-            if (location.state && location.state.tagId) {
+            if (location?.state?.tagId) {
                 const tagId = location.state.tagId;
                 dispatch(tutorialsFiltersTagsResetWith(tagId));
 
@@ -92,7 +92,7 @@ export const Tutorials: FC = (): JSX.Element => {
                 navigate(location.pathname, { replace: true });
             }
 
-            if (activeTutorials && activeTutorials.data.numFound > 0) {
+            if (activeTutorials?.data?.numFound > 0) {
                 setTutorials(activeTutorials.data.result);
                 setTotalNumber(activeTutorials.data.numFound);
                 setCountGroups(activeTutorials.data.countGroups);

@@ -13,7 +13,7 @@ import {
 } from '../../store/actions';
 
 export const getTutorialsTag = (val: string, allTutorials: TutorialsSearchResult | undefined): string => {
-    if (allTutorials && allTutorials.tags && allTutorials.tags[val]) {
+    if (allTutorials?.tags[val]) {
         return allTutorials.tags[val].title;
     } else {
         return '';
@@ -21,15 +21,14 @@ export const getTutorialsTag = (val: string, allTutorials: TutorialsSearchResult
 };
 
 export const getTutorialsTagTitle = (val: string): string => {
-    // get tags from tags tutorial state
+    const state = store.getState();
+    const tags: TutorialsTags = state.tags.tutorials.tags;
 
-    // if (tags[val]) {
-    //     return tags[val].title;
-    // } else {
-    //     return '';
-    // }
-
-    return '';
+    if (tags[val]) {
+        return tags[val].title;
+    } else {
+        return '';
+    }
 };
 
 export const isFilteredTag = (tagId: string, tags: string[]): boolean => {

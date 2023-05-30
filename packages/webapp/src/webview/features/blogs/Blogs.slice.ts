@@ -5,9 +5,7 @@ import {
     BlogFiltersEntryType,
     fetchBlogs,
     BLOGS_LIMIT_PER_PAGE,
-    BlogSearchSortBy,
-    initBlogsFilters,
-    initBlogsQuery
+    BlogSearchSortBy
 } from '@sap/knowledge-hub-extension-types';
 import type {
     AppState,
@@ -140,27 +138,6 @@ const query = createSlice({
                 });
                 return { ...state, managedTags, blogCategories, language };
             })
-            // .addCase(
-            //     initBlogsQuery.fulfilled.type,
-            //     (state: BlogsSearchQuery, action: PayloadAction<BlogFiltersEntry[]>) => {
-            //         const managedTags: string[] = [];
-            //         const blogCategories: string[] = [];
-            //         let language: string = '';
-            //         action.payload.forEach((entry: BlogFiltersEntry) => {
-            //             if (entry.type === BlogFiltersEntryType.TAG) {
-            //                 managedTags.push(entry.id);
-            //             }
-            //             if (entry.type === BlogFiltersEntryType.CATEGORY) {
-            //                 blogCategories.push(entry.id);
-            //             }
-            //             if (entry.type === BlogFiltersEntryType.LANGUAGE) {
-            //                 language = entry.id;
-            //             }
-            //         });
-
-            //         return { ...state, managedTags, blogCategories, language };
-            //     }
-            // )
             .addMatcher(blogsPageChanged.match, (state: BlogsSearchQuery, action: PayloadAction<number>): void => {
                 state.page = action.payload;
             })
@@ -333,7 +310,7 @@ export const getBlogsUI = (state: RootState) => state.blogs.ui;
 export const getBlogsUIIsLoading = (state: RootState) => state.blogs.ui.isLoading;
 export const getBlogsUIFiltersEntries = (state: RootState) => state.blogs.ui.filtersEntries;
 export const getManagedTags = (state: RootState) => state.blogs.query.managedTags;
-export const getBlogsLanguage = (state: RootState) => state.blogs.query.language || '';
+export const getBlogsLanguage = (state: RootState) => state.blogs.query.language ?? '';
 export const getBlogsCategories = (state: RootState) => state.blogs.query.blogCategories;
 export const getBlogsTags = (state: RootState) => state.blogs.tags;
 export const getBlogsSearchTerm = (state: RootState) => state.blogs.query.searchTerm;
