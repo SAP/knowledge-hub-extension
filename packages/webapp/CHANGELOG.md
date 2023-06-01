@@ -1,5 +1,11 @@
 # Change Log - @sap/knowledge-hub-extension-webapp
 
+## 0.14.1
+
+### Patch Changes
+
+-   ded685a: Fix for 'promises must be awaited' sonar issues
+
 ## 0.14.0
 
 ### Minor Changes

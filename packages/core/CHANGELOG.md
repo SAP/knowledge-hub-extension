@@ -1,5 +1,11 @@
 # Change Log - @sap/guided-answers-extension-core
 
+## 0.14.1
+
+### Patch Changes
+
+-   @sap/knowledge-hub-extension-types@0.14.1
+
 ## 0.14.0
 
 ### Minor Changes
