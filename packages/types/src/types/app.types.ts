@@ -1,6 +1,6 @@
 import type { BlogFiltersEntry } from './blogs.types';
 import type { TutorialsTagWithTitle } from './tutorials.types';
-import type { LOG_TELEMETRY_EVENT, OPEN_BLOG, OPEN_TUTORIAL } from './actions';
+import type { KnowledgeHubActions, KnowledgeHubTelemetryAction, KnowledgeHubTelemetryAllowedActions, LOG_TELEMETRY_EVENT, OPEN_BLOG, OPEN_TUTORIAL } from './actions';
 
 export const SET_GLOBAL_SETTINGS = 'SET_GLOBAL_SETTINGS';
 export const UPDATE_GLOBAL_SETTING = 'UPDATE_GLOBAL_SETTING';
@@ -42,7 +42,25 @@ export type TabsConfigEntry = {
 
 export interface LogTelemetryEvent {
     type: typeof LOG_TELEMETRY_EVENT;
-    source: typeof OPEN_BLOG | typeof OPEN_TUTORIAL;
+    payload: KnowledgeHubTelemetryAllowedActions;
+}
+
+export interface KnowledgeHubOpenBlogPayload {
+    action: 'OPEN_BLOG';
     title: string;
     primaryTag: string;
 }
+export interface KnowledgeHubOpenTutorialPayload {
+    action: 'OPEN_TUTORIAL';
+    title: string;
+    primaryTag: string;
+}
+
+export interface TelemetryUIStartupEventProps {
+    action: 'STARTUP';
+}
+
+
+
+
+

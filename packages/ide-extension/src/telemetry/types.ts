@@ -21,15 +21,15 @@ interface TelemetryBaseEvent {
 export interface TelemetryCommonProperties extends TelemetryEventProperties {
     'cmn.appstudio': 'true' | 'false';
     'cmn.devspace': string;
-    'cmn.os': string;
-    'cmn.nodeArch': string;
-    'cmn.platformversion': string;
-    'cmn.extname': string;
-    'cmn.extversion': string;
+    'common.os': string;
+    'common.nodeArch': string;
+    'common.platformversion': string;
+    'common.extname': string;
+    'common.extversion': string;
 }
 
 export interface TelemetryUIEvent extends TelemetryBaseEvent {
-    name: 'KHUB_OPEN_TUTORIAL' | 'KHUB_OPEN_BLOGS';
+    name: 'USER_INTERACTION';
     properties: TelemetryUIEventProps;
 }
 

@@ -4,16 +4,11 @@ import type { Disposable } from 'vscode';
 import { TelemetryClient } from 'applicationinsights';
 import { logString } from '../logger/logger';
 import packageJson from '../../package.json';
-import type { TelemetryEvent, TelemetryReporter, TelemetryUIEventProps } from './types';
-import {
-    FILTERS_BLOGS_TAGS,
-    FILTERS_TUTORIALS_TAGS,
-    OPEN_TUTORIAL,
-    OPEN_BLOG
-} from '@sap/knowledge-hub-extension-types';
+import type { TelemetryEvent, TelemetryReporter } from './types';
 import { config as dotenvConfig } from 'dotenv';
 import { join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import { actionMap } from './action-map';
 
 // Telemetry reporter client
 let reporter: TelemetryReporter | undefined;
@@ -78,11 +73,11 @@ export function setCommonProperties(properties?: { ide: 'VSCODE' | 'SBAS'; sbasd
             ? {
                   'cmn.appstudio': properties.ide === 'SBAS' ? 'true' : 'false',
                   'cmn.devspace': properties.sbasdevSpace,
-                  'cmn.os': platform(),
-                  'cmn.nodeArch': arch(),
-                  'cmn.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
-                  'cmn.extname': packageJson.name,
-                  'cmn.extversion': packageJson.version
+                  'common.os': platform(),
+                  'common.nodeArch': arch(),
+                  'common.platformversion': (release() || '').replace(/^(\d+)(\.\d+)?(\.\d+)?(.*)/, '$1$2$3'),
+                  'common.extname': packageJson.name,
+                  'common.extversion': packageJson.version
               }
             : undefined;
     }
@@ -116,18 +111,9 @@ export async function trackAction(action: any): Promise<void> {
         return;
     }
     try {
-        const properties: TelemetryUIEventProps = {
-            action: '',
-            title: action.title,
-            primaryTag: action.primaryTag
-        };
-
-        if (action.source === OPEN_TUTORIAL) {
-            properties.action = typeof FILTERS_TUTORIALS_TAGS;
-            await trackEvent({ name: 'KHUB_OPEN_TUTORIAL', properties });
-        } else if (action.source === OPEN_BLOG) {
-            properties.action = typeof FILTERS_BLOGS_TAGS;
-            await trackEvent({ name: 'KHUB_OPEN_BLOGS', properties });
+        if (actionMap[action.payload.type]) {
+            const properties = actionMap[action.payload.type](action);
+            await trackEvent({ name: 'USER_INTERACTION', properties });
         }
     } catch (error) {
         logString(`Error sending telemetry action '${action?.payload?.action?.type}': ${(error as Error).message}`);

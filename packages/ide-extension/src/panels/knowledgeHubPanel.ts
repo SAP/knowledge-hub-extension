@@ -4,12 +4,14 @@ import i18next from 'i18next';
 
 import { RESTART_WEBVIEW, LOG_TELEMETRY_EVENT } from '@sap/knowledge-hub-extension-types';
 
+import type { KnowledgeHubActions } from '@sap/knowledge-hub-extension-types';
 import { MessageHandler } from '../knowledge-hub/messageHandler';
 import { AppSession } from '../knowledge-hub/appSession';
 import { getHtml, getWebviewUri } from '../utils/web';
 import { Storage } from '../utils/storage';
 import { errorInstance } from '../utils/error';
 import { trackAction } from '../telemetry';
+import { logString } from '../logger/logger';
 
 /**
  *  A class to handle the knowledge hub extension panel.
@@ -80,7 +82,7 @@ export class KnowledgeHubPanel {
         );
 
         const uri: string = getWebviewUri(knowledgeHubWebView.webview, viewRootUri).toString();
-
+        knowledgeHubWebView.webview.onDidReceiveMessage(this.onWebviewMessage.bind(this));
         knowledgeHubWebView.webview.html = getHtml(
             uri.toString(),
             i18next.t('KNOWLEDGE_HUB_VIEW_TITLE'),
@@ -88,24 +90,38 @@ export class KnowledgeHubPanel {
             undefined,
             '/knowledgeHub.css'
         );
-
-        // Register for incoming messages from web view
-        knowledgeHubWebView.webview.onDidReceiveMessage(async (action) => {
-            await this.messageHandler.processRequestAction(action);
-            // Special case when restart is requested
-            if (action.type === RESTART_WEBVIEW) {
-                this.panel.dispose();
-                this.panel = this.createKnowledgeHubWebview();
-            }
-            if (action.type === LOG_TELEMETRY_EVENT) {
-                await trackAction(action);
-            }
-        });
-
         return knowledgeHubWebView;
     }
 
     public show(): void {
         this.panel.reveal();
+    }
+
+    /**
+     *
+     * @param action
+     */
+    private async onWebviewMessage(action: KnowledgeHubActions ): Promise<void> {
+        try {
+            await this.messageHandler.processRequestAction(action);
+            switch (action.type) {
+                case RESTART_WEBVIEW: {
+                    this.panel.dispose();
+                    this.panel = this.createKnowledgeHubWebview();
+                    break;
+                }
+                case LOG_TELEMETRY_EVENT: {
+                    await trackAction(action);
+                    break;
+                }
+                default: {
+                    // Nothing to do if the action is not handled
+                }
+            }
+        } catch (error: any) {
+            logString(
+                `Error while processing action.\n  Action: ${JSON.stringify(action)}\n  Message: ${error?.message}`
+            );
+        }
     }
 }

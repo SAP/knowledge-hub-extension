@@ -3,7 +3,12 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { UILoader, UIPersona, UIPersonaSize } from '@sap-ux/ui-components';
-import type { TutorialsEntry, TutorialsTags } from '@sap/knowledge-hub-extension-types';
+import {
+    TutorialsEntry,
+    TutorialsTags,
+    KnowledgeHubOpenTutorialPayload,
+    OPEN_TUTORIAL
+} from '@sap/knowledge-hub-extension-types';
 
 import { TaskType } from './TaskType';
 import { Experience } from './Experience';
@@ -37,7 +42,13 @@ export const TutorialCard: FC<TutorialCardProps> = ({
     const onClickTutorialCard = useCallback(
         (title: string, primaryTag: string) =>
             (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
-                actions.logOpenTutorialTelemetryEvent(title, primaryTag);
+                // actions.logOpenTutorialTelemetryEvent(title, primaryTag);
+                let tutorialsTelemetryPayload: KnowledgeHubOpenTutorialPayload = {
+                    action: 'OPEN_TUTORIAL',
+                    title: title,
+                    primaryTag: primaryTag
+                };
+                actions.logOpenTutorialTelemetryEvent('KHUB_OPEN_TUTORIALS', tutorialsTelemetryPayload);
             },
         []
     );

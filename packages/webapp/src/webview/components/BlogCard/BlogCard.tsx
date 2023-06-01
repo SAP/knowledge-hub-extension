@@ -3,7 +3,12 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { UILoader, UIPersona, UIPersonaSize } from '@sap-ux/ui-components';
-import type { BlogsSearchResultContentItem, Tag } from '@sap/knowledge-hub-extension-types';
+import {
+    BlogsSearchResultContentItem,
+    OPEN_BLOG,
+    Tag,
+    KnowledgeHubOpenBlogPayload
+} from '@sap/knowledge-hub-extension-types';
 
 import { DateTime } from './DateTime';
 import { TagsBlog } from './TagsBlog';
@@ -27,7 +32,12 @@ export const BlogCard: FC<BlogCardProps> = ({ blog, loading, onSelectedTag }: Bl
     const onClickBlogTitle = useCallback(
         (title: string, primaryTag: string) =>
             (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
-                actions.logOpenBlogTelemetryEvent(title, primaryTag);
+                let blogsTelemetryPayload: KnowledgeHubOpenBlogPayload = {
+                    action: 'OPEN_BLOG',
+                    title: title,
+                    primaryTag: primaryTag
+                };
+                actions.logOpenBlogTelemetryEvent('KHUB_OPEN_BLOGS', blogsTelemetryPayload);
             },
         []
     );

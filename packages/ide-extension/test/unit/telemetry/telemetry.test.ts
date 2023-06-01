@@ -8,7 +8,7 @@ import { LogTelemetryEvent, LOG_TELEMETRY_EVENT } from '@sap/knowledge-hub-exten
 
 import type { TelemetryEvent, TelemetryReporter } from '../../../src/telemetry/types';
 import packageJson from '../../../package.json';
-import { OPEN_BLOG, OPEN_TUTORIAL } from '../../../../types/dist/types';
+import { KHUB_OPEN_BLOGS, KHUB_OPEN_TUTORIAL, OPEN_BLOG, OPEN_TUTORIAL } from '../../../../types/dist/types';
 
 jest.mock('applicationinsights', () => ({
     TelemetryClient: jest.fn().mockImplementation((key) => ({
@@ -90,7 +90,7 @@ describe('Telemetry disabled', () => {
 
         // Enable telemetry
         reporter.enabled = true;
-        let changeHandler: (e: ConfigurationChangeEvent) => any = () => {};
+        let changeHandler: (e: ConfigurationChangeEvent) => any = () => { };
         jest.spyOn(workspace, 'onDidChangeConfiguration').mockImplementation(
             (listener: (e: ConfigurationChangeEvent) => any) => {
                 changeHandler = listener;
@@ -126,9 +126,9 @@ describe('Telemetry disabled', () => {
 
         // Result check
         expect(reporter.client.trackEvent).toBeCalledWith({
-            name: 'sap-knowledge-hub-extension/KHUB_OPEN_BLOGS',
+            name: 'sap-knowledge-hub-extension/USER_INTERACTION',
             properties: {
-                action: 'string',
+                action: 'OPEN_BLOG',
                 primaryTag: 'abc-def-fgh',
                 title: 'hello sap'
             }
@@ -153,11 +153,11 @@ describe('Test for setCommonProperties()', () => {
         expect(reporter.commonProperties).toEqual({
             'cmn.appstudio': 'false',
             'cmn.devspace': '',
-            'cmn.os': 'platform',
-            'cmn.nodeArch': 'arch',
-            'cmn.platformversion': '',
-            'cmn.extname': packageJson.name,
-            'cmn.extversion': packageJson.version
+            'common.os': 'platform',
+            'common.nodeArch': 'arch',
+            'common.platformversion': '',
+            'common.extname': packageJson.name,
+            'common.extversion': packageJson.version
         });
     });
 });
@@ -169,17 +169,29 @@ describe('Test for setCommonProperties()', () => {
 function getDummyAction(_actionName: string): LogTelemetryEvent {
     return {
         type: LOG_TELEMETRY_EVENT,
-        source: OPEN_TUTORIAL,
-        title: 'hello sap',
-        primaryTag: 'abc-def-fgh'
+        payload: {
+            type: KHUB_OPEN_TUTORIAL,
+            payload: {
+                action: 'OPEN_TUTORIAL',
+                title: 'hello sap',
+                primaryTag: 'abc-def-fgh'
+            }
+        }
+
     };
 }
 
 function getDummyAction1(_actionName: string): LogTelemetryEvent {
     return {
         type: LOG_TELEMETRY_EVENT,
-        source: OPEN_BLOG,
-        title: 'hello sap',
-        primaryTag: 'abc-def-fgh'
+        payload: {
+            type: KHUB_OPEN_BLOGS,
+            payload: {
+                action: 'OPEN_BLOG',
+                title: 'hello sap',
+                primaryTag: 'abc-def-fgh'
+            }
+        }
+
     };
 }

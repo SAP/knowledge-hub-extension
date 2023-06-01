@@ -8,18 +8,19 @@ import type {
     Tag,
     TagsFetchTags,
     TutorialsTagWithTitle,
-    LogTelemetryEvent
+    LogTelemetryEvent,
+    KnowledgeHubOpenBlogPayload,
+    KnowledgeHubOpenTutorialPayload
 } from '@sap/knowledge-hub-extension-types';
-
 import {
+    KHUB_OPEN_TUTORIAL,
+    KHUB_OPEN_BLOGS,
     KNOWLEDGE_HUB_WEB_VIEW_READY,
     TUTORIALS_FETCH_TUTORIALS,
     TAGS_FETCH_TAGS,
     BLOGS_FETCH_BLOGS,
     createViewAction,
-    LOG_TELEMETRY_EVENT,
-    OPEN_BLOG,
-    OPEN_TUTORIAL
+    LOG_TELEMETRY_EVENT
 } from '@sap/knowledge-hub-extension-types';
 
 export const knowledgeHubWebViewReady = (): KnowledgeHubWebViewReady => ({
@@ -47,17 +48,22 @@ export const blogsFetchBlogs = (
     filters,
     home
 });
-export const logOpenTutorialTelemetryEvent = (_title: string, _primaryTag: string): LogTelemetryEvent => ({
+export const logOpenTutorialTelemetryEvent = (
+    type: string,
+    payload: KnowledgeHubOpenTutorialPayload
+): LogTelemetryEvent => ({
     type: LOG_TELEMETRY_EVENT,
-    source: OPEN_TUTORIAL,
-    title: _title,
-    primaryTag: _primaryTag
+    payload: {
+        type: KHUB_OPEN_TUTORIAL,
+        payload: payload
+    }
 });
-export const logOpenBlogTelemetryEvent = (_title: string, _primaryTag: string): LogTelemetryEvent => ({
+export const logOpenBlogTelemetryEvent = (type: string, payload: KnowledgeHubOpenBlogPayload): LogTelemetryEvent => ({
     type: LOG_TELEMETRY_EVENT,
-    source: OPEN_BLOG,
-    title: _title,
-    primaryTag: _primaryTag
+    payload: {
+        type: KHUB_OPEN_BLOGS,
+        payload: payload
+    }
 });
 
 export const tagsFetchTags = (): TagsFetchTags => ({
