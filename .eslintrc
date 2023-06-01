@@ -23,6 +23,7 @@
                     }
                 ],
                 "@typescript-eslint/no-floating-promises": ["error"],
+                "@typescript-eslint/prefer-nullish-coalescing": ["error"],
                 "@typescript-eslint/consistent-type-imports": [
                     "error",
                     {

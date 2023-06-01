@@ -51,7 +51,7 @@ export const Blogs: FC = (): JSX.Element => {
     const activeQuery: BlogsSearchQuery = useAppSelector(getBlogsQuery);
     const activeSearchTerm: string = useAppSelector(getSearchTerm);
     const activeOrderBy: string | undefined = useAppSelector(getBlogsOrderBy);
-    const activeManagedTags: string[] = useAppSelector(getManagedTags) || [];
+    const activeManagedTags: string[] = useAppSelector(getManagedTags) ?? [];
     const activeLoading = useAppSelector(getBlogsUIIsLoading);
     const tags = useAppSelector(getTagsData);
 

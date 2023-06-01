@@ -39,7 +39,7 @@ function formatFiltersTagIdOptions(tagId: string): string {
  * @returns - API
  */
 export function getDeveloperTutorialsApi(options?: TutorialsAPIOptions): TutorialsAPI {
-    const apiHost = options?.apiHost || API_HOST;
+    const apiHost = options?.apiHost ?? API_HOST;
 
     return {
         getTutorials: async (

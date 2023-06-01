@@ -27,7 +27,7 @@ export class Storage implements StorageSettings {
     constructor(storage: Memento, subPath: string) {
         this.storage = storage;
         this.key = subPath;
-        this.data = this.storage.get(this.key) || {};
+        this.data = this.storage.get(this.key) ?? {};
     }
 
     /**

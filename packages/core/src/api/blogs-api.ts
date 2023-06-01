@@ -21,7 +21,7 @@ const SEARCH_PATH = `/external/api/${VERSION}/search?`;
  * @returns - API
  */
 export function getCommunityBlogsApi(options?: BlogsAPIOptions): BlogsAPI {
-    const apiHost = options?.apiHost || API_HOST;
+    const apiHost = options?.apiHost ?? API_HOST;
 
     return {
         getBlogs: async (queryOptions?: BlogsSearchQuery | undefined): Promise<FetchResponse<BlogsSearchResult>> =>

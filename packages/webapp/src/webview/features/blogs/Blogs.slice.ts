@@ -306,7 +306,7 @@ export const getBlogsUI = (state: RootState) => state.blogs.ui;
 export const getBlogsUIIsLoading = (state: RootState) => state.blogs.ui.isLoading;
 export const getBlogsUIFiltersEntries = (state: RootState) => state.blogs.ui.filtersEntries;
 export const getManagedTags = (state: RootState) => state.blogs.query.managedTags;
-export const getBlogsLanguage = (state: RootState) => state.blogs.query.language || '';
+export const getBlogsLanguage = (state: RootState) => state.blogs.query.language ?? '';
 export const getBlogsCategories = (state: RootState) => state.blogs.query.blogCategories;
 export const getBlogsTags = (state: RootState) => state.blogs.tags;
 export const getBlogsSearchTerm = (state: RootState) => state.blogs.query.searchTerm;
