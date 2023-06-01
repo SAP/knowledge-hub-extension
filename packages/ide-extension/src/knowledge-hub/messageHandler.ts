@@ -46,7 +46,7 @@ export class MessageHandler {
             }
         }
 
-        this.processResponseActions(responseActions);
+        await this.processResponseActions(responseActions);
     }
 
     /**
@@ -54,16 +54,16 @@ export class MessageHandler {
      *
      * @param {AnyAction[]} responseActions List of responses.
      */
-    private processResponseActions(responseActions: AnyAction[]): void {
-        if (responseActions && responseActions.length) {
+    private async processResponseActions(responseActions: AnyAction[]): Promise<void> {
+        if (responseActions?.length) {
             for (const response of responseActions) {
-                this.panel.webview.postMessage(response);
+                await this.panel.webview.postMessage(response);
             }
         }
     }
 
     /**
-     * Method handles error formating.
+     * Method handles error formatting.
      *
      * @param {unknown} error - error thrown.
      * @returns {string} message - an error message.

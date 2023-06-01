@@ -2,12 +2,8 @@ import React from 'react';
 import type { FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import {
-    TutorialsUiState,
-    TutorialsFacets,
-    TutorialsTags,
-    TUTORIALS_FILTERS_LABELS
-} from '@sap/knowledge-hub-extension-types';
+import type { TutorialsUiState, TutorialsFacets, TutorialsTags } from '@sap/knowledge-hub-extension-types';
+import { TUTORIALS_FILTERS_LABELS } from '@sap/knowledge-hub-extension-types';
 
 import { MOTION_VARIANTS_MENU } from '../../constants';
 
@@ -39,7 +35,7 @@ export const TutorialsFiltersMenu: FC<TutorialsFiltersMenuProps> = ({ facets, ta
                     variants={MOTION_VARIANTS_MENU}>
                     <div data-testid="tutorials-filters-menu__content" className="tutorials-filters-menu__content">
                         <div className="tutorials-filters-menu__content__entries">
-                            {Object.keys(facets).map((title: string, index: number) => {
+                            {Object.keys(facets).map((title: string, _: number) => {
                                 let withSearchOn = true;
                                 let isSmall = false;
                                 if (

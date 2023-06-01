@@ -165,7 +165,7 @@ export const Tutorials: FC = (): JSX.Element => {
                 <div className="tutorials-content">
                     <div className="tutorials-content-wrapper">
                         {tutorials &&
-                            tutorials.map((tutorial, index) => {
+                            tutorials.map((tutorial, _) => {
                                 return (
                                     <TutorialCard
                                         key={tutorial.imsId}

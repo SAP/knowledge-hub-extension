@@ -57,7 +57,7 @@ export const Tags: FC = (): JSX.Element => {
     };
 
     const onBlogTagSelected = useCallback(
-        (tag: Tag) => (event: any) => {
+        (tag: Tag) => (_: any) => {
             navigate('/blogs', { state: { tagId: tag.guid } });
         },
         []

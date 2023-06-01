@@ -33,8 +33,8 @@ export class Storage implements StorageSettings {
     /**
      * Private method which updates storage wwith latest values.
      */
-    private updateSettings(): void {
-        this.storage.update(this.key, this.data);
+    private async updateSettings(): Promise<void> {
+        await this.storage.update(this.key, this.data);
     }
 
     /**
@@ -56,12 +56,15 @@ export class Storage implements StorageSettings {
      * @param {string} name Sidebar name.
      * @param {BlogFiltersEntry[] | TutorialsTagWithTitle []} entry AppFilters value.
      */
-    public setFilters(name: string & keyof AppFilters, entry: BlogFiltersEntry[] | TutorialsTagWithTitle[]): void {
+    public async setFilters(
+        name: string & keyof AppFilters,
+        entry: BlogFiltersEntry[] | TutorialsTagWithTitle[]
+    ): Promise<void> {
         this.data.appFilters = {
             ...this.appFilters,
             [name]: entry
         };
-        this.updateSettings();
+        await this.updateSettings();
     }
 
     /**
