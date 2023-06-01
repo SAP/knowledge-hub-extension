@@ -111,8 +111,8 @@ export async function trackAction(action: any): Promise<void> {
         return;
     }
     try {
-        if (actionMap[action.payload.type]) {
-            const properties = actionMap[action.payload.type](action);
+        if (actionMap[action.payload.action.payload.type]) {
+            const properties = actionMap[action.payload.action.payload.type](action.payload.action);
             await trackEvent({ name: 'USER_INTERACTION', properties });
         }
     } catch (error) {

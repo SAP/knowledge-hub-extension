@@ -1,10 +1,10 @@
 import * as os from 'os';
-import { commands, workspace, ConfigurationChangeEvent, Disposable, ExtensionContext } from 'vscode';
+import { workspace, ConfigurationChangeEvent, Disposable, ExtensionContext } from 'vscode';
 import { initTelemetry, setCommonProperties, trackAction, trackEvent } from '../../../src/telemetry/telemetry';
-import { LogTelemetryEvent, LOG_TELEMETRY_EVENT } from '@sap/knowledge-hub-extension-types';
+import { LOG_TELEMETRY_EVENT } from '@sap/knowledge-hub-extension-types';
 import type { TelemetryEvent, TelemetryReporter } from '../../../src/telemetry/types';
 import packageJson from '../../../package.json';
-import { KHUB_OPEN_BLOGS, KHUB_OPEN_TUTORIAL, OPEN_BLOG, OPEN_TUTORIAL } from '../../../../types/dist/types';
+import { KHUB_OPEN_BLOGS, KHUB_OPEN_TUTORIAL } from '../../../../types/dist/types';
 
 jest.mock('applicationinsights', () => ({
     TelemetryClient: jest.fn().mockImplementation((key) => ({
@@ -162,30 +162,44 @@ describe('Test for setCommonProperties()', () => {
  *
  * @param _actionName
  */
-function getDummyAction(_actionName: string): LogTelemetryEvent {
+function getDummyAction(_actionName: string): any {
     return {
         type: LOG_TELEMETRY_EVENT,
         payload: {
-            type: KHUB_OPEN_TUTORIAL,
-            payload: {
-                action: 'OPEN_TUTORIAL',
-                title: 'hello sap',
-                primaryTag: 'abc-def-fgh'
+            action: {
+                type: LOG_TELEMETRY_EVENT,
+                payload: {
+                    type: KHUB_OPEN_TUTORIAL,
+                    payload: {
+                        action: 'OPEN_TUTORIAL',
+                        title: 'hello sap',
+                        primaryTag: 'abc-def-fgh'
+                    }
+                }
+               
             }
+            
         }
     };
 }
 
-function getDummyAction1(_actionName: string): LogTelemetryEvent {
+function getDummyAction1(_actionName: string): any {
     return {
         type: LOG_TELEMETRY_EVENT,
         payload: {
-            type: KHUB_OPEN_BLOGS,
-            payload: {
-                action: 'OPEN_BLOG',
-                title: 'hello sap',
-                primaryTag: 'abc-def-fgh'
+            action: {
+                type: LOG_TELEMETRY_EVENT,
+                payload: {
+                    type: KHUB_OPEN_BLOGS,
+                    payload: {
+                        action: 'OPEN_BLOG',
+                        title: 'hello sap',
+                        primaryTag: 'abc-def-fgh'
+                    }
+                }
+               
             }
+            
         }
     };
 }

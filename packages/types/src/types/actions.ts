@@ -37,7 +37,6 @@ export type KnowledgeHubActions = RestartWebviewAction | KnowledgeHubTelemetryAc
 
 export interface RestartWebviewAction {
     type: typeof RESTART_WEBVIEW;
-    payload: any;
 }
 
 export interface KnowledgeHubTelemetryAction {
