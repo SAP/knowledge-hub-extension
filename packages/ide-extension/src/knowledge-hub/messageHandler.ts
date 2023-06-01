@@ -105,7 +105,7 @@ export class MessageHandler {
         if (handler) {
             handleResult = await handler.call(this.actionHandler, action, response);
 
-            if (handleResult && handleResult.status !== undefined) {
+            if (handleResult?.status !== undefined) {
                 status = handleResult.status;
             }
         }

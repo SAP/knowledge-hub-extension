@@ -86,7 +86,7 @@ export const Blogs: FC = (): JSX.Element => {
             setNoResult(true);
             setError(true);
         } else if (!activeBlogs.pending) {
-            if (location.state && location.state.tagId && !isManagedTag(location.state.tagId, activeManagedTags)) {
+            if (location.state?.tagId && !isManagedTag(location.state.tagId, activeManagedTags)) {
                 const tag = getBlogsTagById(location.state.tagId, tags);
                 const filterEntry: BlogFiltersEntry = {
                     id: tag.guid,
@@ -172,10 +172,9 @@ export const Blogs: FC = (): JSX.Element => {
             {!(loading || error || noResult) && (
                 <div className="blogs-content">
                     <div className="blogs-content-wrapper">
-                        {blogs &&
-                            blogs.map((blog: BlogsSearchResultContentItem, _: number) => {
-                                return <BlogCard key={blog.id} blog={blog} onSelectedTag={onTagSelected} />;
-                            })}
+                        {blogs?.map((blog: BlogsSearchResultContentItem, _: number) => {
+                            return <BlogCard key={blog.id} blog={blog} onSelectedTag={onTagSelected} />;
+                        })}
                     </div>
                 </div>
             )}

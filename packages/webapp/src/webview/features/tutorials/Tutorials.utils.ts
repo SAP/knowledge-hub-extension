@@ -8,7 +8,7 @@ import { store, actions } from '../../store';
 import { tutorialsFiltersTagsAdd, tutorialsFiltersTagsDelete, tutorialsLoading } from '../../store/actions';
 
 export const getTutorialsTag = (val: string, allTutorials: TutorialsSearchResult | undefined): string => {
-    if (allTutorials && allTutorials.tags && allTutorials.tags[val]) {
+    if (allTutorials?.tags?.[val]) {
         return allTutorials.tags[val].title;
     } else {
         return '';

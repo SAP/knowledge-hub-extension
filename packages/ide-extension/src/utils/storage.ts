@@ -57,7 +57,7 @@ export class Storage implements StorageSettings {
      * @param {BlogFiltersEntry[] | TutorialsTagWithTitle []} entry AppFilters value.
      */
     public async setFilters(
-        name: string & keyof AppFilters,
+        name: keyof AppFilters,
         entry: BlogFiltersEntry[] | TutorialsTagWithTitle[]
     ): Promise<void> {
         this.data.appFilters = {

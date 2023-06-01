@@ -10,7 +10,7 @@ export interface SortedTagListEntry {
 }
 
 export const getAlternativeTitles = (val: string, tags: TutorialsTags): string[] | null => {
-    if (tags && tags[val]) {
+    if (tags?.[val]) {
         return tags[val].tagAlternativeTitles;
     } else {
         return null;
@@ -18,7 +18,7 @@ export const getAlternativeTitles = (val: string, tags: TutorialsTags): string[]
 };
 
 export const getTutorialsTag = (val: string, tags: TutorialsTags): string => {
-    if (tags && tags[val]) {
+    if (tags?.[val]) {
         return tags[val].title;
     } else {
         return '';

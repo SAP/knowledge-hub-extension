@@ -31,6 +31,7 @@
                     }
                 ],
                 "@typescript-eslint/no-use-before-define": ["error", "nofunc"],
+                "@typescript-eslint/prefer-optional-chain": ["error"],
                 "jsdoc/require-param-type": "off",
                 "jsdoc/require-returns-type": "off",
                 "prefer-const": [
