@@ -1,4 +1,4 @@
-import { fetchHomeTutorials, fetchHomeBlogs } from '@sap/knowledge-hub-extension-types';
+import { fetchTutorials, fetchBlogs } from '@sap/knowledge-hub-extension-types';
 
 import reducer from '../../../src/webview/features/home//Home.slice';
 
@@ -22,30 +22,30 @@ describe('home slice', () => {
 
         describe('home slice > reducer > tutorials', () => {
             test('fetchHomeTutorials pending action', () => {
-                const action = fetchHomeTutorials.pending(true);
+                const action = fetchTutorials.pending(true);
                 expect(reducer(undefined, action)).toEqual(stateTutorialsWithNoDataWithPending);
             });
             test('fetchHomeTutorials fulfilled action', () => {
-                const action = fetchHomeTutorials.fulfilled(tutorialsNoData);
+                const action = fetchTutorials.fulfilled(tutorialsNoData);
                 expect(reducer(undefined, action)).toEqual(stateTutorialsWithDataNoError);
             });
             test('fetchHomeTutorials rejected action', () => {
-                const action = fetchHomeTutorials.rejected('no internet');
+                const action = fetchTutorials.rejected('no internet');
                 expect(reducer(undefined, action)).toEqual(stateTutorialsWithNoDataWithError);
             });
         });
 
         describe('home slice > reducer > blogs', () => {
             test('fetchHomeBlogs pending action', () => {
-                const action = fetchHomeBlogs.pending(true);
+                const action = fetchBlogs.pending(true);
                 expect(reducer(undefined, action)).toEqual(stateBlogsWithNoDataWithPending);
             });
             test('fetchHomeBlogs fulfilled action', () => {
-                const action = fetchHomeBlogs.fulfilled(blogsNoData);
+                const action = fetchBlogs.fulfilled(blogsNoData);
                 expect(reducer(undefined, action)).toEqual(stateBlogsWithDataNoError);
             });
             test('fetchHomeBlogs rejected action', () => {
-                const action = fetchHomeBlogs.rejected('no internet');
+                const action = fetchBlogs.rejected('no internet');
                 expect(reducer(undefined, action)).toEqual(stateBlogsWithNoDataWithError);
             });
         });

@@ -1,4 +1,3 @@
-import { get } from 'http';
 import type { Error, FetchResponse } from './common.types';
 import type { TutorialsTags, TutorialsSearchResult } from './tutorials.types';
 

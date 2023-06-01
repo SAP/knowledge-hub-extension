@@ -210,8 +210,7 @@ export const blogsInitialState = {
         pending: false
     },
     query: queryEmpty,
-    ui: uiNoFiltersNoLoading,
-    tags: []
+    ui: uiNoFiltersNoLoading
 };
 
 export const initialWithLoading = {
@@ -222,8 +221,7 @@ export const initialWithLoading = {
         pending: false
     },
     query: queryEmpty,
-    ui: uiEmpty,
-    tags: []
+    ui: uiEmpty
 };
 
 export const initialWithPending = {
@@ -234,8 +232,7 @@ export const initialWithPending = {
         pending: true
     },
     query: queryEmpty,
-    ui: uiNoFiltersNoLoading,
-    tags: []
+    ui: uiNoFiltersNoLoading
 };
 
 export const withNoDataNoError = {
@@ -246,8 +243,7 @@ export const withNoDataNoError = {
         pending: false
     },
     query: queryEmpty,
-    ui: uiNoFiltersNoLoading,
-    tags: []
+    ui: uiNoFiltersNoLoading
 };
 
 export const withDataNoError = {
@@ -258,8 +254,7 @@ export const withDataNoError = {
         pending: false
     },
     query: queryEmpty,
-    ui: uiNoFiltersNoLoading,
-    tags: []
+    ui: uiNoFiltersNoLoading
 };
 
 export const withDataNoErrorMenuOpened = {
@@ -270,8 +265,7 @@ export const withDataNoErrorMenuOpened = {
         pending: false
     },
     query: queryEmpty,
-    ui: uiNoFiltersNoLoadingMenuOpened,
-    tags: []
+    ui: uiNoFiltersNoLoadingMenuOpened
 };
 
 export const withNoDataWithError = {
@@ -282,8 +276,7 @@ export const withNoDataWithError = {
         pending: false
     },
     query: queryEmpty,
-    ui: uiNoFiltersNoLoading,
-    tags: []
+    ui: uiNoFiltersNoLoading
 };
 
 export const withDataWithFilter = {
@@ -294,8 +287,7 @@ export const withDataWithFilter = {
         pending: false
     },
     query: queryWithFilter,
-    ui: uiWithFilters,
-    tags: tagsWithData
+    ui: uiWithFilters
 };
 
 export const withDataWithTags = {
@@ -306,8 +298,7 @@ export const withDataWithTags = {
         pending: false
     },
     query: queryWithFilter,
-    ui: uiWithFilters,
-    tags: tagsWithData
+    ui: uiWithFilters
 };
 
 export const withDataNoErrorMultiplePage = {
@@ -338,8 +329,7 @@ export const withDataNoErrorMultiplePage = {
         additionalManagedTags: [] as string[],
         additionalUserTags: [] as string[]
     },
-    ui: uiEmpty,
-    tags: []
+    ui: uiEmpty
 };
 
 export const blogsData = {

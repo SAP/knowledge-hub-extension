@@ -1,3 +1,5 @@
+// Blogs
+
 const tags = [
     { displayName: 'tag 1', guid: '1' },
     { displayName: 'tag 2', guid: '2' },
@@ -7,7 +9,7 @@ const tags = [
 ];
 
 export const tagsInitialState = {
-    result: {
+    blogs: {
         data: {
             filteredTags: []
         },
@@ -16,11 +18,19 @@ export const tagsInitialState = {
             message: ''
         },
         pending: false
+    },
+    tutorials: {
+        tags: {},
+        error: {
+            isError: false,
+            message: ''
+        },
+        pending: false
     }
 };
 
-export const tagsWithTags = {
-    result: {
+export const blogsTagsWithTags = {
+    blogs: {
         data: {
             filteredTags: tags
         },
@@ -29,11 +39,19 @@ export const tagsWithTags = {
             message: ''
         },
         pending: false
+    },
+    tutorials: {
+        tags: {},
+        error: {
+            isError: false,
+            message: ''
+        },
+        pending: false
     }
 };
 
-export const withNoDataWithPending = {
-    result: {
+export const blogsTagsWithNoDataWithPending = {
+    blogs: {
         data: {
             filteredTags: []
         },
@@ -42,17 +60,91 @@ export const withNoDataWithPending = {
             message: ''
         },
         pending: true
+    },
+    tutorials: {
+        tags: {},
+        error: {
+            isError: false,
+            message: ''
+        },
+        pending: false
     }
 };
 
-export const withNoDataWithError = {
-    result: {
+export const blogsTagsWithNoDataWithError = {
+    blogs: {
         data: {
             filteredTags: []
         },
         error: {
             isError: true,
             message: 'no internet'
+        },
+        pending: false
+    },
+    tutorials: {
+        tags: {},
+        error: {
+            isError: false,
+            message: ''
+        },
+        pending: false
+    }
+};
+
+// Tutorials
+
+export const tutorialsData = {
+    group: '/group',
+    mission: '/mission',
+    facets: {
+        Topic: [],
+        Experience: ['Tag 1'],
+        Type: ['Tag 2'],
+        Software: ['Tag 3']
+    },
+    iconPath: {},
+    tags: {
+        'Tag 3': {
+            tagAlternativeTitles: [],
+            title: 'Test tag',
+            tagTitle: 'Test tag'
+        },
+        'Tag 2': {
+            tagAlternativeTitles: [],
+            title: 'Group',
+            tagTitle: 'tutorial:type/group'
+        },
+        'Tag 1': {
+            tagAlternativeTitles: [],
+            title: 'Beginner',
+            tagTitle: 'tutorial:experience/beginner'
+        }
+    },
+    tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
+    result: [],
+    numFound: 4,
+    countGroups: 1,
+    countMissions: 1,
+    countTutorials: 1
+};
+
+export const tutorialsTagsWithTags = {
+    blogs: {
+        data: {
+            filteredTags: []
+        },
+        error: {
+            isError: false,
+            message: ''
+        },
+        pending: false
+    },
+    tutorials: {
+        tags: tutorialsData.tags,
+        error: {
+            isError: false,
+            message: ''
         },
         pending: false
     }

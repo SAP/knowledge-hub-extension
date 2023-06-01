@@ -11,7 +11,6 @@ import reducer, {
     getManagedTags,
     getBlogsLanguage,
     getBlogsCategories,
-    getBlogsTags,
     getBlogsSearchTerm
 } from '../../../src/webview/features/blogs/Blogs.slice';
 
@@ -24,7 +23,6 @@ import {
     blogsCategoryAdd,
     blogsCategoryDelete,
     blogsCategoryDeleteAll,
-    blogsTagsAdd,
     blogsFiltersSelected,
     blogsLoading,
     blogsFilterEntryAdd,
@@ -79,9 +77,9 @@ describe('blogs slice', () => {
                 const state = Object.assign({}, initialState, {
                     query: {
                         ...initialState.query,
-                        blogCategories: ['testCategory'],
-                        managedTags: ['testTag'],
-                        language: 'en'
+                        blogCategories: [],
+                        managedTags: [],
+                        language: ''
                     }
                 });
                 const action = initBlogsQuery.fulfilled([
@@ -235,71 +233,7 @@ describe('blogs slice', () => {
             });
         });
 
-        describe('blogs slice > reducer > blogsTags', () => {
-            test('blogs add tags action - state with no tags', () => {
-                const tags = [
-                    {
-                        displayName: 'Test',
-                        guid: 'test'
-                    }
-                ];
-                const state = Object.assign({}, initialState, {
-                    tags: tags
-                });
-                expect(reducer(initialState, blogsTagsAdd(tags[0]))).toEqual(state);
-            });
-
-            test('blogs add tags action - state with some tags', () => {
-                const state = Object.assign({}, initialState, {
-                    tags: [
-                        {
-                            displayName: 'Test',
-                            guid: 'test'
-                        }
-                    ]
-                });
-                const tags = [
-                    {
-                        displayName: 'Test1',
-                        guid: 'test1'
-                    }
-                ];
-                const newState = Object.assign({}, initialState, {
-                    tags: [
-                        {
-                            displayName: 'Test',
-                            guid: 'test'
-                        },
-                        {
-                            displayName: 'Test1',
-                            guid: 'test1'
-                        }
-                    ]
-                });
-                expect(reducer(state, blogsTagsAdd(tags[0]))).toEqual(newState);
-            });
-        });
-
         describe('blogs slice > reducer > blogsUI', () => {
-            test('blogs init filters', () => {
-                const state = Object.assign({}, initialState, {
-                    ui: {
-                        ...initialState.ui,
-                        filtersEntries: [
-                            {
-                                id: 'testTag',
-                                label: 'Test tag',
-                                type: 'TAG'
-                            }
-                        ]
-                    }
-                });
-                const action = initBlogsFilters.fulfilled([
-                    { id: 'testTag', label: 'Test tag', type: BlogFiltersEntryType.TAG }
-                ]);
-                expect(reducer(initialState, action)).toEqual(state);
-            });
-
             test('blogs is filter menu opened - blogsFiltersSelected', () => {
                 const state = Object.assign({}, initialState, {
                     ui: { isLoading: false, isFiltersMenuOpened: true, filtersEntries: [] }
@@ -610,9 +544,6 @@ describe('blogs slice', () => {
         });
         test('getBlogsCategories', () => {
             expect(getBlogsCategories(rootState)).toEqual(blogsInitialState.query.blogCategories);
-        });
-        test('getBlogsTags', () => {
-            expect(getBlogsTags(rootState)).toEqual(blogsInitialState.tags);
         });
         test('getBlogsSearchTerm', () => {
             expect(getBlogsSearchTerm(rootState)).toEqual(blogsInitialState.query.searchTerm);

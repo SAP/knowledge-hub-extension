@@ -9,21 +9,18 @@ describe('app slice', () => {
             const expectedAction = {
                 type: '[core] app/initialize <fulfilled>',
                 payload: {
-                    appId: 'KnowledgeHubExtension'
+                    appId: 'KnowledgeHubExtension',
+                    appFilters: {}
                 }
             };
 
-            expect(initialize.fulfilled({ appId: 'KnowledgeHubExtension' })).toEqual(expectedAction);
+            expect(initialize.fulfilled({ appId: 'KnowledgeHubExtension', appFilters: {} })).toEqual(expectedAction);
         });
     });
 
     describe('reducer', () => {
         test('initial state', () => {
             expect(reducer(undefined, { type: 'action' })).toEqual(appInitialState);
-        });
-        test('initialize action', () => {
-            const action = initialize.fulfilled(appInitialState);
-            expect(reducer(undefined, action)).toEqual(appInitialState);
         });
     });
 });

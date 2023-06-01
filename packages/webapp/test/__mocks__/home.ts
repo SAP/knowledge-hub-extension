@@ -18,43 +18,31 @@ export const blogsNoData = {
 };
 
 export const blogsWithData = {
-    blogs: {
-        data: blogEntry,
-        error: noError,
-        pending: false,
-        totalCount: 4
-    },
-    tags: []
+    data: blogEntry,
+    error: noError,
+    pending: false,
+    totalCount: 4
 };
 
 export const blogsWithLoading = {
-    blogs: {
-        data: [],
-        error: noError,
-        pending: true,
-        totalCount: 0
-    },
-    tags: []
+    data: [],
+    error: noError,
+    pending: true,
+    totalCount: 0
 };
 
 export const blogsInitialsNoPending = {
-    blogs: {
-        data: [],
-        error: noError,
-        pending: false,
-        totalCount: 0
-    },
-    tags: []
+    data: [],
+    error: noError,
+    pending: false,
+    totalCount: 0
 };
 
 export const blogsInitialsWithPending = {
-    blogs: {
-        data: [],
-        error: noError,
-        pending: true,
-        totalCount: 0
-    },
-    tags: []
+    data: [],
+    error: noError,
+    pending: true,
+    totalCount: 0
 };
 
 export const tutorialsNoData = {
@@ -72,86 +60,59 @@ export const tutorialsNoData = {
 };
 
 export const tutorialsWithData = {
-    tutorials: {
-        data: tutorialsData,
-        error: noError,
-        pending: false
-    },
-    tags: {}
+    data: tutorialsData,
+    error: noError,
+    pending: false
 };
 
 export const tutorialsNoErrorWithPending = {
-    tutorials: {
-        data: tutorialsNoData,
-        error: noError,
-        pending: true
-    },
-    tags: {}
+    data: tutorialsNoData,
+    error: noError,
+    pending: true
 };
 
 export const tutorialsNoErrorNoPending = {
-    tutorials: {
-        data: tutorialsNoData,
-        error: noError,
-        pending: false
-    },
-    tags: {}
+    data: tutorialsNoData,
+    error: noError,
+    pending: false
 };
 
 export const tutorialsWithError = {
-    tutorials: {
-        data: tutorialsNoData,
-        error: error,
-        pending: false
-    },
-    tags: {}
+    data: tutorialsNoData,
+    error: error,
+    pending: false
 };
 
 export const tutorialsWithLoading = {
-    tutorials: {
-        data: tutorialsNoData,
-        error: error,
-        pending: true
-    },
-    tags: {}
+    data: tutorialsNoData,
+    error: error,
+    pending: true
 };
 
 export const blogsWithDataNoError = {
-    blogs: {
-        data: [],
-        error: noError,
-        pending: false,
-        totalCount: 0
-    },
-    tags: []
+    data: [],
+    error: noError,
+    pending: false,
+    totalCount: 0
 };
 
 export const blogsNoErrorPending = {
-    blogs: {
-        data: [],
-        error: noError,
-        pending: true,
-        totalCount: 0
-    },
-    tags: []
+    data: [],
+    error: noError,
+    pending: true,
+    totalCount: 0
 };
 
 export const blogsNoDataWithError = {
-    blogs: {
-        data: [],
-        error: error,
-        pending: false,
-        totalCount: 0
-    },
-    tags: []
+    data: [],
+    error: error,
+    pending: false,
+    totalCount: 0
 };
 
 export const blogsNoDataNoError = {
-    blogs: {
-        error: error,
-        pending: true
-    },
-    tags: []
+    error: error,
+    pending: true
 };
 
 // Home state

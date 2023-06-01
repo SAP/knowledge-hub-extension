@@ -10,7 +10,6 @@ import {
     TAGS_FETCH_TUTORIALS_TAGS,
     initialize,
     fetchBlogs,
-    fetchHomeBlogs,
     fetchTutorials,
     fetchTutorialsTags,
     fetchBlogsTags,
@@ -121,7 +120,6 @@ export class ActionHandler {
                 await this.panel.webview.postMessage(fetchBlogs.fulfilled(response.data));
                 if (action.query.searchTerm !== '') {
                     await this.panel.webview.postMessage(fetchBlogsTotalCount.fulfilled(response.data.totalCount));
-                    await this.panel.webview.postMessage(fetchHomeBlogs.fulfilled(response.data));
                 } else {
                     await this.panel.webview.postMessage(fetchBlogsTotalCount.fulfilled(-1));
                 }

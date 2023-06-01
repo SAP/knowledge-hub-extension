@@ -117,4 +117,5 @@ export const getTagsTutorials = (state: RootState) => state.tags.tutorials;
 export const getTagsTutorialsData = (state: RootState) => state.tags.tutorials.tags;
 export const getTagsTutorialsPending = (state: RootState) => state.tags.tutorials.pending;
 export const getTagsTutorialsError = (state: RootState) => state.tags.tutorials.error;
+
 export default combineReducers({ blogs: blogsTags.reducer, tutorials: tutorialsTags.reducer });

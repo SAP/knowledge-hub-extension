@@ -144,7 +144,6 @@ export const fetchBlogs = createCoreAction<BlogsSearchResult>('blogs/fetch');
 export const fetchBlogsTags = createCoreAction<BlogsTagsSearchResult>('tags/fetch/blogs-tags');
 export const fetchTutorialsTags = createCoreAction<TutorialsSearchResult>('tags/fetch/tutorials-tags');
 export const initBlogsQuery = createCoreAction<BlogFiltersEntry[]>('blogs/init/query');
-export const initBlogsFilters = createCoreAction<BlogFiltersEntry[]>('blogs/init/filters');
 export const initTutorialsFilters = createCoreAction<TutorialsTagWithTitle[]>('tutorials/init/filters');
 export const fetchBlogsTotalCount = createCoreAction<number>('blogs/fetch-total-count');
 export const fetchTutorialsTotalCount = createCoreAction<number>('tutorials/fetch-total-count');
