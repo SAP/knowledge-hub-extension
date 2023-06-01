@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { act, fireEvent, getAllByRole, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
 import type { TutorialsEntry } from '@sap/knowledge-hub-extension-types';
@@ -12,7 +12,6 @@ import { render } from '../../__mocks__/store.mock';
 
 import { TutorialCard } from '../../../src/webview/components/TutorialCard';
 import { actions } from '../../../src/webview/store';
-
 
 describe('TutorialCard', () => {
     beforeEach(() => {
@@ -62,9 +61,9 @@ describe('TutorialCard', () => {
                 screen.getByTestId('tutorial-card-link'),
                 new MouseEvent('click', {
                     bubbles: true,
-                    cancelable: true,
-                }),
-            )
+                    cancelable: true
+                })
+            );
             expect(logTelemetryEventSpy).toBeCalledTimes(1);
         }
     });

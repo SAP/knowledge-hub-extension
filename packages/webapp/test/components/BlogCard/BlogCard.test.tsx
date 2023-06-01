@@ -40,9 +40,9 @@ describe('BlogCard', () => {
                 screen.getByTestId('blog-card-link'),
                 new MouseEvent('click', {
                     bubbles: true,
-                    cancelable: true,
-                }),
-            )
+                    cancelable: true
+                })
+            );
             expect(logTelemetryEventSpy).toBeCalledTimes(1);
         }
     });

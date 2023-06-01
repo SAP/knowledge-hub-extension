@@ -1,11 +1,7 @@
 import * as os from 'os';
 import { commands, workspace, ConfigurationChangeEvent, Disposable, ExtensionContext } from 'vscode';
 import { initTelemetry, setCommonProperties, trackAction, trackEvent } from '../../../src/telemetry/telemetry';
-import type { Contracts } from 'applicationinsights';
-import * as logger from '../../../src/logger/logger';
-import { activate } from '../../../src/extension';
 import { LogTelemetryEvent, LOG_TELEMETRY_EVENT } from '@sap/knowledge-hub-extension-types';
-
 import type { TelemetryEvent, TelemetryReporter } from '../../../src/telemetry/types';
 import packageJson from '../../../package.json';
 import { KHUB_OPEN_BLOGS, KHUB_OPEN_TUTORIAL, OPEN_BLOG, OPEN_TUTORIAL } from '../../../../types/dist/types';
@@ -90,7 +86,7 @@ describe('Telemetry disabled', () => {
 
         // Enable telemetry
         reporter.enabled = true;
-        let changeHandler: (e: ConfigurationChangeEvent) => any = () => { };
+        let changeHandler: (e: ConfigurationChangeEvent) => any = () => {};
         jest.spyOn(workspace, 'onDidChangeConfiguration').mockImplementation(
             (listener: (e: ConfigurationChangeEvent) => any) => {
                 changeHandler = listener;
@@ -177,7 +173,6 @@ function getDummyAction(_actionName: string): LogTelemetryEvent {
                 primaryTag: 'abc-def-fgh'
             }
         }
-
     };
 }
 
@@ -192,6 +187,5 @@ function getDummyAction1(_actionName: string): LogTelemetryEvent {
                 primaryTag: 'abc-def-fgh'
             }
         }
-
     };
 }

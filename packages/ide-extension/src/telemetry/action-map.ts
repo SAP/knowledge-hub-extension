@@ -4,14 +4,7 @@ import type {
     LogTelemetryEvent
 } from '@sap/knowledge-hub-extension-types';
 
-import {
-    KHUB_OPEN_BLOGS,
-    KHUB_OPEN_TUTORIAL,
-    OPEN_BLOG,
-    OPEN_TUTORIAL,
-    RESTART_WEBVIEW
-} from '@sap/knowledge-hub-extension-types';
-import type { TelemetryUIEventProps } from './types';
+import { KHUB_OPEN_BLOGS, KHUB_OPEN_TUTORIAL, RESTART_WEBVIEW } from '@sap/knowledge-hub-extension-types';
 
 /**
  * Map redux action -> telemetry event properties

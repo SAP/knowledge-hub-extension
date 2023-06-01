@@ -3,11 +3,10 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { UILoader, UIPersona, UIPersonaSize } from '@sap-ux/ui-components';
-import {
+import type {
     TutorialsEntry,
     TutorialsTags,
-    KnowledgeHubOpenTutorialPayload,
-    OPEN_TUTORIAL
+    KnowledgeHubOpenTutorialPayload
 } from '@sap/knowledge-hub-extension-types';
 
 import { TaskType } from './TaskType';
@@ -43,7 +42,7 @@ export const TutorialCard: FC<TutorialCardProps> = ({
         (title: string, primaryTag: string) =>
             (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
                 // actions.logOpenTutorialTelemetryEvent(title, primaryTag);
-                let tutorialsTelemetryPayload: KnowledgeHubOpenTutorialPayload = {
+                const tutorialsTelemetryPayload: KnowledgeHubOpenTutorialPayload = {
                     action: 'OPEN_TUTORIAL',
                     title: title,
                     primaryTag: primaryTag

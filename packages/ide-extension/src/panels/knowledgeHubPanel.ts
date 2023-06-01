@@ -101,7 +101,7 @@ export class KnowledgeHubPanel {
      *
      * @param action
      */
-    private async onWebviewMessage(action: KnowledgeHubActions ): Promise<void> {
+    private async onWebviewMessage(action: KnowledgeHubActions): Promise<void> {
         try {
             await this.messageHandler.processRequestAction(action);
             switch (action.type) {

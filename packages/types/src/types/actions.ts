@@ -1,6 +1,6 @@
 import type { TutorialsSearchQuery, TutorialsTagWithTitle } from './tutorials.types';
 import type { BlogsSearchQuery, BlogFiltersEntry } from './blogs.types';
-import { KnowledgeHubOpenBlogPayload,KnowledgeHubOpenTutorialPayload, LogTelemetryEvent } from './app.types';
+import { KnowledgeHubOpenBlogPayload, KnowledgeHubOpenTutorialPayload } from './app.types';
 
 export interface PendingActions {
     [key: string]: boolean;
@@ -33,21 +33,21 @@ export const OPEN_TUTORIAL = 'openTutorial';
 export const KHUB_OPEN_TUTORIAL = 'KHUB_OPEN_TUTORIAL';
 export const KHUB_OPEN_BLOGS = 'KHUB_OPEN_BLOGS';
 
-export type KnowledgeHubActions = RestartWebviewAction | KnowledgeHubTelemetryAction
+export type KnowledgeHubActions = RestartWebviewAction | KnowledgeHubTelemetryAction;
 
 export interface RestartWebviewAction {
     type: typeof RESTART_WEBVIEW;
-    payload: any ;
+    payload: any;
 }
 
 export interface KnowledgeHubTelemetryAction {
     type: typeof LOG_TELEMETRY_EVENT;
-    payload: KnowledgeHubTelemetryAllowedActions ;
+    payload: KnowledgeHubTelemetryAllowedActions;
 }
 
 export interface KnowledgeHubTelemetryAllowedActions {
     type: typeof KHUB_OPEN_TUTORIAL | typeof KHUB_OPEN_BLOGS;
-    payload: KnowledgeHubOpenBlogPayload | KnowledgeHubOpenTutorialPayload ;
+    payload: KnowledgeHubOpenBlogPayload | KnowledgeHubOpenTutorialPayload;
 }
 // Actions
 export interface KnowledgeHubWebViewReady {

@@ -1,6 +1,9 @@
 import type { BlogFiltersEntry } from './blogs.types';
 import type { TutorialsTagWithTitle } from './tutorials.types';
-import type { KnowledgeHubActions, KnowledgeHubTelemetryAction, KnowledgeHubTelemetryAllowedActions, LOG_TELEMETRY_EVENT, OPEN_BLOG, OPEN_TUTORIAL } from './actions';
+import type {
+    KnowledgeHubTelemetryAllowedActions,
+    LOG_TELEMETRY_EVENT,
+} from './actions';
 
 export const SET_GLOBAL_SETTINGS = 'SET_GLOBAL_SETTINGS';
 export const UPDATE_GLOBAL_SETTING = 'UPDATE_GLOBAL_SETTING';
@@ -59,8 +62,3 @@ export interface KnowledgeHubOpenTutorialPayload {
 export interface TelemetryUIStartupEventProps {
     action: 'STARTUP';
 }
-
-
-
-
-
