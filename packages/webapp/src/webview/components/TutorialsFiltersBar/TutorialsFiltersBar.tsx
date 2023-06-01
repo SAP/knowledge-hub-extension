@@ -38,21 +38,6 @@ export const TutorialsFiltersBar: FC = (): JSX.Element => {
         }
     };
 
-    /**
-     * Returns the tag pill.
-     *
-     * @param tagId The tag id.
-     * @returns The tag pill | null.
-     */
-    const addTagPill = (tagId: string): JSX.Element | null => {
-        const tag = getTagById(tagId);
-        if (tag) {
-            return <UIPill key={tagId} pillId={tagId} pillLabel={tag.title} callback={onClearTagFilter} />;
-        } else {
-            return null;
-        }
-    };
-
     const onClearAllTagFilter = useCallback((): void => {
         const state = store.getState();
         const currentQuery = state.tutorials.query;
@@ -85,6 +70,21 @@ export const TutorialsFiltersBar: FC = (): JSX.Element => {
 
         dispatch(tutorialsFiltersTagsDelete(tagId));
         fetchTutorialsData(options);
+    };
+
+    /**
+     * Returns the tag pill.
+     *
+     * @param tagId The tag id.
+     * @returns The tag pill | null.
+     */
+    const addTagPill = (tagId: string): JSX.Element | null => {
+        const tag = getTagById(tagId);
+        if (tag) {
+            return <UIPill key={tagId} pillId={tagId} pillLabel={tag.title} callback={onClearTagFilter} />;
+        } else {
+            return null;
+        }
     };
 
     useEffect(() => {

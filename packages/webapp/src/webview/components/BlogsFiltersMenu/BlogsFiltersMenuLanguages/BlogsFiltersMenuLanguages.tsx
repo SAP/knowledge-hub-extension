@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { UIChoiceGroup, ChoiceGroupOption } from '@sap-ux/ui-components';
+import type { ChoiceGroupOption } from '@sap-ux/ui-components';
+import { UIChoiceGroup } from '@sap-ux/ui-components';
 
 import { supportedLanguages } from '@sap/knowledge-hub-extension-types';
 

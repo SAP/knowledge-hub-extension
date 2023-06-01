@@ -39,7 +39,7 @@ function formatFiltersTagIdOptions(tagId: string): string {
  * @returns - API
  */
 export function getDeveloperTutorialsApi(options?: TutorialsAPIOptions): TutorialsAPI {
-    const apiHost = options?.apiHost || API_HOST;
+    const apiHost = options?.apiHost ?? API_HOST;
 
     return {
         getTutorials: async (
@@ -59,7 +59,7 @@ export async function getTutorials(
     host: string,
     queryOptions: TutorialsSearchQuery | undefined
 ): Promise<FetchResponse<TutorialsSearchResult>> {
-    if (queryOptions && queryOptions.filters) {
+    if (queryOptions?.filters) {
         queryOptions.filters.forEach((item: string, index: number, array: string[]) => {
             array[index] = formatFiltersTagIdOptions(item.replace(':', '/'));
         });

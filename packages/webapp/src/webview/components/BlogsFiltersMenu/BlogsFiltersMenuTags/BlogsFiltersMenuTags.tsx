@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { UICheckbox, UISearchBox, UILink } from '@sap-ux/ui-components';
 
-import { Tag } from '@sap/knowledge-hub-extension-types';
+import type { Tag } from '@sap/knowledge-hub-extension-types';
 
 import { useAppSelector } from '../../../store';
 import { getManagedTags } from '../../../features/blogs/Blogs.slice';
@@ -59,7 +59,7 @@ export const BlogsFiltersMenuTags: FC<BlogsFiltersMenuTagsProps> = ({
     };
 
     const viewAllTags = (): void => {
-        let fullPath = '/blogs/tags';
+        const fullPath = '/blogs/tags';
         navigate(fullPath);
     };
 

@@ -13,7 +13,7 @@ const TAGS_PATH = `/api/${VERSION}/tags`;
  * @returns - API
  */
 export function getCommunityTagsApi(options?: TagsAPIOptions): TagsAPI {
-    const apiHost = options?.apiHost || API_HOST;
+    const apiHost = options?.apiHost ?? API_HOST;
 
     return {
         getTags: async (): Promise<FetchResponse<TagsSearchResult>> => getTags(apiHost)

@@ -83,7 +83,7 @@ export const Tutorials: FC = (): JSX.Element => {
             setNoResult(true);
             setError(true);
         } else if (!activeTutorials.pending) {
-            if (location.state && location.state.tagId) {
+            if (location.state?.tagId) {
                 const tagId = location.state.tagId;
                 dispatch(tutorialsFiltersTagsResetWith(tagId));
 
@@ -164,18 +164,17 @@ export const Tutorials: FC = (): JSX.Element => {
             {!(loading || error || noResult) && (
                 <div className="tutorials-content">
                     <div className="tutorials-content-wrapper">
-                        {tutorials &&
-                            tutorials.map((tutorial, index) => {
-                                return (
-                                    <TutorialCard
-                                        key={tutorial.imsId}
-                                        tutorial={tutorial}
-                                        tag={getTutorialsTag(tutorial.primaryTag, activeTutorials.data)}
-                                        tags={activeTutorials.data.tags}
-                                        onSelectedTag={onTagSelected}
-                                    />
-                                );
-                            })}
+                        {tutorials?.map((tutorial, _) => {
+                            return (
+                                <TutorialCard
+                                    key={tutorial.imsId}
+                                    tutorial={tutorial}
+                                    tag={getTutorialsTag(tutorial.primaryTag, activeTutorials.data)}
+                                    tags={activeTutorials.data.tags}
+                                    onSelectedTag={onTagSelected}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
             )}
