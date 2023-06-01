@@ -19,6 +19,9 @@ i18n
         interpolation: {
             escapeValue: false // not needed for react as it escapes by default
         }
+    })
+    .catch(() => {
+        // Ignore any errors since the default texts will still work
     });
 
 export default i18n;

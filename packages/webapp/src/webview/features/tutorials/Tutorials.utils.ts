@@ -5,25 +5,17 @@ import type {
     TutorialsTags
 } from '@sap/knowledge-hub-extension-types';
 import { store, actions } from '../../store';
-import {
-    tutorialsFiltersTagsAdd,
-    tutorialsFiltersTagsDelete,
-    tutorialsLoading,
-    tutorialsSearchFieldChanged
-} from '../../store/actions';
+import { tutorialsFiltersTagsAdd, tutorialsFiltersTagsDelete, tutorialsLoading } from '../../store/actions';
 
 export const getTutorialsTag = (val: string, allTutorials: TutorialsSearchResult | undefined): string => {
-    if (allTutorials?.tags[val]) {
+    if (allTutorials?.tags?.[val]) {
         return allTutorials.tags[val].title;
     } else {
         return '';
     }
 };
 
-export const getTutorialsTagTitle = (val: string): string => {
-    const state = store.getState();
-    const tags: TutorialsTags = state.tags.tutorials.tags;
-
+export const getTutorialsTagTitle = (val: string, tags: TutorialsTags): string => {
     if (tags[val]) {
         return tags[val].title;
     } else {
@@ -35,10 +27,10 @@ export const isFilteredTag = (tagId: string, tags: string[]): boolean => {
     return tags.includes(tagId);
 };
 
-export const getTutorialsTagsTitle = (tags: string[]): TutorialsTagWithTitle[] => {
+export const getTutorialsTagsTitle = (tags: string[], allTags: TutorialsTags): TutorialsTagWithTitle[] => {
     const tagsWithTitle: TutorialsTagWithTitle[] = [];
     tags.forEach((tagId: string) => {
-        const title = getTutorialsTagTitle(tagId);
+        const title = getTutorialsTagTitle(tagId, allTags);
 
         tagsWithTitle.push({
             tag: tagId,
@@ -58,9 +50,10 @@ export const fetchTutorialsData = (query: TutorialsSearchQuery, home?: boolean):
     const state = store.getState();
     const filters: string[] | undefined = state.tutorials.query.filters;
     let filtersWithTitle: TutorialsTagWithTitle[] = [];
+    const tags = state.tutorials.tags.tags;
 
     if (filters && filters.length > 0) {
-        filtersWithTitle = getTutorialsTagsTitle(filters);
+        filtersWithTitle = getTutorialsTagsTitle(filters, tags);
     }
 
     store.dispatch(tutorialsLoading(true));
@@ -95,19 +88,5 @@ export const onTagSelected = (tagId: string, checked: boolean): void => {
     }
 
     const query: TutorialsSearchQuery = Object.assign({}, currentQuery, { filters: tutorialsTags });
-    fetchTutorialsData(query);
-};
-
-/**
- * Function to handle search term change.
- * then dispatch fetch tutorials data.
- *
- * @param {string} searchTerm - The search term
- */
-export const searchTutorials = (searchTerm: string): void => {
-    const state = store.getState();
-    const currentQuery = state.tutorials.query;
-    const query: TutorialsSearchQuery = Object.assign({}, currentQuery, { searchField: searchTerm });
-    store.dispatch(tutorialsSearchFieldChanged(searchTerm));
     fetchTutorialsData(query);
 };

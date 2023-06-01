@@ -62,7 +62,7 @@ export const Home: FC = (): JSX.Element => {
     const [blogs, setBlogs] = useState<BlogsSearchResultContentItem[]>();
 
     const handleOnClickViewMore = useCallback(
-        (path: string) => (event: any) => {
+        (path: string) => (_: any) => {
             navigate(path);
         },
         []
@@ -137,7 +137,7 @@ export const Home: FC = (): JSX.Element => {
                         <div className="home-content-tutorials-container-content">
                             {!(homeTutorialsLoading || homeTutorialsError.isError) &&
                                 tutorials &&
-                                tutorials.slice(0, 3).map((tutorial, index) => {
+                                tutorials.slice(0, 3).map((tutorial, _) => {
                                     return (
                                         <TutorialCard
                                             key={tutorial.imsId}
@@ -183,7 +183,7 @@ export const Home: FC = (): JSX.Element => {
                         <div className="home-content-blogs-container-content">
                             {!(homeBlogsLoading || homeBlogsError.isError) &&
                                 blogs &&
-                                blogs.slice(0, 3).map((blog, index) => {
+                                blogs.slice(0, 3).map((blog, _) => {
                                     return <BlogCard key={blog.id} blog={blog} onSelectedTag={onBlogTagSelected} />;
                                 })}
                             {homeBlogsLoading && (

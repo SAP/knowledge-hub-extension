@@ -55,7 +55,7 @@ export async function getTutorials(
     host: string,
     queryOptions: TutorialsSearchQuery | undefined
 ): Promise<FetchResponse<TutorialsSearchResult>> {
-    if (queryOptions && queryOptions.filters) {
+    if (queryOptions?.filters) {
         queryOptions.filters.forEach((item: string, index: number, array: string[]) => {
             array[index] = formatFiltersTagIdOptions(item.replace(':', '/'));
         });

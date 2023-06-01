@@ -14,10 +14,11 @@ import type {
 } from '@sap/knowledge-hub-extension-types';
 import { TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 
-import { tutorialsPageChanged, tutorialsFiltersTagsResetWith } from '../../store/actions';
+import { tutorialsPageChanged, tutorialsFiltersTagsResetWith, tutorialsSearchFieldChanged } from '../../store/actions';
 import { store, useAppSelector } from '../../store';
-import { getTutorials, getTutorialsQuery } from './Tutorials.slice';
+import { getTutorials, getTutorialsQuery, getTutorialsUIIsLoading } from './Tutorials.slice';
 import { getTutorialsTag, onTagSelected, fetchTutorialsData } from './Tutorials.utils';
+import { getSearchTerm } from '../search/Search.slice';
 
 import type { UIPaginationSelected } from '../../components/UI/UIPagination';
 import { UIPagination } from '../../components/UI/UIPagination';
@@ -39,6 +40,8 @@ export const Tutorials: FC = (): JSX.Element => {
 
     const activeTutorials: TutorialsState = useAppSelector(getTutorials);
     const activeQuery: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
+    const activeSearchTerm: string = useAppSelector(getSearchTerm);
+    const activeLoading = useAppSelector(getTutorialsUIIsLoading);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -80,7 +83,7 @@ export const Tutorials: FC = (): JSX.Element => {
             setNoResult(true);
             setError(true);
         } else if (!activeTutorials.pending) {
-            if (location?.state?.tagId) {
+            if (location.state?.tagId) {
                 const tagId = location.state.tagId;
                 dispatch(tutorialsFiltersTagsResetWith(tagId));
 
@@ -89,7 +92,7 @@ export const Tutorials: FC = (): JSX.Element => {
                 navigate(location.pathname, { replace: true });
             }
 
-            if (activeTutorials?.data?.numFound > 0) {
+            if (activeTutorials && activeTutorials.data.numFound > 0) {
                 setTutorials(activeTutorials.data.result);
                 setTotalNumber(activeTutorials.data.numFound);
                 setCountGroups(activeTutorials.data.countGroups);
@@ -120,6 +123,18 @@ export const Tutorials: FC = (): JSX.Element => {
         }
     }, [activeTutorials]);
 
+    useEffect(() => {
+        const state = store.getState();
+        const currentQuery = state.tutorials.query;
+        const query: TutorialsSearchQuery = Object.assign({}, currentQuery, { searchField: activeSearchTerm });
+        dispatch(tutorialsSearchFieldChanged(activeSearchTerm));
+        fetchTutorialsData(query);
+    }, [activeSearchTerm]);
+
+    useEffect(() => {
+        setLoading(activeLoading);
+    }, [activeLoading]);
+
     return (
         <motion.div
             className="tutorials"
@@ -149,7 +164,7 @@ export const Tutorials: FC = (): JSX.Element => {
             {!(loading || error || noResult) && (
                 <div className="tutorials-content">
                     <div className="tutorials-content-wrapper">
-                        {tutorials?.map((tutorial, index) => {
+                        {tutorials?.map((tutorial, _) => {
                             return (
                                 <TutorialCard
                                     key={tutorial.imsId}
