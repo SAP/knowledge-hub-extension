@@ -3,7 +3,8 @@ import type { FC } from 'react';
 
 import { UICheckbox, UISearchBox } from '@sap-ux/ui-components';
 
-import { TutorialsTags, TUTORIALS_FILTERS_LABELS } from '@sap/knowledge-hub-extension-types';
+import type { TutorialsTags } from '@sap/knowledge-hub-extension-types';
+import { TUTORIALS_FILTERS_LABELS } from '@sap/knowledge-hub-extension-types';
 
 import { store } from '../../../store';
 import { onTagSelected } from '../../../features/tutorials/Tutorials.utils';
@@ -72,7 +73,7 @@ export const TutorialsFiltersMenuEntries: FC<TutorialsFiltersMenuEntriesProps> =
 
     const getListEntry = (listEntries: string[], tags: TutorialsTags, listTitle: string): JSX.Element | null => {
         const sortedList: SortedTagListEntry[] = [];
-        listEntries.forEach((entry, index) => {
+        listEntries.forEach((entry, _) => {
             const title = getTutorialsTag(entry, tags);
             if (title && title !== '') {
                 sortedList.push({ title: title, tagId: entry });

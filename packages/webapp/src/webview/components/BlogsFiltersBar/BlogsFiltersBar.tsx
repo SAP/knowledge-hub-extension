@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 
 import { UIIcon, UISmallButton } from '@sap-ux/ui-components';
 
-import { BlogFiltersEntry, BlogFiltersEntryType, BlogsSearchQuery } from '@sap/knowledge-hub-extension-types';
+import type { BlogFiltersEntry, BlogsSearchQuery } from '@sap/knowledge-hub-extension-types';
+import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
 import { store, useAppSelector } from '../../store';
 import { getBlogsUIFiltersEntries } from '../../features/blogs/Blogs.slice';

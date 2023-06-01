@@ -2,7 +2,7 @@ import React from 'react';
 import type { FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { BlogsUiState } from '@sap/knowledge-hub-extension-types';
+import type { BlogsUiState } from '@sap/knowledge-hub-extension-types';
 
 import { MOTION_VARIANTS_MENU } from '../../constants';
 import { useAppSelector } from '../../store';

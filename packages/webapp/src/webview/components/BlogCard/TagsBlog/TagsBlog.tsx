@@ -12,14 +12,14 @@ export type TagsBlogProps = {
 
 export const TagsBlog: FC<TagsBlogProps> = ({ tags, callback }: TagsBlogProps): JSX.Element => {
     const handleTagClick = useCallback(
-        (tag: Tag) => (event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
+        (tag: Tag) => (_: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
             callback(tag);
         },
         []
     );
 
     const handleTagKeydown = useCallback(
-        (tag: Tag) => (event: React.KeyboardEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement>) => {
+        (tag: Tag) => (_: React.KeyboardEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement>) => {
             callback(tag);
         },
         []
@@ -30,7 +30,7 @@ export const TagsBlog: FC<TagsBlogProps> = ({ tags, callback }: TagsBlogProps): 
             <div className="tags-blog-icon">
                 <UIIcon iconName="Tags" />
             </div>
-            {tags.map((tag, index) => {
+            {tags.map((tag, _) => {
                 return (
                     <div className="tags-blog-tag" key={tag.guid}>
                         <UILink

@@ -26,7 +26,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
                 const knowledgeHubPanel = new KnowledgeHubPanel(context);
                 knowledgeHubPanel.show();
             } catch (error) {
-                window.showErrorMessage(`Error while starting Knowledge Hub: ${(error as Error).message}`);
+                await window.showErrorMessage(`Error while starting Knowledge Hub: ${(error as Error).message}`);
             }
         })
     );
