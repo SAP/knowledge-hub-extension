@@ -1,6 +1,6 @@
 import type { TutorialsSearchQuery, TutorialsTagWithTitle } from './tutorials.types';
 import type { BlogsSearchQuery, BlogFiltersEntry } from './blogs.types';
-import { KnowledgeHubOpenBlogPayload, KnowledgeHubOpenTutorialPayload } from './app.types';
+import type { KnowledgeHubOpenBlogPayload, KnowledgeHubOpenTutorialPayload } from './app.types';
 
 export interface PendingActions {
     [key: string]: boolean;
