@@ -53,4 +53,3 @@ export interface KnowledgeHubOpenTutorialPayload {
     title: string;
     primaryTag: string;
 }
-

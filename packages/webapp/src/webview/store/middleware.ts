@@ -26,11 +26,7 @@ export const postMessageMiddleware: Middleware = (store: MiddlewareAPI) => {
     return (next: Dispatch) =>
         (action): Action => {
             action = next(action);
-            if (
-                action &&
-                typeof action.type === 'string' &&
-                !action.type.startsWith('[view]')
-            ) {
+            if (action && typeof action.type === 'string' && !action.type.startsWith('[view]')) {
                 window.vscode.postMessage(action);
             }
             return action;

@@ -1,4 +1,4 @@
-import {
+import type {
     KnowledgeHubWebViewReady,
     TutorialsFetchTutorials,
     TutorialsSearchQuery,
@@ -19,8 +19,7 @@ import {
     TUTORIALS_FETCH_TUTORIALS,
     TAGS_FETCH_TAGS,
     BLOGS_FETCH_BLOGS,
-    createViewAction,
-    LOG_TELEMETRY_EVENT
+    createViewAction
 } from '@sap/knowledge-hub-extension-types';
 
 export const knowledgeHubWebViewReady = (): KnowledgeHubWebViewReady => ({

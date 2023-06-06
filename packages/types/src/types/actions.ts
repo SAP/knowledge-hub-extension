@@ -42,8 +42,8 @@ export interface KnowledgeHubTelemetryAction {
     payload: KnowledgeHubTelemetryAllowedActions;
 }
 
-export type KnowledgeHubTelemetryAllowedActions =  KnowledgeHubOpenBlogPayload | KnowledgeHubOpenTutorialPayload;
-    
+export type KnowledgeHubTelemetryAllowedActions = KnowledgeHubOpenBlogPayload | KnowledgeHubOpenTutorialPayload;
+
 // Actions
 export interface KnowledgeHubWebViewReady {
     type: typeof KNOWLEDGE_HUB_WEB_VIEW_READY;
