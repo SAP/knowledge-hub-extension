@@ -41,11 +41,9 @@ export const TutorialCard: FC<TutorialCardProps> = ({
     const onClickTutorialCard = useCallback(
         (title: string, primaryTag: string) =>
             (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
-                // actions.logOpenTutorialTelemetryEvent(title, primaryTag);
                 const tutorialsTelemetryPayload: KnowledgeHubOpenTutorialPayload = {
-                    action: 'OPEN_TUTORIAL',
-                    title: title,
-                    primaryTag: primaryTag
+                    title,
+                    primaryTag
                 };
                 actions.logOpenTutorialTelemetryEvent('KHUB_OPEN_TUTORIALS', tutorialsTelemetryPayload);
             },

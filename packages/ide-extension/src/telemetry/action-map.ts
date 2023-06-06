@@ -1,10 +1,7 @@
-import type {
-    KnowledgeHubOpenBlogPayload,
-    KnowledgeHubOpenTutorialPayload,
-    LogTelemetryEvent
-} from '@sap/knowledge-hub-extension-types';
+import type { LogTelemetryEvent } from '@sap/knowledge-hub-extension-types';
 
-import { KHUB_OPEN_BLOGS, KHUB_OPEN_TUTORIAL, RESTART_WEBVIEW } from '@sap/knowledge-hub-extension-types';
+import { KHUB_OPEN_BLOGS, KHUB_OPEN_TUTORIAL } from '@sap/knowledge-hub-extension-types';
+import type { TelemetryUIOpenBlogProps, TelemetryUIOpenTutorialProps } from './types';
 
 /**
  * Map redux action -> telemetry event properties
@@ -13,17 +10,14 @@ import { KHUB_OPEN_BLOGS, KHUB_OPEN_TUTORIAL, RESTART_WEBVIEW } from '@sap/knowl
 export const actionMap: {
     [action: string]: (action: LogTelemetryEvent) => any;
 } = {
-    [KHUB_OPEN_TUTORIAL]: (action: LogTelemetryEvent): KnowledgeHubOpenTutorialPayload => ({
+    [KHUB_OPEN_TUTORIAL]: (action: LogTelemetryEvent): TelemetryUIOpenTutorialProps => ({
         action: 'OPEN_TUTORIAL',
-        title: action.payload.payload.title,
-        primaryTag: action.payload.payload.primaryTag
+        title: action.payload?.title as string,
+        primaryTag: action.payload?.primaryTag as string
     }),
-    [KHUB_OPEN_BLOGS]: (action: LogTelemetryEvent): KnowledgeHubOpenBlogPayload => ({
+    [KHUB_OPEN_BLOGS]: (action: LogTelemetryEvent): TelemetryUIOpenBlogProps => ({
         action: 'OPEN_BLOG',
-        title: action.payload.payload.title,
-        primaryTag: action.payload.payload.primaryTag
-    }),
-    [RESTART_WEBVIEW]: (): any => ({
-        action: RESTART_WEBVIEW
+        title: action.payload?.title as string,
+        primaryTag: action.payload?.primaryTag as string
     })
 };

@@ -37,3 +37,15 @@ export interface TelemetryUIEventProps extends TelemetryEventProperties {
     action: string;
     [prop: string]: string;
 }
+
+export interface TelemetryUIOpenTutorialProps extends TelemetryUIEventProps {
+    action: 'OPEN_TUTORIAL';
+    title: string;
+    primaryTag: string;
+}
+
+export interface TelemetryUIOpenBlogProps extends TelemetryUIEventProps {
+    action: 'OPEN_BLOG';
+    title: string;
+    primaryTag: string;
+}

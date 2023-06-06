@@ -32,9 +32,8 @@ export const BlogCard: FC<BlogCardProps> = ({ blog, loading, onSelectedTag }: Bl
         (title: string, primaryTag: string) =>
             (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
                 const blogsTelemetryPayload: KnowledgeHubOpenBlogPayload = {
-                    action: 'OPEN_BLOG',
-                    title: title,
-                    primaryTag: primaryTag
+                    title,
+                    primaryTag
                 };
                 actions.logOpenBlogTelemetryEvent('KHUB_OPEN_BLOGS', blogsTelemetryPayload);
             },

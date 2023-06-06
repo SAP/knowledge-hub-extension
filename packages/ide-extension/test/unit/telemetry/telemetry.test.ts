@@ -86,7 +86,7 @@ describe('Telemetry disabled', () => {
 
         // Enable telemetry
         reporter.enabled = true;
-        let changeHandler: (e: ConfigurationChangeEvent) => any = () => {};
+        let changeHandler: (e: ConfigurationChangeEvent) => any = () => { };
         jest.spyOn(workspace, 'onDidChangeConfiguration').mockImplementation(
             (listener: (e: ConfigurationChangeEvent) => any) => {
                 changeHandler = listener;
@@ -167,18 +167,13 @@ function getDummyAction(_actionName: string): any {
         type: LOG_TELEMETRY_EVENT,
         payload: {
             action: {
-                type: LOG_TELEMETRY_EVENT,
+                type: KHUB_OPEN_TUTORIAL,
                 payload: {
-                    type: KHUB_OPEN_TUTORIAL,
-                    payload: {
-                        action: 'OPEN_TUTORIAL',
-                        title: 'hello sap',
-                        primaryTag: 'abc-def-fgh'
-                    }
+                    action: 'OPEN_TUTORIAL',
+                    title: 'hello sap',
+                    primaryTag: 'abc-def-fgh'
                 }
-               
-            }
-            
+            } 
         }
     };
 }
@@ -188,18 +183,13 @@ function getDummyAction1(_actionName: string): any {
         type: LOG_TELEMETRY_EVENT,
         payload: {
             action: {
-                type: LOG_TELEMETRY_EVENT,
+                type: KHUB_OPEN_BLOGS,
                 payload: {
-                    type: KHUB_OPEN_BLOGS,
-                    payload: {
-                        action: 'OPEN_BLOG',
-                        title: 'hello sap',
-                        primaryTag: 'abc-def-fgh'
-                    }
+                    action: 'OPEN_BLOG',
+                    title: 'hello sap',
+                    primaryTag: 'abc-def-fgh'
                 }
-               
             }
-            
         }
     };
 }

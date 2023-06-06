@@ -1,4 +1,4 @@
-import type {
+import {
     KnowledgeHubWebViewReady,
     TutorialsFetchTutorials,
     TutorialsSearchQuery,
@@ -52,18 +52,12 @@ export const logOpenTutorialTelemetryEvent = (
     type: string,
     payload: KnowledgeHubOpenTutorialPayload
 ): LogTelemetryEvent => ({
-    type: LOG_TELEMETRY_EVENT,
-    payload: {
-        type: KHUB_OPEN_TUTORIAL,
-        payload: payload
-    }
+    type: KHUB_OPEN_TUTORIAL,
+    payload: payload
 });
 export const logOpenBlogTelemetryEvent = (type: string, payload: KnowledgeHubOpenBlogPayload): LogTelemetryEvent => ({
-    type: LOG_TELEMETRY_EVENT,
-    payload: {
-        type: KHUB_OPEN_BLOGS,
-        payload: payload
-    }
+    type: KHUB_OPEN_BLOGS,
+    payload: payload
 });
 
 export const tagsFetchTags = (): TagsFetchTags => ({
