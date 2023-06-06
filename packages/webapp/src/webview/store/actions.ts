@@ -7,10 +7,14 @@ import type {
     BlogFiltersEntry,
     Tag,
     TagsFetchTags,
-    TutorialsTagWithTitle
+    TutorialsTagWithTitle,
+    LogTelemetryEvent,
+    KnowledgeHubOpenBlogPayload,
+    KnowledgeHubOpenTutorialPayload
 } from '@sap/knowledge-hub-extension-types';
-
 import {
+    KHUB_OPEN_TUTORIAL,
+    KHUB_OPEN_BLOGS,
     KNOWLEDGE_HUB_WEB_VIEW_READY,
     TUTORIALS_FETCH_TUTORIALS,
     TAGS_FETCH_TAGS,
@@ -42,6 +46,17 @@ export const blogsFetchBlogs = (
     query,
     filters,
     home
+});
+export const logOpenTutorialTelemetryEvent = (
+    type: string,
+    payload: KnowledgeHubOpenTutorialPayload
+): LogTelemetryEvent => ({
+    type: KHUB_OPEN_TUTORIAL,
+    payload: payload
+});
+export const logOpenBlogTelemetryEvent = (type: string, payload: KnowledgeHubOpenBlogPayload): LogTelemetryEvent => ({
+    type: KHUB_OPEN_BLOGS,
+    payload: payload
 });
 
 export const tagsFetchTags = (): TagsFetchTags => ({

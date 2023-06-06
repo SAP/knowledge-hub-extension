@@ -1,3 +1,4 @@
+import { KHUB_OPEN_BLOGS, KHUB_OPEN_TUTORIAL, LOG_TELEMETRY_EVENT } from '@sap/knowledge-hub-extension-types';
 import type { Middleware, MiddlewareAPI, Dispatch, Action } from 'redux';
 import { createLogger } from 'redux-logger';
 
@@ -35,3 +36,19 @@ export const postMessageMiddleware: Middleware = (store: MiddlewareAPI) => {
 export const loggerMiddleware = createLogger({
     duration: true
 });
+
+const allowedTelemetryActions = new Set([KHUB_OPEN_BLOGS, KHUB_OPEN_TUTORIAL]);
+
+export const telemetryMiddleware: Middleware = (): ((next: Dispatch<Action>) => (action: Action) => Action) => {
+    return (next: Dispatch<Action>) =>
+        (action): Action => {
+            action = next(action);
+            if (action && typeof action.type === 'string' && allowedTelemetryActions.has(action.type)) {
+                window.vscode.postMessage({
+                    type: LOG_TELEMETRY_EVENT,
+                    payload: { action }
+                } as unknown as string);
+            }
+            return action;
+        };
+};

@@ -38,6 +38,10 @@ jobs:
                   node-version: ${{ matrix.node-version }}
             - name: Install pnpm modules
               run: pnpm install
+            - name: Create a .env file in ide-extension package
+              run: |
+                  touch packages/ide-extension/.env
+                  echo KHE_TELEMETRY_INSTRUMENTATION_KEY=${{ secrets.INSTRUMENTATION_KEY }} >> packages/ide-extension/.env
             - name: Run build
               run: pnpm run build
             - name: Run linting

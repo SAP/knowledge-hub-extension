@@ -3,7 +3,11 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { UILoader, UIPersona, UIPersonaSize } from '@sap-ux/ui-components';
-import type { TutorialsEntry, TutorialsTags } from '@sap/knowledge-hub-extension-types';
+import type {
+    TutorialsEntry,
+    TutorialsTags,
+    KnowledgeHubOpenTutorialPayload
+} from '@sap/knowledge-hub-extension-types';
 
 import { TaskType } from './TaskType';
 import { Experience } from './Experience';
@@ -12,6 +16,7 @@ import { Featured } from './Featured';
 import { TagsTutorial } from './TagsTutorial';
 
 import './TutorialCard.scss';
+import { actions } from '../../store';
 
 type TutorialCardProps = {
     tutorial?: TutorialsEntry;
@@ -33,7 +38,17 @@ export const TutorialCard: FC<TutorialCardProps> = ({
     const onClickedTag = useCallback((tag: string) => {
         onSelectedTag(tag, true);
     }, []);
-
+    const onClickTutorialCard = useCallback(
+        (title: string, primaryTag: string) =>
+            (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
+                const tutorialsTelemetryPayload: KnowledgeHubOpenTutorialPayload = {
+                    title,
+                    primaryTag
+                };
+                actions.logOpenTutorialTelemetryEvent('KHUB_OPEN_TUTORIALS', tutorialsTelemetryPayload);
+            },
+        []
+    );
     const getFullNameForTag = (tag: string): string => {
         if (tags?.[tag]) {
             return tags[tag].title;
@@ -41,12 +56,13 @@ export const TutorialCard: FC<TutorialCardProps> = ({
             return '';
         }
     };
-
     return (
         <div className="tutorial-card">
             {!loading && tutorial && tag && (
                 <a
+                    data-testid="tutorial-card-link"
                     href={`https://developers.sap.com${tutorial.publicUrl}`}
+                    onClick={onClickTutorialCard(tutorial.title, tutorial.primaryTag)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="tutorial-card-link">

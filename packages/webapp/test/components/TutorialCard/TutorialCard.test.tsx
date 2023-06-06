@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
 import type { TutorialsEntry } from '@sap/knowledge-hub-extension-types';
@@ -11,8 +11,12 @@ import { withDataNoError } from '../../__mocks__/tutorials';
 import { render } from '../../__mocks__/store.mock';
 
 import { TutorialCard } from '../../../src/webview/components/TutorialCard';
+import { actions } from '../../../src/webview/store';
 
 describe('TutorialCard', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
     // Initialize and register ui-components icons and specific icon to LC
     initIcons();
 
@@ -49,5 +53,18 @@ describe('TutorialCard', () => {
         const featuredDOM = screen.getByText(/Featured/i);
 
         expect(featuredDOM.className).toEqual('featured-text');
+        const logTelemetryEventSpy = jest.spyOn(actions, 'logOpenTutorialTelemetryEvent');
+        if (featuredDOM) {
+            // Simulate click
+
+            fireEvent(
+                screen.getByTestId('tutorial-card-link'),
+                new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true
+                })
+            );
+            expect(logTelemetryEventSpy).toBeCalledTimes(1);
+        }
     });
 });

@@ -3,12 +3,17 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { UILoader, UIPersona, UIPersonaSize } from '@sap-ux/ui-components';
-import type { BlogsSearchResultContentItem, Tag } from '@sap/knowledge-hub-extension-types';
+import type {
+    BlogsSearchResultContentItem,
+    Tag,
+    KnowledgeHubOpenBlogPayload
+} from '@sap/knowledge-hub-extension-types';
 
 import { DateTime } from './DateTime';
 import { TagsBlog } from './TagsBlog';
 
 import './BlogCard.scss';
+import { actions } from '../../store';
 
 type BlogCardProps = {
     blog?: BlogsSearchResultContentItem;
@@ -22,6 +27,18 @@ export const BlogCard: FC<BlogCardProps> = ({ blog, loading, onSelectedTag }: Bl
     const onClickedTag = useCallback((tag: Tag) => {
         onSelectedTag(tag, true);
     }, []);
+
+    const onClickBlogTitle = useCallback(
+        (title: string, primaryTag: string) =>
+            (_event: React.MouseEvent<HTMLButtonElement | HTMLElement | HTMLAnchorElement, MouseEvent>) => {
+                const blogsTelemetryPayload: KnowledgeHubOpenBlogPayload = {
+                    title,
+                    primaryTag
+                };
+                actions.logOpenBlogTelemetryEvent('KHUB_OPEN_BLOGS', blogsTelemetryPayload);
+            },
+        []
+    );
 
     return (
         <div className="blog-card">
@@ -48,7 +65,16 @@ export const BlogCard: FC<BlogCardProps> = ({ blog, loading, onSelectedTag }: Bl
                         </div>
                         <div className="blog-card-data-content">
                             <span className="blog-card-data-content-title">
-                                <a href={blog.url} target="_blank" rel="noopener noreferrer" className="blog-card-link">
+                                <a
+                                    href={blog.url}
+                                    data-testid="blog-card-link"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="blog-card-link"
+                                    onClick={onClickBlogTitle(
+                                        blog.title,
+                                        blog.managedTags.map((u: Tag) => u.displayName).join(', ')
+                                    )}>
                                     {blog.title}
                                 </a>
                             </span>
