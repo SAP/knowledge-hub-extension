@@ -1,19 +1,17 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { act } from 'react-dom/test-utils';
+
 import { screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
 
+import { blogsWithDataNoError, blogsInitialWithLoading, blogsNoErrorWithLoading } from '../../../test/__mocks__/blogs';
 import {
-    blogsInitialsWithPending,
-    tutorialsNoErrorWithPending,
-    blogsWithData,
-    tutorialsWithData,
-    blogsWithLoading,
-    tutorialsWithLoading
-} from '../../../test/__mocks__/home';
+    tutorialsInitialWithLoading,
+    tutorialsWithDataNoError,
+    tutorialsWithNoDataWithPending
+} from '../../../test/__mocks__/tutorials';
 import { renderWithRouter } from '../../../test/__mocks__/store.mock';
 
 import { Home } from '../../../src/webview/features/home/Home';
@@ -25,7 +23,9 @@ describe('Home', () => {
     test('render a Home component initial, do the fetch call', () => {
         const renderHomeInitial = (): RenderResult =>
             renderWithRouter(<Home />, {
-                initialState: { home: { blogs: blogsInitialsWithPending, tutorials: tutorialsNoErrorWithPending } }
+                initialState: {
+                    home: { blogs: blogsInitialWithLoading.result, tutorials: tutorialsInitialWithLoading.result }
+                }
             });
 
         renderHomeInitial();
@@ -37,7 +37,9 @@ describe('Home', () => {
     test('render a Home component with data', () => {
         const renderHome = (): RenderResult =>
             renderWithRouter(<Home />, {
-                initialState: { home: { blogs: blogsWithData, tutorials: tutorialsWithData } }
+                initialState: {
+                    home: { blogs: blogsWithDataNoError.result, tutorials: tutorialsWithDataNoError.result }
+                }
             });
 
         renderHome();
@@ -49,7 +51,9 @@ describe('Home', () => {
     test('render a Home component with loading', () => {
         const renderHomeWithLoading = (): RenderResult =>
             renderWithRouter(<Home />, {
-                initialState: { home: { blogs: blogsWithLoading, tutorials: tutorialsWithLoading } }
+                initialState: {
+                    home: { blogs: blogsNoErrorWithLoading.result, tutorials: tutorialsWithNoDataWithPending.result }
+                }
             });
 
         renderHomeWithLoading();

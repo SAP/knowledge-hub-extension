@@ -82,12 +82,16 @@ export class ActionHandler {
 
             // Save filters
             const filters = action.filters;
-            this.appSession.storage.setFilters(FILTERS_TUTORIALS_TAGS, filters);
+            await this.appSession.storage.setFilters(FILTERS_TUTORIALS_TAGS, filters);
 
             if (response.status === 'fetched' && response.data) {
-                await this.panel.webview.postMessage(fetchTutorials.fulfilled(response.data));
+                await this.panel.webview.postMessage(
+                    fetchTutorials.fulfilled({ data: response.data.data, query: action.query })
+                );
                 if (action.query.searchField !== '') {
-                    await this.panel.webview.postMessage(fetchTutorialsTotalCount.fulfilled(response.data.numFound));
+                    await this.panel.webview.postMessage(
+                        fetchTutorialsTotalCount.fulfilled(response.data.data.numFound)
+                    );
                 } else {
                     await this.panel.webview.postMessage(fetchTutorialsTotalCount.fulfilled(-1));
                 }
@@ -114,7 +118,7 @@ export class ActionHandler {
 
             // Save filters
             const filters = action.filters;
-            this.appSession.storage.setFilters(FILTERS_BLOGS_TAGS, filters);
+            await this.appSession.storage.setFilters(FILTERS_BLOGS_TAGS, filters);
 
             if (response.status === 'fetched' && response.data) {
                 await this.panel.webview.postMessage(fetchBlogs.fulfilled(response.data));
@@ -162,7 +166,7 @@ export class ActionHandler {
             const response = await this.communityTagsApi.getTutorialsTags();
 
             if (response.status === 'fetched' && response.data) {
-                await this.panel.webview.postMessage(fetchTutorialsTags.fulfilled(response.data));
+                await this.panel.webview.postMessage(fetchTutorialsTags.fulfilled(response.data.data));
             }
 
             if (response.status === 'error') {

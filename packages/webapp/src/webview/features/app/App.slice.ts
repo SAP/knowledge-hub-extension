@@ -1,7 +1,7 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import i18next from 'i18next';
 
-import i18next from '../../i18n';
 import {
     initialize,
     fetchBlogsTotalCount,
@@ -21,29 +21,7 @@ export const initialAppState: AppState = {
 
 export const initialUiState: AppUiState = {
     ready: false,
-    tabs: {
-        home: {
-            key: PathType.HOME,
-            path: '/',
-            headerText: i18next.t('HOME_TAB'),
-            ariaLabel: 'HOME_TAB',
-            count: -1
-        },
-        tutorials: {
-            key: PathType.TUTORIALS,
-            path: '/tutorials',
-            headerText: i18next.t('TUTORIALS_TAB'),
-            ariaLabel: 'TUTORIALS_TAB',
-            count: -1
-        },
-        blogs: {
-            key: PathType.BLOGS,
-            path: '/blogs',
-            headerText: i18next.t('BLOGS_TAB'),
-            ariaLabel: 'BLOGS_TAB',
-            count: -1
-        }
-    }
+    tabs: {}
 };
 
 const app = createSlice({
@@ -65,6 +43,29 @@ const ui = createSlice({
         builder
             .addCase(initialize.fulfilled.type, (state) => {
                 state.ready = true;
+                state.tabs = {
+                    home: {
+                        key: PathType.HOME,
+                        path: '/',
+                        headerText: i18next.t('HOME_TAB'),
+                        ariaLabel: 'HOME_TAB',
+                        count: -1
+                    },
+                    tutorials: {
+                        key: PathType.TUTORIALS,
+                        path: '/tutorials',
+                        headerText: i18next.t('TUTORIALS_TAB'),
+                        ariaLabel: 'TUTORIALS_TAB',
+                        count: -1
+                    },
+                    blogs: {
+                        key: PathType.BLOGS,
+                        path: '/blogs',
+                        headerText: i18next.t('BLOGS_TAB'),
+                        ariaLabel: 'BLOGS_TAB',
+                        count: -1
+                    }
+                };
             })
             .addCase(fetchBlogsTotalCount.fulfilled.type, (state: AppUiState, action: PayloadAction<number>): void => {
                 const blogsTab = state.tabs[PathType.BLOGS];

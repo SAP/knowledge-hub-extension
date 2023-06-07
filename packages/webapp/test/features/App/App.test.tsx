@@ -1,7 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
 import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
@@ -23,7 +22,7 @@ describe('App', () => {
 
         screen.debug();
 
-        const headerText = screen.getByText('HOME_TITLE');
-        expect(headerText.className).toMatch(/home-header-title/i);
+        const loadingText = screen.getByText('APP_LOADING_CONTENT');
+        expect(loadingText.className).toContain('ms-Spinner-label');
     });
 });

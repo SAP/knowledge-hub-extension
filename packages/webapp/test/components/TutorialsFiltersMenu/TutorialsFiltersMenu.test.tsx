@@ -2,13 +2,12 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
 
 import { initIcons } from '@sap-ux/ui-components';
 
 import type { TutorialsTags, TutorialsFacets } from '@sap/knowledge-hub-extension-types';
 
-import { withDataNoErrorWithFilters } from '../../__mocks__/tutorials';
+import { tutorialsWithDataNoErrorWithFilters } from '../../__mocks__/tutorials';
 import { renderWithRouter } from '../../__mocks__/store.mock';
 
 import { TutorialsFiltersMenu } from '../../../src/webview/components/TutorialsFiltersMenu';
@@ -19,7 +18,7 @@ describe('TutorialsFiltersMenu', () => {
 
     const renderTutorialsFiltersMenu = (facets: TutorialsFacets, tags: TutorialsTags, loading: boolean): RenderResult =>
         renderWithRouter(<TutorialsFiltersMenu facets={facets} tags={tags} loading={loading} />, {
-            initialState: { tutorials: withDataNoErrorWithFilters }
+            initialState: { tutorials: tutorialsWithDataNoErrorWithFilters }
         });
 
     test('test if the TutorialsFiltersMenu render is ok with data', () => {

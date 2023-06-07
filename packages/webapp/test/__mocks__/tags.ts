@@ -149,3 +149,45 @@ export const tutorialsTagsWithTags = {
         pending: false
     }
 };
+
+export const tutorialsTagsWithNoDataWithPending = {
+    blogs: {
+        data: {
+            filteredTags: []
+        },
+        error: {
+            isError: false,
+            message: ''
+        },
+        pending: false
+    },
+    tutorials: {
+        tags: {},
+        error: {
+            isError: false,
+            message: ''
+        },
+        pending: true
+    }
+};
+
+export const tutorialsTagsWithNoDataWithError = {
+    blogs: {
+        data: {
+            filteredTags: []
+        },
+        error: {
+            isError: false,
+            message: ''
+        },
+        pending: false
+    },
+    tutorials: {
+        tags: {},
+        error: {
+            isError: true,
+            message: 'no internet'
+        },
+        pending: false
+    }
+};

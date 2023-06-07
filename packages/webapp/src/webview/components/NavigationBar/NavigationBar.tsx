@@ -33,7 +33,7 @@ export const NavigationBar: FC<NavigationBarProps> = ({ tabs }: NavigationBarPro
 
     const handleOnClick = useCallback(
         (selectedTab?: UITabsItem | undefined): void => {
-            if (selectedTab && selectedTab.props.itemKey) {
+            if (selectedTab?.props.itemKey) {
                 setSelectedKey(tabs[selectedTab.props.itemKey].key);
                 navigate(tabs[selectedTab.props.itemKey].path);
             }

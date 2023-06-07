@@ -1,6 +1,6 @@
 import { fetchBlogsTags, fetchTutorialsTags } from '@sap/knowledge-hub-extension-types';
-import reducer from '../../../src/webview/features/tags/Tags.slice';
-import {
+
+import reducer, {
     getTagsBlogs,
     getTagsBlogsData,
     getTagsBlogsPending,
@@ -10,15 +10,16 @@ import {
     getTagsTutorialsPending,
     getTagsTutorialsError
 } from '../../../src/webview/features/tags/Tags.slice';
+
 import {
     tagsInitialState,
     blogsTagsWithTags,
     blogsTagsWithNoDataWithPending,
     blogsTagsWithNoDataWithError,
     tutorialsData,
-    //tutorialsTagsWithNoDataWithPending,
-    tutorialsTagsWithTags
-    //tutorialsTagsWithNoDataWithError
+    tutorialsTagsWithNoDataWithPending,
+    tutorialsTagsWithTags,
+    tutorialsTagsWithNoDataWithError
 } from '../../../test/__mocks__/tags';
 import { rootState } from '../../../test/__mocks__/store.mock';
 
@@ -63,33 +64,50 @@ describe('tags slice', () => {
             test('initial state', () => {
                 expect(reducer(undefined, { type: 'action' })).toEqual(tagsInitialState);
             });
-            // test('fetchTutorialsTags pending action', () => {
-            //     const action = fetchTutorialsTags.pending(true);
-            //     expect(reducer(undefined, action)).toEqual(tutorialsTagsWithNoDataWithPending);
-            // });
+            test('fetchTutorialsTags pending action', () => {
+                const action = fetchTutorialsTags.pending(true);
+                expect(reducer(undefined, action)).toEqual(tutorialsTagsWithNoDataWithPending);
+            });
             test('fetchTutorialsTags fulfilled action', () => {
                 const action = fetchTutorialsTags.fulfilled(tutorialsData);
                 expect(reducer(undefined, action)).toEqual(tutorialsTagsWithTags);
             });
-            // test('fetchTutorialsTags rejected action', () => {
-            //     const action = fetchTutorialsTags.rejected('no internet');
-            //     expect(reducer(undefined, action)).toEqual(tutorialsTagsWithNoDataWithError);
-            // });
+            test('fetchTutorialsTags rejected action', () => {
+                const action = fetchTutorialsTags.rejected('no internet');
+                expect(reducer(undefined, action)).toEqual(tutorialsTagsWithNoDataWithError);
+            });
         });
     });
 
-    // describe('tags slice > state selector', () => {
-    //     test('getTags', () => {
-    //         expect(getTags(rootState)).toEqual(tagsInitialState.result);
-    //     });
-    //     test('getTagsData', () => {
-    //         expect(getTagsData(rootState)).toEqual(tagsInitialState.result.data.filteredTags);
-    //     });
-    //     test('getTagsPending', () => {
-    //         expect(getTagsPending(rootState)).toEqual(tagsInitialState.result.pending);
-    //     });
-    //     test('getTagsError', () => {
-    //         expect(getTagsError(rootState)).toEqual(tagsInitialState.result.error);
-    //     });
-    // });
+    describe('tags slice > state selector', () => {
+        describe('tags slice > state selector > tag Blogs', () => {
+            test('getTagsBlogs', () => {
+                expect(getTagsBlogs(rootState)).toEqual(tagsInitialState.blogs);
+            });
+            test('getTagsBlogsData', () => {
+                expect(getTagsBlogsData(rootState)).toEqual(tagsInitialState.blogs.data.filteredTags);
+            });
+            test('getTagsBlogsPending', () => {
+                expect(getTagsBlogsPending(rootState)).toEqual(tagsInitialState.blogs.pending);
+            });
+            test('getTagsBlogsError', () => {
+                expect(getTagsBlogsError(rootState)).toEqual(tagsInitialState.blogs.error);
+            });
+        });
+
+        describe('tags slice > state selector > tag Tutorials', () => {
+            test('getTagsTutorials', () => {
+                expect(getTagsTutorials(rootState)).toEqual(tagsInitialState.tutorials);
+            });
+            test('getTagsTutorialsData', () => {
+                expect(getTagsTutorialsData(rootState)).toEqual(tagsInitialState.tutorials.tags);
+            });
+            test('getTagsTutorialsPending', () => {
+                expect(getTagsTutorialsPending(rootState)).toEqual(tagsInitialState.tutorials.pending);
+            });
+            test('getTagsTutorialsError', () => {
+                expect(getTagsTutorialsError(rootState)).toEqual(tagsInitialState.tutorials.error);
+            });
+        });
+    });
 });

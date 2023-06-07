@@ -24,16 +24,17 @@ export class UITabs extends React.Component<UITabsProps, {}> {
     /**
      * Initializes component properties.
      *
-     * @param {UITabsProps} props
+     * @param {UITabsProps} props component properties.
      */
     public constructor(props: UITabsProps) {
         super(props);
     }
 
     protected setTabsStyle = (): Partial<IPivotStyles> => {
+        const activeForegroundColor = 'var(--vscode-tab-activeForeground)';
         return {
             root: {
-                color: 'var(--vscode-tab-activeForeground)',
+                color: activeForegroundColor,
                 borderBottom: '1px solid var(--vscode-dropdown-border)'
             },
             link: {
@@ -41,12 +42,12 @@ export class UITabs extends React.Component<UITabsProps, {}> {
                 selectors: {
                     '&:active, &:hover': {
                         backgroundColor: 'transparent',
-                        color: 'var(--vscode-tab-activeForeground)'
+                        color: activeForegroundColor
                     }
                 }
             },
             linkIsSelected: {
-                color: 'var(--vscode-tab-activeForeground)',
+                color: activeForegroundColor,
                 selectors: {
                     '&:before': {
                         height: 1,
@@ -89,7 +90,7 @@ export class UITabs extends React.Component<UITabsProps, {}> {
     };
 
     /**
-     * @returns {JSX.Element}
+     * @returns {JSX.Element} component render.
      */
     render(): JSX.Element {
         return (

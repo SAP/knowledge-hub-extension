@@ -7,10 +7,16 @@ export interface Tutorials {
 }
 
 export interface TutorialsState {
-    data: TutorialsSearchResult;
+    result: TutorialsSearchResult;
     error: Error;
     pending: boolean;
 }
+
+export interface TutorialsSearchResult {
+    data: TutorialsSearchResultData;
+    query: TutorialsSearchQuery;
+}
+
 export interface TutorialsSearchQuery {
     rows: number;
     start: number;
@@ -26,7 +32,7 @@ export interface TutorialsUiState {
     isFiltersMenuOpened: boolean;
 }
 
-export interface TutorialsSearchResult {
+export interface TutorialsSearchResultData {
     group: string;
     mission: string;
     facets: TutorialsFacets;

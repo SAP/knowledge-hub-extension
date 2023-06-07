@@ -5,7 +5,7 @@ import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
 
-import { withNoDataWithError } from '../../../__mocks__/blogs';
+import { blogsWithNoDataWithError } from '../../../__mocks__/blogs';
 import { render } from '../../../__mocks__/store.mock';
 
 import { BlogsFiltersMenuCategories } from '../../../../src/webview/components/BlogsFiltersMenu/BlogsFiltersMenuCategories';
@@ -17,7 +17,7 @@ describe('BlogsFiltersMenuCategories', () => {
 
     const renderBlogsFiltersMenuCategories = (loading: boolean, isSmall: boolean): RenderResult =>
         render(<BlogsFiltersMenuCategories loading={loading} isSmall={isSmall} />, {
-            initialState: { blogs: withNoDataWithError }
+            initialState: { blogs: blogsWithNoDataWithError }
         });
 
     test('test if the BlogsFiltersMenuCategories render is ok with data - small size', () => {

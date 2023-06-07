@@ -5,30 +5,39 @@ import type {
     Home,
     TutorialsState,
     TutorialsSearchResult,
+    TutorialsSearchQuery,
+    TutorialsSearchResultData,
     BlogsState,
     BlogsSearchResult,
+    BlogsSearchQuery,
     BlogsSearchResultContentItem,
     Error,
     ErrorAction,
     PendingAction
 } from '@sap/knowledge-hub-extension-types';
 
+import { initialBlogsQueryState } from '../blogs/Blogs.slice';
+import { initialTutorialsQueryState } from '../tutorials/Tutorials.slice';
+
 import type { RootState } from '../../store';
 
 export const initialState: Home = {
     tutorials: {
-        data: {
-            group: '',
-            mission: '',
-            facets: {},
-            iconPath: {},
-            tags: {},
-            tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
-            result: [],
-            numFound: 0,
-            countGroups: 0,
-            countMissions: 0,
-            countTutorials: 0
+        result: {
+            query: initialTutorialsQueryState,
+            data: {
+                group: '',
+                mission: '',
+                facets: {},
+                iconPath: {},
+                tags: {},
+                tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
+                result: [],
+                numFound: -1,
+                countGroups: 0,
+                countMissions: 0,
+                countTutorials: 0
+            }
         },
         error: {
             isError: false,
@@ -37,8 +46,11 @@ export const initialState: Home = {
         pending: true
     },
     blogs: {
-        data: [],
-        totalCount: 0,
+        result: {
+            query: initialBlogsQueryState,
+            totalCount: -1,
+            contentItems: []
+        },
         error: {
             isError: false,
             message: ''
@@ -61,10 +73,19 @@ const tutorials = createSlice({
             .addCase(
                 fetchTutorials.fulfilled.type,
                 (state: TutorialsState, action: PayloadAction<TutorialsSearchResult>) => {
-                    const data: TutorialsSearchResult = action.payload;
-                    const error: Error = { isError: false, message: '' };
-                    const pending = false;
-                    return { ...state, data, error, pending };
+                    const query: TutorialsSearchQuery = action.payload.query;
+                    const startDefault = initialTutorialsQueryState.start;
+                    if (startDefault === query.start) {
+                        const data: TutorialsSearchResultData = action.payload.data;
+                        const result: TutorialsSearchResult = { data, query };
+                        const pending = false;
+                        const error: Error = { isError: false, message: '' };
+
+                        return { ...state, result, error, pending };
+                    } else {
+                        const pending = false;
+                        return { ...state, pending };
+                    }
                 }
             )
             .addCase(fetchTutorials.rejected.type, (state: TutorialsState, action: ErrorAction<string, undefined>) => {
@@ -86,11 +107,21 @@ const blogs = createSlice({
                 return { ...state, pending };
             })
             .addCase(fetchBlogs.fulfilled.type, (state: BlogsState, action: PayloadAction<BlogsSearchResult>) => {
-                const data: BlogsSearchResultContentItem[] = action.payload.contentItems;
-                const totalCount = action.payload.totalCount;
-                const pending = false;
-                const error: Error = { isError: false, message: '' };
-                return { ...state, data, totalCount, error, pending };
+                const query: BlogsSearchQuery = action.payload.query;
+                const pageDefault = initialBlogsQueryState.page;
+                if (pageDefault === query.page) {
+                    const query: BlogsSearchQuery = action.payload.query;
+                    const contentItems: BlogsSearchResultContentItem[] = action.payload.contentItems;
+                    const totalCount = action.payload.totalCount;
+                    const result: BlogsSearchResult = { query, contentItems, totalCount };
+                    const pending = false;
+                    const error: Error = { isError: false, message: '' };
+
+                    return { ...state, result, error, pending };
+                } else {
+                    const pending = false;
+                    return { ...state, pending };
+                }
             })
             .addCase(fetchBlogs.rejected.type, (state: BlogsState, action: ErrorAction<string, undefined>) => {
                 const pending = false;
@@ -101,13 +132,13 @@ const blogs = createSlice({
 });
 
 // State selectors
-export const getHomeTutorials = (state: RootState) => state.home.tutorials;
-export const getHomeTutorialsError = (state: RootState) => state.home.tutorials.error;
-export const getHomeTutorialsPending = (state: RootState) => state.home.tutorials.pending;
+export const getHomeTutorials = (state: RootState): TutorialsSearchResult => state.home.tutorials.result;
+export const getHomeTutorialsError = (state: RootState): Error => state.home.tutorials.error;
+export const getHomeTutorialsPending = (state: RootState): boolean => state.home.tutorials.pending;
 
-export const getHomeBlogs = (state: RootState) => state.home.blogs;
-export const getHomeBlogsError = (state: RootState) => state.home.blogs.error;
-export const getHomeBlogsPending = (state: RootState) => state.home.blogs.pending;
+export const getHomeBlogs = (state: RootState): BlogsSearchResult => state.home.blogs.result;
+export const getHomeBlogsError = (state: RootState): Error => state.home.blogs.error;
+export const getHomeBlogsPending = (state: RootState): boolean => state.home.blogs.pending;
 
 export default combineReducers({
     tutorials: tutorials.reducer,

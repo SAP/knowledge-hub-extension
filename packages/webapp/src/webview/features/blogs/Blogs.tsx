@@ -6,16 +6,17 @@ import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MOTION_VARIANTS_PAGE } from '../../constants';
 import type {
-    BlogsState,
+    BlogsSearchResult,
     BlogsSearchQuery,
     BlogsSearchResultContentItem,
-    BlogFiltersEntry
+    BlogFiltersEntry,
+    Error
 } from '@sap/knowledge-hub-extension-types';
 import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
 import { blogsPageChanged, blogsManagedTagsAdd, blogsFilterEntryAdd } from '../../store/actions';
 import { store, useAppSelector } from '../../store';
-import { getBlogs, getBlogsQuery, getBlogsOrderBy, getManagedTags } from './Blogs.slice';
+import { getBlogsResult, getBlogsError, getBlogsPending, getBlogsQuery, getManagedTags } from './Blogs.slice';
 import { getTagsBlogsData } from '../tags/Tags.slice';
 import { fetchBlogData, isManagedTag, getBlogsTagById, onTagSelected } from './Blogs.utils';
 
@@ -39,16 +40,17 @@ export const Blogs: FC = (): JSX.Element => {
     const navigate = useNavigate();
     const maxDisplayPage = 500;
 
-    const activeBlogs: BlogsState = useAppSelector(getBlogs);
+    const activeBlogs: BlogsSearchResult = useAppSelector(getBlogsResult);
+    const activeError: Error = useAppSelector(getBlogsError);
+    const activePending: boolean = useAppSelector(getBlogsPending);
     const activeQuery: BlogsSearchQuery = useAppSelector(getBlogsQuery);
-    const activeOrderBy: string | undefined = useAppSelector(getBlogsOrderBy);
     const activeManagedTags: string[] = useAppSelector(getManagedTags) ?? [];
     const tags = useAppSelector(getTagsBlogsData);
 
     const [loading, setLoading] = useState(true);
     const [noResult, setNoResult] = useState(true);
     const [error, setError] = useState(false);
-    const [blogs, setBlogs] = useState<BlogsSearchResultContentItem[]>(activeBlogs.data);
+    const [blogs, setBlogs] = useState<BlogsSearchResultContentItem[]>(activeBlogs.contentItems);
     const [totalPage, setTotalPage] = useState(0);
     const [totalEntries, setTotalEntries] = useState(0);
     const [pageOffset, setPageOffset] = useState(activeQuery.page);
@@ -70,12 +72,12 @@ export const Blogs: FC = (): JSX.Element => {
         const currentQuery = state.blogs.query;
         const options: BlogsSearchQuery = Object.assign({}, currentQuery);
 
-        if (activeBlogs.error.isError) {
+        if (activeError.isError) {
             setTotalPage(0);
             setLoading(false);
             setNoResult(true);
             setError(true);
-        } else if (!activeBlogs.pending) {
+        } else if (!activePending) {
             if (location.state?.tagId && !isManagedTag(location.state.tagId, activeManagedTags)) {
                 const tag = getBlogsTagById(location.state.tagId, tags);
                 const filterEntry: BlogFiltersEntry = {
@@ -89,12 +91,12 @@ export const Blogs: FC = (): JSX.Element => {
                 fetchBlogData(options);
                 navigate(location.pathname, { replace: true });
             } else if (activeBlogs && activeBlogs.totalCount > 0) {
-                setBlogs(activeBlogs.data);
+                setBlogs(activeBlogs.contentItems);
                 setTotalPage(Math.ceil(activeBlogs.totalCount / (activeQuery.limit ? activeQuery.limit : 20)));
                 setTotalEntries(activeBlogs.totalCount);
                 setLoading(false);
                 setNoResult(false);
-                setError(activeBlogs.error.isError);
+                setError(activeError.isError);
             } else if (activeBlogs.totalCount === 0) {
                 setTotalEntries(activeBlogs.totalCount);
                 setLoading(false);
@@ -107,12 +109,6 @@ export const Blogs: FC = (): JSX.Element => {
             }
         }
     }, [activeBlogs]);
-
-    useEffect(() => {
-        const state = store.getState();
-        const currentQuery = state.blogs.query;
-        fetchBlogData(currentQuery);
-    }, [activeOrderBy]);
 
     return (
         <motion.div

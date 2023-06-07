@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { BlogsTagsSearchResult, TutorialsSearchResult } from '@sap/knowledge-hub-extension-types';
+import type { BlogsTagsSearchResult, TutorialsSearchResultData } from '@sap/knowledge-hub-extension-types';
 import { getCommunityTagsApi, getBlogsTags, getTutorialsTags } from '../../src/api/tags-api';
 
 jest.mock('axios');
@@ -98,7 +98,7 @@ describe('tags-api', () => {
         });
 
         it('should test `getTutorialsTags` function', async () => {
-            const data: TutorialsSearchResult = {
+            const data: TutorialsSearchResultData = {
                 countGroups: 1,
                 countMissions: 1,
                 countTutorials: 1,

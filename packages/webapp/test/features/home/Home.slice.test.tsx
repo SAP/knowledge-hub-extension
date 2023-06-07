@@ -4,15 +4,15 @@ import reducer from '../../../src/webview/features/home//Home.slice';
 
 import {
     homeInitialState,
-    tutorialsNoData,
     stateTutorialsWithDataNoError,
     stateTutorialsWithNoDataWithError,
     stateTutorialsWithNoDataWithPending,
-    blogsNoData,
     stateBlogsWithNoDataWithPending,
     stateBlogsWithDataNoError,
     stateBlogsWithNoDataWithError
 } from '../../../test/__mocks__/home';
+import { tutorialsDataFromFetch } from '../../../test/__mocks__/tutorials';
+import { blogsData } from '../../../test/__mocks__/blogs';
 
 describe('home slice', () => {
     describe('home slice > reducer', () => {
@@ -26,7 +26,7 @@ describe('home slice', () => {
                 expect(reducer(undefined, action)).toEqual(stateTutorialsWithNoDataWithPending);
             });
             test('fetchHomeTutorials fulfilled action', () => {
-                const action = fetchTutorials.fulfilled(tutorialsNoData);
+                const action = fetchTutorials.fulfilled(tutorialsDataFromFetch);
                 expect(reducer(undefined, action)).toEqual(stateTutorialsWithDataNoError);
             });
             test('fetchHomeTutorials rejected action', () => {
@@ -41,7 +41,7 @@ describe('home slice', () => {
                 expect(reducer(undefined, action)).toEqual(stateBlogsWithNoDataWithPending);
             });
             test('fetchHomeBlogs fulfilled action', () => {
-                const action = fetchBlogs.fulfilled(blogsNoData);
+                const action = fetchBlogs.fulfilled(blogsData);
                 expect(reducer(undefined, action)).toEqual(stateBlogsWithDataNoError);
             });
             test('fetchHomeBlogs rejected action', () => {

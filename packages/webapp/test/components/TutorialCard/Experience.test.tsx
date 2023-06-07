@@ -5,7 +5,7 @@ import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
 
-import { withDataNoError } from '../../__mocks__/tutorials';
+import { tutorialsWithDataNoError } from '../../__mocks__/tutorials';
 import { render } from '../../__mocks__/store.mock';
 
 import { Experience } from '../../../src/webview/components/TutorialCard/Experience';
@@ -15,7 +15,9 @@ describe('TutorialCard > Experience', () => {
     initIcons();
 
     const renderExperience = (experience: string): RenderResult =>
-        render(<Experience experience={experience} />, { initialState: { tutorials: withDataNoError } });
+        render(<Experience experience={experience} />, {
+            initialState: { tutorials: tutorialsWithDataNoError.result }
+        });
 
     test('test if the Experience render is ok', () => {
         const experience =

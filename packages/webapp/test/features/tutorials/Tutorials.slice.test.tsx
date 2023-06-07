@@ -1,4 +1,4 @@
-import { fetchTutorials, fetchHomeTutorials, initTutorialsFilters } from '@sap/knowledge-hub-extension-types';
+import { fetchTutorials } from '@sap/knowledge-hub-extension-types';
 import type { Tutorials } from '@sap/knowledge-hub-extension-types';
 
 import {
@@ -19,15 +19,14 @@ import reducer, {
     getTutorialsQuery,
     getTutorialsQueryFilters,
     getTutorialsUI,
-    getTutorialsDataTags,
     getTutorialsUIIsLoading
 } from '../../../src/webview/features/tutorials/Tutorials.slice';
 import {
     tutorialsInitialState,
-    tutorialsData,
-    withDataNoErrorNoTags,
-    withNoDataWithError,
-    withNoDataWithPending
+    tutorialsDataFromFetch,
+    tutorialsWithDataNoErrorNoTags,
+    tutorialsWithNoDataWithError,
+    tutorialsWithNoDataWithPending
 } from '../../../test/__mocks__/tutorials';
 import { rootState } from '../../../test/__mocks__/store.mock';
 
@@ -38,9 +37,9 @@ describe('tutorials slice', () => {
         test('fetchTutorials', () => {
             const expectedAction = {
                 type: '[core] tutorials/fetch <fulfilled>',
-                payload: tutorialsData
+                payload: tutorialsDataFromFetch
             };
-            expect(fetchTutorials.fulfilled(tutorialsData)).toEqual(expectedAction);
+            expect(fetchTutorials.fulfilled(tutorialsDataFromFetch)).toEqual(expectedAction);
         });
     });
 
@@ -51,30 +50,19 @@ describe('tutorials slice', () => {
             });
             test('fetchTutorials pending action', () => {
                 const action = fetchTutorials.pending(true);
-                expect(reducer(undefined, action)).toEqual(withNoDataWithPending);
+                expect(reducer(undefined, action)).toEqual(tutorialsWithNoDataWithPending);
             });
             test('fetchTutorials fulfilled action', () => {
-                const action = fetchTutorials.fulfilled(tutorialsData);
-                expect(reducer(undefined, action)).toEqual(withDataNoErrorNoTags);
+                const action = fetchTutorials.fulfilled(tutorialsDataFromFetch);
+                expect(reducer(undefined, action)).toEqual(tutorialsWithDataNoErrorNoTags);
             });
             test('fetchTutorials rejected action', () => {
                 const action = fetchTutorials.rejected('no internet');
-                expect(reducer(undefined, action)).toEqual(withNoDataWithError);
+                expect(reducer(undefined, action)).toEqual(tutorialsWithNoDataWithError);
             });
         });
 
         describe('tutorials slice > reducer > tutorialsQuery', () => {
-            test('tutorials init filters', () => {
-                const state = Object.assign({}, initialState, {
-                    query: {
-                        ...initialState.query,
-                        filters: ['testTag']
-                    }
-                });
-                const action = initTutorialsFilters.fulfilled([{ tag: 'testTag', title: 'Test tag' }]);
-                expect(reducer(initialState, action)).toEqual(state);
-            });
-
             test('tutorials page changed action', () => {
                 const state = Object.assign({}, initialState, {
                     query: {
@@ -176,35 +164,6 @@ describe('tutorials slice', () => {
                 expect(reducer(initialState, tutorialsLoading(true))).toEqual(state);
             });
         });
-
-        describe('tutorials slice > reducer > tutorialsTags', () => {
-            test('tutorials page changed action', () => {
-                const state = Object.assign({}, initialState, {
-                    tags: {
-                        ...initialState.tags,
-                        tags: {
-                            'Tag 1': {
-                                tagAlternativeTitles: [],
-                                tagTitle: 'tutorial:experience/beginner',
-                                title: 'Beginner'
-                            },
-                            'Tag 2': {
-                                tagAlternativeTitles: [],
-                                tagTitle: 'tutorial:type/group',
-                                title: 'Group'
-                            },
-                            'Tag 3': {
-                                tagAlternativeTitles: [],
-                                tagTitle: 'Test tag',
-                                title: 'Test tag'
-                            }
-                        }
-                    }
-                });
-                const action = fetchHomeTutorials.fulfilled(tutorialsData);
-                expect(reducer(undefined, action)).toEqual(state);
-            });
-        });
     });
 
     describe('tutorials slice > selectors', () => {
@@ -212,7 +171,7 @@ describe('tutorials slice', () => {
             expect(getTutorials(rootState)).toEqual(tutorialsInitialState.result);
         });
         test('getTutorialsData', () => {
-            expect(getTutorialsData(rootState)).toEqual(tutorialsInitialState.result.data);
+            expect(getTutorialsData(rootState)).toEqual(tutorialsInitialState.result.result.data);
         });
         test('getTutorialsPending', () => {
             expect(getTutorialsPending(rootState)).toEqual(tutorialsInitialState.result.pending);
@@ -228,9 +187,6 @@ describe('tutorials slice', () => {
         });
         test('getTutorialsUI', () => {
             expect(getTutorialsUI(rootState)).toEqual(tutorialsInitialState.ui);
-        });
-        test('getTutorialsDataTags', () => {
-            expect(getTutorialsDataTags(rootState)).toEqual(tutorialsInitialState.tags.tags);
         });
         test('getTutorialsUIIsLoading', () => {
             expect(getTutorialsUIIsLoading(rootState)).toEqual(tutorialsInitialState.ui.isLoading);

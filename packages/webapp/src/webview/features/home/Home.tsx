@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import { tabs, MOTION_VARIANTS_PAGE } from '../../constants';
 
 import type {
-    TutorialsState,
+    TutorialsSearchResult,
     TutorialsEntry,
-    BlogsState,
+    BlogsSearchResult,
     BlogsSearchResultContentItem,
     BlogFiltersEntry,
     Tag,
@@ -44,14 +44,14 @@ export const Home: FC = (): JSX.Element => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const homeTutorials: TutorialsState | null = useAppSelector(getHomeTutorials);
+    const homeTutorials: TutorialsSearchResult = useAppSelector(getHomeTutorials);
     const homeTutorialsLoading: boolean = useAppSelector(getHomeTutorialsPending);
     const homeTutorialsError: Error = useAppSelector(getHomeTutorialsError);
     const homeTutorialsActiveFiltersEntries = useAppSelector(getTutorialsQueryFilters);
     const homeTutorialsActiveTotalCount = useAppSelector(getTutorialsTotalCount);
     const [homeTutorialsFiltersEntries, setHomeTutorialsFiltersEntries] = useState<string[]>([]);
 
-    const homeBlogs: BlogsState = useAppSelector(getHomeBlogs);
+    const homeBlogs: BlogsSearchResult = useAppSelector(getHomeBlogs);
     const homeBlogsLoading: boolean = useAppSelector(getHomeBlogsPending);
     const homeBlogsError: Error = useAppSelector(getHomeBlogsError);
     const homeBlogsActiveFiltersEntries = useAppSelector(getBlogsUIFiltersEntries);
@@ -77,10 +77,10 @@ export const Home: FC = (): JSX.Element => {
     }, []);
 
     useEffect(() => {
-        if (homeBlogs && !homeTutorialsError.isError && homeBlogs.totalCount) {
-            setBlogs(homeBlogs.data);
+        if (homeBlogs && !homeBlogsError.isError && homeBlogs.totalCount) {
+            setBlogs(homeBlogs.contentItems);
         }
-    }, [homeBlogs, homeBlogsLoading, homeTutorialsError]);
+    }, [homeBlogs, homeBlogsLoading, homeBlogsError]);
 
     useEffect(() => {
         if (homeTutorials && !homeTutorialsError.isError && homeTutorials.data.numFound) {

@@ -6,7 +6,7 @@ import type {
     BlogsTagsState,
     BlogsTagsSearchResult,
     TutorialsTagsState,
-    TutorialsSearchResult,
+    TutorialsSearchResultData,
     TutorialsTags,
     Error,
     ErrorAction,
@@ -83,7 +83,7 @@ const tutorialsTags = createSlice({
             )
             .addCase(
                 fetchTutorialsTags.fulfilled.type,
-                (state: TutorialsTagsState, action: PayloadAction<TutorialsSearchResult>) => {
+                (state: TutorialsTagsState, action: PayloadAction<TutorialsSearchResultData>) => {
                     const tags: TutorialsTags = action.payload.tags;
                     const error: Error = { isError: false, message: '' };
                     const pending = false;

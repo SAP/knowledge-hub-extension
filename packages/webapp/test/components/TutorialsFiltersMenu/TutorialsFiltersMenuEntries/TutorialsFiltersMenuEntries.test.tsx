@@ -9,7 +9,7 @@ import { initIcons } from '@sap-ux/ui-components';
 
 import type { TutorialsTags } from '@sap/knowledge-hub-extension-types';
 
-import { withDataNoErrorWithFilters } from '../../../__mocks__/tutorials';
+import { tutorialsWithDataNoErrorWithFilters } from '../../../__mocks__/tutorials';
 import { render } from '../../../__mocks__/store.mock';
 
 import { TutorialsFiltersMenuEntries } from '../../../../src/webview/components/TutorialsFiltersMenu/TutorialsFiltersMenuEntries';
@@ -110,7 +110,7 @@ describe('TutorialsFiltersMenuEntries', () => {
                 loading={loading}
             />,
             {
-                initialState: { tutorials: withDataNoErrorWithFilters }
+                initialState: { tutorials: tutorialsWithDataNoErrorWithFilters }
             }
         );
 

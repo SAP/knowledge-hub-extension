@@ -7,13 +7,7 @@ import { PathType } from '@sap/knowledge-hub-extension-types';
 
 import { UISearchBox, UIIconButton } from '@sap-ux/ui-components';
 import { useAppSelector } from '../../store';
-import {
-    searchTermChanged,
-    tutorialsFiltersSelected,
-    blogsFiltersSelected,
-    appBlogsTotalCountUpdate,
-    appTutorialsTotalCountUpdate
-} from '../../store/actions';
+import { searchTermChanged, tutorialsFiltersSelected, blogsFiltersSelected } from '../../store/actions';
 import { getSearchTerm } from './Search.slice';
 import { getTutorialsUI, getTutorialsQueryFilters } from '../tutorials/Tutorials.slice';
 import { getBlogsUI, getBlogsUIFiltersEntries } from '../blogs/Blogs.slice';

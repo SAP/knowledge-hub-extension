@@ -17,7 +17,6 @@ import asyncFetch from '../utils/asyncFetch';
 /**
  * Returns API to programmatically access community tags.
  *
- * @param options - options like API host, node enhancements, or html enhancements
  * @returns - API
  */
 export function getCommunityTagsApi(): TagsAPI {
@@ -46,7 +45,6 @@ export async function getBlogsTags(host: string): Promise<FetchResponse<BlogsTag
  * Returns an object of tutorials search result.
  *
  * @param host - Developer tutorials API host
- * @param queryOptions - options like query string, filters
  * @returns - Object of tutorial entries
  */
 export async function getTutorialsTags(host: string): Promise<FetchResponse<TutorialsSearchResult>> {

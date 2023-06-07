@@ -5,6 +5,7 @@ import type {
     AppState,
     Tutorials,
     TutorialsState,
+    TutorialsSearchResultData,
     TutorialsSearchResult,
     TutorialsSearchQuery,
     TutorialsUiState,
@@ -26,28 +27,7 @@ import {
 
 import type { RootState } from '../../store';
 
-export const initialSearchState: TutorialsState = {
-    data: {
-        group: '',
-        mission: '',
-        facets: {},
-        iconPath: {},
-        tags: {},
-        tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
-        result: [],
-        numFound: -1,
-        countGroups: 0,
-        countMissions: 0,
-        countTutorials: 0
-    },
-    error: {
-        isError: false,
-        message: ''
-    },
-    pending: false
-};
-
-export const initialQueryState: TutorialsSearchQuery = {
+export const initialTutorialsQueryState: TutorialsSearchQuery = {
     rows: TUTORIALS_LIMIT_PER_PAGE,
     start: 0,
     searchField: '',
@@ -55,6 +35,30 @@ export const initialQueryState: TutorialsSearchQuery = {
     language: 'en_us',
     addDefaultLanguage: true,
     filters: []
+};
+
+export const initialSearchState: TutorialsState = {
+    result: {
+        data: {
+            group: '',
+            mission: '',
+            facets: {},
+            iconPath: {},
+            tags: {},
+            tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
+            result: [],
+            numFound: -1,
+            countGroups: 0,
+            countMissions: 0,
+            countTutorials: 0
+        },
+        query: initialTutorialsQueryState
+    },
+    error: {
+        isError: false,
+        message: ''
+    },
+    pending: false
 };
 
 export const initialUiState: TutorialsUiState = {
@@ -77,11 +81,13 @@ const result = createSlice({
             .addCase(
                 fetchTutorials.fulfilled.type,
                 (state: TutorialsState, action: PayloadAction<TutorialsSearchResult>) => {
-                    const data: TutorialsSearchResult = action.payload;
-                    const error: Error = { isError: false, message: '' };
+                    const query: TutorialsSearchQuery = action.payload.query;
+                    const data: TutorialsSearchResultData = action.payload.data;
+                    const result: TutorialsSearchResult = { data, query };
                     const pending = false;
+                    const error: Error = { isError: false, message: '' };
 
-                    return { ...state, data, error, pending };
+                    return { ...state, result, error, pending };
                 }
             )
             .addCase(fetchTutorials.rejected.type, (state: TutorialsState, action: ErrorAction<string, undefined>) => {
@@ -95,7 +101,7 @@ const result = createSlice({
 
 const query = createSlice({
     name: 'tutorialsQuery',
-    initialState: initialQueryState,
+    initialState: initialTutorialsQueryState,
     reducers: {},
     extraReducers: (builder) =>
         builder
@@ -181,18 +187,20 @@ const ui = createSlice({
 
 export const initialState: Tutorials = {
     result: initialSearchState,
-    query: initialQueryState,
+    query: initialTutorialsQueryState,
     ui: initialUiState
 };
 
 // State selectors
 export const getTutorials = (state: RootState) => state.tutorials.result;
-export const getTutorialsData = (state: RootState) => state.tutorials.result.data;
-export const getTutorialsTotalCount = (state: RootState) => state.tutorials.result.data.numFound;
+export const getTutorialsData = (state: RootState) => state.tutorials.result.result.data;
+export const getTutorialsTotalCount = (state: RootState) => state.tutorials.result.result.data.numFound;
 export const getTutorialsPending = (state: RootState) => state.tutorials.result.pending;
 export const getTutorialsError = (state: RootState) => state.tutorials.result.error;
+
 export const getTutorialsQuery = (state: RootState) => state.tutorials.query;
 export const getTutorialsQueryFilters = (state: RootState) => state.tutorials.query.filters;
+
 export const getTutorialsUI = (state: RootState) => state.tutorials.ui;
 export const getTutorialsUIIsLoading = (state: RootState) => state.tutorials.ui.isLoading;
 

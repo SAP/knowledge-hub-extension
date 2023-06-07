@@ -1,9 +1,9 @@
 import type {
     AppState,
     TutorialsSearchResult,
+    TutorialsSearchResultData,
     BlogsSearchResult,
     BlogsTagsSearchResult,
-    BlogFiltersEntry,
     TutorialsTagWithTitle
 } from '../types';
 
@@ -141,9 +141,10 @@ export const createViewAction = createActionFactory(VIEW_PREFIX);
 export const initialize = createCoreAction<AppState>('app/initialize');
 export const fetchTutorials = createCoreAction<TutorialsSearchResult>('tutorials/fetch');
 export const fetchBlogs = createCoreAction<BlogsSearchResult>('blogs/fetch');
+
 export const fetchBlogsTags = createCoreAction<BlogsTagsSearchResult>('tags/fetch/blogs-tags');
-export const fetchTutorialsTags = createCoreAction<TutorialsSearchResult>('tags/fetch/tutorials-tags');
-export const initBlogsQuery = createCoreAction<BlogFiltersEntry[]>('blogs/init/query');
+export const fetchTutorialsTags = createCoreAction<TutorialsSearchResultData>('tags/fetch/tutorials-tags');
+
 export const initTutorialsFilters = createCoreAction<TutorialsTagWithTitle[]>('tutorials/init/filters');
 export const fetchBlogsTotalCount = createCoreAction<number>('blogs/fetch-total-count');
 export const fetchTutorialsTotalCount = createCoreAction<number>('tutorials/fetch-total-count');

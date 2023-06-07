@@ -47,7 +47,7 @@ export const BlogsFiltersBar: FC<BlogsFiltersBarProps> = ({ editable }): JSX.Ele
 
         dispatch(blogsCategoryDeleteAll(null));
         dispatch(blogsManagedTagsDeleteAll(null));
-        dispatch(blogsLanguageUpdate(null));
+        dispatch(blogsLanguageUpdate(''));
         dispatch(blogsFilterEntryDeleteAll(null));
         fetchBlogData(options);
     }, []);
@@ -75,7 +75,7 @@ export const BlogsFiltersBar: FC<BlogsFiltersBarProps> = ({ editable }): JSX.Ele
             }
             if (filtersEntry.type === BlogFiltersEntryType.LANGUAGE) {
                 options.language = '';
-                dispatch(blogsLanguageUpdate(null));
+                dispatch(blogsLanguageUpdate(''));
             }
         }
         dispatch(blogsFilterEntryDelete(id));
