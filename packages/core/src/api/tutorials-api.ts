@@ -1,6 +1,6 @@
 import type {
     TutorialsSearchQuery,
-    TutorialsSearchResult,
+    TutorialsSearchResultData,
     TutorialsAPI,
     TutorialsAPIOptions,
     FetchResponse
@@ -40,7 +40,7 @@ export function getDeveloperTutorialsApi(options?: TutorialsAPIOptions): Tutoria
     return {
         getTutorials: async (
             queryOptions?: TutorialsSearchQuery | undefined
-        ): Promise<FetchResponse<TutorialsSearchResult>> => getTutorials(apiHost, queryOptions)
+        ): Promise<FetchResponse<TutorialsSearchResultData>> => getTutorials(apiHost, queryOptions)
     };
 }
 
@@ -54,7 +54,7 @@ export function getDeveloperTutorialsApi(options?: TutorialsAPIOptions): Tutoria
 export async function getTutorials(
     host: string,
     queryOptions: TutorialsSearchQuery | undefined
-): Promise<FetchResponse<TutorialsSearchResult>> {
+): Promise<FetchResponse<TutorialsSearchResultData>> {
     if (queryOptions?.filters) {
         queryOptions.filters.forEach((item: string, index: number, array: string[]) => {
             array[index] = formatFiltersTagIdOptions(item.replace(':', '/'));
@@ -64,5 +64,5 @@ export async function getTutorials(
     const options = prepareQueyOptions(queryOptions);
     const url = `${host}${TUTORIALS_SEARCH_PATH}${options}`;
 
-    return await asyncFetch<TutorialsSearchResult>(url);
+    return await asyncFetch<TutorialsSearchResultData>(url);
 }

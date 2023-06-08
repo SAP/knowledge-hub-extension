@@ -83,8 +83,8 @@ const tutorialsTags = createSlice({
             )
             .addCase(
                 fetchTutorialsTags.fulfilled.type,
-                (state: TutorialsTagsState, action: PayloadAction<TutorialsSearchResultData>) => {
-                    const tags: TutorialsTags = action.payload.tags;
+                (state: TutorialsTagsState, action: PayloadAction<TutorialsTags>) => {
+                    const tags: TutorialsTags = action.payload;
                     const error: Error = { isError: false, message: '' };
                     const pending = false;
 

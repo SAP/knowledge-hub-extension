@@ -1,7 +1,7 @@
 import type {
     AppState,
     TutorialsSearchResult,
-    TutorialsSearchResultData,
+    TutorialsTags,
     BlogsSearchResult,
     BlogsTagsSearchResult,
     TutorialsTagWithTitle
@@ -143,7 +143,7 @@ export const fetchTutorials = createCoreAction<TutorialsSearchResult>('tutorials
 export const fetchBlogs = createCoreAction<BlogsSearchResult>('blogs/fetch');
 
 export const fetchBlogsTags = createCoreAction<BlogsTagsSearchResult>('tags/fetch/blogs-tags');
-export const fetchTutorialsTags = createCoreAction<TutorialsSearchResultData>('tags/fetch/tutorials-tags');
+export const fetchTutorialsTags = createCoreAction<TutorialsTags>('tags/fetch/tutorials-tags');
 
 export const initTutorialsFilters = createCoreAction<TutorialsTagWithTitle[]>('tutorials/init/filters');
 export const fetchBlogsTotalCount = createCoreAction<number>('blogs/fetch-total-count');

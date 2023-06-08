@@ -92,7 +92,9 @@ export interface TutorialsTagWithTitle {
 // API
 
 export interface TutorialsAPI {
-    getTutorials: (queryOptions?: TutorialsSearchQuery | undefined) => Promise<FetchResponse<TutorialsSearchResult>>;
+    getTutorials: (
+        queryOptions?: TutorialsSearchQuery | undefined
+    ) => Promise<FetchResponse<TutorialsSearchResultData>>;
 }
 
 export interface TutorialsAPIOptions {

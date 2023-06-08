@@ -207,6 +207,7 @@ const query = createSlice({
             .addMatcher(
                 blogsSearchTermChanged.match,
                 (state: BlogsSearchQuery, action: PayloadAction<string>): void => {
+                    state.page = 0;
                     state.searchTerm = action.payload;
                 }
             )

@@ -83,11 +83,9 @@ const result = createSlice({
                 (state: TutorialsState, action: PayloadAction<TutorialsSearchResult>) => {
                     const query: TutorialsSearchQuery = action.payload.query;
                     const data: TutorialsSearchResultData = action.payload.data;
-                    const result: TutorialsSearchResult = { data, query };
                     const pending = false;
                     const error: Error = { isError: false, message: '' };
-
-                    return { ...state, result, error, pending };
+                    return { ...state, result: { data, query }, error, pending };
                 }
             )
             .addCase(fetchTutorials.rejected.type, (state: TutorialsState, action: ErrorAction<string, undefined>) => {
@@ -161,6 +159,7 @@ const query = createSlice({
             .addMatcher(
                 tutorialsSearchFieldChanged.match,
                 (state: TutorialsSearchQuery, action: PayloadAction<string>): void => {
+                    state.start = 0;
                     state.searchField = action.payload;
                 }
             )

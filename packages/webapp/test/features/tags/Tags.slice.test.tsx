@@ -35,9 +35,9 @@ describe('tags slice', () => {
         test('fetchTutorialsTags', () => {
             const expectedAction = {
                 type: '[core] tags/fetch/tutorials-tags <fulfilled>',
-                payload: tutorialsData
+                payload: tutorialsData.tags
             };
-            expect(fetchTutorialsTags.fulfilled(tutorialsData)).toEqual(expectedAction);
+            expect(fetchTutorialsTags.fulfilled(tutorialsData.tags)).toEqual(expectedAction);
         });
     });
 
@@ -69,7 +69,7 @@ describe('tags slice', () => {
                 expect(reducer(undefined, action)).toEqual(tutorialsTagsWithNoDataWithPending);
             });
             test('fetchTutorialsTags fulfilled action', () => {
-                const action = fetchTutorialsTags.fulfilled(tutorialsData);
+                const action = fetchTutorialsTags.fulfilled(tutorialsData.tags);
                 expect(reducer(undefined, action)).toEqual(tutorialsTagsWithTags);
             });
             test('fetchTutorialsTags rejected action', () => {

@@ -1,6 +1,6 @@
 import type {
     BlogsTagsSearchResult,
-    TutorialsSearchResult,
+    TutorialsSearchResultData,
     TutorialsSearchQuery,
     TagsAPI,
     FetchResponse
@@ -25,7 +25,8 @@ export function getCommunityTagsApi(): TagsAPI {
 
     return {
         getBlogsTags: async (): Promise<FetchResponse<BlogsTagsSearchResult>> => getBlogsTags(apiHostBlogs),
-        getTutorialsTags: async (): Promise<FetchResponse<TutorialsSearchResult>> => getTutorialsTags(apiHostTutorials)
+        getTutorialsTags: async (): Promise<FetchResponse<TutorialsSearchResultData>> =>
+            getTutorialsTags(apiHostTutorials)
     };
 }
 
@@ -47,7 +48,7 @@ export async function getBlogsTags(host: string): Promise<FetchResponse<BlogsTag
  * @param host - Developer tutorials API host
  * @returns - Object of tutorial entries
  */
-export async function getTutorialsTags(host: string): Promise<FetchResponse<TutorialsSearchResult>> {
+export async function getTutorialsTags(host: string): Promise<FetchResponse<TutorialsSearchResultData>> {
     const queryOptions: TutorialsSearchQuery = {
         rows: 10,
         start: 0,
@@ -60,5 +61,5 @@ export async function getTutorialsTags(host: string): Promise<FetchResponse<Tuto
     const options = JSON.stringify(queryOptions);
     const url = `${host}${TAGS_TUTORIALS_SEARCH_PATH}${options}`;
 
-    return await asyncFetch<TutorialsSearchResult>(url);
+    return await asyncFetch<TutorialsSearchResultData>(url);
 }

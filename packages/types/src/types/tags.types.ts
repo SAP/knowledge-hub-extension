@@ -1,5 +1,5 @@
 import type { Error, FetchResponse } from './common.types';
-import type { TutorialsTags, TutorialsSearchResult } from './tutorials.types';
+import type { TutorialsTags, TutorialsSearchResultData } from './tutorials.types';
 
 export interface Tags {
     blogs: BlogsTagsState;
@@ -41,5 +41,5 @@ export interface TagsAlphaRef {
 
 export interface TagsAPI {
     getBlogsTags: () => Promise<FetchResponse<BlogsTagsSearchResult>>;
-    getTutorialsTags: () => Promise<FetchResponse<TutorialsSearchResult>>;
+    getTutorialsTags: () => Promise<FetchResponse<TutorialsSearchResultData>>;
 }

@@ -86,12 +86,10 @@ export class ActionHandler {
 
             if (response.status === 'fetched' && response.data) {
                 await this.panel.webview.postMessage(
-                    fetchTutorials.fulfilled({ data: response.data.data, query: action.query })
+                    fetchTutorials.fulfilled({ data: response.data, query: action.query })
                 );
                 if (action.query.searchField !== '') {
-                    await this.panel.webview.postMessage(
-                        fetchTutorialsTotalCount.fulfilled(response.data.data.numFound)
-                    );
+                    await this.panel.webview.postMessage(fetchTutorialsTotalCount.fulfilled(response.data.numFound));
                 } else {
                     await this.panel.webview.postMessage(fetchTutorialsTotalCount.fulfilled(-1));
                 }
@@ -166,7 +164,7 @@ export class ActionHandler {
             const response = await this.communityTagsApi.getTutorialsTags();
 
             if (response.status === 'fetched' && response.data) {
-                await this.panel.webview.postMessage(fetchTutorialsTags.fulfilled(response.data.data));
+                await this.panel.webview.postMessage(fetchTutorialsTags.fulfilled(response.data.tags));
             }
 
             if (response.status === 'error') {
