@@ -21,7 +21,29 @@ export const initialAppState: AppState = {
 
 export const initialUiState: AppUiState = {
     ready: false,
-    tabs: {}
+    tabs: {
+        home: {
+            key: PathType.HOME,
+            path: '/',
+            headerText: '',
+            ariaLabel: 'HOME_TAB',
+            count: -1
+        },
+        tutorials: {
+            key: PathType.TUTORIALS,
+            path: '/tutorials',
+            headerText: '',
+            ariaLabel: 'TUTORIALS_TAB',
+            count: -1
+        },
+        blogs: {
+            key: PathType.BLOGS,
+            path: '/blogs',
+            headerText: '',
+            ariaLabel: 'BLOGS_TAB',
+            count: -1
+        }
+    }
 };
 
 const app = createSlice({
