@@ -6,7 +6,6 @@ import type {
     BlogsTagsState,
     BlogsTagsSearchResult,
     TutorialsTagsState,
-    TutorialsSearchResultData,
     TutorialsTags,
     Error,
     ErrorAction,
