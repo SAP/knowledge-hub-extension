@@ -18,7 +18,11 @@ describe('BlogsFiltersBar', () => {
     const renderBlogsFiltersBar = (): RenderResult =>
         render(<BlogsFiltersBar />, {
             initialState: {
-                blogs: { query: queryWithFilter, tags: tagsWithData, ui: { filtersEntries: filtersWithData } }
+                blogs: {
+                    query: queryWithFilter,
+                    ui: { filtersEntries: filtersWithData }
+                },
+                tags: { blogs: tagsWithData }
             }
         });
 
@@ -54,26 +58,73 @@ describe('BlogsFiltersBar', () => {
         }
     });
 
-    test('test if the BlogsFiltersBar render is ok when one of the filter clear icon is clicked', () => {
-        act(() => {
-            renderBlogsFiltersBar();
-        });
-
-        expect(() => screen.getByTestId('blogs-filters-bar')).not.toThrow();
-        const listOfFilterPill = screen.getByTestId('blogs-filters-bar-list-of-pill').querySelectorAll('.ui-pill');
-        expect(listOfFilterPill.length).toEqual(4);
-
-        if (listOfFilterPill) {
-            const pill1 = screen.getByTestId('ui-pill-tag-1');
+    describe('test when a filter pill clear icon is clicked', () => {
+        test('test if the BlogsFiltersBar render is ok when one of the filter tag clear icon is clicked', () => {
             act(() => {
-                pill1.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+                renderBlogsFiltersBar();
             });
 
-            const listOfFilterPillAfter = screen
-                .getByTestId('blogs-filters-bar-list-of-pill')
-                .querySelectorAll('.ui-pill');
+            expect(() => screen.getByTestId('blogs-filters-bar')).not.toThrow();
+            const listOfFilterPill = screen.getByTestId('blogs-filters-bar-list-of-pill').querySelectorAll('.ui-pill');
+            expect(listOfFilterPill.length).toEqual(4);
 
-            expect(listOfFilterPillAfter.length).toEqual(3);
-        }
+            if (listOfFilterPill) {
+                const pill1 = screen.getByTestId('ui-pill-tag-1');
+                act(() => {
+                    pill1.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+                });
+
+                const listOfFilterPillAfter = screen
+                    .getByTestId('blogs-filters-bar-list-of-pill')
+                    .querySelectorAll('.ui-pill');
+
+                expect(listOfFilterPillAfter.length).toEqual(3);
+            }
+        });
+
+        test('test if the BlogsFiltersBar render is ok when one of the filter category clear icon is clicked', () => {
+            act(() => {
+                renderBlogsFiltersBar();
+            });
+
+            expect(() => screen.getByTestId('blogs-filters-bar')).not.toThrow();
+            const listOfFilterPill = screen.getByTestId('blogs-filters-bar-list-of-pill').querySelectorAll('.ui-pill');
+            expect(listOfFilterPill.length).toEqual(4);
+
+            if (listOfFilterPill) {
+                const pill1 = screen.getByTestId('ui-pill-category-1');
+                act(() => {
+                    pill1.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+                });
+
+                const listOfFilterPillAfter = screen
+                    .getByTestId('blogs-filters-bar-list-of-pill')
+                    .querySelectorAll('.ui-pill');
+
+                expect(listOfFilterPillAfter.length).toEqual(3);
+            }
+        });
+        test('test if the BlogsFiltersBar render is ok when one of the filter language clear icon is clicked', () => {
+            act(() => {
+                renderBlogsFiltersBar();
+            });
+
+            expect(() => screen.getByTestId('blogs-filters-bar')).not.toThrow();
+            const listOfFilterPill = screen.getByTestId('blogs-filters-bar-list-of-pill').querySelectorAll('.ui-pill');
+            expect(listOfFilterPill.length).toEqual(4);
+
+            if (listOfFilterPill) {
+                const pill1 = screen.getByTestId('ui-pill-language-1');
+                act(() => {
+                    pill1.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+                });
+
+                const listOfFilterPillAfter = screen
+                    .getByTestId('blogs-filters-bar-list-of-pill')
+                    .querySelectorAll('.ui-pill');
+
+                expect(listOfFilterPillAfter.length).toEqual(3);
+            }
+        });
     });
 });

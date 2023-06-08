@@ -25,8 +25,8 @@ export const managedTagsWithData = ['1', '2'];
 export const filtersWithData = [
     { id: '1', label: 'tag 1', type: BlogFiltersEntryType.TAG },
     { id: '2', label: 'tag 2', type: BlogFiltersEntryType.TAG },
-    { id: 'b6e6296c-7cf2-4fe6-aa91-d77078aad028', label: 'category 1', type: BlogFiltersEntryType.CATEGORY },
-    { id: '99', label: 'language 1', type: BlogFiltersEntryType.LANGUAGE }
+    { id: '3', label: 'category 1', type: BlogFiltersEntryType.CATEGORY },
+    { id: '4', label: 'language 1', type: BlogFiltersEntryType.LANGUAGE }
 ];
 
 export const blogsQueryEmpty = {
@@ -61,7 +61,7 @@ export const queryWithFilter = {
     searchTerm: '',
     questionType: '',
     language: '4',
-    blogCategories: ['b6e6296c-7cf2-4fe6-aa91-d77078aad028'],
+    blogCategories: ['3'],
     authorId: '',
     userTags: '',
     updatedFrom: undefined,
@@ -83,7 +83,7 @@ export const queryWithSearchTerm = {
     searchTerm: 'test',
     questionType: '',
     language: '4',
-    blogCategories: ['b6e6296c-7cf2-4fe6-aa91-d77078aad028'],
+    blogCategories: ['3'],
     authorId: '',
     userTags: '',
     updatedFrom: undefined,

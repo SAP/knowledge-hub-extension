@@ -9,7 +9,7 @@ import type { BlogFiltersEntry, BlogsSearchQuery } from '@sap/knowledge-hub-exte
 import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
 import { store, useAppSelector } from '../../store';
-import { getBlogsUIFiltersEntries } from '../../features/blogs/Blogs.slice';
+import { getBlogsUIFiltersEntries, getBlogsQuery } from '../../features/blogs/Blogs.slice';
 import { fetchBlogData } from '../../features/blogs/Blogs.utils';
 import {
     blogsManagedTagsDelete,
@@ -32,13 +32,15 @@ export type BlogsFiltersBarProps = {
 export const BlogsFiltersBar: FC<BlogsFiltersBarProps> = ({ editable }): JSX.Element => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
+
     const activeFiltersEntries = useAppSelector(getBlogsUIFiltersEntries);
+    const activeQuery = useAppSelector(getBlogsQuery);
+
     const [filtersEntries, setFiltersEntries] = useState<BlogFiltersEntry[]>([]);
     const isEditable = editable ?? true;
 
-    const onClearAllFilterEntries = useCallback((): void => {
-        const state = store.getState();
-        const currentQuery = state.blogs.query;
+    const onClearAllFilterEntries = (): void => {
+        const currentQuery = activeQuery;
 
         const options: BlogsSearchQuery = Object.assign({}, currentQuery);
         options.blogCategories = [];
@@ -50,12 +52,11 @@ export const BlogsFiltersBar: FC<BlogsFiltersBarProps> = ({ editable }): JSX.Ele
         dispatch(blogsLanguageUpdate(''));
         dispatch(blogsFilterEntryDeleteAll(null));
         fetchBlogData(options);
-    }, []);
+    };
 
-    const onClearFilterEntry = useCallback((id: string): void => {
-        const state = store.getState();
-        const currentQuery = state.blogs.query;
-        const currentFiltersEntries = state.blogs.ui.filtersEntries;
+    const onClearFilterEntry = (id: string): void => {
+        const currentFiltersEntries = activeFiltersEntries;
+        const currentQuery = activeQuery;
 
         const options: BlogsSearchQuery = Object.assign({}, currentQuery);
         const filtersEntry = currentFiltersEntries.find((element: BlogFiltersEntry) => element.id === id);
@@ -80,7 +81,7 @@ export const BlogsFiltersBar: FC<BlogsFiltersBarProps> = ({ editable }): JSX.Ele
         }
         dispatch(blogsFilterEntryDelete(id));
         fetchBlogData(options);
-    }, []);
+    };
 
     useEffect(() => {
         setFiltersEntries(activeFiltersEntries);
