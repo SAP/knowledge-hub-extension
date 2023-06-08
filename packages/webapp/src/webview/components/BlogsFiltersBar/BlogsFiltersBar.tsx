@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,7 @@ import { UIIcon, UISmallButton } from '@sap-ux/ui-components';
 import type { BlogFiltersEntry, BlogsSearchQuery } from '@sap/knowledge-hub-extension-types';
 import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
-import { store, useAppSelector } from '../../store';
+import { useAppSelector } from '../../store';
 import { getBlogsUIFiltersEntries, getBlogsQuery } from '../../features/blogs/Blogs.slice';
 import { fetchBlogData } from '../../features/blogs/Blogs.utils';
 import {
