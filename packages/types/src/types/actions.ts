@@ -1,5 +1,6 @@
 import type { TutorialsSearchQuery, TutorialsTagWithTitle } from './tutorials.types';
 import type { BlogsSearchQuery, BlogFiltersEntry } from './blogs.types';
+
 export interface PendingActions {
     [key: string]: boolean;
 }
