@@ -262,7 +262,7 @@ export class ActionHandler {
             }
         } catch (e) {
             clearTimeout(this.loadingTimeout);
-            this.postActionToWebview(fetchBlogsTags.rejected('Error fetching tutorials tags'));
+            this.postActionToWebview(fetchTutorialsTags.rejected('Error fetching tutorials tags'));
             logString(`Error fetching tutorials tags`);
             throw e;
         }
