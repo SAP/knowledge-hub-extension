@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import type { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -29,43 +29,25 @@ export const Search: FC<SearchProps> = ({ type }: SearchProps): JSX.Element => {
     const activeTutorialUI: TutorialsUiState = useAppSelector(getTutorialsUI);
     const activeBloglUI: BlogsUiState = useAppSelector(getBlogsUI);
 
-    const onSearch = useCallback((searchItem: string): void => {
+    const [searchTerm, setSearchTerm] = React.useState<string>(activeSearch);
+
+    const onSearch = (searchItem: string): void => {
         dispatch(searchTermChanged(searchItem));
+    };
 
-        if (type !== PathType.BLOGS) {
-            searchBlogs(searchItem);
-        }
-        if (type !== PathType.TUTORIALS) {
-            searchTutorials(searchItem);
-        }
-    }, []);
+    const updateSearchTerm = (searchItem: string): void => {
+        setSearchTerm(searchItem);
+    };
 
-    const onClear = useCallback((): void => {
+    const onClear = (): void => {
         dispatch(searchTermChanged(''));
+        updateSearchTerm('');
+    };
 
-        if (type !== PathType.BLOGS) {
-            searchBlogs('');
-        }
-        if (type !== PathType.TUTORIALS) {
-            searchTutorials('');
-        }
-    }, []);
-
-    const onBlur = useCallback(
-        () =>
-            (_evt: React.FocusEvent<HTMLInputElement>): void => {
-                const searchItem = _evt.target.defaultValue;
-                dispatch(searchTermChanged(searchItem));
-
-                if (type !== PathType.BLOGS) {
-                    searchBlogs(searchItem);
-                }
-                if (type !== PathType.TUTORIALS) {
-                    searchTutorials(searchItem);
-                }
-            },
-        []
-    );
+    const onBlur = (_evt: React.FocusEvent<HTMLInputElement>): void => {
+        const searchItem = _evt.target.defaultValue;
+        dispatch(searchTermChanged(searchItem));
+    };
 
     const onHandleFilter = useCallback(
         (type: string) =>
@@ -79,6 +61,15 @@ export const Search: FC<SearchProps> = ({ type }: SearchProps): JSX.Element => {
             },
         [activeTutorialUI, activeBloglUI]
     );
+
+    useEffect(() => {
+        if (activeSearch !== searchTerm) {
+            updateSearchTerm(activeSearch);
+
+            searchBlogs(activeSearch);
+            searchTutorials(activeSearch);
+        }
+    }, [activeSearch]);
 
     return (
         <div className="search" data-testid="search-component">
@@ -117,7 +108,7 @@ export const Search: FC<SearchProps> = ({ type }: SearchProps): JSX.Element => {
                 </div>
             )}
             <div className="search-box">
-                <UISearchBox onSearch={onSearch} onClear={onClear} onBlur={onBlur} defaultValue={activeSearch} />
+                <UISearchBox onSearch={onSearch} onClear={onClear} onBlur={onBlur} defaultValue={searchTerm} />
             </div>
         </div>
     );

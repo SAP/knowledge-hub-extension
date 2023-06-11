@@ -20,7 +20,9 @@ export const App: FC = (): JSX.Element => {
     const { t } = useTranslation();
     const activeTabs: TabsConfig = useAppSelector(getAppTabs);
     const activeReady: boolean = useAppSelector(getAppReady);
+
     const [ready, setReady] = useState(activeReady);
+    const [tabs, setTabs] = useState(activeTabs);
 
     useEffect(() => {
         setReady(activeReady);
@@ -30,6 +32,12 @@ export const App: FC = (): JSX.Element => {
         }
     }, [activeReady]);
 
+    useEffect(() => {
+        if (activeTabs) {
+            setTabs(activeTabs);
+        }
+    }, [activeTabs]);
+
     return (
         <div className="app-knowledge-hub">
             <div className="app-knowledge-hub-wrapper">
@@ -37,7 +45,7 @@ export const App: FC = (): JSX.Element => {
                     {!ready && <Loader label={t('APP_LOADING_CONTENT')} />}
                     {ready && (
                         <React.Fragment>
-                            <NavigationBar tabs={activeTabs} />
+                            <NavigationBar tabs={tabs} />
                             <RoutesWithAnimation />
                         </React.Fragment>
                     )}

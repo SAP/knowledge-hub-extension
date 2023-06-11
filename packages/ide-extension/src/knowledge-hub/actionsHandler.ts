@@ -22,7 +22,9 @@ import type {
     TutorialsAPI,
     TagsAPI,
     BlogFiltersEntry,
-    TutorialsTagWithTitle
+    BlogsSearchQuery,
+    TutorialsTagWithTitle,
+    TutorialsSearchQuery
 } from '@sap/knowledge-hub-extension-types';
 import { getCommunityBlogsApi, getDeveloperTutorialsApi, getCommunityTagsApi } from '@sap/knowledge-hub-extension-core';
 
@@ -116,6 +118,34 @@ export class ActionHandler {
     };
 
     /**
+     * Checks if the blogs search term is not empty.
+     *
+     * @param {BlogsSearchQuery} query The blogs search query
+     * @returns {boolean} True if the search term is not empty, false otherwise
+     */
+    private isBlogsSearchTerm = (query: BlogsSearchQuery): boolean => {
+        if (query?.searchTerm) {
+            return query.searchTerm !== '';
+        } else {
+            return false;
+        }
+    };
+
+    /**
+     *  Checks if the tutorials search term is not empty.
+     *
+     * @param {TutorialsSearchQuery} query The tutorials search query
+     * @returns {boolean} True if the search term is not empty, false otherwise
+     */
+    private isTutorialsSearchTerm = (query: TutorialsSearchQuery): boolean => {
+        if (query?.searchField) {
+            return query.searchField !== '';
+        } else {
+            return false;
+        }
+    };
+
+    /**
      * Fetches the tutorials from the API.
      *
      * @param {AnyAction} action An action object
@@ -140,7 +170,8 @@ export class ActionHandler {
 
             if (response.status === 'fetched' && response.data) {
                 this.postActionToWebview(fetchTutorials.fulfilled({ data: response.data, query: action.query }));
-                if (action.query.searchField !== '') {
+                const isSearchActive = this.isTutorialsSearchTerm(action.query);
+                if (isSearchActive) {
                     this.postActionToWebview(fetchTutorialsTotalCount.fulfilled(response.data.numFound));
                 } else {
                     this.postActionToWebview(fetchTutorialsTotalCount.fulfilled(-1));
@@ -183,7 +214,8 @@ export class ActionHandler {
 
             if (response.status === 'fetched' && response.data) {
                 this.postActionToWebview(fetchBlogs.fulfilled(response.data));
-                if (action.query.searchTerm !== '') {
+                const isSearchActive = this.isBlogsSearchTerm(action.query);
+                if (isSearchActive) {
                     this.postActionToWebview(fetchBlogsTotalCount.fulfilled(response.data.totalCount));
                 } else {
                     this.postActionToWebview(fetchBlogsTotalCount.fulfilled(-1));
