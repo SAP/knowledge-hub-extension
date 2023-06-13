@@ -53,6 +53,11 @@
                         padding-left: 20px;
                     }
                 }
+                &-filter {
+                    &-bar {
+                        padding-bottom: 20px;
+                    }
+                }
                 &-content {
                     flex-grow: 1;
                     overflow: auto;

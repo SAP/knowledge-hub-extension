@@ -1,9 +1,9 @@
 import type {
-    App,
+    AppState,
     TutorialsSearchResult,
+    TutorialsTags,
     BlogsSearchResult,
-    TagsSearchResult,
-    BlogFiltersEntry,
+    BlogsTagsSearchResult,
     TutorialsTagWithTitle
 } from '../types';
 
@@ -138,12 +138,13 @@ export function createActionFactory(prefix: string) {
 export const createCoreAction = createAsyncActionFactory(CORE_PREFIX);
 export const createViewAction = createActionFactory(VIEW_PREFIX);
 
-export const initialize = createCoreAction<App>('app/initialize');
+export const initialize = createCoreAction<AppState>('app/initialize');
 export const fetchTutorials = createCoreAction<TutorialsSearchResult>('tutorials/fetch');
 export const fetchBlogs = createCoreAction<BlogsSearchResult>('blogs/fetch');
-export const fetchHomeTutorials = createCoreAction<TutorialsSearchResult>('home/tutorials/fetch');
-export const fetchHomeBlogs = createCoreAction<BlogsSearchResult>('home/blogs/fetch');
-export const fetchTags = createCoreAction<TagsSearchResult>('tags/fetch');
-export const initBlogsQuery = createCoreAction<BlogFiltersEntry[]>('blogs/init/query');
-export const initBlogsFilters = createCoreAction<BlogFiltersEntry[]>('blogs/init/filters');
+
+export const fetchBlogsTags = createCoreAction<BlogsTagsSearchResult>('tags/fetch/blogs-tags');
+export const fetchTutorialsTags = createCoreAction<TutorialsTags>('tags/fetch/tutorials-tags');
+
 export const initTutorialsFilters = createCoreAction<TutorialsTagWithTitle[]>('tutorials/init/filters');
+export const fetchBlogsTotalCount = createCoreAction<number>('blogs/fetch-total-count');
+export const fetchTutorialsTotalCount = createCoreAction<number>('tutorials/fetch-total-count');

@@ -31,7 +31,7 @@ describe('UI > UIPill', () => {
         });
 
         const uiPillTitleDOM = screen.getByText(/Test/i);
-        expect(uiPillTitleDOM.className).toEqual('ui-pill-name ui-small-text');
+        expect(uiPillTitleDOM.className).toEqual('ui-pill-name ui-small-text ui-pill-name__with-icon');
 
         const pillDOM = document.querySelector('[data-testid=ui-pill-test]');
         expect(pillDOM).toBeTruthy();

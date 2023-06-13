@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 
 import { initIcons } from '@sap-ux/ui-components';
 
-import { tagsWithTags } from '../../../test/__mocks__/tags';
+import { blogsTagsWithTags } from '../../../test/__mocks__/tags';
 
 import { renderWithRouter } from '../../../test/__mocks__/store.mock';
 
@@ -21,7 +21,8 @@ describe('Tag', () => {
         let scrollIntoViewMock = jest.fn();
         window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
 
-        const renderTags = (): RenderResult => renderWithRouter(<Tags />, { initialState: { tags: tagsWithTags } });
+        const renderTags = (): RenderResult =>
+            renderWithRouter(<Tags />, { initialState: { tags: blogsTagsWithTags } });
 
         renderTags();
 
@@ -33,7 +34,8 @@ describe('Tag', () => {
         let scrollIntoViewMock = jest.fn();
         window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
 
-        const renderTags = (): RenderResult => renderWithRouter(<Tags />, { initialState: { tags: tagsWithTags } });
+        const renderTags = (): RenderResult =>
+            renderWithRouter(<Tags />, { initialState: { tags: blogsTagsWithTags } });
 
         renderTags();
 
@@ -53,7 +55,8 @@ describe('Tag', () => {
         let scrollIntoViewMock = jest.fn();
         window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
 
-        const renderTags = (): RenderResult => renderWithRouter(<Tags />, { initialState: { tags: tagsWithTags } });
+        const renderTags = (): RenderResult =>
+            renderWithRouter(<Tags />, { initialState: { tags: blogsTagsWithTags } });
 
         renderTags();
 
@@ -72,7 +75,8 @@ describe('Tag', () => {
     test('it should filter the list of tags when search', async () => {
         const user = userEvent.setup();
 
-        const renderTags = (): RenderResult => renderWithRouter(<Tags />, { initialState: { tags: tagsWithTags } });
+        const renderTags = (): RenderResult =>
+            renderWithRouter(<Tags />, { initialState: { tags: blogsTagsWithTags } });
 
         renderTags();
 

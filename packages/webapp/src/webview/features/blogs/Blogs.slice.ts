@@ -1,14 +1,14 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+    initialize,
     BlogFiltersEntryType,
     fetchBlogs,
     BLOGS_LIMIT_PER_PAGE,
-    BlogSearchSortBy,
-    initBlogsFilters,
-    initBlogsQuery
+    BlogSearchSortBy
 } from '@sap/knowledge-hub-extension-types';
 import type {
+    AppState,
     Blogs,
     BlogsState,
     BlogsSearchQuery,
@@ -27,7 +27,6 @@ import {
     blogsManagedTagsAdd,
     blogsManagedTagsDelete,
     blogsManagedTagsDeleteAll,
-    blogsTagsAdd,
     blogsLanguageUpdate,
     blogsOrderByUpdate,
     blogsCategoryAdd,
@@ -42,17 +41,7 @@ import {
 } from '../../store/actions';
 import type { RootState } from '../../store';
 
-export const initialSearchState: BlogsState = {
-    data: [],
-    totalCount: -1,
-    error: {
-        isError: false,
-        message: ''
-    },
-    pending: false
-};
-
-export const initialQueryState: BlogsSearchQuery = {
+export const initialBlogsQueryState: BlogsSearchQuery = {
     page: 0,
     limit: BLOGS_LIMIT_PER_PAGE,
     orderBy: BlogSearchSortBy.UPDATE_TIME,
@@ -74,6 +63,19 @@ export const initialQueryState: BlogsSearchQuery = {
     additionalUserTags: [] as string[]
 };
 
+export const initialSearchState: BlogsState = {
+    result: {
+        query: initialBlogsQueryState,
+        totalCount: -1,
+        contentItems: []
+    },
+    error: {
+        isError: false,
+        message: ''
+    },
+    pending: true
+};
+
 export const initialUiState: BlogsUiState = {
     isLoading: false,
     isFiltersMenuOpened: false,
@@ -90,56 +92,55 @@ const result = createSlice({
     reducers: {},
 
     extraReducers: (builder) => {
-        builder.addCase(fetchBlogs.pending.type, (state: BlogsState, action: PendingAction<string, undefined>) => {
-            const pending = action.pending;
-            return { ...state, pending };
-        });
+        builder
+            .addCase(fetchBlogs.pending.type, (state: BlogsState, action: PendingAction<string, undefined>) => {
+                const pending = action.pending;
+                return { ...state, pending };
+            })
+            .addCase(fetchBlogs.fulfilled.type, (state: BlogsState, action: PayloadAction<BlogsSearchResult>) => {
+                const query: BlogsSearchQuery = action.payload.query;
+                const contentItems: BlogsSearchResultContentItem[] = action.payload.contentItems;
+                const totalCount = action.payload.totalCount;
+                const result: BlogsSearchResult = { query, contentItems, totalCount };
+                const pending = false;
+                const error: Error = { isError: false, message: '' };
 
-        builder.addCase(fetchBlogs.fulfilled.type, (state: BlogsState, action: PayloadAction<BlogsSearchResult>) => {
-            const data: BlogsSearchResultContentItem[] = action.payload.contentItems;
-            const totalCount = action.payload.totalCount;
-            const pending = false;
-            const error: Error = { isError: false, message: '' };
+                return { ...state, result, error, pending };
+            })
+            .addCase(fetchBlogs.rejected.type, (state: BlogsState, action: ErrorAction<string, undefined>) => {
+                const pending = false;
+                const error: Error = { isError: true, message: action.error.message };
 
-            return { ...state, data, totalCount, error, pending };
-        });
-
-        builder.addCase(fetchBlogs.rejected.type, (state: BlogsState, action: ErrorAction<string, undefined>) => {
-            const pending = false;
-            const error: Error = { isError: true, message: action.error.message };
-
-            return { ...state, error, pending };
-        });
+                return { ...state, error, pending };
+            });
     }
 });
 
 const query = createSlice({
     name: 'blogsQuery',
-    initialState: initialQueryState,
+    initialState: initialBlogsQueryState,
     reducers: {},
     extraReducers: (builder) =>
         builder
-            .addCase(
-                initBlogsQuery.fulfilled.type,
-                (state: BlogsSearchQuery, action: PayloadAction<BlogFiltersEntry[]>) => {
-                    const managedTags: string[] = [];
-                    const blogCategories: string[] = [];
-                    let language: string = '';
-                    action.payload.forEach((entry: BlogFiltersEntry) => {
-                        if (entry.type === BlogFiltersEntryType.TAG) {
-                            managedTags.push(entry.id);
-                        }
-                        if (entry.type === BlogFiltersEntryType.CATEGORY) {
-                            blogCategories.push(entry.id);
-                        }
-                        if (entry.type === BlogFiltersEntryType.LANGUAGE) {
-                            language = entry.id;
-                        }
-                    });
+            .addCase(initialize.fulfilled.type, (state: BlogsSearchQuery, action: PayloadAction<AppState>) => {
+                const filters = action.payload.appFilters;
+                const managedTags: string[] = [];
+                const blogCategories: string[] = [];
+                let language: string = '';
 
-                    return { ...state, managedTags, blogCategories, language };
-                }
-            )
+                filters.blogs?.forEach((entry: BlogFiltersEntry) => {
+                    if (entry.type === BlogFiltersEntryType.TAG) {
+                        managedTags.push(entry.id);
+                    }
+                    if (entry.type === BlogFiltersEntryType.CATEGORY) {
+                        blogCategories.push(entry.id);
+                    }
+                    if (entry.type === BlogFiltersEntryType.LANGUAGE) {
+                        language = entry.id;
+                    }
+                });
+                return { ...state, managedTags, blogCategories, language };
+            })
             .addMatcher(blogsPageChanged.match, (state: BlogsSearchQuery, action: PayloadAction<number>): void => {
                 state.page = action.payload;
             })
@@ -171,12 +172,9 @@ const query = createSlice({
             .addMatcher(blogsManagedTagsDeleteAll.match, (state: BlogsSearchQuery): void => {
                 state.managedTags = [];
             })
-            .addMatcher(
-                blogsLanguageUpdate.match,
-                (state: BlogsSearchQuery, action: PayloadAction<string | null>): void => {
-                    state.language = action.payload;
-                }
-            )
+            .addMatcher(blogsLanguageUpdate.match, (state: BlogsSearchQuery, action: PayloadAction<string>): void => {
+                state.language = action.payload;
+            })
             .addMatcher(blogsOrderByUpdate.match, (state: BlogsSearchQuery, action: PayloadAction<string>): void => {
                 state.orderBy = action.payload;
             })
@@ -209,6 +207,7 @@ const query = createSlice({
             .addMatcher(
                 blogsSearchTermChanged.match,
                 (state: BlogsSearchQuery, action: PayloadAction<string>): void => {
+                    state.page = 0;
                     state.searchTerm = action.payload;
                 }
             )
@@ -220,13 +219,11 @@ const ui = createSlice({
     reducers: {},
     extraReducers: (builder) =>
         builder
-            .addCase(
-                initBlogsFilters.fulfilled.type,
-                (state: BlogsUiState, action: PayloadAction<BlogFiltersEntry[]>) => {
-                    const filtersEntries = action.payload;
-                    return { ...state, filtersEntries };
-                }
-            )
+            .addCase(initialize.fulfilled.type, (state: BlogsUiState, action: PayloadAction<AppState>) => {
+                const filters = action.payload.appFilters;
+                const filtersEntries = filters.blogs ?? [];
+                return { ...state, filtersEntries };
+            })
             .addMatcher(blogsFiltersSelected.match, (state: BlogsUiState, action: PayloadAction<boolean>): void => {
                 const isOpened = action.payload;
                 state.isFiltersMenuOpened = isOpened;
@@ -278,38 +275,31 @@ const ui = createSlice({
             })
 });
 
-const tags = createSlice({
-    name: 'blogsTags',
-    initialState: initialTagsState,
-    reducers: {},
-    extraReducers: (builder) =>
-        builder.addMatcher(blogsTagsAdd.match, (state: Tag[], action: PayloadAction<Tag>): void => {
-            const found = state.find((element: Tag) => element.guid === action.payload.guid);
-            if (!found) {
-                state.push(action.payload);
-            }
-        })
-});
-
 export const initialState: Blogs = {
     result: initialSearchState,
-    query: initialQueryState,
-    ui: initialUiState,
-    tags: initialTagsState
+    query: initialBlogsQueryState,
+    ui: initialUiState
 };
 
 // State selectors
-export const getBlogs = (state: RootState) => state.blogs.result;
+export const getBlogsResult = (state: RootState) => state.blogs.result.result;
 export const getBlogsError = (state: RootState) => state.blogs.result.error;
-export const getBlogsQuery = (state: RootState) => state.blogs.query;
+export const getBlogsPending = (state: RootState) => state.blogs.result.pending;
+export const getBlogsTotalCount = (state: RootState) => state.blogs.result.result.totalCount;
+
 export const getBlogsUI = (state: RootState) => state.blogs.ui;
 export const getBlogsUIIsLoading = (state: RootState) => state.blogs.ui.isLoading;
 export const getBlogsUIFiltersEntries = (state: RootState) => state.blogs.ui.filtersEntries;
-export const getManagedTags = (state: RootState) => state.blogs.query.managedTags;
-export const getBlogsLanguage = (state: RootState) => state.blogs.query.language ?? '';
-export const getBlogsCategories = (state: RootState) => state.blogs.query.blogCategories;
-export const getBlogsTags = (state: RootState) => state.blogs.tags;
-export const getBlogsSearchTerm = (state: RootState) => state.blogs.query.searchTerm;
-export const getBlogsOrderBy = (state: RootState) => state.blogs.query.orderBy;
 
-export default combineReducers({ result: result.reducer, query: query.reducer, ui: ui.reducer, tags: tags.reducer });
+export const getBlogsQuery = (state: RootState): BlogsSearchQuery => state.blogs.query;
+export const getManagedTags = (state: RootState): string[] | undefined => state.blogs.query.managedTags;
+export const getBlogsLanguage = (state: RootState): string | undefined => state.blogs.query.language;
+export const getBlogsCategories = (state: RootState): string[] | undefined => state.blogs.query.blogCategories;
+export const getBlogsSearchTerm = (state: RootState): string | undefined => state.blogs.query.searchTerm;
+export const getBlogsOrderBy = (state: RootState): string | undefined => state.blogs.query.orderBy;
+
+export default combineReducers({
+    result: result.reducer,
+    query: query.reducer,
+    ui: ui.reducer
+});

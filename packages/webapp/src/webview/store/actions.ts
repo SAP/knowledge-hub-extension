@@ -5,15 +5,16 @@ import type {
     BlogsFetchBlogs,
     BlogsSearchQuery,
     BlogFiltersEntry,
-    Tag,
-    TagsFetchTags,
+    TagsFetchBlogsTags,
+    TagsFetchTutorialsTags,
     TutorialsTagWithTitle
 } from '@sap/knowledge-hub-extension-types';
 
 import {
     KNOWLEDGE_HUB_WEB_VIEW_READY,
     TUTORIALS_FETCH_TUTORIALS,
-    TAGS_FETCH_TAGS,
+    TAGS_FETCH_BLOGS_TAGS,
+    TAGS_FETCH_TUTORIALS_TAGS,
     BLOGS_FETCH_BLOGS,
     createViewAction
 } from '@sap/knowledge-hub-extension-types';
@@ -44,8 +45,12 @@ export const blogsFetchBlogs = (
     home
 });
 
-export const tagsFetchTags = (): TagsFetchTags => ({
-    type: TAGS_FETCH_TAGS
+export const tagsFetchBlogsTags = (): TagsFetchBlogsTags => ({
+    type: TAGS_FETCH_BLOGS_TAGS
+});
+
+export const tagsFetchTutorialsTags = (): TagsFetchTutorialsTags => ({
+    type: TAGS_FETCH_TUTORIALS_TAGS
 });
 
 // Search actions
@@ -56,8 +61,7 @@ export const blogsPageChanged = createViewAction<number>('blogs/change-page');
 export const blogsManagedTagsAdd = createViewAction<string>('blogs/managed-tags-add');
 export const blogsManagedTagsDelete = createViewAction<string>('blogs/managed-tags-delete');
 export const blogsManagedTagsDeleteAll = createViewAction('blogs/managed-tags-delete-all');
-export const blogsTagsAdd = createViewAction<Tag>('blogs/tags-add');
-export const blogsLanguageUpdate = createViewAction<string | null>('blogs/language-update');
+export const blogsLanguageUpdate = createViewAction<string>('blogs/language-update');
 export const blogsOrderByUpdate = createViewAction<string>('blogs/orderBy-update');
 export const blogsCategoryAdd = createViewAction<string>('blogs/category-add');
 export const blogsCategoryDelete = createViewAction<string>('blogs/category-delete');
@@ -78,3 +82,7 @@ export const tutorialsFiltersTagsResetWith = createViewAction<string>('tutorials
 export const tutorialsFiltersSelected = createViewAction<boolean>('tutorials/filters-selected');
 export const tutorialsSearchFieldChanged = createViewAction<string>('tutorials/change-searchField');
 export const tutorialsLoading = createViewAction<boolean>('tutorials/loading');
+
+// app actions
+export const appBlogsTotalCountUpdate = createViewAction<number>('app/blogs-total-count-update');
+export const appTutorialsTotalCountUpdate = createViewAction<number>('app/tutorials-total-count-update');

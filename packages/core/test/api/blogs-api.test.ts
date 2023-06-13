@@ -28,7 +28,7 @@ describe('blog-api', () => {
             const result = 'page=0&limit=3&orderBy=UPDATE_TIME&order=DESC&contentTypes%5B0%5D=blogpost';
             const res = prepareQueryOptions(options);
 
-            await expect(res).toEqual(result);
+            expect(res).toEqual(result);
         });
         it('should test with `searchTerm` function', async () => {
             const options = {
@@ -51,7 +51,7 @@ describe('blog-api', () => {
             const result = 'page=0&limit=3&orderBy=UPDATE_TIME&order=DESC&contentTypes%5B0%5D=blogpost&searchTerm=test';
             const res = prepareQueryOptions(options);
 
-            await expect(res).toEqual(result);
+            expect(res).toEqual(result);
         });
     });
 
@@ -62,7 +62,7 @@ describe('blog-api', () => {
             };
             const res = getCommunityBlogsApi(options);
 
-            await expect(res).toBeDefined();
+            expect(res).toBeDefined();
         });
     });
 
@@ -134,7 +134,7 @@ describe('blog-api', () => {
                 'https://searchproxy.api.community.sap.com/external/api/v1/search?page=0&limit=3&orderBy=UPDATE_TIME&order=DESC&contentTypes%5B0%5D=blogpost'
             );
 
-            await expect(result).toEqual({
+            expect(result).toEqual({
                 data: data,
                 error: undefined,
                 status: 'fetched'

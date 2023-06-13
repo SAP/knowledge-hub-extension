@@ -5,7 +5,7 @@ import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
 
-import { withDataWithFilter } from '../../../__mocks__/blogs';
+import { blogsWithDataWithFilter } from '../../../__mocks__/blogs';
 import { render } from '../../../__mocks__/store.mock';
 
 import { BlogsFiltersMenuLanguages } from '../../../../src/webview/components/BlogsFiltersMenu/BlogsFiltersMenuLanguages';
@@ -17,7 +17,7 @@ describe('BlogsFiltersMenuLanguages', () => {
 
     const renderBlogsFiltersMenuLanguages = (loading: boolean, isSmall: boolean): RenderResult =>
         render(<BlogsFiltersMenuLanguages loading={loading} isSmall={isSmall} />, {
-            initialState: { blogs: withDataWithFilter }
+            initialState: { blogs: blogsWithDataWithFilter }
         });
 
     test('test if the BlogsFiltersMenuLanguages render is ok with data - small size', () => {

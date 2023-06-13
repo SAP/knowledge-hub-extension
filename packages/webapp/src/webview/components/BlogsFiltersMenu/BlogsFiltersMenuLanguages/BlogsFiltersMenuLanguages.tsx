@@ -23,7 +23,7 @@ export type BlogsFiltersMenuLanguagesProps = {
 export const BlogsFiltersMenuLanguages: FC<BlogsFiltersMenuLanguagesProps> = ({ isSmall, loading }) => {
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(loading);
-    const activeLanguage: string | null = useAppSelector(getBlogsLanguage);
+    const activeLanguage: string = useAppSelector(getBlogsLanguage) ?? '';
 
     useEffect(() => {
         setIsLoading(loading);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -8,8 +8,8 @@ import { UIIcon, UISmallButton } from '@sap-ux/ui-components';
 import type { BlogFiltersEntry, BlogsSearchQuery } from '@sap/knowledge-hub-extension-types';
 import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
-import { store, useAppSelector } from '../../store';
-import { getBlogsUIFiltersEntries } from '../../features/blogs/Blogs.slice';
+import { useAppSelector } from '../../store';
+import { getBlogsUIFiltersEntries, getBlogsQuery } from '../../features/blogs/Blogs.slice';
 import { fetchBlogData } from '../../features/blogs/Blogs.utils';
 import {
     blogsManagedTagsDelete,
@@ -25,15 +25,22 @@ import { UIPill } from '../UI/UIPill/UIPill';
 
 import './BlogsFiltersBar.scss';
 
-export const BlogsFiltersBar: FC = (): JSX.Element => {
+export type BlogsFiltersBarProps = {
+    editable?: boolean;
+};
+
+export const BlogsFiltersBar: FC<BlogsFiltersBarProps> = ({ editable }): JSX.Element => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    const activeFiltersEntries = useAppSelector(getBlogsUIFiltersEntries);
-    const [filtersEntries, setFiltersEntries] = useState<BlogFiltersEntry[]>([]);
 
-    const onClearAllFilterEntries = useCallback((): void => {
-        const state = store.getState();
-        const currentQuery = state.blogs.query;
+    const activeFiltersEntries = useAppSelector(getBlogsUIFiltersEntries);
+    const activeQuery = useAppSelector(getBlogsQuery);
+
+    const [filtersEntries, setFiltersEntries] = useState<BlogFiltersEntry[]>([]);
+    const isEditable = editable ?? true;
+
+    const onClearAllFilterEntries = (): void => {
+        const currentQuery = activeQuery;
 
         const options: BlogsSearchQuery = Object.assign({}, currentQuery);
         options.blogCategories = [];
@@ -42,15 +49,14 @@ export const BlogsFiltersBar: FC = (): JSX.Element => {
 
         dispatch(blogsCategoryDeleteAll(null));
         dispatch(blogsManagedTagsDeleteAll(null));
-        dispatch(blogsLanguageUpdate(null));
+        dispatch(blogsLanguageUpdate(''));
         dispatch(blogsFilterEntryDeleteAll(null));
         fetchBlogData(options);
-    }, []);
+    };
 
-    const onClearFilterEntry = useCallback((id: string): void => {
-        const state = store.getState();
-        const currentQuery = state.blogs.query;
-        const currentFiltersEntries = state.blogs.ui.filtersEntries;
+    const onClearFilterEntry = (id: string): void => {
+        const currentFiltersEntries = activeFiltersEntries;
+        const currentQuery = activeQuery;
 
         const options: BlogsSearchQuery = Object.assign({}, currentQuery);
         const filtersEntry = currentFiltersEntries.find((element: BlogFiltersEntry) => element.id === id);
@@ -70,12 +76,12 @@ export const BlogsFiltersBar: FC = (): JSX.Element => {
             }
             if (filtersEntry.type === BlogFiltersEntryType.LANGUAGE) {
                 options.language = '';
-                dispatch(blogsLanguageUpdate(null));
+                dispatch(blogsLanguageUpdate(''));
             }
         }
         dispatch(blogsFilterEntryDelete(id));
         fetchBlogData(options);
-    }, []);
+    };
 
     useEffect(() => {
         setFiltersEntries(activeFiltersEntries);
@@ -97,13 +103,15 @@ export const BlogsFiltersBar: FC = (): JSX.Element => {
                                     pillId={entry.id}
                                     pillLabel={entry.label}
                                     callback={onClearFilterEntry}
+                                    clearButton={isEditable}
                                 />
                             );
                         })}
-
-                        <UISmallButton primary onClick={onClearAllFilterEntries}>
-                            {t('BLOGS_FILTERS_BAR_CLEAR_ALL')}
-                        </UISmallButton>
+                        {isEditable && (
+                            <UISmallButton primary onClick={onClearAllFilterEntries}>
+                                {t('BLOGS_FILTERS_BAR_CLEAR_ALL')}
+                            </UISmallButton>
+                        )}
                     </div>
                 </div>
             )}

@@ -1,8 +1,9 @@
 import { getTutorialsTag } from '../../../src/webview/features/tutorials/Tutorials.utils';
+import { tutorialsEmptyData } from '../../__mocks__/tutorials';
 
 describe('Tutorials.utils', () => {
     it('should test `getTutorialsTag`', () => {
-        const res = getTutorialsTag('tag1', undefined);
+        const res = getTutorialsTag('tag1', tutorialsEmptyData);
         expect(res).toBe('');
     });
 

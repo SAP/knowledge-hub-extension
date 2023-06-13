@@ -6,18 +6,24 @@ import type {
     BlogsCategory
 } from '@sap/knowledge-hub-extension-types';
 
-import { BlogFiltersEntryType, allLanguages, blogsCategories } from '@sap/knowledge-hub-extension-types';
+import {
+    BlogFiltersEntryType,
+    BlogSearchSortBy,
+    allLanguages,
+    blogsCategories
+} from '@sap/knowledge-hub-extension-types';
 import { store, actions } from '../../store';
 import {
     blogsManagedTagsAdd,
     blogsManagedTagsDelete,
     blogsFilterEntryAdd,
     blogsFilterEntryDelete,
-    blogsTagsAdd,
     blogsLanguageUpdate,
     blogsCategoryAdd,
     blogsCategoryDelete,
-    blogsLoading
+    blogsLoading,
+    blogsOrderByUpdate,
+    blogsSearchTermChanged
 } from '../../store/actions';
 
 /**
@@ -109,7 +115,6 @@ export const onTagSelected = (tag: Tag, checked: boolean): void => {
         store.dispatch(blogsFilterEntryDelete(filterEntry.id));
         store.dispatch(blogsManagedTagsDelete(tag.guid));
     }
-    store.dispatch(blogsTagsAdd(tag));
     const query: BlogsSearchQuery = Object.assign({}, currentQuery, { managedTags: blogTags });
     fetchBlogData(query);
 };
@@ -170,5 +175,28 @@ export const onCategorySelected = (categoryId: string, checked: boolean): void =
     }
 
     const options: BlogsSearchQuery = Object.assign({}, currentQuery, { blogCategories: blogCategories });
+    fetchBlogData(options);
+};
+
+/**
+ * Function to handle search term.
+ * If search term is empty, orderBy is set to UPDATE_TIME.
+ * If search term is not empty, orderBy is set to RELEVANCE.
+ *
+ * @param {string} searchTerm - The search term
+ */
+export const searchBlogs = (searchTerm: string): void => {
+    const state = store.getState();
+    const currentQuery = state.blogs.query;
+    let orderBy = BlogSearchSortBy.UPDATE_TIME;
+    if (searchTerm !== '') {
+        store.dispatch(blogsOrderByUpdate(BlogSearchSortBy.RELEVANCE));
+        orderBy = BlogSearchSortBy.RELEVANCE;
+    }
+    const options: BlogsSearchQuery = Object.assign({}, currentQuery, {
+        searchTerm: searchTerm,
+        orderBy: orderBy
+    });
+    store.dispatch(blogsSearchTermChanged(searchTerm));
     fetchBlogData(options);
 };

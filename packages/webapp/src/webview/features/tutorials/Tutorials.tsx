@@ -14,11 +14,10 @@ import type {
 } from '@sap/knowledge-hub-extension-types';
 import { TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 
-import { tutorialsPageChanged, tutorialsFiltersTagsResetWith, tutorialsSearchFieldChanged } from '../../store/actions';
+import { tutorialsPageChanged, tutorialsFiltersTagsResetWith } from '../../store/actions';
 import { store, useAppSelector } from '../../store';
-import { getTutorials, getTutorialsQuery, getTutorialsUIIsLoading } from './Tutorials.slice';
+import { getTutorials, getTutorialsQuery } from './Tutorials.slice';
 import { getTutorialsTag, onTagSelected, fetchTutorialsData } from './Tutorials.utils';
-import { getSearchTerm } from '../search/Search.slice';
 
 import type { UIPaginationSelected } from '../../components/UI/UIPagination';
 import { UIPagination } from '../../components/UI/UIPagination';
@@ -40,8 +39,6 @@ export const Tutorials: FC = (): JSX.Element => {
 
     const activeTutorials: TutorialsState = useAppSelector(getTutorials);
     const activeQuery: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
-    const activeSearchTerm: string = useAppSelector(getSearchTerm);
-    const activeLoading = useAppSelector(getTutorialsUIIsLoading);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -92,48 +89,36 @@ export const Tutorials: FC = (): JSX.Element => {
                 navigate(location.pathname, { replace: true });
             }
 
-            if (activeTutorials && activeTutorials.data.numFound > 0) {
-                setTutorials(activeTutorials.data.result);
-                setTotalNumber(activeTutorials.data.numFound);
-                setCountGroups(activeTutorials.data.countGroups);
-                setCountMissions(activeTutorials.data.countMissions);
-                setCountTutorials(activeTutorials.data.countTutorials);
-                setFacets(activeTutorials.data.facets);
-                setTags(activeTutorials.data.tags);
+            if (activeTutorials && activeTutorials.result.data.numFound > 0) {
+                setTutorials(activeTutorials.result.data.result);
+                setTotalNumber(activeTutorials.result.data.numFound);
+                setCountGroups(activeTutorials.result.data.countGroups);
+                setCountMissions(activeTutorials.result.data.countMissions);
+                setCountTutorials(activeTutorials.result.data.countTutorials);
+                setFacets(activeTutorials.result.data.facets);
+                setTags(activeTutorials.result.data.tags);
 
                 if (activeQuery.rows) {
-                    limit = activeTutorials.data.numFound / activeQuery.rows;
+                    limit = activeTutorials.result.data.numFound / activeQuery.rows;
                 } else {
-                    limit = activeTutorials.data.numFound / TUTORIALS_LIMIT_PER_PAGE;
+                    limit = activeTutorials.result.data.numFound / TUTORIALS_LIMIT_PER_PAGE;
                 }
                 setTotalPageCount(Math.ceil(limit));
 
                 setLoading(false);
                 setNoResult(false);
                 setError(activeTutorials.error.isError);
-            } else if (activeTutorials.data.numFound === 0) {
+            } else if (activeTutorials.result.data.numFound === 0) {
                 setTotalPageCount(0);
                 setLoading(false);
                 setNoResult(true);
-            } else if (activeTutorials.data.numFound === -1) {
+            } else if (activeTutorials.result.data.numFound === -1) {
                 setLoading(true);
                 setNoResult(false);
                 fetchTutorialsData(options);
             }
         }
     }, [activeTutorials]);
-
-    useEffect(() => {
-        const state = store.getState();
-        const currentQuery = state.tutorials.query;
-        const query: TutorialsSearchQuery = Object.assign({}, currentQuery, { searchField: activeSearchTerm });
-        dispatch(tutorialsSearchFieldChanged(activeSearchTerm));
-        fetchTutorialsData(query);
-    }, [activeSearchTerm]);
-
-    useEffect(() => {
-        setLoading(activeLoading);
-    }, [activeLoading]);
 
     return (
         <motion.div
@@ -169,8 +154,8 @@ export const Tutorials: FC = (): JSX.Element => {
                                 <TutorialCard
                                     key={tutorial.imsId}
                                     tutorial={tutorial}
-                                    tag={getTutorialsTag(tutorial.primaryTag, activeTutorials.data)}
-                                    tags={activeTutorials.data.tags}
+                                    tag={getTutorialsTag(tutorial.primaryTag, activeTutorials.result.data)}
+                                    tags={activeTutorials.result.data.tags}
                                     onSelectedTag={onTagSelected}
                                 />
                             );
@@ -181,7 +166,7 @@ export const Tutorials: FC = (): JSX.Element => {
 
             {loading && <Loader label={t('TUTORIALS_LOADING_CONTENT')} />}
             {error && !loading && <WithError />}
-            {noResult && !loading && <NoResult />}
+            {noResult && !loading && !error && <NoResult />}
             {totalPageCount > 1 && (
                 <div className="tutorials-pagination">
                     <UIPagination

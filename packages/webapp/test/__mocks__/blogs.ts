@@ -25,11 +25,11 @@ export const managedTagsWithData = ['1', '2'];
 export const filtersWithData = [
     { id: '1', label: 'tag 1', type: BlogFiltersEntryType.TAG },
     { id: '2', label: 'tag 2', type: BlogFiltersEntryType.TAG },
-    { id: 'b6e6296c-7cf2-4fe6-aa91-d77078aad028', label: 'category 1', type: BlogFiltersEntryType.CATEGORY },
-    { id: '99', label: 'language 1', type: BlogFiltersEntryType.LANGUAGE }
+    { id: '3', label: 'category 1', type: BlogFiltersEntryType.CATEGORY },
+    { id: '4', label: 'language 1', type: BlogFiltersEntryType.LANGUAGE }
 ];
 
-export const queryEmpty = {
+export const blogsQueryEmpty = {
     page: 0,
     limit: BLOGS_LIMIT_PER_PAGE,
     orderBy: 'UPDATE_TIME',
@@ -61,7 +61,29 @@ export const queryWithFilter = {
     searchTerm: '',
     questionType: '',
     language: '4',
-    blogCategories: ['b6e6296c-7cf2-4fe6-aa91-d77078aad028'],
+    blogCategories: ['3'],
+    authorId: '',
+    userTags: '',
+    updatedFrom: undefined,
+    updatedTo: undefined,
+    createdFrom: undefined,
+    createdTo: undefined,
+    boostingStrategy: '',
+    additionalManagedTags: [] as string[],
+    additionalUserTags: [] as string[]
+};
+
+export const queryWithFilterWithSearch = {
+    page: 0,
+    limit: 20,
+    orderBy: 'RELEVANCE',
+    order: 'DESC',
+    contentTypes: ['blogpost'],
+    managedTags: ['2'],
+    searchTerm: 'test',
+    questionType: '',
+    language: '4',
+    blogCategories: ['3'],
     authorId: '',
     userTags: '',
     updatedFrom: undefined,
@@ -83,7 +105,7 @@ export const queryWithSearchTerm = {
     searchTerm: 'test',
     questionType: '',
     language: '4',
-    blogCategories: ['b6e6296c-7cf2-4fe6-aa91-d77078aad028'],
+    blogCategories: ['3'],
     authorId: '',
     userTags: '',
     updatedFrom: undefined,
@@ -204,116 +226,151 @@ export const uiWithFilters = {
 
 export const blogsInitialState = {
     result: {
-        data: [],
-        totalCount: -1,
-        error: noError,
-        pending: false
-    },
-    query: queryEmpty,
-    ui: uiNoFiltersNoLoading,
-    tags: []
-};
-
-export const initialWithLoading = {
-    result: {
-        data: [],
-        totalCount: -1,
-        error: noError,
-        pending: false
-    },
-    query: queryEmpty,
-    ui: uiEmpty,
-    tags: []
-};
-
-export const initialWithPending = {
-    result: {
-        data: [],
-        totalCount: -1,
+        result: {
+            query: blogsQueryEmpty,
+            totalCount: -1,
+            contentItems: []
+        },
         error: noError,
         pending: true
     },
-    query: queryEmpty,
-    ui: uiNoFiltersNoLoading,
-    tags: []
+    query: blogsQueryEmpty,
+    ui: uiNoFiltersNoLoading
 };
 
-export const withNoDataNoError = {
+export const blogsInitialWithLoading = {
     result: {
-        data: [],
-        totalCount: 0,
+        result: {
+            query: blogsQueryEmpty,
+            totalCount: -1,
+            contentItems: []
+        },
+        error: noError,
+        pending: true
+    },
+    query: blogsQueryEmpty,
+    ui: uiNoFiltersNoLoading
+};
+
+export const blogsNoErrorWithLoading = {
+    result: {
+        result: {
+            query: blogsQueryEmpty,
+            totalCount: -1,
+            contentItems: []
+        },
+        error: noError,
+        pending: true
+    },
+    query: blogsQueryEmpty,
+    ui: uiNoFiltersNoLoading
+};
+
+export const blogsWithNoDataNoError = {
+    result: {
+        result: {
+            query: blogsQueryEmpty,
+            totalCount: 0,
+            contentItems: []
+        },
         error: noError,
         pending: false
     },
-    query: queryEmpty,
-    ui: uiNoFiltersNoLoading,
-    tags: []
+    query: blogsQueryEmpty,
+    ui: uiNoFiltersNoLoading
 };
 
-export const withDataNoError = {
+export const blogsWithDataNoError = {
     result: {
-        data: blogEntry,
-        totalCount: 4,
+        result: {
+            query: blogsQueryEmpty,
+            totalCount: 4,
+            contentItems: blogEntry
+        },
         error: noError,
         pending: false
     },
-    query: queryEmpty,
-    ui: uiNoFiltersNoLoading,
-    tags: []
+    query: blogsQueryEmpty,
+    ui: uiNoFiltersNoLoading
 };
 
-export const withDataNoErrorMenuOpened = {
+export const blogsWithDataNoErrorMenuOpened = {
     result: {
-        data: blogEntry,
-        totalCount: 4,
+        result: {
+            query: blogsQueryEmpty,
+            totalCount: 4,
+            contentItems: blogEntry
+        },
         error: noError,
         pending: false
     },
-    query: queryEmpty,
-    ui: uiNoFiltersNoLoadingMenuOpened,
-    tags: []
+    query: blogsQueryEmpty,
+    ui: uiNoFiltersNoLoadingMenuOpened
 };
 
-export const withNoDataWithError = {
+export const blogsWithNoDataWithError = {
     result: {
-        data: [],
-        totalCount: -1,
+        result: {
+            query: blogsQueryEmpty,
+            totalCount: -1,
+            contentItems: []
+        },
         error: error,
         pending: false
     },
-    query: queryEmpty,
-    ui: uiNoFiltersNoLoading,
-    tags: []
+    query: blogsQueryEmpty,
+    ui: uiNoFiltersNoLoading
 };
 
-export const withDataWithFilter = {
+export const blogsWithDataWithFilter = {
     result: {
-        data: blogEntry,
-        totalCount: 4,
+        result: {
+            query: blogsQueryEmpty,
+            totalCount: 4,
+            contentItems: blogEntry
+        },
         error: noError,
         pending: false
     },
     query: queryWithFilter,
-    ui: uiWithFilters,
-    tags: tagsWithData
+    ui: uiWithFilters
 };
 
-export const withDataWithTags = {
+export const blogsWithDataWithFilterWithSearch = {
     result: {
-        data: blogEntry,
-        totalCount: 4,
+        result: {
+            query: queryWithFilterWithSearch,
+            totalCount: 4,
+            contentItems: blogEntry
+        },
         error: noError,
         pending: false
     },
     query: queryWithFilter,
-    ui: uiWithFilters,
-    tags: tagsWithData
+    ui: uiWithFilters
 };
 
-export const withDataNoErrorMultiplePage = {
+export const blogsWithDataWithTags = {
     result: {
-        data: blogEntry,
-        totalCount: 4,
+        result: {
+            query: blogsQueryEmpty,
+            totalCount: 4,
+            contentItems: blogEntry
+        },
+        error: noError,
+        pending: false
+    },
+    query: queryWithFilter,
+    ui: uiWithFilters
+};
+
+export const blogsWithDataNoErrorMultiplePage = {
+    result: {
+        result: {
+            query: blogsQueryEmpty,
+            totalCount: 4,
+            contentItems: blogEntry
+        },
         error: noError,
         pending: false
     },
@@ -338,12 +395,17 @@ export const withDataNoErrorMultiplePage = {
         additionalManagedTags: [] as string[],
         additionalUserTags: [] as string[]
     },
-    ui: uiEmpty,
-    tags: []
+    ui: uiEmpty
 };
 
 export const blogsData = {
     contentItems: blogEntry,
-    query: queryEmpty,
+    query: blogsQueryEmpty,
+    totalCount: 4
+};
+
+export const blogsDataWithQuerySearch = {
+    contentItems: blogEntry,
+    query: queryWithFilterWithSearch,
     totalCount: 4
 };

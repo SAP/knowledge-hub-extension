@@ -32,6 +32,79 @@ export const tagsData = {
     }
 };
 
+export const tutorialsEmptyData = {
+    group: '',
+    mission: '',
+    facets: {},
+    iconPath: {},
+    tags: {},
+    tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
+    result: [],
+    numFound: -1,
+    countGroups: 0,
+    countMissions: 0,
+    countTutorials: 0
+};
+
+export const noData = {
+    group: '',
+    mission: '',
+    facets: {},
+    iconPath: {},
+    tags: {},
+    tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
+    result: [],
+    numFound: 0,
+    countGroups: 0,
+    countMissions: 0,
+    countTutorials: 0
+};
+
+export const tutorialsQueryEmpty = {
+    rows: 12,
+    start: 0,
+    searchField: '',
+    pagePath: '/content/developers/website/languages/en/tutorial-navigator',
+    language: 'en_us',
+    addDefaultLanguage: true,
+    filters: []
+};
+
+export const tutorialsQueryEmptyRows = {
+    rows: 2,
+    start: 0,
+    searchField: '',
+    pagePath: '/content/developers/website/languages/en/tutorial-navigator',
+    language: 'en_us',
+    addDefaultLanguage: true,
+    filters: []
+};
+
+export const tutorialsQueryEmptyWithFilters = {
+    rows: 2,
+    start: 0,
+    searchField: '',
+    pagePath: '/content/developers/website/languages/en/tutorial-navigator',
+    language: 'en_us',
+    addDefaultLanguage: true,
+    filters: ['Tag 1', 'Tag 2', 'Tag 3']
+};
+
+const uiInitial = {
+    isLoading: false,
+    isFiltersMenuOpened: false
+};
+
+const uiInitialWithLoading = {
+    isLoading: true,
+    isFiltersMenuOpened: false
+};
+
+const uiInitialMenuOpened = {
+    isLoading: false,
+    isFiltersMenuOpened: true
+};
+
 export const tutorialsData = {
     group: '/group',
     mission: '/mission',
@@ -144,174 +217,124 @@ export const tutorialsData = {
     countTutorials: 1
 };
 
-export const emptyData = {
-    group: '',
-    mission: '',
-    facets: {},
-    iconPath: {},
-    tags: {},
-    tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
-    result: [],
-    numFound: -1,
-    countGroups: 0,
-    countMissions: 0,
-    countTutorials: 0
-};
-
-export const noData = {
-    group: '',
-    mission: '',
-    facets: {},
-    iconPath: {},
-    tags: {},
-    tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
-    result: [],
-    numFound: 0,
-    countGroups: 0,
-    countMissions: 0,
-    countTutorials: 0
-};
-
-export const queryEmpty = {
-    rows: 12,
-    start: 0,
-    searchField: '',
-    pagePath: '/content/developers/website/languages/en/tutorial-navigator',
-    language: 'en_us',
-    addDefaultLanguage: true,
-    filters: []
-};
-
-export const queryEmptyRows = {
-    rows: 2,
-    start: 0,
-    searchField: '',
-    pagePath: '/content/developers/website/languages/en/tutorial-navigator',
-    language: 'en_us',
-    addDefaultLanguage: true,
-    filters: []
-};
-
-export const queryEmptyWithFilters = {
-    rows: 2,
-    start: 0,
-    searchField: '',
-    pagePath: '/content/developers/website/languages/en/tutorial-navigator',
-    language: 'en_us',
-    addDefaultLanguage: true,
-    filters: ['Tag 1', 'Tag 2', 'Tag 3']
-};
-
-const uiInitial = {
-    isLoading: false,
-    isFiltersMenuOpened: false
-};
-
-const uiInitialWithLoading = {
-    isLoading: true,
-    isFiltersMenuOpened: false
-};
-
-const uiInitialMenuOpened = {
-    isLoading: false,
-    isFiltersMenuOpened: true
+export const tutorialsDataFromFetch = {
+    data: tutorialsData,
+    query: tutorialsQueryEmpty
 };
 
 export const tutorialsInitialState = {
     result: {
-        data: emptyData,
+        result: {
+            data: tutorialsEmptyData,
+            query: tutorialsQueryEmpty
+        },
         error: noError,
         pending: false
     },
-    query: queryEmpty,
-    ui: uiInitial,
-    tags: tagsEmpty
+    query: tutorialsQueryEmpty,
+    ui: uiInitial
 };
 
-export const initialWithLoading = {
+export const tutorialsInitialWithLoading = {
     result: {
-        data: emptyData,
-        error: noError,
-        pending: false
-    },
-    query: queryEmpty,
-    ui: uiInitialWithLoading,
-    tags: tagsEmpty
-};
-
-export const withDataNoError = {
-    result: {
-        data: tutorialsData,
-        error: noError,
-        pending: false
-    },
-    query: queryEmpty,
-    ui: uiInitial,
-    tags: tagsData
-};
-
-export const withDataNoErrorNoTags = {
-    result: {
-        data: tutorialsData,
-        error: noError,
-        pending: false
-    },
-    query: queryEmpty,
-    ui: uiInitial,
-    tags: tagsEmpty
-};
-
-export const withNoDataNoError = {
-    result: {
-        data: noData,
-        error: noError,
-        pending: false
-    },
-    query: queryEmpty,
-    ui: uiInitial,
-    tags: tagsEmpty
-};
-
-export const withNoDataWithError = {
-    result: {
-        data: emptyData,
-        error: error,
-        pending: false
-    },
-    query: queryEmpty,
-    ui: uiInitial,
-    tags: tagsEmpty
-};
-
-export const withNoDataWithPending = {
-    result: {
-        data: emptyData,
+        result: {
+            data: tutorialsEmptyData,
+            query: tutorialsQueryEmpty
+        },
         error: noError,
         pending: true
     },
-    query: queryEmpty,
-    ui: uiInitial,
-    tags: tagsEmpty
+    query: tutorialsQueryEmpty,
+    ui: uiInitialWithLoading
 };
 
-export const withDataNoErrorMultiplePage = {
+export const tutorialsWithDataNoError = {
     result: {
-        data: tutorialsData,
+        result: {
+            data: tutorialsData,
+            query: tutorialsQueryEmpty
+        },
         error: noError,
         pending: false
     },
-    query: queryEmptyRows,
-    ui: uiInitial,
-    tags: tagsData
+    query: tutorialsQueryEmpty,
+    ui: uiInitial
 };
 
-export const withDataNoErrorWithFilters = {
+export const tutorialsWithDataNoErrorNoTags = {
     result: {
-        data: tutorialsData,
+        result: {
+            data: tutorialsData,
+            query: tutorialsQueryEmpty
+        },
         error: noError,
         pending: false
     },
-    query: queryEmptyWithFilters,
-    ui: uiInitialMenuOpened,
-    tags: tagsData
+    query: tutorialsQueryEmpty,
+    ui: uiInitial
+};
+
+export const tutorialsWithNoDataNoError = {
+    result: {
+        result: {
+            data: noData,
+            query: tutorialsQueryEmpty
+        },
+        error: noError,
+        pending: false
+    },
+    query: tutorialsQueryEmpty,
+    ui: uiInitial
+};
+
+export const tutorialsWithNoDataWithError = {
+    result: {
+        result: {
+            data: tutorialsEmptyData,
+            query: tutorialsQueryEmpty
+        },
+        error: error,
+        pending: false
+    },
+    query: tutorialsQueryEmpty,
+    ui: uiInitial
+};
+
+export const tutorialsWithNoDataWithPending = {
+    result: {
+        result: {
+            data: tutorialsEmptyData,
+            query: tutorialsQueryEmpty
+        },
+        error: noError,
+        pending: true
+    },
+    query: tutorialsQueryEmpty,
+    ui: uiInitial
+};
+
+export const tutorialsWithDataNoErrorMultiplePage = {
+    result: {
+        result: {
+            data: tutorialsData,
+            query: tutorialsQueryEmpty
+        },
+        error: noError,
+        pending: false
+    },
+    query: tutorialsQueryEmptyRows,
+    ui: uiInitial
+};
+
+export const tutorialsWithDataNoErrorWithFilters = {
+    result: {
+        result: {
+            data: tutorialsData,
+            query: tutorialsQueryEmpty
+        },
+        error: noError,
+        pending: false
+    },
+    query: tutorialsQueryEmptyWithFilters,
+    ui: uiInitialMenuOpened
 };

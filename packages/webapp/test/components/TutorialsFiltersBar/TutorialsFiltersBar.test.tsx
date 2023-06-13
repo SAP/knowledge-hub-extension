@@ -6,7 +6,8 @@ import { act } from 'react-dom/test-utils';
 
 import { initIcons } from '@sap-ux/ui-components';
 
-import { withDataNoErrorWithFilters } from '../../__mocks__/tutorials';
+import { tutorialsWithDataNoErrorWithFilters } from '../../__mocks__/tutorials';
+import { tutorialsTagsWithTags } from '../../__mocks__/tags';
 import { render } from '../../__mocks__/store.mock';
 
 import { TutorialsFiltersBar } from '../../../src/webview/components/TutorialsFiltersBar/TutorialsFiltersBar';
@@ -17,7 +18,7 @@ describe('TutorialsFiltersBar', () => {
 
     const renderTutorialsFiltersBar = (): RenderResult =>
         render(<TutorialsFiltersBar />, {
-            initialState: { tutorials: withDataNoErrorWithFilters }
+            initialState: { tutorials: tutorialsWithDataNoErrorWithFilters, tags: tutorialsTagsWithTags }
         });
 
     test('test if the TutorialsFiltersBar render is ok with data', () => {

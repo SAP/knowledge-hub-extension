@@ -5,16 +5,22 @@ export const tabs: TabsConfig = {
     home: {
         key: PathType.HOME,
         path: '/',
-        text: 'HOME_TAB'
+        headerText: 'HOME_TAB',
+        ariaLabel: 'HOME_TAB',
+        count: 0
     },
     tutorials: {
         key: PathType.TUTORIALS,
         path: '/tutorials',
-        text: 'TUTORIALS_TAB'
+        headerText: 'TUTORIALS_TAB',
+        ariaLabel: 'TUTORIALS_TAB',
+        count: 0
     },
     blogs: {
         key: PathType.BLOGS,
         path: '/blogs',
-        text: 'BLOGS_TAB'
+        headerText: 'BLOGS_TAB',
+        ariaLabel: 'BLOGS_TAB',
+        count: 0
     }
 };

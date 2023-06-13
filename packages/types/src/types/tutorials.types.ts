@@ -4,22 +4,27 @@ export interface Tutorials {
     result: TutorialsState;
     query: TutorialsSearchQuery;
     ui: TutorialsUiState;
-    tags: TutorialsTagsState;
 }
 
 export interface TutorialsState {
-    data: TutorialsSearchResult;
+    result: TutorialsSearchResult;
     error: Error;
     pending: boolean;
 }
+
+export interface TutorialsSearchResult {
+    data: TutorialsSearchResultData;
+    query: TutorialsSearchQuery;
+}
+
 export interface TutorialsSearchQuery {
-    rows?: number;
-    start?: number;
-    searchField?: string;
-    pagePath?: string;
-    language?: string;
-    addDefaultLanguage?: boolean;
-    filters?: string[];
+    rows: number;
+    start: number;
+    searchField: string;
+    pagePath: string;
+    language: string;
+    addDefaultLanguage: boolean;
+    filters: string[];
 }
 
 export interface TutorialsUiState {
@@ -27,11 +32,7 @@ export interface TutorialsUiState {
     isFiltersMenuOpened: boolean;
 }
 
-export interface TutorialsTagsState {
-    tags: TutorialsTags;
-}
-
-export interface TutorialsSearchResult {
+export interface TutorialsSearchResultData {
     group: string;
     mission: string;
     facets: TutorialsFacets;
@@ -91,7 +92,9 @@ export interface TutorialsTagWithTitle {
 // API
 
 export interface TutorialsAPI {
-    getTutorials: (queryOptions?: TutorialsSearchQuery | undefined) => Promise<FetchResponse<TutorialsSearchResult>>;
+    getTutorials: (
+        queryOptions?: TutorialsSearchQuery | undefined
+    ) => Promise<FetchResponse<TutorialsSearchResultData>>;
 }
 
 export interface TutorialsAPIOptions {

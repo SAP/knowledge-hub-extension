@@ -1,19 +1,14 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import {
-    fetchTutorials,
-    fetchHomeTutorials,
-    initTutorialsFilters,
-    TUTORIALS_LIMIT_PER_PAGE
-} from '@sap/knowledge-hub-extension-types';
+import { initialize, fetchTutorials, TUTORIALS_LIMIT_PER_PAGE } from '@sap/knowledge-hub-extension-types';
 import type {
+    AppState,
     Tutorials,
-    TutorialsTags,
     TutorialsState,
+    TutorialsSearchResultData,
     TutorialsSearchResult,
     TutorialsSearchQuery,
     TutorialsUiState,
-    TutorialsTagsState,
     TutorialsTagWithTitle,
     Error,
     ErrorAction,
@@ -32,28 +27,7 @@ import {
 
 import type { RootState } from '../../store';
 
-export const initialSearchState: TutorialsState = {
-    data: {
-        group: '',
-        mission: '',
-        facets: {},
-        iconPath: {},
-        tags: {},
-        tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
-        result: [],
-        numFound: -1,
-        countGroups: 0,
-        countMissions: 0,
-        countTutorials: 0
-    },
-    error: {
-        isError: false,
-        message: ''
-    },
-    pending: false
-};
-
-export const initialQueryState: TutorialsSearchQuery = {
+export const initialTutorialsQueryState: TutorialsSearchQuery = {
     rows: TUTORIALS_LIMIT_PER_PAGE,
     start: 0,
     searchField: '',
@@ -63,13 +37,33 @@ export const initialQueryState: TutorialsSearchQuery = {
     filters: []
 };
 
+export const initialSearchState: TutorialsState = {
+    result: {
+        data: {
+            group: '',
+            mission: '',
+            facets: {},
+            iconPath: {},
+            tags: {},
+            tutorialsNewFrom: new Date(new Date().toISOString().split('T')[0]),
+            result: [],
+            numFound: -1,
+            countGroups: 0,
+            countMissions: 0,
+            countTutorials: 0
+        },
+        query: initialTutorialsQueryState
+    },
+    error: {
+        isError: false,
+        message: ''
+    },
+    pending: false
+};
+
 export const initialUiState: TutorialsUiState = {
     isLoading: false,
     isFiltersMenuOpened: false
-};
-
-export const initialTagsState: TutorialsTagsState = {
-    tags: {}
 };
 
 // Slice
@@ -79,54 +73,45 @@ const result = createSlice({
     reducers: {},
 
     extraReducers: (builder) => {
-        builder.addCase(
-            fetchTutorials.pending.type,
-            (state: TutorialsState, action: PendingAction<string, undefined>) => {
+        builder
+            .addCase(fetchTutorials.pending.type, (state: TutorialsState, action: PendingAction<string, undefined>) => {
                 const pending = action.pending;
                 return { ...state, pending };
-            }
-        );
-
-        builder.addCase(
-            fetchTutorials.fulfilled.type,
-            (state: TutorialsState, action: PayloadAction<TutorialsSearchResult>) => {
-                const data: TutorialsSearchResult = action.payload;
-                const error: Error = { isError: false, message: '' };
-                const pending = false;
-
-                return { ...state, data, error, pending };
-            }
-        );
-
-        builder.addCase(
-            fetchTutorials.rejected.type,
-            (state: TutorialsState, action: ErrorAction<string, undefined>) => {
+            })
+            .addCase(
+                fetchTutorials.fulfilled.type,
+                (state: TutorialsState, action: PayloadAction<TutorialsSearchResult>) => {
+                    const query: TutorialsSearchQuery = action.payload.query;
+                    const data: TutorialsSearchResultData = action.payload.data;
+                    const pending = false;
+                    const error: Error = { isError: false, message: '' };
+                    return { ...state, result: { data, query }, error, pending };
+                }
+            )
+            .addCase(fetchTutorials.rejected.type, (state: TutorialsState, action: ErrorAction<string, undefined>) => {
                 const pending = false;
                 const error: Error = { isError: true, message: action.error.message };
 
                 return { ...state, error, pending };
-            }
-        );
+            });
     }
 });
 
 const query = createSlice({
     name: 'tutorialsQuery',
-    initialState: initialQueryState,
+    initialState: initialTutorialsQueryState,
     reducers: {},
     extraReducers: (builder) =>
         builder
-            .addCase(
-                initTutorialsFilters.fulfilled.type,
-                (state: TutorialsSearchQuery, action: PayloadAction<TutorialsTagWithTitle[]>) => {
-                    const filters: string[] = [];
-                    action.payload.forEach((tagWithTitle: TutorialsTagWithTitle) => {
-                        filters.push(tagWithTitle.tag);
-                    });
+            .addCase(initialize.fulfilled.type, (state: TutorialsSearchQuery, action: PayloadAction<AppState>) => {
+                const initFilters = action.payload.appFilters;
+                const filters: string[] = [];
+                initFilters.tutorials?.forEach((tagWithTitle: TutorialsTagWithTitle) => {
+                    filters.push(tagWithTitle.tag);
+                });
 
-                    return { ...state, filters };
-                }
-            )
+                return { ...state, filters };
+            })
             .addMatcher(
                 tutorialsPageChanged.match,
                 (state: TutorialsSearchQuery, action: PayloadAction<number>): void => {
@@ -174,6 +159,7 @@ const query = createSlice({
             .addMatcher(
                 tutorialsSearchFieldChanged.match,
                 (state: TutorialsSearchQuery, action: PayloadAction<string>): void => {
+                    state.start = 0;
                     state.searchField = action.payload;
                 }
             )
@@ -198,35 +184,23 @@ const ui = createSlice({
             )
 });
 
-const tags = createSlice({
-    name: 'tutorialsTags',
-    initialState: initialTagsState,
-    reducers: {},
-    extraReducers: (builder) =>
-        builder.addCase(fetchHomeTutorials.fulfilled.type, (state, action: PayloadAction<TutorialsSearchResult>) => {
-            const data: TutorialsSearchResult = action.payload;
-            const tags: TutorialsTags = data.tags;
-
-            return { ...state, tags };
-        })
-});
-
 export const initialState: Tutorials = {
     result: initialSearchState,
-    query: initialQueryState,
-    ui: initialUiState,
-    tags: initialTagsState
+    query: initialTutorialsQueryState,
+    ui: initialUiState
 };
 
 // State selectors
 export const getTutorials = (state: RootState) => state.tutorials.result;
-export const getTutorialsData = (state: RootState) => state.tutorials.result.data;
+export const getTutorialsData = (state: RootState) => state.tutorials.result.result.data;
+export const getTutorialsTotalCount = (state: RootState) => state.tutorials.result.result.data.numFound;
 export const getTutorialsPending = (state: RootState) => state.tutorials.result.pending;
 export const getTutorialsError = (state: RootState) => state.tutorials.result.error;
+
 export const getTutorialsQuery = (state: RootState) => state.tutorials.query;
 export const getTutorialsQueryFilters = (state: RootState) => state.tutorials.query.filters;
+
 export const getTutorialsUI = (state: RootState) => state.tutorials.ui;
-export const getTutorialsDataTags = (state: RootState) => state.tutorials.tags.tags;
 export const getTutorialsUIIsLoading = (state: RootState) => state.tutorials.ui.isLoading;
 
-export default combineReducers({ result: result.reducer, query: query.reducer, ui: ui.reducer, tags: tags.reducer });
+export default combineReducers({ result: result.reducer, query: query.reducer, ui: ui.reducer });

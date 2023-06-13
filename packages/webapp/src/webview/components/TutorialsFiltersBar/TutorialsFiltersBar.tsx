@@ -7,7 +7,8 @@ import { UIIcon, UISmallButton } from '@sap-ux/ui-components';
 import type { TutorialsSearchQuery, TutorialsTags, TutorialsTag } from '@sap/knowledge-hub-extension-types';
 
 import { store, useAppSelector } from '../../store';
-import { getTutorialsQuery, getTutorialsDataTags } from '../../features/tutorials/Tutorials.slice';
+import { getTutorialsQuery } from '../../features/tutorials/Tutorials.slice';
+import { getTagsTutorialsData } from '../../features/tags/Tags.slice';
 import { fetchTutorialsData } from '../../features/tutorials/Tutorials.utils';
 import { tutorialsFiltersTagsDeleteAll, tutorialsFiltersTagsDelete } from '../../store/actions';
 
@@ -15,13 +16,18 @@ import { UIPill } from '../UI/UIPill/UIPill';
 
 import './TutorialsFiltersBar.scss';
 
-export const TutorialsFiltersBar: FC = (): JSX.Element => {
+export type TutorialsFiltersBarProps = {
+    editable?: boolean;
+};
+
+export const TutorialsFiltersBar: FC<TutorialsFiltersBarProps> = ({ editable }): JSX.Element => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
     const activeQuery: TutorialsSearchQuery = useAppSelector(getTutorialsQuery);
-    const activeTags: TutorialsTags = useAppSelector(getTutorialsDataTags);
+    const activeTags: TutorialsTags = useAppSelector(getTagsTutorialsData);
     const [allTags, setAlltags] = useState(activeQuery.filters);
+    const isEditable = editable ?? true;
 
     /**
      * Returns the tag object based on the id.
@@ -81,7 +87,15 @@ export const TutorialsFiltersBar: FC = (): JSX.Element => {
     const addTagPill = (tagId: string): JSX.Element | null => {
         const tag = getTagById(tagId);
         if (tag) {
-            return <UIPill key={tagId} pillId={tagId} pillLabel={tag.title} callback={onClearTagFilter} />;
+            return (
+                <UIPill
+                    key={tagId}
+                    pillId={tagId}
+                    pillLabel={tag.title}
+                    callback={onClearTagFilter}
+                    clearButton={isEditable}
+                />
+            );
         } else {
             return null;
         }
@@ -102,15 +116,14 @@ export const TutorialsFiltersBar: FC = (): JSX.Element => {
                         </div>
                     </div>
                     <div className="tutorials-filters-bar-list" data-testid="tutorials-filters-bar-list-of-pill">
-                        <>
-                            {allTags.map((tagId: string, _index: number) => {
-                                return addTagPill(tagId);
-                            })}
-
+                        {allTags.map((tagId: string, _index: number) => {
+                            return addTagPill(tagId);
+                        })}
+                        {isEditable && (
                             <UISmallButton primary onClick={onClearAllTagFilter}>
                                 {t('TUTORIALS_FILTERS_BAR_CLEAR_ALL')}
                             </UISmallButton>
-                        </>
+                        )}
                     </div>
                 </div>
             )}
