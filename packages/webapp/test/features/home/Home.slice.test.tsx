@@ -9,10 +9,11 @@ import {
     stateTutorialsWithNoDataWithPending,
     stateBlogsWithNoDataWithPending,
     stateBlogsWithDataNoError,
-    stateBlogsWithNoDataWithError
+    stateBlogsWithNoDataWithError,
+    stateBlogsWithDataNoErrorWithSearch
 } from '../../../test/__mocks__/home';
 import { tutorialsDataFromFetch } from '../../../test/__mocks__/tutorials';
-import { blogsData } from '../../../test/__mocks__/blogs';
+import { blogsData, blogsDataWithQuerySearch } from '../../../test/__mocks__/blogs';
 
 describe('home slice', () => {
     describe('home slice > reducer', () => {
@@ -40,9 +41,15 @@ describe('home slice', () => {
                 const action = fetchBlogs.pending(true);
                 expect(reducer(undefined, action)).toEqual(stateBlogsWithNoDataWithPending);
             });
-            test('fetchHomeBlogs fulfilled action', () => {
-                const action = fetchBlogs.fulfilled(blogsData);
-                expect(reducer(undefined, action)).toEqual(stateBlogsWithDataNoError);
+            describe('fetchHomeBlogs fulfilled action', () => {
+                test('fetchHomeBlogs fulfilled action', () => {
+                    const action = fetchBlogs.fulfilled(blogsData);
+                    expect(reducer(undefined, action)).toEqual(stateBlogsWithDataNoError);
+                });
+                test('fetchHomeBlogs fulfilled action with searchTerm', () => {
+                    const action = fetchBlogs.fulfilled(blogsDataWithQuerySearch);
+                    expect(reducer(undefined, action)).toEqual(stateBlogsWithDataNoErrorWithSearch);
+                });
             });
             test('fetchHomeBlogs rejected action', () => {
                 const action = fetchBlogs.rejected('no internet');

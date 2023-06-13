@@ -73,6 +73,28 @@ export const queryWithFilter = {
     additionalUserTags: [] as string[]
 };
 
+export const queryWithFilterWithSearch = {
+    page: 0,
+    limit: 20,
+    orderBy: 'RELEVANCE',
+    order: 'DESC',
+    contentTypes: ['blogpost'],
+    managedTags: ['2'],
+    searchTerm: 'test',
+    questionType: '',
+    language: '4',
+    blogCategories: ['3'],
+    authorId: '',
+    userTags: '',
+    updatedFrom: undefined,
+    updatedTo: undefined,
+    createdFrom: undefined,
+    createdTo: undefined,
+    boostingStrategy: '',
+    additionalManagedTags: [] as string[],
+    additionalUserTags: [] as string[]
+};
+
 export const queryWithSearchTerm = {
     page: 0,
     limit: 20,
@@ -314,6 +336,20 @@ export const blogsWithDataWithFilter = {
     ui: uiWithFilters
 };
 
+export const blogsWithDataWithFilterWithSearch = {
+    result: {
+        result: {
+            query: queryWithFilterWithSearch,
+            totalCount: 4,
+            contentItems: blogEntry
+        },
+        error: noError,
+        pending: false
+    },
+    query: queryWithFilter,
+    ui: uiWithFilters
+};
+
 export const blogsWithDataWithTags = {
     result: {
         result: {
@@ -365,5 +401,11 @@ export const blogsWithDataNoErrorMultiplePage = {
 export const blogsData = {
     contentItems: blogEntry,
     query: blogsQueryEmpty,
+    totalCount: 4
+};
+
+export const blogsDataWithQuerySearch = {
+    contentItems: blogEntry,
+    query: queryWithFilterWithSearch,
     totalCount: 4
 };

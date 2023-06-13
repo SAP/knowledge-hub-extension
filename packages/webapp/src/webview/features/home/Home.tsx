@@ -21,6 +21,7 @@ import { TutorialCard } from '../../components/TutorialCard';
 import { TutorialsFiltersBar } from '../../components/TutorialsFiltersBar';
 import { BlogCard } from '../../components/BlogCard';
 import { BlogsFiltersBar } from '../../components/BlogsFiltersBar';
+import { WithError } from '../../components/WithError';
 
 import { useAppSelector } from '../../store';
 
@@ -152,6 +153,7 @@ export const Home: FC = (): JSX.Element => {
                             {homeTutorialsLoading && (
                                 <TutorialCard loading={homeTutorialsLoading} onSelectedTag={onTutorialTagSelected} />
                             )}
+                            {homeTutorialsError.isError && !homeTutorialsLoading && <WithError />}
                         </div>
                     </div>
                 </div>
@@ -189,6 +191,7 @@ export const Home: FC = (): JSX.Element => {
                             {homeBlogsLoading && (
                                 <BlogCard loading={homeBlogsLoading} onSelectedTag={onBlogTagSelected} />
                             )}
+                            {homeBlogsError.isError && !homeBlogsLoading && <WithError />}
                         </div>
                     </div>
                 </div>

@@ -7,7 +7,7 @@ import type {
     BlogsAPIOptions,
     FetchResponse
 } from '@sap/knowledge-hub-extension-types';
-import { BLOGS_API_HOST, BLOGS_SEARCH_PATH } from '@sap/knowledge-hub-extension-types';
+import { BLOGS_API_HOST, BLOGS_SEARCH_PATH, BlogSearchSortBy } from '@sap/knowledge-hub-extension-types';
 import asyncFetch from '../utils/asyncFetch';
 
 /**
@@ -33,8 +33,8 @@ export function getCommunityBlogsApi(options?: BlogsAPIOptions): BlogsAPI {
  */
 export function prepareQueryOptions(queryOptions: BlogsSearchQuery | undefined): string {
     if (queryOptions) {
-        if (queryOptions.searchTerm === '') {
-            queryOptions.orderBy = 'UPDATE_TIME';
+        if (!queryOptions.searchTerm || queryOptions.searchTerm === '') {
+            queryOptions.orderBy = BlogSearchSortBy.UPDATE_TIME;
         }
 
         queryOptions = Object.fromEntries(

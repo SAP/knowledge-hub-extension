@@ -1,6 +1,6 @@
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { fetchBlogs, fetchTutorials } from '@sap/knowledge-hub-extension-types';
+import { fetchBlogs, fetchTutorials, BlogSearchSortBy } from '@sap/knowledge-hub-extension-types';
 import type {
     Home,
     TutorialsState,
@@ -110,14 +110,28 @@ const blogs = createSlice({
                 const query: BlogsSearchQuery = action.payload.query;
                 const pageDefault = initialBlogsQueryState.page;
                 if (pageDefault === query.page) {
-                    const query: BlogsSearchQuery = action.payload.query;
-                    const contentItems: BlogsSearchResultContentItem[] = action.payload.contentItems;
-                    const totalCount = action.payload.totalCount;
-                    const result: BlogsSearchResult = { query, contentItems, totalCount };
-                    const pending = false;
-                    const error: Error = { isError: false, message: '' };
+                    if (query.searchTerm && query.searchTerm !== '') {
+                        if (query.orderBy === BlogSearchSortBy.UPDATE_TIME) {
+                            const pending = false;
+                            return { ...state, pending };
+                        } else {
+                            const contentItems: BlogsSearchResultContentItem[] = action.payload.contentItems;
+                            const totalCount = action.payload.totalCount;
+                            const result: BlogsSearchResult = { query, contentItems, totalCount };
+                            const pending = false;
+                            const error: Error = { isError: false, message: '' };
 
-                    return { ...state, result, error, pending };
+                            return { ...state, result, error, pending };
+                        }
+                    } else {
+                        const contentItems: BlogsSearchResultContentItem[] = action.payload.contentItems;
+                        const totalCount = action.payload.totalCount;
+                        const result: BlogsSearchResult = { query, contentItems, totalCount };
+                        const pending = false;
+                        const error: Error = { isError: false, message: '' };
+
+                        return { ...state, result, error, pending };
+                    }
                 } else {
                     const pending = false;
                     return { ...state, pending };

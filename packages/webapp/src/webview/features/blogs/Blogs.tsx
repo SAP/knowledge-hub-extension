@@ -75,7 +75,7 @@ export const Blogs: FC = (): JSX.Element => {
         if (activeError.isError) {
             setTotalPage(0);
             setLoading(false);
-            setNoResult(true);
+            setNoResult(false);
             setError(true);
         } else if (!activePending) {
             if (location.state?.tagId && !isManagedTag(location.state.tagId, activeManagedTags)) {
@@ -146,7 +146,7 @@ export const Blogs: FC = (): JSX.Element => {
 
             {loading && <Loader label={t('BLOGS_LOADING_CONTENT')} />}
             {error && !loading && <WithError />}
-            {noResult && !loading && <NoResult />}
+            {noResult && !loading && !error && <NoResult />}
 
             {totalPage > 1 && (
                 <div className="blogs-pagination">

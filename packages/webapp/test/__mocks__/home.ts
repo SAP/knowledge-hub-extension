@@ -1,4 +1,10 @@
-import { blogsInitialState, blogsWithDataNoError, blogsInitialWithLoading, blogsWithNoDataWithError } from './blogs';
+import {
+    blogsInitialState,
+    blogsWithDataNoError,
+    blogsInitialWithLoading,
+    blogsWithNoDataWithError,
+    blogsWithDataWithFilterWithSearch
+} from './blogs';
 import { tutorialsWithDataNoError, tutorialsInitialWithLoading, tutorialsWithNoDataWithError } from './tutorials';
 
 // Home state
@@ -31,6 +37,11 @@ export const stateTutorialsWithNoDataWithPending = {
 // Fullfiled
 export const stateBlogsWithDataNoError = {
     blogs: blogsWithDataNoError.result,
+    tutorials: tutorialsInitialWithLoading.result
+};
+
+export const stateBlogsWithDataNoErrorWithSearch = {
+    blogs: blogsWithDataWithFilterWithSearch.result,
     tutorials: tutorialsInitialWithLoading.result
 };
 

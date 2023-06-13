@@ -35,13 +35,9 @@ export const Search: FC<SearchProps> = ({ type }: SearchProps): JSX.Element => {
         dispatch(searchTermChanged(searchItem));
     };
 
-    const updateSearchTerm = (searchItem: string): void => {
-        setSearchTerm(searchItem);
-    };
-
     const onClear = (): void => {
+        setSearchTerm('');
         dispatch(searchTermChanged(''));
-        updateSearchTerm('');
     };
 
     const onBlur = (_evt: React.FocusEvent<HTMLInputElement>): void => {
@@ -64,7 +60,7 @@ export const Search: FC<SearchProps> = ({ type }: SearchProps): JSX.Element => {
 
     useEffect(() => {
         if (activeSearch !== searchTerm) {
-            updateSearchTerm(activeSearch);
+            setSearchTerm(activeSearch);
 
             searchBlogs(activeSearch);
             searchTutorials(activeSearch);

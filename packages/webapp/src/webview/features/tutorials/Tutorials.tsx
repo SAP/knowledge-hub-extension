@@ -166,7 +166,7 @@ export const Tutorials: FC = (): JSX.Element => {
 
             {loading && <Loader label={t('TUTORIALS_LOADING_CONTENT')} />}
             {error && !loading && <WithError />}
-            {noResult && !loading && <NoResult />}
+            {noResult && !loading && !error && <NoResult />}
             {totalPageCount > 1 && (
                 <div className="tutorials-pagination">
                     <UIPagination
