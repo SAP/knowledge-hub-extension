@@ -1,5 +1,16 @@
 # Change Log - @sap/guided-answers-extension-core
 
+## 0.15.0
+
+### Minor Changes
+
+-   c6da310: Add global search
+
+### Patch Changes
+
+-   Updated dependencies [c6da310]
+    -   @sap/knowledge-hub-extension-types@0.15.0
+
 ## 0.14.1
 
 ### Patch Changes

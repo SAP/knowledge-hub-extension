@@ -1,5 +1,11 @@
 # Change Log - @sap/knowledge-hub-extension-types
 
+## 0.15.0
+
+### Minor Changes
+
+-   c6da310: Add global search
+
 ## 0.14.1
 
 ## 0.14.0
