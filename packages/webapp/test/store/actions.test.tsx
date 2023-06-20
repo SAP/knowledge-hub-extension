@@ -15,7 +15,11 @@ describe('Page Map redux actions', () => {
         const query: types.TutorialsSearchQuery = {
             rows: 5,
             start: 2,
-            searchField: ''
+            searchField: '',
+            pagePath: '',
+            language: '',
+            addDefaultLanguage: false,
+            filters: []
         };
         const filters: TutorialsTagWithTitle[] = [];
         const expectedAction = {
