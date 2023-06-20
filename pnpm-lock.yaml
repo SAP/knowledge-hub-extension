@@ -158,8 +158,8 @@ importers:
         specifier: 8.14.58
         version: 8.14.58(@types/react-dom@18.2.6)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0)
       '@sap-ux/ui-components':
-        specifier: 1.5.0
-        version: 1.5.0(@types/react-dom@18.2.6)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0)
+        specifier: 1.8.2
+        version: 1.8.2(@types/react-dom@18.2.6)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0)
       framer-motion:
         specifier: 10.11.5
         version: 10.11.5(react-dom@18.2.0)(react@18.2.0)
@@ -2765,8 +2765,8 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
-  /@sap-ux/ui-components@1.5.0(@types/react-dom@18.2.6)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-fSpfIO8vSPkbDa700DEyHokaPX6Iffma8SEXITMIw2hT+kGBp7j5/TohTHxmvuE7VHC8rHCwPdCnjsWEn728kw==}
+  /@sap-ux/ui-components@1.8.2(@types/react-dom@18.2.6)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-HN6nw2r9MzYprY9cliKvBOG+KFapSp0ySgadtNpSfu+iUmSZIRt3Aquh1+SJXkOgnB8n0Wt7k3aawUKCRxAjRg==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
