@@ -161,8 +161,8 @@ importers:
         specifier: 1.8.2
         version: 1.8.2(@types/react-dom@18.2.6)(@types/react@18.2.13)(react-dom@18.2.0)(react@18.2.0)
       framer-motion:
-        specifier: 10.11.5
-        version: 10.11.5(react-dom@18.2.0)(react@18.2.0)
+        specifier: 10.12.16
+        version: 10.12.16(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@reduxjs/toolkit':
         specifier: 1.9.5
@@ -5649,8 +5649,8 @@ packages:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
     dev: true
 
-  /framer-motion@10.11.5(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-1JuoJsojdYLVdVldkR7p69G24bNs00p/IuqNcuIT9g2qSNG9Ya4SyK4Jy4Z5grUSi7j1yLI6AdO/0BhY0zo7yw==}
+  /framer-motion@10.12.16(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-w/SfWEIWJkYSgRHYBmln7EhcNo31ao8Xexol8lGXf1pR/tlnBtf1HcxoUmEiEh6pacB4/geku5ami53AAQWHMQ==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
