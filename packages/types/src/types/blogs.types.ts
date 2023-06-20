@@ -6,12 +6,10 @@ export interface Blogs {
     result: BlogsState;
     query: BlogsSearchQuery;
     ui: BlogsUiState;
-    tags: Tag[];
 }
 
 export interface BlogsState {
-    data: BlogsSearchResultContentItem[];
-    totalCount: number;
+    result: BlogsSearchResult;
     error: Error;
     pending: boolean;
 }
@@ -31,7 +29,7 @@ export interface BlogsSearchQuery {
     managedTags?: string[];
     searchTerm?: string;
     questionType?: string;
-    language?: string | null;
+    language?: string;
     blogCategories?: string[];
     authorId?: string;
     userTags?: string;

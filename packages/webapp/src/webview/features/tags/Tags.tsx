@@ -18,7 +18,7 @@ import type { Tag, SortedAlphaTags } from '@sap/knowledge-hub-extension-types';
 import { MOTION_VARIANTS_PAGE } from '../../constants';
 
 import { useAppSelector } from '../../store';
-import { getTagsData } from './Tags.slice';
+import { getTagsBlogsData } from './Tags.slice';
 import { getTagsAlphaRef } from './Tags.utils';
 
 import './Tags.scss';
@@ -27,7 +27,7 @@ export const Tags: FC = (): JSX.Element => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const tags: Tag[] = useAppSelector(getTagsData);
+    const tags: Tag[] = useAppSelector(getTagsBlogsData);
     const navAlphaTopRef = useRef<null | HTMLDivElement>(null);
     const [listTags, setListTags] = useState(tags);
     const tagAlphaWithRef = getTagsAlphaRef();
@@ -37,13 +37,13 @@ export const Tags: FC = (): JSX.Element => {
     };
 
     const goToTop = (): void => {
-        if (navAlphaTopRef && navAlphaTopRef.current) {
+        if (navAlphaTopRef?.current) {
             navAlphaTopRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
 
     const goToAlpha = (ref: React.MutableRefObject<HTMLDivElement | null>) => (): void => {
-        if (ref && ref.current) {
+        if (ref?.current) {
             ref.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
@@ -57,7 +57,7 @@ export const Tags: FC = (): JSX.Element => {
     };
 
     const onBlogTagSelected = useCallback(
-        (tag: Tag) => (event: any) => {
+        (tag: Tag) => (_: any) => {
             navigate('/blogs', { state: { tagId: tag.guid } });
         },
         []

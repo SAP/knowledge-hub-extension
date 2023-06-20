@@ -35,7 +35,7 @@ export const TutorialCard: FC<TutorialCardProps> = ({
     }, []);
 
     const getFullNameForTag = (tag: string): string => {
-        if (tags && tags[tag]) {
+        if (tags?.[tag]) {
             return tags[tag].title;
         } else {
             return '';

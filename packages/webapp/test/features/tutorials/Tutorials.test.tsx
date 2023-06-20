@@ -7,11 +7,11 @@ import type { RenderResult } from '@testing-library/react';
 import { initIcons } from '@sap-ux/ui-components';
 
 import {
-    initialWithLoading,
-    withDataNoError,
-    withNoDataNoError,
-    withNoDataWithError,
-    withDataNoErrorMultiplePage
+    tutorialsInitialWithLoading,
+    tutorialsWithDataNoError,
+    tutorialsWithNoDataNoError,
+    tutorialsWithNoDataWithError,
+    tutorialsWithDataNoErrorMultiplePage
 } from '../../../test/__mocks__/tutorials';
 
 import { renderWithRouter } from '../../../test/__mocks__/store.mock';
@@ -24,7 +24,7 @@ describe('Tutorials', () => {
 
     test('render a Tutorials component', () => {
         const renderTutorials = (): RenderResult =>
-            renderWithRouter(<Tutorials />, { initialState: { tutorials: initialWithLoading } });
+            renderWithRouter(<Tutorials />, { initialState: { tutorials: tutorialsInitialWithLoading } });
 
         renderTutorials();
         const headerText = screen.getByText('TUTORIALS_TITLE');
@@ -36,7 +36,7 @@ describe('Tutorials', () => {
 
     test('render a Tutorials component with data', () => {
         const renderTutorials = (): RenderResult =>
-            renderWithRouter(<Tutorials />, { initialState: { tutorials: withDataNoError } });
+            renderWithRouter(<Tutorials />, { initialState: { tutorials: tutorialsWithDataNoError } });
 
         renderTutorials();
 
@@ -46,7 +46,7 @@ describe('Tutorials', () => {
 
     test('render a Tutorials component with no data', () => {
         const renderTutorialsNoData = (): RenderResult =>
-            renderWithRouter(<Tutorials />, { initialState: { tutorials: withNoDataNoError } });
+            renderWithRouter(<Tutorials />, { initialState: { tutorials: tutorialsWithNoDataNoError } });
 
         renderTutorialsNoData();
 
@@ -59,7 +59,7 @@ describe('Tutorials', () => {
 
     test('render a Tutorials component with error', () => {
         const renderTutorialsNoData = (): RenderResult =>
-            renderWithRouter(<Tutorials />, { initialState: { tutorials: withNoDataWithError } });
+            renderWithRouter(<Tutorials />, { initialState: { tutorials: tutorialsWithNoDataWithError } });
 
         renderTutorialsNoData();
 
@@ -72,7 +72,7 @@ describe('Tutorials', () => {
 
     test('render a Tutorials component, pagination event handler', () => {
         const renderBlogsWithFilters = (): RenderResult =>
-            renderWithRouter(<Tutorials />, { initialState: { tutorials: withDataNoErrorMultiplePage } });
+            renderWithRouter(<Tutorials />, { initialState: { tutorials: tutorialsWithDataNoErrorMultiplePage } });
 
         act(() => {
             renderBlogsWithFilters();

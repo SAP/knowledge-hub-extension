@@ -7,7 +7,7 @@ import type { TutorialsEntry } from '@sap/knowledge-hub-extension-types';
 
 import { initIcons } from '@sap-ux/ui-components';
 
-import { withDataNoError } from '../../__mocks__/tutorials';
+import { tutorialsWithDataNoError } from '../../__mocks__/tutorials';
 import { render } from '../../__mocks__/store.mock';
 
 import { TutorialCard } from '../../../src/webview/components/TutorialCard';
@@ -22,11 +22,11 @@ describe('TutorialCard', () => {
         onSelectedTag: { (tag: string): void; (tag: string): void }
     ): RenderResult =>
         render(<TutorialCard tutorial={tutorial} tag={tag} loading={false} onSelectedTag={onSelectedTag} />, {
-            initialState: { tutorials: withDataNoError }
+            initialState: { tutorials: tutorialsWithDataNoError.result }
         });
 
     test('test if the TutorialCard render is ok', () => {
-        const tutorial = withDataNoError.result.data.result[0];
+        const tutorial = tutorialsWithDataNoError.result.result.data.result[0];
         const tag = 'SAP Fiori tools';
         const onSelectedTag = jest.fn();
         renderTutorialCard(tutorial, tag, onSelectedTag);
@@ -39,7 +39,7 @@ describe('TutorialCard', () => {
     });
 
     test('test if the TutorialCard render with the featured tag', () => {
-        const dataTuto = withDataNoError.result.data.result[0];
+        const dataTuto = tutorialsWithDataNoError.result.result.data.result[0];
         dataTuto.featured = true;
         const tutorial = dataTuto;
         const tag = 'SAP Fiori tools';

@@ -3,10 +3,14 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { UISeparator } from '@sap-ux/ui-components';
-import { BlogsSearchQuery, BlogSearchSortBy } from '@sap/knowledge-hub-extension-types';
-import { useAppSelector } from '../../store';
+
+import type { BlogsSearchQuery } from '@sap/knowledge-hub-extension-types';
+import { BlogSearchSortBy } from '@sap/knowledge-hub-extension-types';
+
+import { store, useAppSelector } from '../../store';
 import { blogsOrderByUpdate } from '../../store/actions';
 import { getBlogsQuery } from '../../features/blogs/Blogs.slice';
+import { fetchBlogData } from '../../features/blogs/Blogs.utils';
 
 import './BlogsSortOptions.scss';
 
@@ -21,6 +25,10 @@ export const BlogsSortOptions: FC = (): JSX.Element => {
 
     const changeSortBy = (sort: string) => () => {
         dispatch(blogsOrderByUpdate(sort));
+
+        const state = store.getState();
+        const currentQuery = state.blogs.query;
+        fetchBlogData(currentQuery);
     };
 
     return (

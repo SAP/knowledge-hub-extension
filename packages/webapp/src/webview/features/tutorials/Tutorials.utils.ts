@@ -1,14 +1,19 @@
 import type {
-    TutorialsSearchResult,
+    TutorialsSearchResultData,
     TutorialsSearchQuery,
     TutorialsTagWithTitle,
     TutorialsTags
 } from '@sap/knowledge-hub-extension-types';
 import { store, actions } from '../../store';
-import { tutorialsFiltersTagsAdd, tutorialsFiltersTagsDelete, tutorialsLoading } from '../../store/actions';
+import {
+    tutorialsFiltersTagsAdd,
+    tutorialsFiltersTagsDelete,
+    tutorialsLoading,
+    tutorialsSearchFieldChanged
+} from '../../store/actions';
 
-export const getTutorialsTag = (val: string, allTutorials: TutorialsSearchResult | undefined): string => {
-    if (allTutorials && allTutorials.tags && allTutorials.tags[val]) {
+export const getTutorialsTag = (val: string, allTutorials: TutorialsSearchResultData): string => {
+    if (allTutorials?.tags?.[val]) {
         return allTutorials.tags[val].title;
     } else {
         return '';
@@ -50,7 +55,7 @@ export const fetchTutorialsData = (query: TutorialsSearchQuery, home?: boolean):
     const state = store.getState();
     const filters: string[] | undefined = state.tutorials.query.filters;
     let filtersWithTitle: TutorialsTagWithTitle[] = [];
-    const tags = state.tutorials.tags.tags;
+    const tags: TutorialsTags = state.tags.tutorials.tags;
 
     if (filters && filters.length > 0) {
         filtersWithTitle = getTutorialsTagsTitle(filters, tags);
@@ -88,5 +93,19 @@ export const onTagSelected = (tagId: string, checked: boolean): void => {
     }
 
     const query: TutorialsSearchQuery = Object.assign({}, currentQuery, { filters: tutorialsTags });
+    fetchTutorialsData(query);
+};
+
+/**
+ * Function to handle search term change.
+ * then dispatch fetch tutorials data.
+ *
+ * @param {string} searchTerm - The search term
+ */
+export const searchTutorials = (searchTerm: string): void => {
+    const state = store.getState();
+    const currentQuery = state.tutorials.query;
+    const query: TutorialsSearchQuery = Object.assign({}, currentQuery, { searchField: searchTerm });
+    store.dispatch(tutorialsSearchFieldChanged(searchTerm));
     fetchTutorialsData(query);
 };

@@ -7,8 +7,8 @@ import userEvent from '@testing-library/user-event';
 
 import { initIcons } from '@sap-ux/ui-components';
 
-import { withDataWithTags } from '../../../__mocks__/blogs';
-import { tagsWithTags } from '../../../__mocks__/tags';
+import { blogsWithDataWithTags } from '../../../__mocks__/blogs';
+import { blogsTagsWithTags } from '../../../__mocks__/tags';
 import { renderWithRouter } from '../../../__mocks__/store.mock';
 
 import { BlogsFiltersMenuTags } from '../../../../src/webview/components/BlogsFiltersMenu/BlogsFiltersMenuTags';
@@ -20,7 +20,7 @@ describe('BlogsFiltersMenuTags', () => {
 
     const renderBlogsFiltersMenuTags = (withSearchOn: boolean, loading: boolean, isSmall: boolean): RenderResult =>
         renderWithRouter(<BlogsFiltersMenuTags withSearchOn={withSearchOn} loading={loading} isSmall={isSmall} />, {
-            initialState: { blogs: withDataWithTags, tags: tagsWithTags }
+            initialState: { blogs: blogsWithDataWithTags, tags: blogsTagsWithTags }
         });
 
     test('test if the BlogsFiltersMenuTags render is ok with data - small size', () => {

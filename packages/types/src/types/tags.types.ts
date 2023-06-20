@@ -1,11 +1,19 @@
 import type { Error, FetchResponse } from './common.types';
+import type { TutorialsTags, TutorialsSearchResultData } from './tutorials.types';
 
 export interface Tags {
-    result: TagsState;
+    blogs: BlogsTagsState;
+    tutorials: TutorialsTagsState;
 }
 
-export interface TagsState {
-    data: TagsSearchResult;
+export interface BlogsTagsState {
+    data: BlogsTagsSearchResult;
+    error: Error;
+    pending: boolean;
+}
+
+export interface TutorialsTagsState {
+    tags: TutorialsTags;
     error: Error;
     pending: boolean;
 }
@@ -15,7 +23,7 @@ export interface Tag {
     displayName: string;
 }
 
-export interface TagsSearchResult {
+export interface BlogsTagsSearchResult {
     filteredTags: Tag[];
 }
 
@@ -32,9 +40,6 @@ export interface TagsAlphaRef {
 // API
 
 export interface TagsAPI {
-    getTags: () => Promise<FetchResponse<TagsSearchResult>>;
-}
-
-export interface TagsAPIOptions {
-    apiHost?: string;
+    getBlogsTags: () => Promise<FetchResponse<BlogsTagsSearchResult>>;
+    getTutorialsTags: () => Promise<FetchResponse<TutorialsSearchResultData>>;
 }

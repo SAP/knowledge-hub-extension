@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { UIChoiceGroup, ChoiceGroupOption } from '@sap-ux/ui-components';
+import type { ChoiceGroupOption } from '@sap-ux/ui-components';
+import { UIChoiceGroup } from '@sap-ux/ui-components';
 
 import { supportedLanguages } from '@sap/knowledge-hub-extension-types';
 
@@ -22,7 +23,7 @@ export type BlogsFiltersMenuLanguagesProps = {
 export const BlogsFiltersMenuLanguages: FC<BlogsFiltersMenuLanguagesProps> = ({ isSmall, loading }) => {
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(loading);
-    const activeLanguage: string | null = useAppSelector(getBlogsLanguage);
+    const activeLanguage: string = useAppSelector(getBlogsLanguage) ?? '';
 
     useEffect(() => {
         setIsLoading(loading);

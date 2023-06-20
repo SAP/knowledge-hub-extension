@@ -6,26 +6,19 @@ import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MOTION_VARIANTS_PAGE } from '../../constants';
 import type {
-    BlogsState,
+    BlogsSearchResult,
     BlogsSearchQuery,
     BlogsSearchResultContentItem,
-    BlogFiltersEntry
+    BlogFiltersEntry,
+    Error
 } from '@sap/knowledge-hub-extension-types';
-import { BlogFiltersEntryType, BlogSearchSortBy } from '@sap/knowledge-hub-extension-types';
+import { BlogFiltersEntryType } from '@sap/knowledge-hub-extension-types';
 
-import {
-    blogsPageChanged,
-    blogsManagedTagsAdd,
-    blogsTagsAdd,
-    blogsFilterEntryAdd,
-    blogsSearchTermChanged,
-    blogsOrderByUpdate
-} from '../../store/actions';
+import { blogsPageChanged, blogsManagedTagsAdd, blogsFilterEntryAdd } from '../../store/actions';
 import { store, useAppSelector } from '../../store';
-import { getBlogs, getBlogsQuery, getBlogsOrderBy, getManagedTags, getBlogsUIIsLoading } from './Blogs.slice';
-import { getTagsData } from '../tags/Tags.slice';
+import { getBlogsResult, getBlogsError, getBlogsPending, getBlogsQuery, getManagedTags } from './Blogs.slice';
+import { getTagsBlogsData } from '../tags/Tags.slice';
 import { fetchBlogData, isManagedTag, getBlogsTagById, onTagSelected } from './Blogs.utils';
-import { getSearchTerm } from '../search/Search.slice';
 
 import type { UIPaginationSelected } from '../../components/UI/UIPagination';
 import { UIPagination } from '../../components/UI/UIPagination';
@@ -47,18 +40,17 @@ export const Blogs: FC = (): JSX.Element => {
     const navigate = useNavigate();
     const maxDisplayPage = 500;
 
-    const activeBlogs: BlogsState = useAppSelector(getBlogs);
+    const activeBlogs: BlogsSearchResult = useAppSelector(getBlogsResult);
+    const activeError: Error = useAppSelector(getBlogsError);
+    const activePending: boolean = useAppSelector(getBlogsPending);
     const activeQuery: BlogsSearchQuery = useAppSelector(getBlogsQuery);
-    const activeSearchTerm: string = useAppSelector(getSearchTerm);
-    const activeOrderBy: string | undefined = useAppSelector(getBlogsOrderBy);
-    const activeManagedTags: string[] = useAppSelector(getManagedTags) || [];
-    const activeLoading = useAppSelector(getBlogsUIIsLoading);
-    const tags = useAppSelector(getTagsData);
+    const activeManagedTags: string[] = useAppSelector(getManagedTags) ?? [];
+    const tags = useAppSelector(getTagsBlogsData);
 
     const [loading, setLoading] = useState(true);
     const [noResult, setNoResult] = useState(true);
     const [error, setError] = useState(false);
-    const [blogs, setBlogs] = useState<BlogsSearchResultContentItem[]>();
+    const [blogs, setBlogs] = useState<BlogsSearchResultContentItem[]>(activeBlogs.contentItems);
     const [totalPage, setTotalPage] = useState(0);
     const [totalEntries, setTotalEntries] = useState(0);
     const [pageOffset, setPageOffset] = useState(activeQuery.page);
@@ -80,13 +72,13 @@ export const Blogs: FC = (): JSX.Element => {
         const currentQuery = state.blogs.query;
         const options: BlogsSearchQuery = Object.assign({}, currentQuery);
 
-        if (activeBlogs.error.isError) {
+        if (activeError.isError) {
             setTotalPage(0);
             setLoading(false);
-            setNoResult(true);
+            setNoResult(false);
             setError(true);
-        } else if (!activeBlogs.pending) {
-            if (location.state && location.state.tagId && !isManagedTag(location.state.tagId, activeManagedTags)) {
+        } else if (!activePending) {
+            if (location.state?.tagId && !isManagedTag(location.state.tagId, activeManagedTags)) {
                 const tag = getBlogsTagById(location.state.tagId, tags);
                 const filterEntry: BlogFiltersEntry = {
                     id: tag.guid,
@@ -95,17 +87,16 @@ export const Blogs: FC = (): JSX.Element => {
                 };
                 dispatch(blogsFilterEntryAdd(filterEntry));
                 dispatch(blogsManagedTagsAdd(tag.guid));
-                dispatch(blogsTagsAdd({ displayName: tag.displayName, guid: tag.guid }));
                 options.managedTags = [tag.guid];
                 fetchBlogData(options);
                 navigate(location.pathname, { replace: true });
             } else if (activeBlogs && activeBlogs.totalCount > 0) {
-                setBlogs(activeBlogs.data);
+                setBlogs(activeBlogs.contentItems);
                 setTotalPage(Math.ceil(activeBlogs.totalCount / (activeQuery.limit ? activeQuery.limit : 20)));
                 setTotalEntries(activeBlogs.totalCount);
                 setLoading(false);
                 setNoResult(false);
-                setError(activeBlogs.error.isError);
+                setError(activeError.isError);
             } else if (activeBlogs.totalCount === 0) {
                 setTotalEntries(activeBlogs.totalCount);
                 setLoading(false);
@@ -118,32 +109,6 @@ export const Blogs: FC = (): JSX.Element => {
             }
         }
     }, [activeBlogs]);
-
-    useEffect(() => {
-        const state = store.getState();
-        const currentQuery = state.blogs.query;
-        let orderBy = BlogSearchSortBy.UPDATE_TIME;
-        if (activeSearchTerm !== '') {
-            dispatch(blogsOrderByUpdate(BlogSearchSortBy.RELEVANCE));
-            orderBy = BlogSearchSortBy.RELEVANCE;
-        }
-        const options: BlogsSearchQuery = Object.assign({}, currentQuery, {
-            searchTerm: activeSearchTerm,
-            orderBy: orderBy
-        });
-        dispatch(blogsSearchTermChanged(activeSearchTerm));
-        fetchBlogData(options);
-    }, [activeSearchTerm]);
-
-    useEffect(() => {
-        const state = store.getState();
-        const currentQuery = state.blogs.query;
-        fetchBlogData(currentQuery);
-    }, [activeOrderBy]);
-
-    useEffect(() => {
-        setLoading(activeLoading);
-    }, [activeLoading]);
 
     return (
         <motion.div
@@ -172,17 +137,16 @@ export const Blogs: FC = (): JSX.Element => {
             {!(loading || error || noResult) && (
                 <div className="blogs-content">
                     <div className="blogs-content-wrapper">
-                        {blogs &&
-                            blogs.map((blog: BlogsSearchResultContentItem, index: number) => {
-                                return <BlogCard key={blog.id} blog={blog} onSelectedTag={onTagSelected} />;
-                            })}
+                        {blogs?.map((blog: BlogsSearchResultContentItem, _: number) => {
+                            return <BlogCard key={blog.id} blog={blog} onSelectedTag={onTagSelected} />;
+                        })}
                     </div>
                 </div>
             )}
 
             {loading && <Loader label={t('BLOGS_LOADING_CONTENT')} />}
             {error && !loading && <WithError />}
-            {noResult && !loading && <NoResult />}
+            {noResult && !loading && !error && <NoResult />}
 
             {totalPage > 1 && (
                 <div className="blogs-pagination">

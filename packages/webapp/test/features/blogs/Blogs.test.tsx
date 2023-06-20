@@ -7,13 +7,13 @@ import type { RenderResult } from '@testing-library/react';
 import { initIcons } from '@sap-ux/ui-components';
 
 import {
-    initialWithLoading,
-    withNoDataNoError,
-    withNoDataWithError,
-    withDataNoError,
-    withDataWithFilter,
-    withDataNoErrorMultiplePage,
-    withDataWithTags
+    blogsInitialWithLoading,
+    blogsWithNoDataNoError,
+    blogsWithNoDataWithError,
+    blogsWithDataNoError,
+    blogsWithDataWithFilter,
+    blogsWithDataNoErrorMultiplePage,
+    blogsWithDataWithTags
 } from '../../../test/__mocks__/blogs';
 import { renderWithRouter } from '../../../test/__mocks__/store.mock';
 
@@ -25,7 +25,7 @@ describe('Blogs', () => {
 
     test('render a Blogs component initial, do the fetch call', () => {
         const renderBlogsInitial = (): RenderResult =>
-            renderWithRouter(<Blogs />, { initialState: { blogs: initialWithLoading } });
+            renderWithRouter(<Blogs />, { initialState: { blogs: blogsInitialWithLoading } });
 
         act(() => {
             renderBlogsInitial();
@@ -40,7 +40,7 @@ describe('Blogs', () => {
 
     test('render a Blogs component with data', () => {
         const renderBlogs = (): RenderResult =>
-            renderWithRouter(<Blogs />, { initialState: { blogs: withDataNoError } });
+            renderWithRouter(<Blogs />, { initialState: { blogs: blogsWithDataNoError } });
 
         renderBlogs();
 
@@ -50,7 +50,7 @@ describe('Blogs', () => {
 
     test('render a Blogs component with no data', () => {
         const renderBlogsNoData = (): RenderResult =>
-            renderWithRouter(<Blogs />, { initialState: { blogs: withNoDataNoError } });
+            renderWithRouter(<Blogs />, { initialState: { blogs: blogsWithNoDataNoError } });
 
         renderBlogsNoData();
 
@@ -63,7 +63,7 @@ describe('Blogs', () => {
 
     test('render a Blogs component with error', () => {
         const renderBlogsNoData = (): RenderResult =>
-            renderWithRouter(<Blogs />, { initialState: { blogs: withNoDataWithError } });
+            renderWithRouter(<Blogs />, { initialState: { blogs: blogsWithNoDataWithError } });
 
         renderBlogsNoData();
 
@@ -76,7 +76,7 @@ describe('Blogs', () => {
 
     test('render a Blogs component with filters', () => {
         const renderBlogsWithFilters = (): RenderResult =>
-            renderWithRouter(<Blogs />, { initialState: { blogs: withDataWithFilter } });
+            renderWithRouter(<Blogs />, { initialState: { blogs: blogsWithDataWithFilter } });
 
         renderBlogsWithFilters();
 
@@ -95,7 +95,7 @@ describe('Blogs', () => {
 
     test('render a Blogs component, pagination event handler', () => {
         const renderBlogsWithFilters = (): RenderResult =>
-            renderWithRouter(<Blogs />, { initialState: { blogs: withDataNoErrorMultiplePage } });
+            renderWithRouter(<Blogs />, { initialState: { blogs: blogsWithDataNoErrorMultiplePage } });
 
         act(() => {
             renderBlogsWithFilters();
@@ -134,7 +134,7 @@ describe('Blogs', () => {
 
     test('render a Blogs component, select tag event handler', () => {
         const renderBlogs = (): RenderResult =>
-            renderWithRouter(<Blogs />, { initialState: { blogs: withDataWithTags } });
+            renderWithRouter(<Blogs />, { initialState: { blogs: blogsWithDataWithTags } });
 
         renderBlogs();
 

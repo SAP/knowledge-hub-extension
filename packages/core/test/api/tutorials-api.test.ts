@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { TutorialsSearchResult } from '@sap/knowledge-hub-extension-types';
+import type { TutorialsSearchResultData } from '@sap/knowledge-hub-extension-types';
 import { getDeveloperTutorialsApi, getTutorials, prepareQueyOptions } from '../../src/api/tutorials-api';
 
 jest.mock('axios');
@@ -22,7 +22,7 @@ describe('tutorials-api', () => {
                 '{"rows":3,"start":0,"searchField":"","pagePath":"/content/developers/website/languages/en/tutorial-navigator","language":"en_us","addDefaultLanguage":true,"filters":[]}';
             const res = prepareQueyOptions(options);
 
-            await expect(res).toEqual(result);
+            expect(res).toEqual(result);
         });
     });
 
@@ -33,7 +33,7 @@ describe('tutorials-api', () => {
             };
             const res = getDeveloperTutorialsApi(options);
 
-            await expect(res).toBeDefined();
+            expect(res).toBeDefined();
         });
     });
 
@@ -53,7 +53,7 @@ describe('tutorials-api', () => {
                 filters: []
             };
 
-            const data: TutorialsSearchResult = {
+            const data: TutorialsSearchResultData = {
                 group: '/group',
                 mission: '/mission',
                 facets: {
@@ -116,7 +116,7 @@ describe('tutorials-api', () => {
                 'https://developers.sap.com/bin/sapdx/v3/solr/search?json={"rows":12,"start":0,"searchField":"","pagePath":"/content/developers/website/languages/en/tutorial-navigator","language":"en_us","addDefaultLanguage":true,"filters":[]}'
             );
 
-            await expect(result).toEqual({
+            expect(result).toEqual({
                 data: data,
                 error: undefined,
                 status: 'fetched'

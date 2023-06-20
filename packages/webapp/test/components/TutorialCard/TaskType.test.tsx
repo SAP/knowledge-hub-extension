@@ -5,7 +5,7 @@ import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
 
-import { withDataNoError } from '../../__mocks__/tutorials';
+import { tutorialsWithDataNoError } from '../../__mocks__/tutorials';
 import { render } from '../../__mocks__/store.mock';
 
 import { TaskType } from '../../../src/webview/components/TutorialCard/TaskType';
@@ -15,7 +15,7 @@ describe('TutorialCard > TaskType', () => {
     initIcons();
 
     const renderTaskType = (type: string): RenderResult =>
-        render(<TaskType type={type} />, { initialState: { tutorials: withDataNoError } });
+        render(<TaskType type={type} />, { initialState: { tutorials: tutorialsWithDataNoError.result } });
 
     test('test if the TaskType render is ok', () => {
         const type = 'task-type-text';

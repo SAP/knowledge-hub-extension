@@ -3,14 +3,13 @@ import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 
-import userEvent from '@testing-library/user-event';
-
 import { initIcons } from '@sap-ux/ui-components';
+import { Search } from '../../../src/webview/features/search/Search';
+
+import * as blogsUtils from '../../../src/webview/features/blogs/Blogs.utils';
+import * as tutorialsUtils from '../../../src/webview/features/tutorials/Tutorials.utils';
 
 import { render } from '../../../test/__mocks__/store.mock';
-
-import { Search } from '../../../src/webview/features/search/Search';
-import { act } from 'react-dom/test-utils';
 
 describe('Search', () => {
     // Initialize and register ui-components icons and specific icon to LC
@@ -24,31 +23,39 @@ describe('Search', () => {
         expect(element).toBeTruthy();
     });
 
-    test('render a Search component with a type equal `Home`', () => {
+    test('render a Search component with search - enter - home tab', async () => {
+        const spyOnSearchTutorials = jest.spyOn(tutorialsUtils, 'searchTutorials');
+        const spyOnSearchBlogs = jest.spyOn(blogsUtils, 'searchBlogs');
+
         renderSearch('home');
-        expect(() => screen.getByTestId('search-component')).toThrow();
-    });
-
-    test('render a Search component', async () => {
-        const user = userEvent.setup();
-
-        renderSearch('tutorials');
 
         const searchInput = screen.getByRole('searchbox');
         if (searchInput) {
             searchInput.focus();
-            await user.type(searchInput, 'my test{enter}');
 
-            act(() => {
-                fireEvent.keyDown(searchInput, { key: 'Enter', code: 'Enter', charCode: 13 });
-            });
+            fireEvent.input(searchInput, { target: { value: 'Fiori Tools' } });
+            fireEvent.keyDown(searchInput, { key: 'Enter', code: 'Enter', keyCode: 13 });
+
+            expect(spyOnSearchTutorials).toHaveBeenCalledWith('Fiori Tools');
+            expect(spyOnSearchBlogs).toHaveBeenCalledWith('Fiori Tools');
         }
+    });
 
-        const clearBtn = screen.getByLabelText('Clear text');
-        if (clearBtn) {
-            await user.click(clearBtn);
+    test('render a Search component with search - blur - home tab', async () => {
+        const spyOnSearchTutorials = jest.spyOn(tutorialsUtils, 'searchTutorials');
+        const spyOnSearchBlogs = jest.spyOn(blogsUtils, 'searchBlogs');
+
+        renderSearch('home');
+
+        const searchInput = screen.getByRole('searchbox');
+        if (searchInput) {
+            searchInput.focus();
+
+            fireEvent.input(searchInput, { target: { value: 'Fiori Tools' } });
+            fireEvent.blur(searchInput);
+
+            expect(spyOnSearchTutorials).toHaveBeenCalledWith('Fiori Tools');
+            expect(spyOnSearchBlogs).toHaveBeenCalledWith('Fiori Tools');
         }
-
-        screen.debug();
     });
 });

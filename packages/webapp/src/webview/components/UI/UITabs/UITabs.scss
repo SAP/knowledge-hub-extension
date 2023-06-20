@@ -1,0 +1,19 @@
+.ui-tabs {
+    &-linkContent {
+        display: flex;
+        flex: 0 1 100%;
+        align-items: baseline;
+        justify-content: center;
+
+        &-text {
+            margin-left: 0px;
+            display: inline-block;
+            vertical-align: top;
+            font-family: var(--vscode-font-family);
+            font-size: 13px;
+        }
+        &-count {
+            padding-left: 10px;
+        }
+    }
+}

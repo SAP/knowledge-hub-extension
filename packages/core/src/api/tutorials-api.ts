@@ -1,16 +1,12 @@
 import type {
     TutorialsSearchQuery,
-    TutorialsSearchResult,
+    TutorialsSearchResultData,
     TutorialsAPI,
     TutorialsAPIOptions,
     FetchResponse
 } from '@sap/knowledge-hub-extension-types';
+import { TUTORIALS_API_HOST, TUTORIALS_SEARCH_PATH, TUTORIALS_SOLR_TAG_ID } from '@sap/knowledge-hub-extension-types';
 import asyncFetch from '../utils/asyncFetch';
-
-const API_HOST = 'https://developers.sap.com';
-const VERSION = 'v3';
-const SEARCH_PATH = `/bin/sapdx/${VERSION}/solr/search?json=`;
-const SOLR_TAG_ID = 'solrTagId';
 
 /**
  * Return a stringify version of all api options.
@@ -29,7 +25,7 @@ export function prepareQueyOptions(queryOptions: TutorialsSearchQuery | undefine
  * @returns - a string of filters tagId options
  */
 function formatFiltersTagIdOptions(tagId: string): string {
-    return `/${tagId}/${SOLR_TAG_ID}`;
+    return `/${tagId}/${TUTORIALS_SOLR_TAG_ID}`;
 }
 
 /**
@@ -39,12 +35,12 @@ function formatFiltersTagIdOptions(tagId: string): string {
  * @returns - API
  */
 export function getDeveloperTutorialsApi(options?: TutorialsAPIOptions): TutorialsAPI {
-    const apiHost = options?.apiHost || API_HOST;
+    const apiHost = options?.apiHost ?? TUTORIALS_API_HOST;
 
     return {
         getTutorials: async (
             queryOptions?: TutorialsSearchQuery | undefined
-        ): Promise<FetchResponse<TutorialsSearchResult>> => getTutorials(apiHost, queryOptions)
+        ): Promise<FetchResponse<TutorialsSearchResultData>> => getTutorials(apiHost, queryOptions)
     };
 }
 
@@ -58,15 +54,15 @@ export function getDeveloperTutorialsApi(options?: TutorialsAPIOptions): Tutoria
 export async function getTutorials(
     host: string,
     queryOptions: TutorialsSearchQuery | undefined
-): Promise<FetchResponse<TutorialsSearchResult>> {
-    if (queryOptions && queryOptions.filters) {
+): Promise<FetchResponse<TutorialsSearchResultData>> {
+    if (queryOptions?.filters) {
         queryOptions.filters.forEach((item: string, index: number, array: string[]) => {
             array[index] = formatFiltersTagIdOptions(item.replace(':', '/'));
         });
     }
 
     const options = prepareQueyOptions(queryOptions);
-    const url = `${host}${SEARCH_PATH}${options}`;
+    const url = `${host}${TUTORIALS_SEARCH_PATH}${options}`;
 
-    return await asyncFetch<TutorialsSearchResult>(url);
+    return await asyncFetch<TutorialsSearchResultData>(url);
 }
