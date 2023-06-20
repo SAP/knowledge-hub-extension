@@ -63,7 +63,7 @@
         "vsce": "2.15.0",
         "vscode-uri": "3.0.7",
         "axios": "1.4.0",
-        "qs": "6.11.1"
+        "qs": "6.11.2"
     },
     "galleryBanner": {
         "color": "#00195A",
