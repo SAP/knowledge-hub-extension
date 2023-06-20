@@ -23,7 +23,7 @@
         "test": "jest --maxWorkers=2 --silent"
     },
     "devDependencies": {
-        "@reduxjs/toolkit": "1.9.3",
+        "@reduxjs/toolkit": "1.9.5",
         "@sap/knowledge-hub-extension-types": "workspace:*",
         "@testing-library/dom": "9.3.0",
         "@testing-library/jest-dom": "5.16.5",
