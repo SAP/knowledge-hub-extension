@@ -67,7 +67,7 @@
         "@fluentui/react": "8.106.4",
         "@fluentui/react-components": "9.16.0",
         "@fluentui/react-experiments": "8.14.58",
-        "@sap-ux/ui-components": "1.5.0",
+        "@sap-ux/ui-components": "1.8.2",
         "framer-motion": "10.11.5"
     }
 }
