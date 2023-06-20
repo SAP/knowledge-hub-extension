@@ -56,6 +56,6 @@
         }
     },
     "resolutions": {
-        "react-virtualized": "9.22.3"
+        "react-virtualized": "9.22.5"
     }
 }
