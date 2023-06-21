@@ -1,26 +1,10 @@
 import vscode from 'vscode';
-import type { AnyAction } from '@sap/knowledge-hub-extension-types';
 import { ActionHandler } from '../../../src/knowledge-hub/actionsHandler';
 import { Storage } from '../../../src/utils/storage';
 
 describe('actionsHandler', () => {
-    let postMessage: (action: unknown) => Promise<void> = jest.fn();
     const webviewPostMessage = jest.fn();
-    const getCalledActionsByType = (
-        type: string,
-        calls: Array<AnyAction[]> = webviewPostMessage.mock.calls
-    ): AnyAction[] => {
-        const actions: AnyAction[] = [];
-        for (const call of calls) {
-            if (call[0] && call[0].type === type) {
-                actions.push(call[0]);
-            }
-        }
-        return actions;
-    };
-    const onDidReceiveMessageMock = jest.fn().mockImplementation((message: (action: unknown) => Promise<void>) => {
-        postMessage = message;
-    });
+    const onDidReceiveMessageMock = jest.fn().mockImplementation((message: (action: unknown) => Promise<void>) => {});
     const onDidDisposeMock = jest.fn();
     const onDidChangeViewStateMock = jest.fn();
     const webViewPanel = {
@@ -35,6 +19,7 @@ describe('actionsHandler', () => {
             cspSource: ''
         },
         options: {},
+        viewColumn: vscode.ViewColumn.One,
         active: true,
         visible: true,
         onDidChangeViewState: onDidChangeViewStateMock,
@@ -59,10 +44,6 @@ describe('actionsHandler', () => {
         storage: new Storage(extensionContext.globalState, 'app1'),
         panel: webViewPanel
     };
-
-    const createWebviewPanelSpy = jest.spyOn(vscode.window, 'createWebviewPanel').mockImplementation(() => {
-        return webViewPanel;
-    });
 
     it('should test `ActionHandler` class', () => {
         const actionHandler = new ActionHandler(appSession, webViewPanel);

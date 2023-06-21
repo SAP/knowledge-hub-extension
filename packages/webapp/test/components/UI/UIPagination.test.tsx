@@ -6,7 +6,7 @@ import type { RenderResult } from '@testing-library/react';
 
 import { initIcons } from '@sap-ux/ui-components';
 
-import { withDataNoErrorMultiplePage } from '../../../test/__mocks__/tutorials';
+import { tutorialsWithDataNoErrorMultiplePage } from '../../../test/__mocks__/tutorials';
 
 import { renderWithRouter } from '../../../test/__mocks__/store.mock';
 
@@ -28,7 +28,7 @@ describe('UIPagination', () => {
                     previousLabel="UI_PAGINATION_CAPTION_PREVIOUS"
                     forcePage={0}
                 />,
-                { initialState: { tutorials: withDataNoErrorMultiplePage } }
+                { initialState: { tutorials: tutorialsWithDataNoErrorMultiplePage } }
             );
 
         act(() => {
