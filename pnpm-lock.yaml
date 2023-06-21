@@ -21,8 +21,8 @@ importers:
         specifier: 17.6.5
         version: 17.6.5
       '@types/jest':
-        specifier: 29.4.0
-        version: 29.4.0
+        specifier: 29.5.2
+        version: 29.5.2
       '@types/node':
         specifier: 16.18.36
         version: 16.18.36
@@ -3252,6 +3252,13 @@ packages:
 
   /@types/jest@29.4.0:
     resolution: {integrity: sha512-VaywcGQ9tPorCX/Jkkni7RWGFfI11whqzs8dvxF41P17Z+z872thvEvlIbznjPJ02kl1HMX3LmLOonsj2n7HeQ==}
+    dependencies:
+      expect: 29.5.0
+      pretty-format: 29.5.0
+    dev: true
+
+  /@types/jest@29.5.2:
+    resolution: {integrity: sha512-mSoZVJF5YzGVCk+FsDxzDuH7s+SCkzrgKZzf0Z0T2WudhBUPoF6ktoTPC4R0ZoCPCV5xUvuU6ias5NvxcBcMMg==}
     dependencies:
       expect: 29.5.0
       pretty-format: 29.5.0
