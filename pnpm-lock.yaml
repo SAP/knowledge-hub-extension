@@ -117,8 +117,8 @@ importers:
         specifier: workspace:*
         version: link:../types
       '@types/vscode':
-        specifier: 1.39.0
-        version: 1.39.0
+        specifier: 1.79.1
+        version: 1.79.1
       axios:
         specifier: 1.4.0
         version: 1.4.0
@@ -3380,8 +3380,8 @@ packages:
     resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
     dev: true
 
-  /@types/vscode@1.39.0:
-    resolution: {integrity: sha512-rlg0okXDt7NjAyHXbZ2nO1I/VY/8y9w67ltLRrOxXQ46ayvrYZavD4A6zpYrGbs2+ZOEQzcUs+QZOqcVGQIxXQ==}
+  /@types/vscode@1.79.1:
+    resolution: {integrity: sha512-Ikwc4YbHABzqthrWfeAvItaAIfX9mdjMWxqNgTpGjhgOu0TMRq9LzyZ2yBK0JhYqoSjEubEPawf6zJgnl6Egtw==}
     dev: true
 
   /@types/yargs-parser@21.0.0:
