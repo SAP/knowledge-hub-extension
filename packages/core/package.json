@@ -22,7 +22,7 @@
     "dependencies": {
         "@sap/knowledge-hub-extension-types": "workspace:*",
         "@types/qs": "6.9.7",
-        "axios": "1.4.0",
+        "axios": "1.6.0",
         "qs": "6.11.2"
     },
     "files": [
